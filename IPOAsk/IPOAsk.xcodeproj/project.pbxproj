@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		130FA5160092F9EAED210012 /* libPods-IPOAsk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71A9166307730159DB63610D /* libPods-IPOAsk.a */; };
 		84C47B392018238300E32486 /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C47B382018238300E32486 /* SignInViewController.m */; };
+		84C47B3F20182CF000E32486 /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C47B3E20182CF000E32486 /* SearchView.m */; };
+		84C47B422018368A00E32486 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C47B412018368A00E32486 /* BaseViewController.m */; };
 		84D1B2E520172B0900DF2DE4 /* BaseTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D1B2E420172B0900DF2DE4 /* BaseTabBarViewController.m */; };
 		84D1B2E820172CD800DF2DE4 /* BaseNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D1B2E720172CD800DF2DE4 /* BaseNavViewController.m */; };
 		84D1B2EB20172DFD00DF2DE4 /* MainAskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D1B2EA20172DFD00DF2DE4 /* MainAskViewController.m */; };
@@ -30,6 +32,10 @@
 		84994DE7CA75AE47A7213852 /* Pods-IPOAsk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IPOAsk.release.xcconfig"; path = "Pods/Target Support Files/Pods-IPOAsk/Pods-IPOAsk.release.xcconfig"; sourceTree = "<group>"; };
 		84C47B372018238300E32486 /* SignInViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
 		84C47B382018238300E32486 /* SignInViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
+		84C47B3D20182CF000E32486 /* SearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchView.h; sourceTree = "<group>"; };
+		84C47B3E20182CF000E32486 /* SearchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchView.m; sourceTree = "<group>"; };
+		84C47B402018368A00E32486 /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		84C47B412018368A00E32486 /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		84D1B2E320172B0900DF2DE4 /* BaseTabBarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseTabBarViewController.h; sourceTree = "<group>"; };
 		84D1B2E420172B0900DF2DE4 /* BaseTabBarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseTabBarViewController.m; sourceTree = "<group>"; };
 		84D1B2E620172CD800DF2DE4 /* BaseNavViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseNavViewController.h; sourceTree = "<group>"; };
@@ -118,6 +124,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		84C47B3C20182C7500E32486 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				84C47B3D20182CF000E32486 /* SearchView.h */,
+				84C47B3E20182CF000E32486 /* SearchView.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		84D1B2CA20172ACD00DF2DE4 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,7 +151,7 @@
 			children = (
 				84D1B2CD20172ACD00DF2DE4 /* TabBarController */,
 				84D1B2CC20172ACD00DF2DE4 /* Controller */,
-				84D1B2CE20172ACD00DF2DE4 /* Views */,
+				84C47B3C20182C7500E32486 /* Views */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -146,6 +161,8 @@
 			children = (
 				84D1B2E620172CD800DF2DE4 /* BaseNavViewController.h */,
 				84D1B2E720172CD800DF2DE4 /* BaseNavViewController.m */,
+				84C47B402018368A00E32486 /* BaseViewController.h */,
+				84C47B412018368A00E32486 /* BaseViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -157,13 +174,6 @@
 				84D1B2E420172B0900DF2DE4 /* BaseTabBarViewController.m */,
 			);
 			path = TabBarController;
-			sourceTree = "<group>";
-		};
-		84D1B2CE20172ACD00DF2DE4 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		84D1B2CF20172ACD00DF2DE4 /* Enterprise */ = {
@@ -490,6 +500,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84C47B3F20182CF000E32486 /* SearchView.m in Sources */,
+				84C47B422018368A00E32486 /* BaseViewController.m in Sources */,
 				84C47B392018238300E32486 /* SignInViewController.m in Sources */,
 				84D1B3042017356200DF2DE4 /* UtilsCommon.m in Sources */,
 				84D1B2EE20172E9A00DF2DE4 /* EnterpriseViewController.m in Sources */,

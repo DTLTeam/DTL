@@ -8,6 +8,8 @@
 
 #import "BaseNavViewController.h"
 
+#import "SearchView.h"
+
 @interface BaseNavViewController ()
 
 @end
@@ -27,15 +29,14 @@
         [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
         
         
-        UIView *aView = [[UIView alloc] initWithFrame:CGRectMake(0, 20, CGRectGetWidth(self.view.frame), 44)];
-        aView.backgroundColor = [UIColor whiteColor];
-        [self.view addSubview:aView];
-        
-        UITextField *textfield = [[UITextField alloc]initWithFrame:CGRectMake(10, 10, aView.bounds.size.width - 60, aView.bounds.size.height - 20)];
-        textfield.placeholder = @"输入关键词";
-        textfield.layer.borderColor = [UIColor grayColor].CGColor;
-        textfield.layer.borderWidth = 0.5;
-        [aView addSubview:textfield];
+        SearchView *view = [[SearchView alloc]initWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, 44) SearchClick:^(NSString * searchtext) {
+            
+            NSLog(@"%@",searchtext);
+        } WithAnswerClick:^(BOOL answer) {
+            NSLog(@"点击发表");
+        }];
+       
+        [self.view addSubview:view];
     }
 }
 

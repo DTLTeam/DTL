@@ -8,6 +8,9 @@
 
 #import "MainAskViewController.h"
 
+
+#import "SearchView.h"
+
 @interface MainAskViewController ()
 
 @end
@@ -17,11 +20,58 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    __weak MainAskViewController *weakSelf = self;
+    
+    self.haveRefresh = YES;
+    
+    NSArray *arr = @[@"呵呵",@"hhehehhe",@"哈哈哈",@"???"];
+    
+    self.headerRefresh = ^(BOOL headerR) {
+        if (headerR) {
+            
+            NSLog(@"下拉刷新:%ld",weakSelf.currentPage);
+            
+            
+            [weakSelf.sourceData removeAllObjects];
+            [weakSelf.myTableView reloadData];
+            
+            [weakSelf endHeaderRefresh:RefreshType_header];
+            
+        }else{
+            
+            NSLog(@"上拉加载更多:%ld",weakSelf.currentPage);
+            
+            [weakSelf.sourceData addObjectsFromArray:arr];
+            [weakSelf.myTableView reloadData];
+            
+            [weakSelf endHeaderRefresh:RefreshType_foot];
+        }
+    };
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.sourceData.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    }
+    cell.textLabel.text = self.sourceData[indexPath.row];
+    return cell;
 }
 
 /*
