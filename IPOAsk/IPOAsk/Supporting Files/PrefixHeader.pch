@@ -30,5 +30,6 @@
 
 #import "Macro.h"
 #import "UtilsCommon.h"
+#import "AskProgressHUD.h"
 
 #endif

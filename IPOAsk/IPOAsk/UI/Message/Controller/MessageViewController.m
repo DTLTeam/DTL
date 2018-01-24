@@ -19,6 +19,8 @@
     // Do any additional setup after loading the view.
     
     self.title = @"消息";
+    
+    self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
      
 }
 
