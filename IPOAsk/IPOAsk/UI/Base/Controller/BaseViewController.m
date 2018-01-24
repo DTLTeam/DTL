@@ -21,7 +21,7 @@
     
     _sourceData = [NSMutableArray array];
     
-    [AskProgressHUD AskShowTitleInView:self.view Title:@"正在加载" viewtag:100];
+//    [AskProgressHUD AskShowTitleInView:self.view Title:@"正在加载" viewtag:100];
     
     
 }
@@ -29,7 +29,7 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
      
-    [AskProgressHUD AskHideAnimatedInView:self.view viewtag:100 AfterDelay:5];
+//    [AskProgressHUD AskHideAnimatedInView:self.view viewtag:100 AfterDelay:5];
 }
 
 #pragma mark - 是否有刷新

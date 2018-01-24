@@ -21,6 +21,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    //test**********
     __weak MainAskViewController *weakSelf = self;
     
     self.haveRefresh = YES;
@@ -49,6 +50,28 @@
         }
     };
     
+    //test**********
+    
+}
+- (void)viewDidAppear:(BOOL)animated{
+   
+    [super viewDidAppear:animated];
+    
+    //test**********
+    NSString *baiduUrlStr = @"http://api.map.baidu.com/geocoder/v2/?location=65.682895,-17.548928&output=json&pois=1&ak=oIu1ZLCZnUykB1xnFFfUXUIEvCushs4p";
+    
+    
+    [[AskHttpLink shareInstance]get:baiduUrlStr param:nil backData:NetSessionResponseTypeJSON success:^(id response) {
+        NSLog(@"成功%@",response);
+        
+    } requestHead:^(id response) {
+        NSLog(@"%@",response);
+        
+    } faile:^(NSError *error) {
+        
+        NSLog(@"%@",error);
+    }];
+    //test**********
     
 }
 

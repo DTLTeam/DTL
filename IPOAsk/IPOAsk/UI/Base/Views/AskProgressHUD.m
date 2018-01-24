@@ -51,12 +51,20 @@
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     
-    hud.contentColor = textColor; //文字颜色
+    hud.contentColor = [UIColor whiteColor]; //文字颜色
     hud.bezelView.backgroundColor = bgcolor;//加载框背景色
     hud.label.text = title;
     
     hud.tag = tag;
     
+    //修改 MBProgressHUD 菊花颜色
+    [hud.bezelView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:[UIActivityIndicatorView class]]) {
+            ((UIActivityIndicatorView *)obj).color = [UIColor redColor];
+            *stop = YES;
+        }
+        
+    }];
 }
 
 
@@ -76,11 +84,23 @@
 }
  
 
-
+#pragma mark - 隐藏
 +(void)AskHideAnimatedInView:(UIView *)view viewtag:(int)tag AfterDelay:(CGFloat)afterDelay{
     MBProgressHUD *hud = [view viewWithTag:tag];
     if (hud) {
+     
         [hud hideAnimated:YES afterDelay:afterDelay];
+        
+    }else{
+        
+        //tag值错误手动搜索MBProgressHUD
+        for(UIView * v in view.subviews){
+            if ([v isKindOfClass:[MBProgressHUD class]]) {
+                
+                [(MBProgressHUD *)v hideAnimated:YES afterDelay:afterDelay];
+                return;
+            }
+        }
     }
     
 }
