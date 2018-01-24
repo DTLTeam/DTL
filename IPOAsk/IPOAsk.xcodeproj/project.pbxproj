@@ -82,6 +82,37 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		84C47B2C201821BC00E32486 /* SignIn */ = {
+			isa = PBXGroup;
+			children = (
+				84C47B2D201821BC00E32486 /* Controller */,
+				84C47B2E201821BC00E32486 /* Model */,
+				84C47B2F201821BC00E32486 /* Views */,
+			);
+			path = SignIn;
+			sourceTree = "<group>";
+		};
+		84C47B2D201821BC00E32486 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		84C47B2E201821BC00E32486 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		84C47B2F201821BC00E32486 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		84D1B2CA20172ACD00DF2DE4 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -90,7 +121,7 @@
 				84D1B2D320172ACD00DF2DE4 /* MainAsk */,
 				84D1B2D720172ACD00DF2DE4 /* Message */,
 				84D1B2DB20172ACD00DF2DE4 /* Mine */,
-				84D1B2DF20172ACD00DF2DE4 /* SignIn */,
+				84C47B2C201821BC00E32486 /* SignIn */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -256,37 +287,6 @@
 			sourceTree = "<group>";
 		};
 		84D1B2DE20172ACD00DF2DE4 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		84D1B2DF20172ACD00DF2DE4 /* SignIn */ = {
-			isa = PBXGroup;
-			children = (
-				84D1B2E020172ACD00DF2DE4 /* Controller */,
-				84D1B2E120172ACD00DF2DE4 /* Model */,
-				84D1B2E220172ACD00DF2DE4 /* Views */,
-			);
-			path = SignIn;
-			sourceTree = "<group>";
-		};
-		84D1B2E020172ACD00DF2DE4 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		84D1B2E120172ACD00DF2DE4 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		84D1B2E220172ACD00DF2DE4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 			);
