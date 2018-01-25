@@ -8,6 +8,8 @@
 
 #import "MainAskViewController.h"
 
+#import "SignInViewController.h"
+
 
 #import "SearchView.h"
 
@@ -63,9 +65,9 @@
     };
     
 
-    
-    
+    [self login];
 }
+
 - (void)viewDidAppear:(BOOL)animated{
    
     [super viewDidAppear:animated];
@@ -86,6 +88,13 @@
     }];
     //test**********
     
+}
+
+-(void)login{
+    
+    UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    SignInViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"SignInView"];
+    [self presentViewController:VC animated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
