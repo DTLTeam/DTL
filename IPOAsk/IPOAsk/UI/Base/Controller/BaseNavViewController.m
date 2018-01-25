@@ -8,6 +8,8 @@
 
 #import "BaseNavViewController.h"
 
+#import "ApplicationEnterpriseViewController.h"
+
 #import "SearchView.h"
 
 @interface BaseNavViewController ()
@@ -21,7 +23,7 @@
     // Do any additional setup after loading the view.
     
     
-    //自定义导航
+    //自定义导航 --- 首页问答
     UIViewController *vc = self.viewControllers[self.viewControllers.count - 1];
     
     if (vc && ([vc isKindOfClass:[MainAskViewController class]])) {
@@ -38,6 +40,8 @@
        
         [self.view addSubview:view];
     }
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {

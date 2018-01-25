@@ -34,6 +34,13 @@
 		84FBDC0A20198675007A7E45 /* AskHttpLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FBDC0920198675007A7E45 /* AskHttpLink.m */; };
 		84FBDC10201987CF007A7E45 /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FBDC0C201987CF007A7E45 /* SearchView.m */; };
 		84FBDC11201987CF007A7E45 /* AskProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FBDC0D201987CF007A7E45 /* AskProgressHUD.m */; };
+		84FBDC142019A83F007A7E45 /* ApplicationEnterpriseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FBDC132019A83F007A7E45 /* ApplicationEnterpriseViewController.m */; };
+		84FBDC182019AC15007A7E45 /* UIBarButtonItem+myBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FBDC172019AC15007A7E45 /* UIBarButtonItem+myBarButtonItem.m */; };
+		84FBDC202019AC9B007A7E45 /* UINavigationBar+MyNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FBDC1F2019AC9B007A7E45 /* UINavigationBar+MyNavigationBar.m */; };
+		84FBDC252019B081007A7E45 /* EnterpriseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FBDC242019B081007A7E45 /* EnterpriseModel.m */; };
+		84FBDC292019B1DF007A7E45 /* EnterpriseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FBDC272019B1DF007A7E45 /* EnterpriseTableViewCell.m */; };
+		84FBDC2A2019B1DF007A7E45 /* EnterpriseTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84FBDC282019B1DF007A7E45 /* EnterpriseTableViewCell.xib */; };
+		84FBDC2D2019C474007A7E45 /* TipsViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FBDC2C2019C474007A7E45 /* TipsViews.m */; };
 		F563CCCF2017153B00D4751A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F563CCCE2017153B00D4751A /* AppDelegate.m */; };
 		F563CCD52017153B00D4751A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F563CCD32017153B00D4751A /* Main.storyboard */; };
 		F563CCD72017153B00D4751A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F563CCD62017153B00D4751A /* Assets.xcassets */; };
@@ -96,6 +103,19 @@
 		84FBDC0D201987CF007A7E45 /* AskProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AskProgressHUD.m; sourceTree = "<group>"; };
 		84FBDC0E201987CF007A7E45 /* SearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchView.h; sourceTree = "<group>"; };
 		84FBDC0F201987CF007A7E45 /* AskProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AskProgressHUD.h; sourceTree = "<group>"; };
+		84FBDC122019A83F007A7E45 /* ApplicationEnterpriseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApplicationEnterpriseViewController.h; sourceTree = "<group>"; };
+		84FBDC132019A83F007A7E45 /* ApplicationEnterpriseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApplicationEnterpriseViewController.m; sourceTree = "<group>"; };
+		84FBDC162019AC15007A7E45 /* UIBarButtonItem+myBarButtonItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+myBarButtonItem.h"; sourceTree = "<group>"; };
+		84FBDC172019AC15007A7E45 /* UIBarButtonItem+myBarButtonItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+myBarButtonItem.m"; sourceTree = "<group>"; };
+		84FBDC1E2019AC9B007A7E45 /* UINavigationBar+MyNavigationBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+MyNavigationBar.h"; sourceTree = "<group>"; };
+		84FBDC1F2019AC9B007A7E45 /* UINavigationBar+MyNavigationBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+MyNavigationBar.m"; sourceTree = "<group>"; };
+		84FBDC232019B081007A7E45 /* EnterpriseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnterpriseModel.h; sourceTree = "<group>"; };
+		84FBDC242019B081007A7E45 /* EnterpriseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EnterpriseModel.m; sourceTree = "<group>"; };
+		84FBDC262019B1DF007A7E45 /* EnterpriseTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnterpriseTableViewCell.h; sourceTree = "<group>"; };
+		84FBDC272019B1DF007A7E45 /* EnterpriseTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EnterpriseTableViewCell.m; sourceTree = "<group>"; };
+		84FBDC282019B1DF007A7E45 /* EnterpriseTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EnterpriseTableViewCell.xib; sourceTree = "<group>"; };
+		84FBDC2B2019C474007A7E45 /* TipsViews.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TipsViews.h; sourceTree = "<group>"; };
+		84FBDC2C2019C474007A7E45 /* TipsViews.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TipsViews.m; sourceTree = "<group>"; };
 		F563CCCA2017153B00D4751A /* IPOAsk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IPOAsk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F563CCCD2017153B00D4751A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F563CCCE2017153B00D4751A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -182,6 +202,8 @@
 		84C47B43201869AA00E32486 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				84FBDC1D2019AC87007A7E45 /* UINavigationBar+NavigationBar */,
+				84FBDC152019ABEA007A7E45 /* UIBarButtonItem-Button */,
 				84C47B44201869AA00E32486 /* MBProgressHUD */,
 			);
 			path = Category;
@@ -246,6 +268,8 @@
 			isa = PBXGroup;
 			children = (
 				84D1B2D020172ACD00DF2DE4 /* Controller */,
+				84FBDC222019B067007A7E45 /* Model */,
+				84FBDC212019B057007A7E45 /* Views */,
 			);
 			path = Enterprise;
 			sourceTree = "<group>";
@@ -255,6 +279,8 @@
 			children = (
 				84D1B2EC20172E9A00DF2DE4 /* EnterpriseViewController.h */,
 				84D1B2ED20172E9A00DF2DE4 /* EnterpriseViewController.m */,
+				84FBDC122019A83F007A7E45 /* ApplicationEnterpriseViewController.h */,
+				84FBDC132019A83F007A7E45 /* ApplicationEnterpriseViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -311,6 +337,7 @@
 			isa = PBXGroup;
 			children = (
 				84D1B2DC20172ACD00DF2DE4 /* Controller */,
+				F5E91E6D2019BD1E0059843A /* View */,
 			);
 			path = Mine;
 			sourceTree = "<group>";
@@ -375,8 +402,47 @@
 				84FBDC0D201987CF007A7E45 /* AskProgressHUD.m */,
 				84FBDC0E201987CF007A7E45 /* SearchView.h */,
 				84FBDC0C201987CF007A7E45 /* SearchView.m */,
+				84FBDC2B2019C474007A7E45 /* TipsViews.h */,
+				84FBDC2C2019C474007A7E45 /* TipsViews.m */,
 			);
 			path = Public;
+			sourceTree = "<group>";
+		};
+		84FBDC152019ABEA007A7E45 /* UIBarButtonItem-Button */ = {
+			isa = PBXGroup;
+			children = (
+				84FBDC162019AC15007A7E45 /* UIBarButtonItem+myBarButtonItem.h */,
+				84FBDC172019AC15007A7E45 /* UIBarButtonItem+myBarButtonItem.m */,
+			);
+			path = "UIBarButtonItem-Button";
+			sourceTree = "<group>";
+		};
+		84FBDC1D2019AC87007A7E45 /* UINavigationBar+NavigationBar */ = {
+			isa = PBXGroup;
+			children = (
+				84FBDC1E2019AC9B007A7E45 /* UINavigationBar+MyNavigationBar.h */,
+				84FBDC1F2019AC9B007A7E45 /* UINavigationBar+MyNavigationBar.m */,
+			);
+			path = "UINavigationBar+NavigationBar";
+			sourceTree = "<group>";
+		};
+		84FBDC212019B057007A7E45 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				84FBDC262019B1DF007A7E45 /* EnterpriseTableViewCell.h */,
+				84FBDC272019B1DF007A7E45 /* EnterpriseTableViewCell.m */,
+				84FBDC282019B1DF007A7E45 /* EnterpriseTableViewCell.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		84FBDC222019B067007A7E45 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				84FBDC232019B081007A7E45 /* EnterpriseModel.h */,
+				84FBDC242019B081007A7E45 /* EnterpriseModel.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		F563CCC12017153B00D4751A = {
@@ -404,15 +470,22 @@
 				F563CCCE2017153B00D4751A /* AppDelegate.m */,
 				84D1B2FD201733AB00DF2DE4 /* Info.plist */,
 				84FBDC0720198675007A7E45 /* HTTP */,
-				84D1B2F52017326600DF2DE4 /* Supporting Files */,
 				84C47B43201869AA00E32486 /* Category */,
 				84D1B2CA20172ACD00DF2DE4 /* UI */,
 				84D1B2FF2017354300DF2DE4 /* Utils */,
 				F563CCD32017153B00D4751A /* Main.storyboard */,
 				F563CCD62017153B00D4751A /* Assets.xcassets */,
 				F563CCD82017153B00D4751A /* LaunchScreen.storyboard */,
+				84D1B2F52017326600DF2DE4 /* Supporting Files */,
 			);
 			path = IPOAsk;
+			sourceTree = "<group>";
+		};
+		F5E91E6D2019BD1E0059843A /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -479,6 +552,7 @@
 				84D1B2FE201733AB00DF2DE4 /* Info.plist in Resources */,
 				F563CCDA2017153B00D4751A /* LaunchScreen.storyboard in Resources */,
 				F563CCD72017153B00D4751A /* Assets.xcassets in Resources */,
+				84FBDC2A2019B1DF007A7E45 /* EnterpriseTableViewCell.xib in Resources */,
 				F563CCD52017153B00D4751A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -550,11 +624,15 @@
 				84C47B422018368A00E32486 /* BaseTableViewController.m in Sources */,
 				84C47B392018238300E32486 /* SignInViewController.m in Sources */,
 				20EF6BD72019D80200025FF3 /* QuestionModel.m in Sources */,
-				84D1B3042017356200DF2DE4 /* UtilsCommon.m in Sources */,
 				20EF6BCE2019D04300025FF3 /* AnswerTableViewCell.m in Sources */,
+				84FBDC2D2019C474007A7E45 /* TipsViews.m in Sources */,
+				84FBDC202019AC9B007A7E45 /* UINavigationBar+MyNavigationBar.m in Sources */,
+				84D1B3042017356200DF2DE4 /* UtilsCommon.m in Sources */,
+				84FBDC142019A83F007A7E45 /* ApplicationEnterpriseViewController.m in Sources */,
 				84D1B2EE20172E9A00DF2DE4 /* EnterpriseViewController.m in Sources */,
 				20EF6BBA2019BBCF00025FF3 /* SearchViewController.m in Sources */,
 				84D1B2F420172F7300DF2DE4 /* MineViewController.m in Sources */,
+				84FBDC292019B1DF007A7E45 /* EnterpriseTableViewCell.m in Sources */,
 				84D1B2E820172CD800DF2DE4 /* BaseNavViewController.m in Sources */,
 				84FBDC11201987CF007A7E45 /* AskProgressHUD.m in Sources */,
 				20EF6BC32019BCD700025FF3 /* EditAnswerViewController.m in Sources */,
@@ -566,10 +644,12 @@
 				84C47B47201869AA00E32486 /* MBProgressHUD.m in Sources */,
 				84FBDC10201987CF007A7E45 /* SearchView.m in Sources */,
 				20EF6BBD2019BC6D00025FF3 /* QuestionViewController.m in Sources */,
+				84FBDC252019B081007A7E45 /* EnterpriseModel.m in Sources */,
 				84D1B2F120172F4F00DF2DE4 /* MessageViewController.m in Sources */,
 				20EF6BDA2019D81300025FF3 /* AnswerModel.m in Sources */,
 				84D1B2F92017326600DF2DE4 /* main.m in Sources */,
 				84D1B2E520172B0900DF2DE4 /* BaseTabBarViewController.m in Sources */,
+				84FBDC182019AC15007A7E45 /* UIBarButtonItem+myBarButtonItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -708,6 +788,7 @@
 				DEVELOPMENT_TEAM = NG2U3PU777;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/IPOAsk/Supporting Files/PrefixHeader.pch";
 				INFOPLIST_FILE = IPOAsk/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.IPOAsk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -725,6 +806,7 @@
 				DEVELOPMENT_TEAM = NG2U3PU777;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/IPOAsk/Supporting Files/PrefixHeader.pch";
 				INFOPLIST_FILE = IPOAsk/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.IPOAsk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
