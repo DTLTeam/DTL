@@ -21,10 +21,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    //test**********
+   
     __weak MainAskViewController *weakSelf = self;
     
     self.haveRefresh = YES;
+    self.haveData = weakSelf.sourceData.count > 0 ? YES : NO;
+    
+    self.bgImageView.backgroundColor = [UIColor lightGrayColor];
     
     NSArray *arr = @[@"呵呵",@"hhehehhe",@"哈哈哈",@"???"];
     
@@ -33,24 +36,33 @@
             
             NSLog(@"下拉刷新:%ld",weakSelf.currentPage);
             
-            
+             //test**********
             [weakSelf.sourceData removeAllObjects];
-            [weakSelf.myTableView reloadData];
+            [weakSelf.sourceData addObjectsFromArray:arr];
+            weakSelf.haveData = weakSelf.sourceData.count > 0 ? YES : NO;
             
-            [weakSelf endHeaderRefresh:RefreshType_header];
+            [weakSelf endHeaderRefresh:RefreshType_header]; 
+            
+            
+            [weakSelf.myTableView reloadData];
+            //test**********
             
         }else{
             
             NSLog(@"上拉加载更多:%ld",weakSelf.currentPage);
             
+            //test**********
             [weakSelf.sourceData addObjectsFromArray:arr];
-            [weakSelf.myTableView reloadData];
+            weakSelf.haveData = weakSelf.sourceData.count > 0 ? YES : NO;
             
             [weakSelf endHeaderRefresh:RefreshType_foot];
+            
+            [weakSelf.myTableView reloadData];
+            //test**********
         }
     };
     
-    //test**********
+
     
 }
 - (void)viewDidAppear:(BOOL)animated{

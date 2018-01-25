@@ -21,7 +21,16 @@
     self.title = @"消息";
     
     self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-     
+ 
+    self.bgImageView.backgroundColor = [UIColor redColor];
+    self.haveRefresh = NO;
+    self.haveData = self.sourceData.count > 0 ? YES : NO;
+    
+    self.headerRefresh = ^(BOOL headerR) {
+        
+        NSLog(@"点击背景图刷新消息");
+    };
+    
 }
 
 - (void)didReceiveMemoryWarning {
