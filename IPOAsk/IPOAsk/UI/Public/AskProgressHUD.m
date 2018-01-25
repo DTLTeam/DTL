@@ -79,16 +79,16 @@
     hud.label.text = title;
     hud.detailsLabel.text = detail;
     
-    hud.tag = tag; 
+    hud.tag = tag;
     
 }
- 
+
 
 #pragma mark - 隐藏
 +(void)AskHideAnimatedInView:(UIView *)view viewtag:(int)tag AfterDelay:(CGFloat)afterDelay{
     MBProgressHUD *hud = [view viewWithTag:tag];
     if (hud) {
-     
+        
         [hud hideAnimated:YES afterDelay:afterDelay];
         
     }else{
@@ -105,5 +105,22 @@
     
 }
 
++(void)ShowTipsAlterViewWithTitle:(NSString *)title Message:(NSString *)message DefaultAction:(NSString *)Default CancelAction:(NSString *)cancel Defaulthandler:(void (^)(UIAlertAction *))defaulthandler cancelhandler:(void (^)(UIAlertAction *))handler ControllerView:(void (^)(UIAlertController *))Controller{
+    
+    UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    if (Default) {
+        UIAlertAction *alertAction = [UIAlertAction actionWithTitle:Default style:UIAlertActionStyleDefault handler:defaulthandler];
+        [alertVc addAction:alertAction];
+    }
+    
+    if (cancel) {
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:cancel style:UIAlertActionStyleCancel handler:handler];
+        [alertVc addAction:cancelAction];
+    }
+    
+    Controller(alertVc);
+    
+}
 
 @end
+

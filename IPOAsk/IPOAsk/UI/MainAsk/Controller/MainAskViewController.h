@@ -6,9 +6,9 @@
 //  Copyright © 2018年 law. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "BaseTableViewController.h"
 #import <UIKit/UIKit.h>
 
-@interface MainAskViewController : BaseViewController
+@interface MainAskViewController : BaseTableViewController
 
 @end

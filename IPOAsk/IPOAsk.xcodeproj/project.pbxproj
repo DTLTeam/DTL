@@ -9,11 +9,8 @@
 /* Begin PBXBuildFile section */
 		130FA5160092F9EAED210012 /* libPods-IPOAsk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71A9166307730159DB63610D /* libPods-IPOAsk.a */; };
 		84C47B392018238300E32486 /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C47B382018238300E32486 /* SignInViewController.m */; };
-		84C47B3F20182CF000E32486 /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C47B3E20182CF000E32486 /* SearchView.m */; };
-		84C47B422018368A00E32486 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C47B412018368A00E32486 /* BaseViewController.m */; };
+		84C47B422018368A00E32486 /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C47B412018368A00E32486 /* BaseTableViewController.m */; };
 		84C47B47201869AA00E32486 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C47B46201869AA00E32486 /* MBProgressHUD.m */; };
-		84C47B4A20186A7300E32486 /* AskProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C47B4920186A7300E32486 /* AskProgressHUD.m */; };
-		84C47B4F2018820B00E32486 /* AskHttpLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C47B4E2018820B00E32486 /* AskHttpLink.m */; };
 		84D1B2E520172B0900DF2DE4 /* BaseTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D1B2E420172B0900DF2DE4 /* BaseTabBarViewController.m */; };
 		84D1B2E820172CD800DF2DE4 /* BaseNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D1B2E720172CD800DF2DE4 /* BaseNavViewController.m */; };
 		84D1B2EB20172DFD00DF2DE4 /* MainAskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D1B2EA20172DFD00DF2DE4 /* MainAskViewController.m */; };
@@ -23,6 +20,9 @@
 		84D1B2F92017326600DF2DE4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D1B2F72017326600DF2DE4 /* main.m */; };
 		84D1B2FE201733AB00DF2DE4 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84D1B2FD201733AB00DF2DE4 /* Info.plist */; };
 		84D1B3042017356200DF2DE4 /* UtilsCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D1B3032017356200DF2DE4 /* UtilsCommon.m */; };
+		84FBDC0A20198675007A7E45 /* AskHttpLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FBDC0920198675007A7E45 /* AskHttpLink.m */; };
+		84FBDC10201987CF007A7E45 /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FBDC0C201987CF007A7E45 /* SearchView.m */; };
+		84FBDC11201987CF007A7E45 /* AskProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FBDC0D201987CF007A7E45 /* AskProgressHUD.m */; };
 		F563CCCF2017153B00D4751A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F563CCCE2017153B00D4751A /* AppDelegate.m */; };
 		F563CCD52017153B00D4751A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F563CCD32017153B00D4751A /* Main.storyboard */; };
 		F563CCD72017153B00D4751A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F563CCD62017153B00D4751A /* Assets.xcassets */; };
@@ -35,16 +35,10 @@
 		84994DE7CA75AE47A7213852 /* Pods-IPOAsk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IPOAsk.release.xcconfig"; path = "Pods/Target Support Files/Pods-IPOAsk/Pods-IPOAsk.release.xcconfig"; sourceTree = "<group>"; };
 		84C47B372018238300E32486 /* SignInViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
 		84C47B382018238300E32486 /* SignInViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
-		84C47B3D20182CF000E32486 /* SearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchView.h; sourceTree = "<group>"; };
-		84C47B3E20182CF000E32486 /* SearchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchView.m; sourceTree = "<group>"; };
-		84C47B402018368A00E32486 /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
-		84C47B412018368A00E32486 /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		84C47B402018368A00E32486 /* BaseTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseTableViewController.h; sourceTree = "<group>"; };
+		84C47B412018368A00E32486 /* BaseTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseTableViewController.m; sourceTree = "<group>"; };
 		84C47B45201869AA00E32486 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		84C47B46201869AA00E32486 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
-		84C47B4820186A7300E32486 /* AskProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AskProgressHUD.h; sourceTree = "<group>"; };
-		84C47B4920186A7300E32486 /* AskProgressHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AskProgressHUD.m; sourceTree = "<group>"; };
-		84C47B4D2018820B00E32486 /* AskHttpLink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AskHttpLink.h; sourceTree = "<group>"; };
-		84C47B4E2018820B00E32486 /* AskHttpLink.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AskHttpLink.m; sourceTree = "<group>"; };
 		84D1B2E320172B0900DF2DE4 /* BaseTabBarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseTabBarViewController.h; sourceTree = "<group>"; };
 		84D1B2E420172B0900DF2DE4 /* BaseTabBarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseTabBarViewController.m; sourceTree = "<group>"; };
 		84D1B2E620172CD800DF2DE4 /* BaseNavViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseNavViewController.h; sourceTree = "<group>"; };
@@ -63,6 +57,12 @@
 		84D1B3022017356200DF2DE4 /* UtilsCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UtilsCommon.h; sourceTree = "<group>"; };
 		84D1B3032017356200DF2DE4 /* UtilsCommon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UtilsCommon.m; sourceTree = "<group>"; };
 		84D1B305201735B400DF2DE4 /* Macro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Macro.h; sourceTree = "<group>"; };
+		84FBDC0820198675007A7E45 /* AskHttpLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AskHttpLink.h; sourceTree = "<group>"; };
+		84FBDC0920198675007A7E45 /* AskHttpLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AskHttpLink.m; sourceTree = "<group>"; };
+		84FBDC0C201987CF007A7E45 /* SearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchView.m; sourceTree = "<group>"; };
+		84FBDC0D201987CF007A7E45 /* AskProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AskProgressHUD.m; sourceTree = "<group>"; };
+		84FBDC0E201987CF007A7E45 /* SearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchView.h; sourceTree = "<group>"; };
+		84FBDC0F201987CF007A7E45 /* AskProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AskProgressHUD.h; sourceTree = "<group>"; };
 		F563CCCA2017153B00D4751A /* IPOAsk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IPOAsk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F563CCCD2017153B00D4751A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F563CCCE2017153B00D4751A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -120,10 +120,6 @@
 		84C47B3C20182C7500E32486 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				84C47B3D20182CF000E32486 /* SearchView.h */,
-				84C47B3E20182CF000E32486 /* SearchView.m */,
-				84C47B4820186A7300E32486 /* AskProgressHUD.h */,
-				84C47B4920186A7300E32486 /* AskProgressHUD.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -145,19 +141,10 @@
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
-		84C47B4B201881D500E32486 /* Http */ = {
-			isa = PBXGroup;
-			children = (
-				84C47B4D2018820B00E32486 /* AskHttpLink.h */,
-				84C47B4E2018820B00E32486 /* AskHttpLink.m */,
-			);
-			path = Http;
-			sourceTree = "<group>";
-		};
 		84D1B2CA20172ACD00DF2DE4 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				84C47B4B201881D500E32486 /* Http */,
+				84FBDC0B201986FF007A7E45 /* Public */,
 				84D1B2CB20172ACD00DF2DE4 /* Base */,
 				84D1B2CF20172ACD00DF2DE4 /* Enterprise */,
 				84D1B2D320172ACD00DF2DE4 /* MainAsk */,
@@ -183,8 +170,8 @@
 			children = (
 				84D1B2E620172CD800DF2DE4 /* BaseNavViewController.h */,
 				84D1B2E720172CD800DF2DE4 /* BaseNavViewController.m */,
-				84C47B402018368A00E32486 /* BaseViewController.h */,
-				84C47B412018368A00E32486 /* BaseViewController.m */,
+				84C47B402018368A00E32486 /* BaseTableViewController.h */,
+				84C47B412018368A00E32486 /* BaseTableViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -301,6 +288,26 @@
 			path = UtilsCommon;
 			sourceTree = "<group>";
 		};
+		84FBDC0720198675007A7E45 /* HTTP */ = {
+			isa = PBXGroup;
+			children = (
+				84FBDC0820198675007A7E45 /* AskHttpLink.h */,
+				84FBDC0920198675007A7E45 /* AskHttpLink.m */,
+			);
+			path = HTTP;
+			sourceTree = "<group>";
+		};
+		84FBDC0B201986FF007A7E45 /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				84FBDC0F201987CF007A7E45 /* AskProgressHUD.h */,
+				84FBDC0D201987CF007A7E45 /* AskProgressHUD.m */,
+				84FBDC0E201987CF007A7E45 /* SearchView.h */,
+				84FBDC0C201987CF007A7E45 /* SearchView.m */,
+			);
+			path = Public;
+			sourceTree = "<group>";
+		};
 		F563CCC12017153B00D4751A = {
 			isa = PBXGroup;
 			children = (
@@ -325,6 +332,7 @@
 				F563CCCD2017153B00D4751A /* AppDelegate.h */,
 				F563CCCE2017153B00D4751A /* AppDelegate.m */,
 				84D1B2FD201733AB00DF2DE4 /* Info.plist */,
+				84FBDC0720198675007A7E45 /* HTTP */,
 				84D1B2F52017326600DF2DE4 /* Supporting Files */,
 				84C47B43201869AA00E32486 /* Category */,
 				84D1B2CA20172ACD00DF2DE4 /* UI */,
@@ -465,18 +473,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84C47B4F2018820B00E32486 /* AskHttpLink.m in Sources */,
-				84C47B3F20182CF000E32486 /* SearchView.m in Sources */,
-				84C47B422018368A00E32486 /* BaseViewController.m in Sources */,
+				84FBDC0A20198675007A7E45 /* AskHttpLink.m in Sources */,
+				84C47B422018368A00E32486 /* BaseTableViewController.m in Sources */,
 				84C47B392018238300E32486 /* SignInViewController.m in Sources */,
 				84D1B3042017356200DF2DE4 /* UtilsCommon.m in Sources */,
 				84D1B2EE20172E9A00DF2DE4 /* EnterpriseViewController.m in Sources */,
 				84D1B2F420172F7300DF2DE4 /* MineViewController.m in Sources */,
 				84D1B2E820172CD800DF2DE4 /* BaseNavViewController.m in Sources */,
+				84FBDC11201987CF007A7E45 /* AskProgressHUD.m in Sources */,
 				84D1B2EB20172DFD00DF2DE4 /* MainAskViewController.m in Sources */,
 				F563CCCF2017153B00D4751A /* AppDelegate.m in Sources */,
 				84C47B47201869AA00E32486 /* MBProgressHUD.m in Sources */,
-				84C47B4A20186A7300E32486 /* AskProgressHUD.m in Sources */,
+				84FBDC10201987CF007A7E45 /* SearchView.m in Sources */,
 				84D1B2F120172F4F00DF2DE4 /* MessageViewController.m in Sources */,
 				84D1B2F92017326600DF2DE4 /* main.m in Sources */,
 				84D1B2E520172B0900DF2DE4 /* BaseTabBarViewController.m in Sources */,

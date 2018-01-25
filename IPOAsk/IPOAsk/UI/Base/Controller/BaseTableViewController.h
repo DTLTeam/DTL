@@ -1,5 +1,5 @@
 //
-//  BaseViewController.h
+//  BaseTableViewController.h
 //  IPOAsk
 //
 //  Created by admin on 2018/1/24.
@@ -13,7 +13,7 @@ typedef enum : NSUInteger {
 
 #import <UIKit/UIKit.h>
 
-@interface BaseViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
+@interface BaseTableViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong)UIImageView *bgImageView;
 @property (nonatomic,strong)UITableView *myTableView;

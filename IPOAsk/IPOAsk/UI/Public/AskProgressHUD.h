@@ -13,8 +13,8 @@
 
 /**
  
-只有小菊花
-
+ 只有小菊花
+ 
  @param view 显示view
  @param tag 标示
  
@@ -34,7 +34,7 @@
 
 /**
  小菊花+文字
-
+ 
  @param view 显示view
  @param title 文字
  @param tag 标示
@@ -45,7 +45,7 @@
 
 /**
  小菊花+标题+描述
-
+ 
  @param view 显示view
  @param title 文字
  @param detail 描述
@@ -60,11 +60,19 @@
 
 /**
  隐藏
-
+ 
  @param view 所在的view
  @param tag 需要隐藏的view标示
  */
 + (void)AskHideAnimatedInView:(UIView *)view viewtag:(int)tag AfterDelay:(CGFloat)afterDelay;
 
 
++ (void)ShowTipsAlterViewWithTitle:(NSString *)title Message:(NSString *)message DefaultAction:(NSString *)Default CancelAction:(NSString *)cancel
+                    Defaulthandler:(void (^)(UIAlertAction *action))defaulthandler
+                     cancelhandler:(void (^)(UIAlertAction *action))handler
+                    ControllerView:(void (^)(UIAlertController *vc))Controller;
+
+
 @end
+
+

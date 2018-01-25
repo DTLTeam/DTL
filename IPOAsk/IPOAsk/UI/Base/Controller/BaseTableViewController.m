@@ -1,21 +1,21 @@
 //
-//  BaseViewController.m
+//  BaseTableViewController.m
 //  IPOAsk
 //
 //  Created by admin on 2018/1/24.
 //  Copyright © 2018年 law. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "BaseTableViewController.h"
 
 
-@implementation BaseViewController
+@implementation BaseTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    _bgImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    _bgImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, NAVBAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAVBAR_HEIGHT)];
     _bgImageView.userInteractionEnabled = YES;
     [self.view addSubview:_bgImageView];
     
@@ -32,22 +32,22 @@
     
     _sourceData = [NSMutableArray array];
     
-//    [AskProgressHUD AskShowTitleInView:self.view Title:@"正在加载" viewtag:100];
+    //    [AskProgressHUD AskShowTitleInView:self.view Title:@"正在加载" viewtag:100];
     
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-     
-//    [AskProgressHUD AskHideAnimatedInView:self.view viewtag:100 AfterDelay:5];
+    
+    //    [AskProgressHUD AskHideAnimatedInView:self.view viewtag:100 AfterDelay:5];
 }
 
 
 #pragma mark - 是否有刷新
 -(void)setHaveRefresh:(BOOL)haveRefresh{
-    _haveRefresh = haveRefresh; 
+    _haveRefresh = haveRefresh;
     
-    __weak BaseViewController *weakSelf = self;
+    __weak BaseTableViewController *weakSelf = self;
     
     //实现刷新方法
     if (_haveRefresh) {
@@ -68,8 +68,18 @@
                 weakSelf.headerRefresh(YES);
             }
         }];
+    }else{
+        
+        //移除刷新
+        if (_myTableView.mj_footer) {
+            [_myTableView.mj_footer removeFromSuperview];
+        }
+        if (_myTableView.mj_header) {
+            [_myTableView.mj_header removeFromSuperview];
+        }
+        
     }
-      
+    
 }
 
 #pragma mark - 停止刷新
@@ -119,7 +129,7 @@
     
     if (cell == nil) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-    } 
+    }
     return cell;
 }
 
@@ -131,3 +141,4 @@
 
 
 @end
+
