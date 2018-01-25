@@ -8,6 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		130FA5160092F9EAED210012 /* libPods-IPOAsk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71A9166307730159DB63610D /* libPods-IPOAsk.a */; };
+		20EF6BB72019ABA700025FF3 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EF6BB62019ABA700025FF3 /* BaseViewController.m */; };
+		20EF6BBA2019BBCF00025FF3 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EF6BB92019BBCF00025FF3 /* SearchViewController.m */; };
+		20EF6BBD2019BC6D00025FF3 /* QuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EF6BBC2019BC6D00025FF3 /* QuestionViewController.m */; };
+		20EF6BC32019BCD700025FF3 /* EditAnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EF6BC22019BCD700025FF3 /* EditAnswerViewController.m */; };
+		20EF6BC62019BE8400025FF3 /* EditQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EF6BC52019BE8400025FF3 /* EditQuestionViewController.m */; };
+		20EF6BC92019C17B00025FF3 /* AnswerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EF6BC82019C17B00025FF3 /* AnswerDetailViewController.m */; };
+		20EF6BCE2019D04300025FF3 /* AnswerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EF6BCD2019D04300025FF3 /* AnswerTableViewCell.m */; };
+		20EF6BD12019D04E00025FF3 /* QuestionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EF6BD02019D04E00025FF3 /* QuestionTableViewCell.m */; };
+		20EF6BD42019D13D00025FF3 /* MainNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EF6BD32019D13D00025FF3 /* MainNavigationController.m */; };
+		20EF6BD72019D80200025FF3 /* QuestionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EF6BD62019D80200025FF3 /* QuestionModel.m */; };
+		20EF6BDA2019D81300025FF3 /* AnswerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 20EF6BD92019D81300025FF3 /* AnswerModel.m */; };
 		84C47B392018238300E32486 /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C47B382018238300E32486 /* SignInViewController.m */; };
 		84C47B422018368A00E32486 /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C47B412018368A00E32486 /* BaseTableViewController.m */; };
 		84C47B47201869AA00E32486 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C47B46201869AA00E32486 /* MBProgressHUD.m */; };
@@ -31,6 +42,28 @@
 
 /* Begin PBXFileReference section */
 		0441DF22CC1CD148DF8C8CB4 /* Pods-IPOAsk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IPOAsk.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IPOAsk/Pods-IPOAsk.debug.xcconfig"; sourceTree = "<group>"; };
+		20EF6BB52019ABA700025FF3 /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		20EF6BB62019ABA700025FF3 /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		20EF6BB82019BBCF00025FF3 /* SearchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		20EF6BB92019BBCF00025FF3 /* SearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		20EF6BBB2019BC6D00025FF3 /* QuestionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuestionViewController.h; sourceTree = "<group>"; };
+		20EF6BBC2019BC6D00025FF3 /* QuestionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuestionViewController.m; sourceTree = "<group>"; };
+		20EF6BC12019BCD700025FF3 /* EditAnswerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditAnswerViewController.h; sourceTree = "<group>"; };
+		20EF6BC22019BCD700025FF3 /* EditAnswerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EditAnswerViewController.m; sourceTree = "<group>"; };
+		20EF6BC42019BE8400025FF3 /* EditQuestionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditQuestionViewController.h; sourceTree = "<group>"; };
+		20EF6BC52019BE8400025FF3 /* EditQuestionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EditQuestionViewController.m; sourceTree = "<group>"; };
+		20EF6BC72019C17B00025FF3 /* AnswerDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnswerDetailViewController.h; sourceTree = "<group>"; };
+		20EF6BC82019C17B00025FF3 /* AnswerDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnswerDetailViewController.m; sourceTree = "<group>"; };
+		20EF6BCC2019D04300025FF3 /* AnswerTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnswerTableViewCell.h; sourceTree = "<group>"; };
+		20EF6BCD2019D04300025FF3 /* AnswerTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnswerTableViewCell.m; sourceTree = "<group>"; };
+		20EF6BCF2019D04E00025FF3 /* QuestionTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuestionTableViewCell.h; sourceTree = "<group>"; };
+		20EF6BD02019D04E00025FF3 /* QuestionTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuestionTableViewCell.m; sourceTree = "<group>"; };
+		20EF6BD22019D13D00025FF3 /* MainNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainNavigationController.h; sourceTree = "<group>"; };
+		20EF6BD32019D13D00025FF3 /* MainNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainNavigationController.m; sourceTree = "<group>"; };
+		20EF6BD52019D80200025FF3 /* QuestionModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuestionModel.h; sourceTree = "<group>"; };
+		20EF6BD62019D80200025FF3 /* QuestionModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuestionModel.m; sourceTree = "<group>"; };
+		20EF6BD82019D81300025FF3 /* AnswerModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnswerModel.h; sourceTree = "<group>"; };
+		20EF6BD92019D81300025FF3 /* AnswerModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnswerModel.m; sourceTree = "<group>"; };
 		71A9166307730159DB63610D /* libPods-IPOAsk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-IPOAsk.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84994DE7CA75AE47A7213852 /* Pods-IPOAsk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IPOAsk.release.xcconfig"; path = "Pods/Target Support Files/Pods-IPOAsk/Pods-IPOAsk.release.xcconfig"; sourceTree = "<group>"; };
 		84C47B372018238300E32486 /* SignInViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
@@ -83,6 +116,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		20EF6BCA2019CC3000025FF3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				20EF6BCF2019D04E00025FF3 /* QuestionTableViewCell.h */,
+				20EF6BD02019D04E00025FF3 /* QuestionTableViewCell.m */,
+				20EF6BCC2019D04300025FF3 /* AnswerTableViewCell.h */,
+				20EF6BCD2019D04300025FF3 /* AnswerTableViewCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		20EF6BCB2019CC3000025FF3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				20EF6BD52019D80200025FF3 /* QuestionModel.h */,
+				20EF6BD62019D80200025FF3 /* QuestionModel.m */,
+				20EF6BD82019D81300025FF3 /* AnswerModel.h */,
+				20EF6BD92019D81300025FF3 /* AnswerModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		3E1999E42540EC7D5B812FC3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +227,8 @@
 				84D1B2E720172CD800DF2DE4 /* BaseNavViewController.m */,
 				84C47B402018368A00E32486 /* BaseTableViewController.h */,
 				84C47B412018368A00E32486 /* BaseTableViewController.m */,
+				20EF6BB52019ABA700025FF3 /* BaseViewController.h */,
+				20EF6BB62019ABA700025FF3 /* BaseViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -206,6 +263,8 @@
 			isa = PBXGroup;
 			children = (
 				84D1B2D420172ACD00DF2DE4 /* Controller */,
+				20EF6BCB2019CC3000025FF3 /* Model */,
+				20EF6BCA2019CC3000025FF3 /* View */,
 			);
 			path = MainAsk;
 			sourceTree = "<group>";
@@ -213,8 +272,20 @@
 		84D1B2D420172ACD00DF2DE4 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				20EF6BD22019D13D00025FF3 /* MainNavigationController.h */,
+				20EF6BD32019D13D00025FF3 /* MainNavigationController.m */,
 				84D1B2E920172DFD00DF2DE4 /* MainAskViewController.h */,
 				84D1B2EA20172DFD00DF2DE4 /* MainAskViewController.m */,
+				20EF6BB82019BBCF00025FF3 /* SearchViewController.h */,
+				20EF6BB92019BBCF00025FF3 /* SearchViewController.m */,
+				20EF6BBB2019BC6D00025FF3 /* QuestionViewController.h */,
+				20EF6BBC2019BC6D00025FF3 /* QuestionViewController.m */,
+				20EF6BC72019C17B00025FF3 /* AnswerDetailViewController.h */,
+				20EF6BC82019C17B00025FF3 /* AnswerDetailViewController.m */,
+				20EF6BC12019BCD700025FF3 /* EditAnswerViewController.h */,
+				20EF6BC22019BCD700025FF3 /* EditAnswerViewController.m */,
+				20EF6BC42019BE8400025FF3 /* EditQuestionViewController.h */,
+				20EF6BC52019BE8400025FF3 /* EditQuestionViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -441,7 +512,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -473,19 +544,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20EF6BC62019BE8400025FF3 /* EditQuestionViewController.m in Sources */,
+				20EF6BD12019D04E00025FF3 /* QuestionTableViewCell.m in Sources */,
 				84FBDC0A20198675007A7E45 /* AskHttpLink.m in Sources */,
 				84C47B422018368A00E32486 /* BaseTableViewController.m in Sources */,
 				84C47B392018238300E32486 /* SignInViewController.m in Sources */,
+				20EF6BD72019D80200025FF3 /* QuestionModel.m in Sources */,
 				84D1B3042017356200DF2DE4 /* UtilsCommon.m in Sources */,
+				20EF6BCE2019D04300025FF3 /* AnswerTableViewCell.m in Sources */,
 				84D1B2EE20172E9A00DF2DE4 /* EnterpriseViewController.m in Sources */,
+				20EF6BBA2019BBCF00025FF3 /* SearchViewController.m in Sources */,
 				84D1B2F420172F7300DF2DE4 /* MineViewController.m in Sources */,
 				84D1B2E820172CD800DF2DE4 /* BaseNavViewController.m in Sources */,
 				84FBDC11201987CF007A7E45 /* AskProgressHUD.m in Sources */,
+				20EF6BC32019BCD700025FF3 /* EditAnswerViewController.m in Sources */,
 				84D1B2EB20172DFD00DF2DE4 /* MainAskViewController.m in Sources */,
+				20EF6BD42019D13D00025FF3 /* MainNavigationController.m in Sources */,
+				20EF6BB72019ABA700025FF3 /* BaseViewController.m in Sources */,
 				F563CCCF2017153B00D4751A /* AppDelegate.m in Sources */,
+				20EF6BC92019C17B00025FF3 /* AnswerDetailViewController.m in Sources */,
 				84C47B47201869AA00E32486 /* MBProgressHUD.m in Sources */,
 				84FBDC10201987CF007A7E45 /* SearchView.m in Sources */,
+				20EF6BBD2019BC6D00025FF3 /* QuestionViewController.m in Sources */,
 				84D1B2F120172F4F00DF2DE4 /* MessageViewController.m in Sources */,
+				20EF6BDA2019D81300025FF3 /* AnswerModel.m in Sources */,
 				84D1B2F92017326600DF2DE4 /* main.m in Sources */,
 				84D1B2E520172B0900DF2DE4 /* BaseTabBarViewController.m in Sources */,
 			);

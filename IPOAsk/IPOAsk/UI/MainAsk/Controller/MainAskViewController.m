@@ -8,10 +8,15 @@
 
 #import "MainAskViewController.h"
 
+//View
+#import "QuestionTableViewCell.h"
 
-#import "SearchView.h"
+@interface MainAskViewController () <UITableViewDelegate, UITableViewDataSource>
 
-@interface MainAskViewController ()
+@property (weak, nonatomic) IBOutlet UITableView *contentTableView;
+
+@property (strong, nonatomic) NSMutableArray *contentArr;
+@property (assign, nonatomic) NSInteger currentPage;
 
 @end
 
@@ -21,69 +26,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-   
-    __weak MainAskViewController *weakSelf = self;
-    
-    self.haveRefresh = YES;
-    self.haveData = weakSelf.sourceData.count > 0 ? YES : NO;
-    
-    self.bgImageView.backgroundColor = [UIColor lightGrayColor];
-    
-    NSArray *arr = @[@"呵呵",@"hhehehhe",@"哈哈哈",@"???"];
-    
-    self.headerRefresh = ^(BOOL headerR) {
-        if (headerR) {
-            
-            NSLog(@"下拉刷新:%ld",weakSelf.currentPage);
-            
-             //test**********
-            [weakSelf.sourceData removeAllObjects];
-            [weakSelf.sourceData addObjectsFromArray:arr];
-            weakSelf.haveData = weakSelf.sourceData.count > 0 ? YES : NO;
-            
-            [weakSelf endHeaderRefresh:RefreshType_header]; 
-            
-            
-            [weakSelf.myTableView reloadData];
-            //test**********
-            
-        }else{
-            
-            NSLog(@"上拉加载更多:%ld",weakSelf.currentPage);
-            
-            //test**********
-            [weakSelf.sourceData addObjectsFromArray:arr];
-            weakSelf.haveData = weakSelf.sourceData.count > 0 ? YES : NO;
-            
-            [weakSelf endHeaderRefresh:RefreshType_foot];
-            
-            [weakSelf.myTableView reloadData];
-            //test**********
-        }
-    };
-    
-
-    
-}
-- (void)viewDidAppear:(BOOL)animated{
-   
-    [super viewDidAppear:animated];
-    
-    //test**********
-    NSString *baiduUrlStr = @"http://api.map.baidu.com/geocoder/v2/?location=65.682895,-17.548928&output=json&pois=1&ak=oIu1ZLCZnUykB1xnFFfUXUIEvCushs4p";
-    
-    
-    [[AskHttpLink shareInstance]get:baiduUrlStr param:nil backData:NetSessionResponseTypeJSON success:^(id response) {
-        NSLog(@"成功%@",response);
-        
-    } requestHead:^(id response) {
-        NSLog(@"%@",response);
-        
-    } faile:^(NSError *error) {
-        
-        NSLog(@"%@",error);
-    }];
-    //test**********
+    [self setupInterface];
     
 }
 
@@ -92,31 +35,141 @@
     // Dispose of any resources that can be recreated.
 }
 
+/*
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if (_currentPage < 0) { //未刷新过
+        [_contentTableView.mj_header beginRefreshing];
+    }
+}
+
+
+#pragma mark - 界面
+
+- (void)setupInterface {
+    
+    _currentPage = -1;
+    
+    __weak typeof(self) weakSelf = self;
+    //刷新
+    _contentTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        
+        weakSelf.currentPage = 0;
+        [weakSelf requestContent:weakSelf.currentPage];
+        
+    }];
+    //加载
+    _contentTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        
+        _currentPage++;
+        [weakSelf requestContent:weakSelf.currentPage];
+        
+    }];
+    
+}
+
+
+#pragma mark - 功能
+
+#pragma mark 请求列表内容
+- (void)requestContent:(NSInteger)page {
+    
+    
+    /* test */
+    sleep(3);
+    
+    if (_currentPage == 0) {
+        [_contentArr removeAllObjects];
+    }
+    [_contentArr addObjectsFromArray:@[@"", @"", @"", @"", @"", @""]];
+    [_contentTableView reloadData];
+    
+    if (_contentTableView.mj_header.isRefreshing) {
+        [_contentTableView.mj_header endRefreshing];
+    }
+    if (_contentTableView.mj_footer.isRefreshing) {
+        [_contentTableView.mj_footer endRefreshing];
+    }
+    return;
+    /* test */
+    
+    
+    __weak typeof(self) weakSelf = self;
+    [[AskHttpLink shareInstance] post:@"" bodyparam:nil backData:NetSessionResponseTypeJSON success:^(id response) {
+
+        sleep(3);
+        
+        if (weakSelf.currentPage == 0) {
+            [weakSelf.contentArr removeAllObjects];
+        }
+        [weakSelf.contentArr addObjectsFromArray:@[@"", @"", @"", @"", @"", @""]];
+        [_contentTableView reloadData];
+        
+        if (weakSelf.contentTableView.mj_header.isRefreshing) {
+            [weakSelf.contentTableView.mj_header endRefreshing];
+        }
+        if (weakSelf.contentTableView.mj_footer.isRefreshing) {
+            [weakSelf.contentTableView.mj_footer endRefreshing];
+        }
+        
+    } requestHead:^(id response) {
+        
+    } faile:^(NSError *error) {
+        
+        if (weakSelf.contentTableView.mj_header.isRefreshing) {
+            [weakSelf.contentTableView.mj_header endRefreshing];
+        }
+        if (weakSelf.contentTableView.mj_footer.isRefreshing) {
+            [weakSelf.contentTableView.mj_footer endRefreshing];
+        }
+        
+    }];
+    
+}
+
+
+#pragma mark - UITableViewDelegate && UITableViewDataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return nil;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return nil;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.sourceData.count;
+    return _contentArr.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 50;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    cell.textLabel.text = self.sourceData[indexPath.row];
+    cell.textLabel.text = _contentArr[indexPath.row];
+    
     return cell;
+    
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
