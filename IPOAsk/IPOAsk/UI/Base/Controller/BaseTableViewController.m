@@ -28,6 +28,8 @@
     _myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
     _myTableView.delegate = self;
     _myTableView.dataSource = self;
+    _myTableView.showsHorizontalScrollIndicator = NO;
+    _myTableView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:_myTableView];
     
     _sourceData = [NSMutableArray array];
