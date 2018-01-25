@@ -240,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				84D1B2DC20172ACD00DF2DE4 /* Controller */,
+				F5E91E6D2019BD1E0059843A /* View */,
 			);
 			path = Mine;
 			sourceTree = "<group>";
@@ -333,15 +334,22 @@
 				F563CCCE2017153B00D4751A /* AppDelegate.m */,
 				84D1B2FD201733AB00DF2DE4 /* Info.plist */,
 				84FBDC0720198675007A7E45 /* HTTP */,
-				84D1B2F52017326600DF2DE4 /* Supporting Files */,
 				84C47B43201869AA00E32486 /* Category */,
 				84D1B2CA20172ACD00DF2DE4 /* UI */,
 				84D1B2FF2017354300DF2DE4 /* Utils */,
 				F563CCD32017153B00D4751A /* Main.storyboard */,
 				F563CCD62017153B00D4751A /* Assets.xcassets */,
 				F563CCD82017153B00D4751A /* LaunchScreen.storyboard */,
+				84D1B2F52017326600DF2DE4 /* Supporting Files */,
 			);
 			path = IPOAsk;
+			sourceTree = "<group>";
+		};
+		F5E91E6D2019BD1E0059843A /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -626,6 +634,7 @@
 				DEVELOPMENT_TEAM = NG2U3PU777;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/IPOAsk/Supporting Files/PrefixHeader.pch";
 				INFOPLIST_FILE = IPOAsk/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.IPOAsk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -643,6 +652,7 @@
 				DEVELOPMENT_TEAM = NG2U3PU777;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/IPOAsk/Supporting Files/PrefixHeader.pch";
 				INFOPLIST_FILE = IPOAsk/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.IPOAsk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
