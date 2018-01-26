@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+//Model
+#import "AnswerModel.h"
+
 @class AnswerTableViewCell;
 
 @protocol AnswerTableViewCellDelegate <NSObject>
@@ -26,6 +29,6 @@
  
  @param model 数据模型
  */
-- (void)refreshWithModel:(NSString *)model;
+- (void)refreshWithModel:(AnswerModel *)model;
 
 @end
