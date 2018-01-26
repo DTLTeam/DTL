@@ -43,8 +43,7 @@
  */
 
 - (void)viewDidAppear:(BOOL)animated{
-   
-    [self login];
+    
     
     if (_currentPage < 0) { //未刷新过
         [_contentTableView.mj_header beginRefreshing];
