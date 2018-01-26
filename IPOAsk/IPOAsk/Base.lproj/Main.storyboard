@@ -237,7 +237,7 @@
                                         <rect key="frame" x="51" y="2" width="254" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" textContentType="password"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -309,7 +309,7 @@
                                         <rect key="frame" x="61" y="15" width="282" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nRM-Vv-gG5">
                                         <rect key="frame" x="8" y="61" width="45" height="45"/>
@@ -323,7 +323,7 @@
                                         <rect key="frame" x="61" y="68" width="282" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QtV-yX-aGw">
                                         <rect key="frame" x="8" y="114" width="45" height="45"/>
@@ -337,7 +337,7 @@
                                         <rect key="frame" x="61" y="121" width="172" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="*字母和数组组合,8-20位之间" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KIA-0E-uFb">
                                         <rect key="frame" x="61" y="166" width="172" height="16"/>
@@ -356,6 +356,9 @@
                                         <rect key="frame" x="258" y="68" width="62" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <state key="normal" title="发送验证码"/>
+                                        <connections>
+                                            <action selector="sendVerificationCode:" destination="0iq-cN-Sqr" eventType="touchUpInside" id="oGn-kS-MLp"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FHx-8c-J8X">
                                         <rect key="frame" x="117" y="200" width="108" height="30"/>
@@ -413,8 +416,9 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="企业注册请联系15066881234" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gc5-dB-RFG">
+                                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="企业注册请联系15066881234" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gc5-dB-RFG">
                                                 <rect key="frame" x="61" y="121" width="282" height="30"/>
+                                                <gestureRecognizers/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="55Z-mf-Dge"/>
                                                     <constraint firstAttribute="height" constant="30" id="xxi-UA-JgO"/>
@@ -422,6 +426,9 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="f10-Pd-NdV" appends="YES" id="Jiw-cJ-cuw"/>
+                                                </connections>
                                             </label>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -515,14 +522,21 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="EnterpriseNumber" destination="Gc5-dB-RFG" id="hDo-d5-zpx"/>
                         <outlet property="EnterpriseRegisterView" destination="VoG-Wa-Bd4" id="Br6-eB-3Cm"/>
                         <outlet property="RegisterView" destination="asT-e1-KmK" id="SJU-6I-EsB"/>
                         <outlet property="bottomH" destination="eln-bE-2FR" id="F8R-D9-RTU"/>
                         <outlet property="nameLabel" destination="FuI-fp-yEx" id="sin-4X-C1k"/>
+                        <outlet property="phoneNumber" destination="s7x-D0-16Q" id="Qz8-Fr-jNh"/>
                         <outlet property="topH" destination="qLD-uR-8Vl" id="hug-YJ-MJC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="acB-v1-UJ6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="f10-Pd-NdV">
+                    <connections>
+                        <action selector="callPhoneTap:" destination="0iq-cN-Sqr" id="O4p-ck-JiI"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-2236" y="-183.05847076461771"/>
         </scene>
@@ -710,7 +724,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ora-RE-zCW">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ora-RE-zCW">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
@@ -733,6 +747,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YQf-Up-ip8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="bHU-P6-Zj8">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </objects>
             <point key="canvasLocation" x="92" y="1324.5877061469266"/>
         </scene>

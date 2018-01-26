@@ -82,8 +82,7 @@
 - (void)requestContent:(NSInteger)page {
     
     
-    /* test */
-    sleep(3);
+    /* test */ 
     
     if (_currentPage == 0) {
         [_contentArr removeAllObjects];

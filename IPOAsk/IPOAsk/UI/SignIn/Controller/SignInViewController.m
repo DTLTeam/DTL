@@ -9,15 +9,37 @@
 #import "SignInViewController.h"
 
 @interface SignInViewController ()
-@property (strong, nonatomic) IBOutlet UITextField *nameLabel;
+/**
+ 注册页面
+ */
 @property (strong, nonatomic) IBOutlet UIView *RegisterView;
 
+/**
+ 企业注册页面
+ */
 @property (strong, nonatomic) IBOutlet UIView *EnterpriseRegisterView;
+
+/**
+ 登录的用户名／企业用户名
+ */
+@property (strong, nonatomic) IBOutlet UITextField *nameLabel;
+
+/**
+ 企业用户注册页面的企业联系方式
+ */
+@property (strong, nonatomic) IBOutlet UILabel *EnterpriseNumber;
+
+/**
+ 个人用户注册页面的手机号码
+ */
+@property (strong, nonatomic) IBOutlet UITextField *phoneNumber;
+
 
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *topH;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *bottomH;
 
 
+@property (nonatomic,strong)NSString *phoneNum;
 @property (nonatomic,assign)CGFloat isPerson;
 @property (nonatomic,assign)CGFloat deftopH;
 @property (nonatomic,assign)CGFloat deftopbottomH;
@@ -35,6 +57,18 @@
     _deftopH = _topH.constant;
     _deftopbottomH = _bottomH.constant;
     
+    _phoneNum = [UtilsCommon validPhoneNum:_EnterpriseNumber.text];
+    //拼接电话  
+    if (_phoneNum) {
+        
+        //更改电话颜色
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:_EnterpriseNumber.text];
+        NSRange range = [_EnterpriseNumber.text rangeOfString:_phoneNum];
+        [str addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:range];
+        _EnterpriseNumber.attributedText = str;
+       
+    }
+    
     [NOTIFICATIONCENTER addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
     [NOTIFICATIONCENTER addObserver:self selector:@selector(KeyboardDidHideNotification:) name:UIKeyboardWillHideNotification object:nil];
     
@@ -44,6 +78,7 @@
 - (IBAction)personClick:(UIButton *)sender {
  
     _isPerson = YES;
+    [self.view endEditing:YES];
     
     if (_RegisterView.alpha == 1) {
         //注册页面
@@ -54,7 +89,9 @@
 
 #pragma mark - 企业用户
 - (IBAction)EnterpriseClick:(UIButton *)sender {
+    
     _isPerson = NO;
+    [self.view endEditing:YES];
     
     if (_RegisterView.alpha == 1) {
         //注册页面
@@ -68,11 +105,19 @@
 
 #pragma mark - 随便看看
 - (IBAction)dismiss:(UIButton *)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [_RegisterView removeFromSuperview];
+        [_EnterpriseRegisterView removeFromSuperview];
+        
+        _RegisterView = nil;
+        _EnterpriseRegisterView = nil;
+        
+    }];
 }
 
 #pragma mark - 注册
 - (IBAction)gogoRegister:(UIButton *)sender {
+    
     
     [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionShowHideTransitionViews animations:^{
         
@@ -84,6 +129,7 @@
 #pragma mark - 已有账号登录
 
 - (IBAction)noRegister:(UIButton *)sender {
+    
     
     [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionShowHideTransitionViews animations:^{
        
@@ -132,6 +178,30 @@
     }];
     
 }
+#pragma mark - 发送验证码
+- (IBAction)sendVerificationCode:(UIButton *)sender {
+    
+    
+    if ([UtilsCommon validPhoneNum:_phoneNumber.text].length > 0) {
+        //是手机号码 发送验证码
+        NSLog(@"已发送");
+    }
+    
+}
+
+
+#pragma  mark - 拨打企业注册电话
+- (IBAction)callPhoneTap:(UITapGestureRecognizer *)sender {
+    
+    if (IS_IOS10LATER) {
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",_phoneNum]] options:@{} completionHandler:nil];
+        
+    }else  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",_phoneNum]]];
+    
+    
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
