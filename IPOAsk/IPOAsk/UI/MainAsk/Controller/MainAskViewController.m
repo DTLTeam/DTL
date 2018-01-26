@@ -65,7 +65,7 @@
     };
     
 
-    [self login];
+    [self login];//
 }
 
 - (void)viewDidAppear:(BOOL)animated{

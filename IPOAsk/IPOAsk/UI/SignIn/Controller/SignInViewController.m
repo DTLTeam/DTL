@@ -12,13 +12,15 @@
 @property (strong, nonatomic) IBOutlet UITextField *nameLabel;
 @property (strong, nonatomic) IBOutlet UIView *RegisterView;
 
+@property (strong, nonatomic) IBOutlet UIView *EnterpriseRegisterView;
 
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *topH;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *bottomH;
 
+
+@property (nonatomic,assign)CGFloat isPerson;
 @property (nonatomic,assign)CGFloat deftopH;
 @property (nonatomic,assign)CGFloat deftopbottomH;
-
 @property (nonatomic,assign)CGRect keyboardFrame;
 
 
@@ -38,14 +40,29 @@
     
 }
 
-
+#pragma mark - 个人用户
 - (IBAction)personClick:(UIButton *)sender {
+ 
+    _isPerson = YES;
     
-    _nameLabel.placeholder = @"请输入个人用户名称";
+    if (_RegisterView.alpha == 1) {
+        //注册页面
+        _EnterpriseRegisterView.hidden = _isPerson;
+    }else _nameLabel.placeholder = @"请输入个人用户名称";
     
 }
 
+#pragma mark - 企业用户
 - (IBAction)EnterpriseClick:(UIButton *)sender {
+    _isPerson = NO;
+    
+    if (_RegisterView.alpha == 1) {
+        //注册页面
+        _EnterpriseRegisterView.hidden = _isPerson;
+        
+    }else _nameLabel.placeholder = @"请输入个人用户名称";
+    
+    
     _nameLabel.placeholder = @"请输入企业用户名称";
 }
 
