@@ -518,7 +518,6 @@
         <!--Base Nav View Controller-->
         <scene sceneID="7Xf-DI-ctW">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kxg-09-jFD" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="l24-0q-2DT" customClass="BaseNavViewController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Nkb-iR-X3e">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -528,6 +527,7 @@
                         <segue destination="L52-YD-aW5" kind="relationship" relationship="rootViewController" id="rmK-gc-ssR"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kxg-09-jFD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="866" y="599"/>
         </scene>
@@ -651,12 +651,67 @@
                     <view key="view" contentMode="scaleToFill" id="qbP-Bm-d79">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yma-rd-NhC">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="提问" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pzc-4P-8rI">
+                                        <rect key="frame" x="169.5" y="0.0" width="35" height="44"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="59R-uO-5kB">
+                                        <rect key="frame" x="10" y="0.0" width="31" height="44"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" title="取消">
+                                            <color key="titleColor" red="0.54421514272689819" green="0.57232058048248291" blue="0.59317344427108765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="moa-vK-NzT">
+                                        <rect key="frame" x="334" y="0.0" width="31" height="44"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" title="发布">
+                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="moa-vK-NzT" firstAttribute="top" secondItem="yma-rd-NhC" secondAttribute="top" id="0tK-nA-ol2"/>
+                                    <constraint firstItem="pzc-4P-8rI" firstAttribute="top" secondItem="yma-rd-NhC" secondAttribute="top" id="1eK-Ie-xyH"/>
+                                    <constraint firstItem="pzc-4P-8rI" firstAttribute="centerY" secondItem="yma-rd-NhC" secondAttribute="centerY" id="2K9-dv-nAS"/>
+                                    <constraint firstItem="59R-uO-5kB" firstAttribute="top" secondItem="yma-rd-NhC" secondAttribute="top" id="2Og-iD-KSv"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="59R-uO-5kB" secondAttribute="trailing" constant="20" symbolic="YES" id="2vW-nJ-s6x"/>
+                                    <constraint firstAttribute="bottom" secondItem="moa-vK-NzT" secondAttribute="bottom" id="68v-3A-mfn"/>
+                                    <constraint firstAttribute="trailing" secondItem="moa-vK-NzT" secondAttribute="trailing" constant="10" id="Iyd-nU-cnP"/>
+                                    <constraint firstAttribute="height" constant="44" id="JwQ-IZ-aqZ"/>
+                                    <constraint firstAttribute="bottom" secondItem="59R-uO-5kB" secondAttribute="bottom" id="Vfj-hv-QKx"/>
+                                    <constraint firstItem="59R-uO-5kB" firstAttribute="leading" secondItem="yma-rd-NhC" secondAttribute="leading" constant="10" id="cU7-zS-V6L"/>
+                                    <constraint firstAttribute="bottom" secondItem="pzc-4P-8rI" secondAttribute="bottom" id="lN4-FT-qXV"/>
+                                    <constraint firstItem="pzc-4P-8rI" firstAttribute="centerX" secondItem="yma-rd-NhC" secondAttribute="centerX" id="t9E-zG-6H8"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XA9-DD-bSo">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="yma-rd-NhC" secondAttribute="trailing" id="020-7r-zz0"/>
+                            <constraint firstItem="XA9-DD-bSo" firstAttribute="leading" secondItem="qbP-Bm-d79" secondAttribute="leading" id="4pc-2u-NCo"/>
+                            <constraint firstItem="XA9-DD-bSo" firstAttribute="top" secondItem="qbP-Bm-d79" secondAttribute="top" id="Eue-P9-OVv"/>
+                            <constraint firstItem="yma-rd-NhC" firstAttribute="top" secondItem="XA9-DD-bSo" secondAttribute="bottom" id="dq1-7Q-1um"/>
+                            <constraint firstItem="yma-rd-NhC" firstAttribute="top" secondItem="0pf-Dv-dah" secondAttribute="bottom" id="jPG-k6-zC7"/>
+                            <constraint firstAttribute="trailing" secondItem="XA9-DD-bSo" secondAttribute="trailing" id="uf1-Gm-T38"/>
+                            <constraint firstItem="yma-rd-NhC" firstAttribute="leading" secondItem="qbP-Bm-d79" secondAttribute="leading" id="z0c-mw-pWJ"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0nc-5r-MEa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6564" y="2410"/>
+            <point key="canvasLocation" x="-6564" y="2408.5457271364321"/>
         </scene>
         <!--搜索-->
         <scene sceneID="zfI-gb-Myb">

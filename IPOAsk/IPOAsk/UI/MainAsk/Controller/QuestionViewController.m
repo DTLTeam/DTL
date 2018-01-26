@@ -8,6 +8,12 @@
 
 #import "QuestionViewController.h"
 
+//Model
+#import "AnswerModel.h"
+
+//View
+#import "AnswerTableViewCell.h"
+
 @interface QuestionViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *contentTableView;
@@ -22,6 +28,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    _contentArr = [NSMutableArray array];
+    
+    [self requestInfo];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -40,5 +51,61 @@
 */
 
 
+#pragma mark - 功能
+
+- (void)requestInfo {
+    
+    [[AskHttpLink shareInstance] post:@"" bodyparam:nil backData:NetSessionResponseTypeJSON success:^(id response) {
+        
+        
+        
+    } requestHead:^(id response) {
+        
+    } faile:^(NSError *error) {
+        
+    }];
+    
+}
+
+
+#pragma mark - UITableViewDelegate & UITableViewDataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return nil;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return nil;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return _contentArr.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *identifier = @"answerCell";
+    AnswerTableViewCell *cell = [_contentTableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) {
+        cell = [[AnswerTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+    }
+    
+    [cell refreshWithModel:_contentArr[indexPath.row]];
+    
+    return cell;
+    
+}
 
 @end
