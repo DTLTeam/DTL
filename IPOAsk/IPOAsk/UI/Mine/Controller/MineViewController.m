@@ -7,6 +7,7 @@
 //
 
 #import "MineViewController.h"
+
 #import "HeadViewTableViewCell.h"
 
 @interface MineViewController () <UITableViewDelegate,UITableViewDataSource>
@@ -25,6 +26,7 @@
     
     dataArr = @[@"我的钱包",@"申请成为答主",@"草稿箱",@"帮助中心",@"关于我们",@"设置"];
     
+   
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -38,6 +40,31 @@
     [navigationBar setBackgroundImage:[UtilsCommon createImageWithColor:[UIColor clearColor]] forBarMetrics:UIBarMetricsDefault];
     [navigationBar setShadowImage:[UtilsCommon createImageWithColor:[UIColor clearColor]]];
     navigationBar.shadowImage = [UtilsCommon createImageWithColor:[UIColor clearColor]];
+    
+}
+
+#pragma mark - 头部按钮
+
+#pragma mark - 我的提问
+-(void)clickMyQuestion:(UITapGestureRecognizer *)sender{
+    NSLog(@"我的提问");
+}
+
+#pragma mark - 我的回答
+-(void)clickMyAnswer:(UITapGestureRecognizer *)sender{
+    NSLog(@"我的回答");
+    
+}
+
+#pragma mark - 我的关注
+-(void)clickMyFollow:(UITapGestureRecognizer *)sender{
+    NSLog(@"我的关注");
+    
+}
+
+#pragma mark - 我的成就
+-(void)clickMyAchievements:(UITapGestureRecognizer *)sender{
+    NSLog(@"我的成就");
     
 }
 
@@ -96,7 +123,7 @@
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
         }
-        cell.textLabel.text = dataArr[indexPath.section - 1];
+        cell.textLabel.text = dataArr[indexPath.section];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
     }

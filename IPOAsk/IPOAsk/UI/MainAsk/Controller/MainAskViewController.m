@@ -27,13 +27,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [self login];//
     [self setupInterface];
     
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 /*
@@ -47,8 +43,7 @@
  */
 
 - (void)viewDidAppear:(BOOL)animated{
-   
-    [self login];
+    
     
     if (_currentPage < 0) { //未刷新过
         [_contentTableView.mj_header beginRefreshing];
@@ -87,8 +82,7 @@
 - (void)requestContent:(NSInteger)page {
     
     
-    /* test */
-    sleep(3);
+    /* test */ 
     
     if (_currentPage == 0) {
         [_contentArr removeAllObjects];

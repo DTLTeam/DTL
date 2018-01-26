@@ -41,9 +41,9 @@
     
     _Nick.text = model.Exper_expertNick;
     
-    _AnswerDate.text = model.Exper_recoveryTime;
+    _AnswerDate.text = model.Exper_recoveryDate;
      
-    NSMutableAttributedString *aString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"专家答案: %@",model.Exper_answerAnswer]];
+    NSMutableAttributedString *aString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"专家答案: %@",model.Exper_AnswerContent]];
     [aString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor]range:NSMakeRange(0,5)];
     _AnswerLabel.attributedText= aString;
     

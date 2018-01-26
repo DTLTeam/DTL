@@ -204,8 +204,8 @@ static NSString * CellIdentifier = @"EnterpriseCell";
         EnterpriseModel *model = [[EnterpriseModel alloc]init];
         model.Exper_questionTitle = [obj valueForKey:@"question"];
         model.Exper_expertNick = [obj valueForKey:@"name"];
-        model.Exper_recoveryTime = [obj valueForKey:@"time"];
-        model.Exper_answerAnswer = [obj valueForKey:@"answer"];
+        model.Exper_recoveryDate = [obj valueForKey:@"time"];
+        model.Exper_AnswerContent = [obj valueForKey:@"answer"];
         
         [self.sourceData addObject:model];
     }];
