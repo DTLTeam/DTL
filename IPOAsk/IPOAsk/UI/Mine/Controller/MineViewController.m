@@ -8,6 +8,7 @@
 
 #import "MineViewController.h"
 
+#import "HeadViewTableViewCell.h"
 
 @interface MineViewController () <UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -25,11 +26,13 @@
     
     dataArr = @[@"我的钱包",@"申请成为答主",@"草稿箱",@"帮助中心",@"关于我们",@"设置"];
     
+   
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
+    self.navigationController.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBarHidden = YES;
     [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
     
@@ -40,25 +43,54 @@
     
 }
 
+#pragma mark - 头部按钮
+
+#pragma mark - 我的提问
+-(void)clickMyQuestion:(UITapGestureRecognizer *)sender{
+    NSLog(@"我的提问");
+}
+
+#pragma mark - 我的回答
+-(void)clickMyAnswer:(UITapGestureRecognizer *)sender{
+    NSLog(@"我的回答");
+    
+}
+
+#pragma mark - 我的关注
+-(void)clickMyFollow:(UITapGestureRecognizer *)sender{
+    NSLog(@"我的关注");
+    
+}
+
+#pragma mark - 我的成就
+-(void)clickMyAchievements:(UITapGestureRecognizer *)sender{
+    NSLog(@"我的成就");
+    
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"PushSetting"]) {
+        UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:nil action:nil];
+        self.navigationItem.backBarButtonItem = backBtn;
+    }
 }
-*/
+
 
 #pragma mark - tableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return dataArr.count;
+    return dataArr.count + 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -68,28 +100,76 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if (indexPath.section == 0) {
+        return 170;
+    }
     return 60;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if (indexPath.section == 0) {
+        static NSString *identifier = @"headCell";
+        HeadViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (cell == nil) {
+            cell = [[HeadViewTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
+    }else
+    {
         static NSString *identifier = @"cell";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
         }
-        cell.textLabel.text = dataArr[indexPath.section - 1];
+        cell.textLabel.text = dataArr[indexPath.section];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
-    
+    }
     return nil;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    switch (indexPath.section) {
+        case 0:
+            
+            break;
+        case 1:
+        {
+            [self performSegueWithIdentifier:@"pushWallet" sender:nil];
+        }
+            break;
+        case 2:
+        {
+            [self performSegueWithIdentifier:@"pushAnswer" sender:nil];
+        }
+            break;
+        case 3:
+        {
+            [self performSegueWithIdentifier:@"pushDraft" sender:nil];
+        }
+            break;
+        case 4:
+        {
+            [self performSegueWithIdentifier:@"pushHelp" sender:nil];
+        }
+            break;
+        case 5:
+        {
+            [self performSegueWithIdentifier:@"pushAbout" sender:nil];
+        }
+            break;
+        case 6:
+        {
+            [self performSegueWithIdentifier:@"PushSetting" sender:nil];
+        }
+            break;
+        default:
+            break;
+    }
 }
 
 

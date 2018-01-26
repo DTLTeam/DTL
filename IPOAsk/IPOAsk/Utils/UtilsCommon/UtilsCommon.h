@@ -14,4 +14,8 @@
 #pragma mark 颜色转图像
 + (UIImage *)createImageWithColor:(UIColor *)color;
 
+
+#pragma mark - <识手机号> 正则匹配
++ (NSString *)validPhoneNum:(NSString *)phone;
+
 @end

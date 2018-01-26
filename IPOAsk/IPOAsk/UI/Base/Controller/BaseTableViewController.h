@@ -9,6 +9,7 @@
 typedef enum : NSUInteger {
     RefreshType_header,
     RefreshType_foot,
+    RefreshType_all,
 } RefreshType;
 
 #import <UIKit/UIKit.h>

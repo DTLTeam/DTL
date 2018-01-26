@@ -30,12 +30,12 @@
 /**
  专家回复
  */
-@property (nonatomic,strong)NSString *Exper_answerAnswer;
+@property (nonatomic,strong)NSString *Exper_AnswerContent;
 
 /**
  回复时间
  */
-@property (nonatomic,strong)NSString *Exper_recoveryTime;
+@property (nonatomic,strong)NSString *Exper_recoveryDate;
 
 /**
  是否点赞

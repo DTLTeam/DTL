@@ -15,7 +15,15 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    _bgImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, NAVBAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAVBAR_HEIGHT)];
+    self.navigationController.navigationBar.translucent = NO;
+    [self.navigationController.navigationBar setBackgroundImage:[UtilsCommon createImageWithColor:[UIColor whiteColor]] forBarMetrics:UIBarMetricsDefault];
+    
+    [self.navigationController.navigationBar setShadowImage:[UtilsCommon createImageWithColor:[UIColor whiteColor]]];
+    self.navigationController.navigationBar.shadowImage = [UtilsCommon createImageWithColor:[UIColor whiteColor]];
+    
+    
+    //无数据背景图
+    _bgImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAVBAR_HEIGHT)];
     _bgImageView.userInteractionEnabled = YES;
     [self.view addSubview:_bgImageView];
     
@@ -25,7 +33,7 @@
     [_bgImageView addSubview:control];
     
     
-    _myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
+    _myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAVBAR_HEIGHT) style:UITableViewStylePlain];
     _myTableView.delegate = self;
     _myTableView.dataSource = self;
     _myTableView.showsHorizontalScrollIndicator = NO;
@@ -84,6 +92,13 @@
     
 }
 
+
+/**
+ 停止刷新
+
+ @param Type 停止头部或尾部或全部
+ */
+
 #pragma mark - 停止刷新
 -(void)endHeaderRefresh:(RefreshType)Type{
     
@@ -91,7 +106,14 @@
         
         [self.myTableView.mj_header endRefreshing];
         
-    }else [self.myTableView.mj_footer endRefreshing];
+    }else if (Type == RefreshType_foot){
+        [self.myTableView.mj_footer endRefreshing];
+        
+    }else{
+        
+        [self.myTableView.mj_header endRefreshing];
+        [self.myTableView.mj_footer endRefreshing];
+    }
     
 }
 
