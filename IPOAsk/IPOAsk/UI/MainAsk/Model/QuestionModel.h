@@ -11,6 +11,10 @@
 
 @property (nonatomic, readonly) BOOL isAttention;   //是否已经关注
 
+@property (strong, nonatomic, readonly) NSString *headImgUrlStr; //用户头像图片加载路径
+@property (strong, nonatomic, readonly) NSString *userName;      //用户名
+@property (strong, nonatomic, readonly) NSString *dateStr;       //创建时间
+
 @property (strong, nonatomic, readonly) NSString *title;    //标题
 @property (strong, nonatomic, readonly) NSString *content;  //内容
 
