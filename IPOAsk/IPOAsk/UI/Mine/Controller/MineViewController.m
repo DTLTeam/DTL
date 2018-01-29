@@ -43,30 +43,6 @@
     
 }
 
-#pragma mark - 头部按钮
-
-#pragma mark - 我的提问
--(void)clickMyQuestion:(UITapGestureRecognizer *)sender{
-    NSLog(@"我的提问");
-}
-
-#pragma mark - 我的回答
--(void)clickMyAnswer:(UITapGestureRecognizer *)sender{
-    NSLog(@"我的回答");
-    
-}
-
-#pragma mark - 我的关注
--(void)clickMyFollow:(UITapGestureRecognizer *)sender{
-    NSLog(@"我的关注");
-    
-}
-
-#pragma mark - 我的成就
--(void)clickMyAchievements:(UITapGestureRecognizer *)sender{
-    NSLog(@"我的成就");
-    
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -112,7 +88,9 @@
         static NSString *identifier = @"headCell";
         HeadViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (cell == nil) {
-            cell = [[HeadViewTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+            cell = [[HeadViewTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier action:^(NSInteger tag) {
+                
+            }];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
@@ -123,7 +101,7 @@
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
         }
-        cell.textLabel.text = dataArr[indexPath.section];
+        cell.textLabel.text = dataArr[indexPath.section - 1];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
     }
@@ -135,7 +113,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     switch (indexPath.section) {
         case 0:
-            
+            [self performSegueWithIdentifier:@"pushInfo" sender:nil];
             break;
         case 1:
         {

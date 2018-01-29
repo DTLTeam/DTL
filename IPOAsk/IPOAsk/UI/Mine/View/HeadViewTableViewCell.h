@@ -11,6 +11,6 @@
 @interface HeadViewTableViewCell : UITableViewCell
 
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier action:(void(^)(NSInteger tag))block;
 
 @end
