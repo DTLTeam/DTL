@@ -7,6 +7,7 @@
 //
 
 #import "SignInViewController.h"
+#import "ResetPasswordViewController.h"
 
 @interface SignInViewController ()
 /**
@@ -139,7 +140,7 @@
     
     
 }
-
+ 
 #pragma mark -触摸空白地方隐藏键盘
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
