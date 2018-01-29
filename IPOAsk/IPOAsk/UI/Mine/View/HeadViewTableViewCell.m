@@ -8,6 +8,8 @@
 
 #import "HeadViewTableViewCell.h"
 
+typedef void(^ActionBlock)(NSInteger tag);
+
 @interface HeadViewTableViewCell ()
 
 @property (nonatomic,strong) UIImageView *headView;
@@ -23,6 +25,8 @@
 @property (nonatomic,strong) UIButton *followButton;
 
 @property (nonatomic,strong) UIButton *likeButton;
+
+@property (nonatomic,copy) ActionBlock actionBlock;
 
 @end
 
@@ -41,7 +45,7 @@
 }
 
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier action:(void (^)(NSInteger))block
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -88,6 +92,7 @@
         _askButton.titleLabel.numberOfLines = 0;
         [_askButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_askButton setAttributedTitle:[self getAttributedStringWithString:@"1\n我的提问" lineSpace:5] forState:UIControlStateNormal];
+        [_askButton addTarget:self action:@selector(askAction:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_askButton];
         [_askButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self).offset(0);
@@ -100,6 +105,7 @@
         _answerButton.titleLabel.numberOfLines = 0;
         [_answerButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_answerButton setAttributedTitle:[self getAttributedStringWithString:@"1\n我的回答" lineSpace:5] forState:UIControlStateNormal];
+        [_answerButton addTarget:self action:@selector(answerAction:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_answerButton];
         [_answerButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(_askButton).offset(SCREEN_WIDTH/4);
@@ -112,6 +118,7 @@
         _followButton.titleLabel.numberOfLines = 0;
         [_followButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_followButton setAttributedTitle:[self getAttributedStringWithString:@"1\n我的关注" lineSpace:5] forState:UIControlStateNormal];
+        [_followButton addTarget:self action:@selector(followAction:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_followButton];
         [_followButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(_answerButton).offset(SCREEN_WIDTH/4);
@@ -124,12 +131,16 @@
         _likeButton.titleLabel.numberOfLines = 0;
         [_likeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_likeButton setAttributedTitle:[self getAttributedStringWithString:@"1\n我的成就" lineSpace:5] forState:UIControlStateNormal];
+        [_likeButton addTarget:self action:@selector(likeAction:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_likeButton];
         [_likeButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(_followButton).offset(SCREEN_WIDTH/4);
             make.bottom.mas_equalTo(self).offset(0);
             make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH/4, 50));
         }];
+        
+        
+        _actionBlock = block;
         
     }
     
@@ -144,6 +155,39 @@
     NSRange range = NSMakeRange(0, [string length]);
     [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:range];
     return attributedString;
+}
+
+#pragma mark - action
+- (void)likeAction:(UIButton *)sender
+{
+    DLog(@"likeAction");
+    if (_actionBlock) {
+        _actionBlock(sender.tag);
+    }
+}
+
+- (void)followAction:(UIButton *)sender
+{
+    DLog(@"followAction");
+    if (_actionBlock) {
+        _actionBlock(sender.tag);
+    }
+}
+
+- (void)answerAction:(UIButton *)sender
+{
+    DLog(@"answerAction");
+    if (_actionBlock) {
+        _actionBlock(sender.tag);
+    }
+}
+
+- (void)askAction:(UIButton *)sender
+{
+    DLog(@"askAction");
+    if (_actionBlock) {
+        _actionBlock(sender.tag);
+    }
 }
 
 
