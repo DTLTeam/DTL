@@ -15,6 +15,9 @@
         
         _isAttention = NO;
         
+        _headImgUrlStr = @"";
+        _userName = @"";
+        
         _title = @"";
         _content = @"";
         
@@ -31,7 +34,19 @@
 
 - (void)refreshModel:(NSDictionary *)infoDic {
     
+    //test
+    _isAttention = (arc4random() % 2 == 0);
     
+    _headImgUrlStr = @"";
+    _userName = @"用户名";
+    _dateStr = @"2018-01-05";
+    
+    _title = @"标题1111111111111";
+    _content = @"内容2222222222222222222222222222222222222222222222222222222222222";
+    
+    _lookNum = 999;
+    _replyNum = 300;
+    _attentionNum = 5000;
     
 }
 

@@ -10,6 +10,8 @@
 
 //View
 #import "QuestionTableViewCell.h"
+
+//Controller
 #import "SignInViewController.h"
 
 @interface MainAskViewController () <UITableViewDelegate, UITableViewDataSource>
@@ -27,7 +29,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self login];//
+    [self login];
     [self setupInterface];
     
 }
@@ -44,10 +46,12 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     
+    [super viewDidAppear:animated];
     
     if (_currentPage < 0) { //未刷新过
         [_contentTableView.mj_header beginRefreshing];
     }
+    
 }
 
 
@@ -56,6 +60,10 @@
 - (void)setupInterface {
     
     _currentPage = -1;
+    _contentArr = [NSMutableArray array];
+    
+    _contentTableView.rowHeight = UITableViewAutomaticDimension;
+    _contentTableView.estimatedRowHeight = 999;
     
     __weak typeof(self) weakSelf = self;
     //刷新
@@ -87,7 +95,13 @@
     if (_currentPage == 0) {
         [_contentArr removeAllObjects];
     }
-    [_contentArr addObjectsFromArray:@[@"", @"", @"", @"", @"", @""]];
+    
+    for (int i = 0; i < 15; i++) {
+        QuestionModel *model = [[QuestionModel alloc] init];
+        [model refreshModel:nil];
+        [_contentArr addObject:model];
+    }
+    
     [_contentTableView reloadData];
     
     if (_contentTableView.mj_header.isRefreshing) {
@@ -147,11 +161,19 @@
 #pragma mark - UITableViewDelegate && UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return _contentArr.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.5;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 10;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
@@ -159,20 +181,18 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _contentArr.count;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 50;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    static NSString *identifier = @"questionCell";
+    QuestionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[QuestionTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    cell.textLabel.text = _contentArr[indexPath.row];
+    
+    [cell refreshWithModel:_contentArr[indexPath.section]];
     
     return cell;
     
