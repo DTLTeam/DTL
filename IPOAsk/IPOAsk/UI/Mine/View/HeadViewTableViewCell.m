@@ -162,7 +162,7 @@ typedef void(^ActionBlock)(NSInteger tag);
 {
     DLog(@"likeAction");
     if (_actionBlock) {
-        _actionBlock(sender.tag);
+        _actionBlock(3);
     }
 }
 
@@ -170,7 +170,7 @@ typedef void(^ActionBlock)(NSInteger tag);
 {
     DLog(@"followAction");
     if (_actionBlock) {
-        _actionBlock(sender.tag);
+        _actionBlock(2);
     }
 }
 
@@ -178,7 +178,7 @@ typedef void(^ActionBlock)(NSInteger tag);
 {
     DLog(@"answerAction");
     if (_actionBlock) {
-        _actionBlock(sender.tag);
+        _actionBlock(1);
     }
 }
 
@@ -186,7 +186,7 @@ typedef void(^ActionBlock)(NSInteger tag);
 {
     DLog(@"askAction");
     if (_actionBlock) {
-        _actionBlock(sender.tag);
+        _actionBlock(0);
     }
 }
 

@@ -89,8 +89,32 @@
         HeadViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (cell == nil) {
             cell = [[HeadViewTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier action:^(NSInteger tag) {
+                switch (tag) {
+                    case 0:
+                    {
+                        
+                    }
+                        break;
+                    case 1:
+                    {
+                        
+                    }
+                        break;
+                    case 2:
+                    {
+                        [self performSegueWithIdentifier:@"pushMyFollow" sender:nil];
+                    }
+                        break;
+                    case 3:
+                    {
+                        
+                    }
+                        break;
+                    default:
+                        break;
+                }
                 
-            }];
+                }];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
