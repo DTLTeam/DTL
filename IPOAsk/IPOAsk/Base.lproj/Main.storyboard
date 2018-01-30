@@ -1119,27 +1119,10 @@
                     <view key="view" contentMode="scaleToFill" id="Qct-rJ-e3e">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ora-RE-zCW">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="1Rp-9J-tBy" id="zt2-rH-qUc"/>
-                                    <outlet property="delegate" destination="1Rp-9J-tBy" id="VBe-dq-bXU"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="cAt-Sx-lvQ" firstAttribute="top" secondItem="ora-RE-zCW" secondAttribute="bottom" id="3IV-r8-31W"/>
-                            <constraint firstItem="ora-RE-zCW" firstAttribute="top" secondItem="Qct-rJ-e3e" secondAttribute="top" id="Cn5-cc-G9U"/>
-                            <constraint firstItem="ora-RE-zCW" firstAttribute="leading" secondItem="Qct-rJ-e3e" secondAttribute="leading" id="dus-e4-So6"/>
-                            <constraint firstAttribute="trailing" secondItem="ora-RE-zCW" secondAttribute="trailing" id="f9G-9U-2I1"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="tor-mX-dNv"/>
                     <connections>
-                        <outlet property="tableView" destination="ora-RE-zCW" id="gDl-8t-BZB"/>
                         <segue destination="06Y-FV-cWr" kind="push" identifier="PushSetting" id="s04-VF-1J5"/>
                         <segue destination="70y-2P-ZfZ" kind="push" identifier="pushAbout" id="WNk-c4-KIB"/>
                         <segue destination="6Nn-92-Z3U" kind="push" identifier="pushHelp" id="xxx-FK-EIQ"/>
