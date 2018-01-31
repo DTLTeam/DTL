@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+//登录类型
+typedef enum : NSUInteger {
+    loginType_Person,
+    loginType_Enterprise,
+} loginType;
+
 @interface UtilsCommon : NSObject
 
 

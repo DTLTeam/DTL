@@ -8,6 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TextFieldViews : UIView
+@interface TextFieldViews : UIView<UITextFieldDelegate>
+
+
+
+- (void)textFieldPlaceholder:(NSString *)placeholder KeyboardType:(UIKeyboardType)type SecureTextEntry:(BOOL)secure Height:(CGFloat)height;
+
+- (void)changeFrame:(BOOL)hidden;
+
+- (void)changePlaceholderText:(NSString *)text;
+
+- (void)clearText;
+
+- (void)changeSecureTextEntry:(BOOL)secure;
+
+- (NSString *)text;
+
 
 @end
