@@ -1,21 +1,19 @@
 //
-//  MyFollowViewController.m
+//  MyLikeViewController.m
 //  IPOAsk
 //
-//  Created by lzw on 2018/1/29.
+//  Created by lzw on 2018/2/1.
 //  Copyright © 2018年 law. All rights reserved.
 //
 
-#import "MyFollowViewController.h"
+#import "MyLikeViewController.h"
+#import "LikeTableViewCell.h"
 
-#import "FollowTableViewCell.h"
-
-@interface MyFollowViewController ()
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@interface MyLikeViewController () <UITableViewDelegate,UITableViewDataSource>
 
 @end
 
-@implementation MyFollowViewController
+@implementation MyLikeViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -32,7 +30,7 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     self.navigationController.tabBarController.tabBar.hidden = YES;
-    self.title = @"我的关注";
+    self.title = @"我的成就";
 }
 
 /*
@@ -44,7 +42,6 @@
     // Pass the selected object to the new view controller.
 }
 */
-
 
 #pragma mark - tableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -59,7 +56,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 80;
+    return 100;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -79,9 +76,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identifier = @"cell";
-    FollowTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    LikeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
-        cell = [[FollowTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+        cell = [[LikeTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
     }
     
     return cell;
