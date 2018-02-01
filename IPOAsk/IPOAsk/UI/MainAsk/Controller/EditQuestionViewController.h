@@ -6,8 +6,12 @@
 //  Copyright © 2018年 law. All rights reserved.
 //
 
-#import "BaseViewController.h"
 
-@interface EditQuestionViewController : BaseViewController
+#import <UIKit/UIKit.h>
+
+@interface EditQuestionViewController : UIViewController
+
+
+- (void)UserType:(loginType)type;
 
 @end

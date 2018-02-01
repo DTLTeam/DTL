@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" restorationIdentifier="loginEnterpriseRegisterView" id="2So-Ay-fdc" customClass="loginEnterpriseRegisterView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="515"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B93-4m-nHF" customClass="EnterpriseRegisterView">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="289"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="289" id="OsT-k1-tdA"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lut-hm-iY6">
+                    <rect key="frame" x="212" y="315" width="92" height="30"/>
+                    <state key="normal" title="已有账号登录">
+                        <color key="titleColor" red="0.043137254899999998" green="0.59607843140000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="LoginClick:" destination="2So-Ay-fdc" eventType="touchUpInside" id="yY6-cn-sa2"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="B93-4m-nHF" secondAttribute="trailing" id="9NA-bR-JSe"/>
+                <constraint firstAttribute="trailing" secondItem="lut-hm-iY6" secondAttribute="trailing" constant="16" id="AeI-uW-HHU"/>
+                <constraint firstItem="B93-4m-nHF" firstAttribute="leading" secondItem="2So-Ay-fdc" secondAttribute="leading" id="LgM-JU-eip"/>
+                <constraint firstItem="B93-4m-nHF" firstAttribute="top" secondItem="2So-Ay-fdc" secondAttribute="top" id="RDI-7w-GpO"/>
+                <constraint firstItem="lut-hm-iY6" firstAttribute="top" secondItem="B93-4m-nHF" secondAttribute="bottom" constant="26" id="mvR-w6-CxH"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="view" destination="B93-4m-nHF" id="VON-EG-sbQ"/>
+            </connections>
+            <point key="canvasLocation" x="147" y="-201.5"/>
+        </view>
+    </objects>
+</document>

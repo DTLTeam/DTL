@@ -6,14 +6,27 @@
 //  Copyright © 2018年 law. All rights reserved.
 //
 
+
+static NSString * phoneNum = @"15012345678";
+
 #import "EnterpriseRegisterView.h"
+
 
 @implementation EnterpriseRegisterView
 
-- (IBAction)LoginClick:(UIButton *)sender {
-    if (_loginClickBlock) {
-        _loginClickBlock(sender);
-    }
+-(void)awakeFromNib{
+    [super awakeFromNib];
+    
+    
+    
+}
+- (IBAction)CallPhone:(UIButton *)sender {
+    
+    if (IS_IOS10LATER) {
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",phoneNum]] options:@{} completionHandler:nil];
+        
+    }else  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",phoneNum]]];
+    
 }
 
 @end

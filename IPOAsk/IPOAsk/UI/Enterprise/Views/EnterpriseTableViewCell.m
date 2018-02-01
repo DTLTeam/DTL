@@ -44,8 +44,14 @@
     _AnswerDate.text = model.Exper_recoveryDate;
      
     NSMutableAttributedString *aString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"专家答案: %@",model.Exper_AnswerContent]];
-    [aString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor]range:NSMakeRange(0,5)];
+    [aString addAttribute:NSForegroundColorAttributeName value:HEX_RGB_COLOR(0x0b98f2) range:NSMakeRange(0,5)];
     _AnswerLabel.attributedText= aString;
+    
+    
+    aString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我的问题: %@",model.Exper_questionTitle]];
+    [aString addAttribute:NSForegroundColorAttributeName value:HEX_RGB_COLOR(0x333333) range:NSMakeRange(0,5)];
+    [aString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:17] range:NSMakeRange(0,5)];
+    _QuestionLabel.attributedText= aString;
     
 }
 

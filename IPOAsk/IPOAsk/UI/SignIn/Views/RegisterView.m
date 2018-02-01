@@ -8,11 +8,11 @@
 
 #import "RegisterView.h"
 #import "TextFieldViews.h"
-#import "EnterpriseRegisterView.h"
+#import "loginEnterpriseRegisterView.h"
 
 @interface RegisterView()
  
-@property (nonatomic,strong)EnterpriseRegisterView *EnterpriseRegisterView;
+@property (nonatomic,strong)loginEnterpriseRegisterView *LoginEnterpriseRegisterView;
 
 @property (nonatomic,assign)loginType LoginType;
 
@@ -72,7 +72,7 @@
         make.left.mas_equalTo(self.mas_left).offset(40);
         make.right.mas_equalTo(self.mas_right).offset(-40);
         make.top.mas_equalTo(self.mas_top);
-        make.height.mas_equalTo(@74);
+        make.height.mas_equalTo(SCREEN_HEIGHT >= 667 ? @74 : @60);
     }];
     
     
@@ -85,7 +85,7 @@
         make.top.mas_equalTo(_PhoneView.mas_bottom);
         make.left.mas_equalTo(_PhoneView.mas_left);
         make.right.mas_equalTo(_PhoneView.mas_right);
-        make.height.mas_equalTo(@74);
+        make.height.mas_equalTo(SCREEN_HEIGHT >= 667 ? @74 : @60);
     }];
     
     //获取验证码
@@ -114,7 +114,7 @@
         make.top.mas_equalTo(_CodeView.mas_bottom);
         make.left.mas_equalTo(_CodeView.mas_left);
         make.right.mas_equalTo(_CodeView.mas_right);
-        make.height.mas_equalTo(@74);
+        make.height.mas_equalTo(SCREEN_HEIGHT >= 667 ? @74 : @60);
     }];
     
     //是否显示密码
@@ -156,7 +156,7 @@
     [self addSubview:_RegisterBtn];
     
     [_RegisterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(412 / 2, 44));
+        make.size.mas_equalTo(CGSizeMake(412 / 2, SCREEN_HEIGHT >= 667 ? 44 : 34));
         make.top.mas_equalTo(label.mas_bottom).offset(SCREEN_HEIGHT >= 667 ? 36 : 20);
         make.centerX.mas_equalTo(self.mas_centerX);
     }];
@@ -280,18 +280,18 @@
         //个人用户
     }else if (type == loginType_Enterprise){
         //企业用户
-        if (!_EnterpriseRegisterView) {
-            _EnterpriseRegisterView = [[NSBundle mainBundle] loadNibNamed:@"EnterpriseRegisterView" owner:self options:nil][0];
-            _EnterpriseRegisterView.backgroundColor = [UIColor whiteColor];
-            _EnterpriseRegisterView.alpha = 0;
-            [self addSubview:_EnterpriseRegisterView];
+        if (!_LoginEnterpriseRegisterView) {
+            _LoginEnterpriseRegisterView = [[NSBundle mainBundle] loadNibNamed:@"loginEnterpriseRegisterView" owner:self options:nil][0];
+            _LoginEnterpriseRegisterView.backgroundColor = [UIColor whiteColor];
+            _LoginEnterpriseRegisterView.alpha = 0;
+            [self addSubview:_LoginEnterpriseRegisterView];
             
-            [_EnterpriseRegisterView mas_makeConstraints:^(MASConstraintMaker *make) {
+            [_LoginEnterpriseRegisterView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.and.top.and.right.and.bottom.mas_equalTo(self); 
             }];
             
             __weak RegisterView *WeakView = self;
-            _EnterpriseRegisterView.loginClickBlock = ^(UIButton *sender) {
+            _LoginEnterpriseRegisterView.loginClickBlock = ^(UIButton *sender) {
                 //点击登录
                 WeakView.ClickBlock(RegisterbtnType_Login,@"",@"",@""); 
             } ;
@@ -302,7 +302,7 @@
     
     [UIView animateWithDuration:0.38 animations:^{
         
-        _EnterpriseRegisterView.alpha = _LoginType == loginType_Enterprise ? 1 : 0;
+        _LoginEnterpriseRegisterView.alpha = _LoginType == loginType_Enterprise ? 1 : 0;
       
         [self layoutIfNeeded];
         

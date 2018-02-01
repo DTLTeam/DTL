@@ -8,8 +8,11 @@
 
 #import "EnterpriseViewController.h" 
 #import "ApplicationEnterpriseViewController.h"
+#import "EditQuestionViewController.h"
 
-#import "TipsViews.h"
+#import "NotEnterpriseView.h"
+#import "EnterpriseNotQuestionView.h"
+
 #import "EnterpriseTableViewCell.h"
 
 
@@ -55,67 +58,52 @@ static NSString * CellIdentifier = @"EnterpriseCell";
 
 - (void)setUpViews{
     
-#if 1
-    [self setUpdata];
+    __weak EnterpriseViewController *WeakSelf = self;
     
-    // test****************** 已经是专家
+#if 1 //是否是专家
+//    [self setUpdata];
+    
+    // ****************** 已经是专家
     if (!self.haveData) {
-        //没有数据
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH / 4, 10, SCREEN_WIDTH / 2, 30)];
-        label.text = @"还没有向专家提出问题";
-        label.font = [UIFont systemFontOfSize:13];
-        label.textAlignment = NSTextAlignmentCenter;
-        [self.bgImageView addSubview:label];
         
-        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [btn addTarget:self action:@selector(Consultation) forControlEvents:UIControlEventTouchUpInside];
-        [btn setTitle:@"马上咨询专家" forState:UIControlStateNormal];
-        [btn setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
-        btn.titleLabel.font = [UIFont systemFontOfSize:12];
-        btn.frame = CGRectMake(SCREEN_WIDTH / 4, CGRectGetMaxY(label.frame) , SCREEN_WIDTH / 2, 30);
-        [self.bgImageView addSubview:btn];
+        EnterpriseNotQuestionView *view  = [[NSBundle mainBundle] loadNibNamed:@"EnterpriseNotQuestionView" owner:self options:nil][0];
+        [self.bgImageView addSubview:view];
+        
+        [view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.and.top.and.right.and.bottom.mas_equalTo(self.bgImageView);
+        }];
+        self.myTableView.hidden = YES;
+        
+        
+        //点击发布问题
+        view.addQuestionClickBlock = ^(UIButton *sender) {
+            [WeakSelf Consultation];
+        };
         
     }else{
         //有数据
     }
-    // test****************** 已经是专家
+    // ****************** 已经是专家
+    
 #else
     
-    // test****************** 个人用户
+    // ****************** 个人用户
     
-    TipsViews *tips = [[TipsViews alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    tips.tag = 10000;
-    [[UIApplication sharedApplication].keyWindow addSubview:tips];
+    NotEnterpriseView *view  = [[NSBundle mainBundle] loadNibNamed:@"NotEnterpriseView" owner:self options:nil][0];
+    [self.bgImageView addSubview:view];
     
-    __weak EnterpriseViewController *weakSelf = self;
-    __weak TipsViews *weakTips = tips;
+    [view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.and.top.and.right.and.bottom.mas_equalTo(self.bgImageView);
+    }];
+    self.myTableView.hidden = YES;
     
-    [tips showWithContent:@"申请成为企业用户与专家团队一对一交流" tipsImage:nil LeftTitle:@"以后再说" RightTitle:@"申请成为企业账户" block:^(UIButton *btn) {
-        NSLog(@"稍后再说");
-    } rightblock:^(UIButton *btn) {
-        
-        [weakTips dissmiss];
-        
-        //申请
-        UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-        if (storyboayd) {
-            
-            UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            
-            ApplicationEnterpriseViewController *tabVC = [storyboayd instantiateViewControllerWithIdentifier:@"ApplicationEnterprise"];
-            
-            weakSelf.navigationController.tabBarController.tabBar.hidden = YES;
-            [weakSelf.navigationController pushViewController:tabVC animated:YES];
-        }
-    }]; 
-    
-    // test****************** 个人用户
+    // ****************** 个人用户
     
 #endif
     
     [self.myTableView registerNib:[UINib nibWithNibName:@"EnterpriseTableViewCell" bundle:nil] forCellReuseIdentifier:CellIdentifier];
-
 }
+
 
 #pragma mark -  UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -154,6 +142,9 @@ static NSString * CellIdentifier = @"EnterpriseCell";
 
 #pragma mark - 马上咨询专家
 - (void)Consultation{
+    EditQuestionViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:self options:nil][0];
+    VC.title = @"企业+"; 
+    [self.navigationController pushViewController:VC animated:YES];
     
 }
 - (void)didReceiveMemoryWarning {

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <viewController id="amO-QZ-fuK" customClass="EditQuestionViewController">
+            <layoutGuides>
+                <viewControllerLayoutGuide type="top" id="Maz-10-fwh"/>
+                <viewControllerLayoutGuide type="bottom" id="R8E-x1-sd9"/>
+            </layoutGuides>
+            <view key="view" contentMode="scaleToFill" id="zXc-hp-m6b">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="w" placeholder="请输入问题" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pKF-xV-Dtc">
+                        <rect key="frame" x="12" y="28" width="351" height="21"/>
+                        <nil key="textColor"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QeQ-qS-rSD">
+                        <rect key="frame" x="12" y="54" width="351" height="1"/>
+                        <color key="backgroundColor" red="0.86274509799999999" green="0.86274509799999999" blue="0.86274509799999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="ceG-cn-C4K"/>
+                        </constraints>
+                    </view>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="8Ky-i5-VCE">
+                        <rect key="frame" x="12" y="77" width="351" height="590"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
+                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ya8-2j-5JK">
+                        <rect key="frame" x="12" y="627" width="351" height="40"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="Kfq-CS-9uw"/>
+                        </constraints>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QDY-2G-wrB">
+                        <rect key="frame" x="289" y="637" width="74" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <state key="normal" title="匿名发布" image="未勾选.png">
+                            <color key="titleColor" red="0.58823529411764708" green="0.61176470588235299" blue="0.63137254901960782" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                        <state key="selected" title="匿名发布" image="勾选.png"/>
+                        <connections>
+                            <action selector="HiddenName:" destination="amO-QZ-fuK" eventType="touchUpInside" id="LBo-iC-XNQ"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="ya8-2j-5JK" firstAttribute="trailing" secondItem="8Ky-i5-VCE" secondAttribute="trailing" id="0YQ-Xr-Xef"/>
+                    <constraint firstItem="QeQ-qS-rSD" firstAttribute="leading" secondItem="pKF-xV-Dtc" secondAttribute="leading" id="3WH-fh-xFC"/>
+                    <constraint firstItem="QeQ-qS-rSD" firstAttribute="centerX" secondItem="pKF-xV-Dtc" secondAttribute="centerX" id="9PA-8A-cgW"/>
+                    <constraint firstItem="QDY-2G-wrB" firstAttribute="trailing" secondItem="8Ky-i5-VCE" secondAttribute="trailing" id="9W1-cI-aL6"/>
+                    <constraint firstItem="8Ky-i5-VCE" firstAttribute="top" secondItem="QeQ-qS-rSD" secondAttribute="bottom" constant="22" id="EdK-Md-E7f"/>
+                    <constraint firstItem="R8E-x1-sd9" firstAttribute="top" secondItem="8Ky-i5-VCE" secondAttribute="bottom" id="L6t-Al-McH"/>
+                    <constraint firstItem="ya8-2j-5JK" firstAttribute="top" secondItem="8Ky-i5-VCE" secondAttribute="bottom" constant="-40" id="To8-cS-6w1"/>
+                    <constraint firstItem="pKF-xV-Dtc" firstAttribute="top" secondItem="Maz-10-fwh" secondAttribute="bottom" constant="8" id="XJQ-67-6mb"/>
+                    <constraint firstItem="8Ky-i5-VCE" firstAttribute="leading" secondItem="pKF-xV-Dtc" secondAttribute="leading" id="ZIH-u3-mjL"/>
+                    <constraint firstItem="ya8-2j-5JK" firstAttribute="leading" secondItem="8Ky-i5-VCE" secondAttribute="leading" id="bOt-50-UVJ"/>
+                    <constraint firstItem="pKF-xV-Dtc" firstAttribute="leading" secondItem="zXc-hp-m6b" secondAttribute="leading" constant="12" id="f5v-f9-ffN"/>
+                    <constraint firstItem="QeQ-qS-rSD" firstAttribute="top" secondItem="pKF-xV-Dtc" secondAttribute="bottom" constant="5" id="hSO-Pj-SdV"/>
+                    <constraint firstItem="pKF-xV-Dtc" firstAttribute="centerX" secondItem="zXc-hp-m6b" secondAttribute="centerX" id="kcu-Cs-d99"/>
+                    <constraint firstItem="8Ky-i5-VCE" firstAttribute="centerX" secondItem="pKF-xV-Dtc" secondAttribute="centerX" id="mYt-Qt-jc7"/>
+                    <constraint firstItem="QDY-2G-wrB" firstAttribute="top" secondItem="8Ky-i5-VCE" secondAttribute="bottom" constant="-30" id="nle-ej-QX7"/>
+                </constraints>
+            </view>
+            <connections>
+                <outlet property="BottomH" destination="L6t-Al-McH" id="lzT-5G-k7a"/>
+                <outlet property="BottomView" destination="ya8-2j-5JK" id="TuJ-BN-PPZ"/>
+                <outlet property="BtnBottomH" destination="nle-ej-QX7" id="TgR-7R-oEk"/>
+                <outlet property="ChooseClick" destination="ya8-2j-5JK" id="hIV-WR-iDp"/>
+            </connections>
+            <point key="canvasLocation" x="398.5" y="-36.5"/>
+        </viewController>
+    </objects>
+    <resources>
+        <image name="勾选.png" width="16" height="16"/>
+        <image name="未勾选.png" width="16" height="16"/>
+    </resources>
+</document>

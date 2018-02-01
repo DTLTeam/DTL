@@ -70,18 +70,6 @@ static NSString * CellIdentifier = @"AOrLikeCell";
 }
 
 - (void)setUpViews{
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
-    
-    UIView *line2 = [[UIView alloc]initWithFrame:CGRectMake(0, 43, SCREEN_WIDTH, 0.5)];
-    line2.backgroundColor = [UIColor lightGrayColor];
-    [view addSubview:line2];
-    
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, SCREEN_WIDTH / 2, 24)];
-    label.text = @"通知列表";
-    label.font = [UIFont systemFontOfSize:14];
-    [view addSubview:label];
-    
-    self.myTableView.tableHeaderView = view;
     
     
     UIView *line = [[UIView alloc]initWithFrame:CGRectMake(0, 1, SCREEN_WIDTH, 0.5)];

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="hgN-Y7-VZs" customClass="EnterpriseNotQuestionView">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="没有提问.png" translatesAutoresizingMaskIntoConstraints="NO" id="nqR-Li-Gs6">
+                    <rect key="frame" x="146" y="115" width="140" height="109"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="nqR-Li-Gs6" secondAttribute="height" multiplier="140:109" id="xB2-ya-LoH"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="您还没有向专家提问" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DA5-k8-dV1">
+                    <rect key="frame" x="109" y="244" width="156" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KSg-nL-B8p">
+                    <rect key="frame" x="84" y="293" width="206" height="44"/>
+                    <color key="backgroundColor" red="0.043137254899999998" green="0.59607843140000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="206" id="iNY-Ot-XWV"/>
+                        <constraint firstAttribute="height" constant="44" id="jt6-qb-M8i"/>
+                    </constraints>
+                    <state key="normal" title="马上咨询专家">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="5"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="AddQuestion:" destination="hgN-Y7-VZs" eventType="touchUpInside" id="XZr-Hl-fUF"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.94509803920000002" green="0.94509803920000002" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="nqR-Li-Gs6" firstAttribute="leading" secondItem="DA5-k8-dV1" secondAttribute="trailing" constant="-119" id="Cis-PJ-4iQ"/>
+                <constraint firstItem="DA5-k8-dV1" firstAttribute="centerX" secondItem="hgN-Y7-VZs" secondAttribute="centerX" id="Laj-2e-bOe"/>
+                <constraint firstItem="KSg-nL-B8p" firstAttribute="top" secondItem="DA5-k8-dV1" secondAttribute="bottom" constant="28" id="PU6-Ok-Xy7"/>
+                <constraint firstItem="nqR-Li-Gs6" firstAttribute="top" secondItem="hgN-Y7-VZs" secondAttribute="top" constant="115" id="tgQ-xb-Dfc"/>
+                <constraint firstItem="DA5-k8-dV1" firstAttribute="top" secondItem="nqR-Li-Gs6" secondAttribute="bottom" constant="20" id="ujn-fl-Qzm"/>
+                <constraint firstItem="KSg-nL-B8p" firstAttribute="centerX" secondItem="hgN-Y7-VZs" secondAttribute="centerX" id="yVp-uR-rtN"/>
+            </constraints>
+            <connections>
+                <outlet property="TopH" destination="tgQ-xb-Dfc" id="Hun-fy-iRV"/>
+            </connections>
+            <point key="canvasLocation" x="-14" y="-24"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="没有提问.png" width="140" height="109"/>
+    </resources>
+</document>

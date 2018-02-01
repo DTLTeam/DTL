@@ -42,8 +42,8 @@
     
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:content];
     NSRange range = [content rangeOfString:model.AorL_questionTitle];
-    [str addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:range];
-    [str addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:range];
+    [str addAttribute:NSForegroundColorAttributeName value:HEX_RGB_COLOR(0x333333) range:range];
+    [str addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16] range:range];
     _ContentLabel.attributedText = str;
 }
 

@@ -11,7 +11,4 @@
 @interface EnterpriseRegisterView : UIView
  
 
-@property (nonatomic,strong)void (^loginClickBlock)(UIButton *sender);
- 
-
 @end

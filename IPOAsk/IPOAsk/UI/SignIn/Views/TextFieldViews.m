@@ -98,8 +98,8 @@
                 
                 [_label mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.left.and.right.mas_equalTo(self);
-                    make.bottom.mas_equalTo(self.mas_bottom);
-                    make.top.mas_equalTo(self.mas_top).offset( _Height / 2);
+                    make.bottom.mas_equalTo(self.mas_bottom).offset(-1);
+//                    make.top.mas_equalTo(self.mas_top).offset( _Height / 2);
                 }];
                 
                 [self layoutIfNeeded];
@@ -115,8 +115,8 @@
             
             [_label mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.left.and.right.mas_equalTo(self);
-                make.bottom.mas_equalTo(self.mas_bottom).offset(- _Height / 2);
-                make.top.mas_equalTo(self.mas_top);
+                make.bottom.mas_equalTo(self.mas_bottom).offset(- _Height / 2 + 10);
+//                make.top.mas_equalTo(self.mas_top);
             }];
             [self layoutIfNeeded];
         }];

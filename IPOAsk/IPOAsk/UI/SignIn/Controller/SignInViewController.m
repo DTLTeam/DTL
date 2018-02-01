@@ -34,8 +34,6 @@
 
 @end
 
-static NSString * phoneNum = @"15012345678";
-
 
 @implementation SignInViewController
 
@@ -48,7 +46,9 @@ static NSString * phoneNum = @"15012345678";
     
     [self setUpLoginView];
     
-    
+    if (SCREEN_HEIGHT < 667 ) {
+        _TopH.constant -= 20;
+    }
     self.navigationController.navigationBar.hidden = YES;
     
 }
@@ -250,17 +250,7 @@ static NSString * phoneNum = @"15012345678";
     ResetPasswordViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"ResetPasswordView"]; 
     [self.navigationController pushViewController:VC animated:YES];
 }
-
-#pragma  mark - 拨打企业注册电话
-- (void)callPhone{
-    
-    if (IS_IOS10LATER) {
-        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",phoneNum]] options:@{} completionHandler:nil];
-        
-    }else  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",phoneNum]]];
-     
-}
-
+ 
 
 
 #pragma mark -触摸空白地方隐藏键盘

@@ -111,8 +111,8 @@
             //登录
             [btn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.centerX.mas_equalTo(self.mas_centerX);
-                make.top.mas_equalTo(_PasswordView.mas_bottom).offset(52);
-                make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH / 2, 50));
+                make.top.mas_equalTo(_PasswordView.mas_bottom).offset(SCREEN_HEIGHT >= 667 ? 52 : 30);
+                make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH / 2, SCREEN_HEIGHT >= 667 ? 44 : 34));
             }];
             
         }else if (i == btnType_forgot - 100 || i == btnType_pass - 100){
@@ -125,7 +125,7 @@
                  //忘记密码
                 [btn mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.centerX.mas_equalTo(self.mas_centerX);
-                    make.top.mas_equalTo(_loginBtn.mas_bottom).offset(16);
+                    make.top.mas_equalTo(_loginBtn.mas_bottom).offset(SCREEN_HEIGHT >= 667 ? 16 : 10);
                     make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH / 2, 50));
                 }];
                 

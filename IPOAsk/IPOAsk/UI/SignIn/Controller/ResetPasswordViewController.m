@@ -7,8 +7,7 @@
 //
 
 #import "ResetPasswordViewController.h"
-#import "TextFieldViews.h"
-#import "UIBarButtonItem+myBarButtonItem.h"
+#import "TextFieldViews.h" 
 
 @interface ResetPasswordViewController ()
 
@@ -64,6 +63,12 @@
         [self back];
     }
 }
+#pragma mark -触摸空白地方隐藏键盘
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
+
 
 #pragma mark - 返回
 - (void)back{

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="QaU-O6-UEn" customClass="NotEnterpriseView">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="不是企业用户.png" translatesAutoresizingMaskIntoConstraints="NO" id="GQ3-OA-6ma">
+                    <rect key="frame" x="143" y="55" width="89" height="109"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="GQ3-OA-6ma" secondAttribute="height" multiplier="89:109" id="hpH-b2-c8l"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="您暂时还不是企业用户!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Dm-8b-0WO">
+                    <rect key="frame" x="98" y="184" width="179" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="066-wF-gfz" customClass="EnterpriseRegisterView">
+                    <rect key="frame" x="0.0" y="235" width="375" height="289"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="289" id="Xha-3S-8e2"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.94509803921568625" green="0.94509803921568625" blue="0.94509803921568625" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="066-wF-gfz" firstAttribute="centerX" secondItem="8Dm-8b-0WO" secondAttribute="centerX" id="DA4-QL-k6J"/>
+                <constraint firstItem="066-wF-gfz" firstAttribute="top" secondItem="8Dm-8b-0WO" secondAttribute="bottom" constant="30" id="Hdg-Gi-APL"/>
+                <constraint firstItem="GQ3-OA-6ma" firstAttribute="centerX" secondItem="QaU-O6-UEn" secondAttribute="centerX" id="LmL-v7-V0F"/>
+                <constraint firstItem="8Dm-8b-0WO" firstAttribute="centerX" secondItem="GQ3-OA-6ma" secondAttribute="centerX" id="OCs-jW-cRc"/>
+                <constraint firstItem="8Dm-8b-0WO" firstAttribute="top" secondItem="GQ3-OA-6ma" secondAttribute="bottom" constant="20" id="Rht-Pm-Kqb"/>
+                <constraint firstItem="GQ3-OA-6ma" firstAttribute="width" secondItem="QaU-O6-UEn" secondAttribute="height" multiplier="89:667" id="fyo-DA-Q30"/>
+                <constraint firstItem="GQ3-OA-6ma" firstAttribute="top" secondItem="QaU-O6-UEn" secondAttribute="top" constant="55" id="ghW-Vl-Emu"/>
+                <constraint firstItem="066-wF-gfz" firstAttribute="width" secondItem="QaU-O6-UEn" secondAttribute="width" id="rU9-Lg-Lm0"/>
+            </constraints>
+            <connections>
+                <outlet property="ContentH" destination="Hdg-Gi-APL" id="bPt-zN-E6l"/>
+                <outlet property="TopH" destination="ghW-Vl-Emu" id="TAj-JF-2cm"/>
+                <outlet property="view" destination="066-wF-gfz" id="YgW-Jg-jtE"/>
+            </connections>
+            <point key="canvasLocation" x="26.5" y="100.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="不是企业用户.png" width="89" height="109"/>
+    </resources>
+</document>
