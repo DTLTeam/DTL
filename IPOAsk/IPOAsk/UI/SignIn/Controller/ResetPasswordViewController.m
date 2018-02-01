@@ -7,11 +7,14 @@
 //
 
 #import "ResetPasswordViewController.h"
+#import "TextFieldViews.h"
 #import "UIBarButtonItem+myBarButtonItem.h"
 
 @interface ResetPasswordViewController ()
-@property (strong, nonatomic) IBOutlet UITextField *password1;
-@property (strong, nonatomic) IBOutlet UITextField *password2;
+
+@property (weak, nonatomic) IBOutlet TextFieldViews *password1;
+ 
+@property (weak, nonatomic) IBOutlet TextFieldViews *password2;
 
 @end
 
@@ -20,6 +23,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.navigationController.navigationBar.hidden = NO;
+    self.navigationController.navigationBar.translucent = NO;
     
     self.title = @"重置密码";
     
@@ -35,13 +41,23 @@
     UIBarButtonItem *rightBtn = [UIBarButtonItem returnTabBarItemWithBtn:rbtn image:@"" bgimage:nil  Title:@"占" SelectedTitle:@""  titleFont:1 itemtype:Itemtype_rigth SystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
     self.navigationItem.rightBarButtonItems = @[fixedButton, rightBtn];
     [rbtn setTitleColor:[UIColor clearColor] forState:UIControlStateNormal];
-     
+   
+    [_password1 textFieldPlaceholder:@"新密码" KeyboardType:UIKeyboardTypeDefault SecureTextEntry:NO Height:88];
+    [_password2 textFieldPlaceholder:@"确认密码" KeyboardType:UIKeyboardTypeDefault SecureTextEntry:NO Height:88];
+    
 }
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    self.navigationController.navigationBar.hidden = YES;
+    self.navigationController.navigationBar.translucent = YES;
+}
+
 
 #pragma mark - 重置密码
 - (IBAction)ResetPassword:(UIButton *)sender {
     
-    if (![_password1.text isEqualToString:_password2.text] && _password1.text.length > 0) {
+    if (![[_password1 text] isEqualToString:[_password2 text]] && [_password1 text].length > 0) {
         NSLog(@"不一致");
     }else{
         //上传接口 返回
