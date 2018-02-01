@@ -49,13 +49,14 @@
 {
     [super viewDidDisappear:animated];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    self.navigationController.navigationBar.translucent = NO;
 }
 
 - (void)setupView
 {
     self.view.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
-    CGFloat height = 160 + 64 + dataArr.count * 50 + 9;
+    CGFloat height = 160 + 64 + dataArr.count * 50 + 10;
     if (height + TABBAR_HEIGHT >= SCREEN_HEIGHT) {
         height = SCREEN_HEIGHT;
     }

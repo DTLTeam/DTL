@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="atR-Dj-9wy">
+    <device id="retina4_7" orientation="portrait">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -700,6 +701,8 @@
                     <view key="view" contentMode="scaleToFill" id="nwP-01-xqA">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+<<<<<<< HEAD
+=======
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WW9-kh-gcn">
                                 <rect key="frame" x="0.0" y="64" width="320" height="240"/>
@@ -723,21 +726,10 @@
                                 </state>
                             </button>
                         </subviews>
+>>>>>>> 7df81efa2640678451630a3a5488adde67ded5ce
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="WW9-kh-gcn" firstAttribute="leading" secondItem="nwP-01-xqA" secondAttribute="leading" id="64a-0K-kuZ"/>
-                            <constraint firstAttribute="trailing" secondItem="WW9-kh-gcn" secondAttribute="trailing" id="GEF-yV-3LC"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Yn2-xO-IYK" secondAttribute="trailing" constant="80" id="UN7-op-2Vc"/>
-                            <constraint firstItem="Yn2-xO-IYK" firstAttribute="top" secondItem="WW9-kh-gcn" secondAttribute="bottom" constant="40" id="bQb-Ja-FW3"/>
-                            <constraint firstItem="WW9-kh-gcn" firstAttribute="top" secondItem="bxJ-JS-78N" secondAttribute="bottom" id="ciw-u7-PWn"/>
-                            <constraint firstItem="Yn2-xO-IYK" firstAttribute="leading" secondItem="nwP-01-xqA" secondAttribute="leadingMargin" constant="80" id="wQZ-Kl-vlj"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="r5l-5R-EDu"/>
-                    <connections>
-                        <outlet property="loginButton" destination="Yn2-xO-IYK" id="eEa-e9-thL"/>
-                        <outlet property="tableView" destination="WW9-kh-gcn" id="6Sb-5Y-P2e"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fWj-Tc-oEv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -754,6 +746,8 @@
                     <view key="view" contentMode="scaleToFill" id="DdE-XJ-Abd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+<<<<<<< HEAD
+=======
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="euu-l0-ETS">
                                 <rect key="frame" x="0.0" y="64" width="320" height="455"/>
@@ -764,18 +758,10 @@
                                 </connections>
                             </tableView>
                         </subviews>
+>>>>>>> 7df81efa2640678451630a3a5488adde67ded5ce
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="euu-l0-ETS" secondAttribute="trailing" id="BJs-W1-SFL"/>
-                            <constraint firstItem="euu-l0-ETS" firstAttribute="top" secondItem="7ke-GZ-sLZ" secondAttribute="bottom" id="czR-vZ-kRi"/>
-                            <constraint firstItem="euu-l0-ETS" firstAttribute="leading" secondItem="DdE-XJ-Abd" secondAttribute="leading" id="sP6-A2-hkj"/>
-                            <constraint firstItem="8Ou-gS-rzO" firstAttribute="top" secondItem="euu-l0-ETS" secondAttribute="bottom" id="zIP-Ne-K6V"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="JjO-fh-bDl"/>
-                    <connections>
-                        <outlet property="tableView" destination="euu-l0-ETS" id="Ko8-kU-gJC"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="loG-oR-TWg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
