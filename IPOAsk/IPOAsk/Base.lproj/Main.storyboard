@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="atR-Dj-9wy">
-    <device id="retina4_7" orientation="portrait">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -701,32 +700,6 @@
                     <view key="view" contentMode="scaleToFill" id="nwP-01-xqA">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-<<<<<<< HEAD
-=======
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WW9-kh-gcn">
-                                <rect key="frame" x="0.0" y="64" width="320" height="240"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="240" id="c9B-1g-qrd"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="dataSource" destination="06Y-FV-cWr" id="oXc-bn-XjZ"/>
-                                    <outlet property="delegate" destination="06Y-FV-cWr" id="Oyr-fn-0Pe"/>
-                                </connections>
-                            </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yn2-xO-IYK">
-                                <rect key="frame" x="96" y="344" width="128" height="45"/>
-                                <color key="backgroundColor" red="0.49617074776063408" green="0.7802165168164209" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="tI5-Rj-B4k"/>
-                                </constraints>
-                                <state key="normal" title="退出登录">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                            </button>
-                        </subviews>
->>>>>>> 7df81efa2640678451630a3a5488adde67ded5ce
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <navigationItem key="navigationItem" id="r5l-5R-EDu"/>
@@ -746,19 +719,6 @@
                     <view key="view" contentMode="scaleToFill" id="DdE-XJ-Abd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-<<<<<<< HEAD
-=======
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="euu-l0-ETS">
-                                <rect key="frame" x="0.0" y="64" width="320" height="455"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="IrR-ec-5Va" id="1pJ-NP-osz"/>
-                                    <outlet property="delegate" destination="IrR-ec-5Va" id="ykQ-0y-75N"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
->>>>>>> 7df81efa2640678451630a3a5488adde67ded5ce
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <navigationItem key="navigationItem" id="JjO-fh-bDl"/>
@@ -885,27 +845,10 @@
                     <view key="view" contentMode="scaleToFill" id="Qct-rJ-e3e">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ora-RE-zCW">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="1Rp-9J-tBy" id="zt2-rH-qUc"/>
-                                    <outlet property="delegate" destination="1Rp-9J-tBy" id="VBe-dq-bXU"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="cAt-Sx-lvQ" firstAttribute="top" secondItem="ora-RE-zCW" secondAttribute="bottom" id="3IV-r8-31W"/>
-                            <constraint firstItem="ora-RE-zCW" firstAttribute="top" secondItem="Qct-rJ-e3e" secondAttribute="top" id="Cn5-cc-G9U"/>
-                            <constraint firstItem="ora-RE-zCW" firstAttribute="leading" secondItem="Qct-rJ-e3e" secondAttribute="leading" id="dus-e4-So6"/>
-                            <constraint firstAttribute="trailing" secondItem="ora-RE-zCW" secondAttribute="trailing" id="f9G-9U-2I1"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="tor-mX-dNv"/>
                     <connections>
-                        <outlet property="tableView" destination="ora-RE-zCW" id="gDl-8t-BZB"/>
                         <segue destination="06Y-FV-cWr" kind="push" identifier="PushSetting" id="s04-VF-1J5"/>
                         <segue destination="70y-2P-ZfZ" kind="push" identifier="pushAbout" id="WNk-c4-KIB"/>
                         <segue destination="6Nn-92-Z3U" kind="push" identifier="pushHelp" id="xxx-FK-EIQ"/>
