@@ -1,10 +1,10 @@
 PODS:
   - Bugly (2.5.0)
   - Masonry (1.1.0)
-  - MJRefresh (3.1.15.1)
-  - SDWebImage (4.2.2):
-    - SDWebImage/Core (= 4.2.2)
-  - SDWebImage/Core (4.2.2)
+  - MJRefresh (3.1.15.3)
+  - SDWebImage (4.2.3):
+    - SDWebImage/Core (= 4.2.3)
+  - SDWebImage/Core (4.2.3)
 
 DEPENDENCIES:
   - Bugly
@@ -15,9 +15,9 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Bugly: 3ca9f255c01025582df26f9222893b383c7e4b4e
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  MJRefresh: 5f8552bc25ca8751c010f621c1098dbdaacbccd6
-  SDWebImage: 89a9d32cd520bbb46eb14e541d5109b3564af198
+  MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
+  SDWebImage: 791bb72962b3492327ddcac4b1880bd1b5458431
 
 PODFILE CHECKSUM: ce1232dbcd439c0faa9579939fea1fca8a4b6d83
 
-COCOAPODS: 1.4.0.beta.1
+COCOAPODS: 1.4.0

@@ -8,6 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		130FA5160092F9EAED210012 /* libPods-IPOAsk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71A9166307730159DB63610D /* libPods-IPOAsk.a */; };
+		706B26232022A99A0018BE40 /* banner背景@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B261B2022A99A0018BE40 /* banner背景@2x.png */; };
+		706B26242022A99A0018BE40 /* 关于我们@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B261C2022A99A0018BE40 /* 关于我们@2x.png */; };
+		706B26252022A99A0018BE40 /* 帮助中心@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B261D2022A99A0018BE40 /* 帮助中心@2x.png */; };
+		706B26262022A99A0018BE40 /* 我的钱包@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B261E2022A99A0018BE40 /* 我的钱包@2x.png */; };
+		706B26272022A99A0018BE40 /* 申请成为答主@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B261F2022A99A0018BE40 /* 申请成为答主@2x.png */; };
+		706B26282022A99A0018BE40 /* 草稿箱@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B26202022A99A0018BE40 /* 草稿箱@2x.png */; };
+		706B26292022A99A0018BE40 /* 设置@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B26212022A99A0018BE40 /* 设置@2x.png */; };
+		706B262A2022A99A0018BE40 /* 默认头像@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B26222022A99A0018BE40 /* 默认头像@2x.png */; };
+		706B262D2022ACCF0018BE40 /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B262C2022ACCF0018BE40 /* back@2x.png */; };
+		706B26342022B06C0018BE40 /* 显示密码@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B262E2022B06C0018BE40 /* 显示密码@2x.png */; };
+		706B26352022B06C0018BE40 /* 不显示密码@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B262F2022B06C0018BE40 /* 不显示密码@2x.png */; };
+		706B26362022B06C0018BE40 /* 卡片@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B26302022B06C0018BE40 /* 卡片@2x.png */; };
+		706B26372022B06C0018BE40 /* 其他优势@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B26312022B06C0018BE40 /* 其他优势@2x.png */; };
+		706B26382022B06C0018BE40 /* 权威机构@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B26322022B06C0018BE40 /* 权威机构@2x.png */; };
+		706B26392022B06C0018BE40 /* 专家一对一@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B26332022B06C0018BE40 /* 专家一对一@2x.png */; };
+		706B263B2022B6C20018BE40 /* 电话联系@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B263A2022B6C20018BE40 /* 电话联系@2x.png */; };
+		70CF774B20216C6900B459F7 /* loginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CF774820216C6900B459F7 /* loginView.m */; };
+		70CF774C20216C6900B459F7 /* TextFieldViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CF774A20216C6900B459F7 /* TextFieldViews.m */; };
+		70CF774F2021729E00B459F7 /* RegisterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CF774E2021729E00B459F7 /* RegisterView.m */; };
+		70CF77522021AE5200B459F7 /* EnterpriseRegisterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CF77512021AE5200B459F7 /* EnterpriseRegisterView.m */; };
+		70CF77542021AE5A00B459F7 /* EnterpriseRegisterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70CF77532021AE5900B459F7 /* EnterpriseRegisterView.xib */; };
+		70CF77572021BD8100B459F7 /* ResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CF77562021BD8100B459F7 /* ResetPasswordViewController.m */; };
 		84C47B392018238300E32486 /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C47B382018238300E32486 /* SignInViewController.m */; };
 		84C47B422018368A00E32486 /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C47B412018368A00E32486 /* BaseTableViewController.m */; };
 		84C47B47201869AA00E32486 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C47B46201869AA00E32486 /* MBProgressHUD.m */; };
@@ -53,6 +75,33 @@
 
 /* Begin PBXFileReference section */
 		0441DF22CC1CD148DF8C8CB4 /* Pods-IPOAsk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IPOAsk.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IPOAsk/Pods-IPOAsk.debug.xcconfig"; sourceTree = "<group>"; };
+		706B261B2022A99A0018BE40 /* banner背景@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "banner背景@2x.png"; sourceTree = "<group>"; };
+		706B261C2022A99A0018BE40 /* 关于我们@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "关于我们@2x.png"; sourceTree = "<group>"; };
+		706B261D2022A99A0018BE40 /* 帮助中心@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "帮助中心@2x.png"; sourceTree = "<group>"; };
+		706B261E2022A99A0018BE40 /* 我的钱包@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "我的钱包@2x.png"; sourceTree = "<group>"; };
+		706B261F2022A99A0018BE40 /* 申请成为答主@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "申请成为答主@2x.png"; sourceTree = "<group>"; };
+		706B26202022A99A0018BE40 /* 草稿箱@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "草稿箱@2x.png"; sourceTree = "<group>"; };
+		706B26212022A99A0018BE40 /* 设置@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "设置@2x.png"; sourceTree = "<group>"; };
+		706B26222022A99A0018BE40 /* 默认头像@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "默认头像@2x.png"; sourceTree = "<group>"; };
+		706B262C2022ACCF0018BE40 /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
+		706B262E2022B06C0018BE40 /* 显示密码@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "显示密码@2x.png"; sourceTree = "<group>"; };
+		706B262F2022B06C0018BE40 /* 不显示密码@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "不显示密码@2x.png"; sourceTree = "<group>"; };
+		706B26302022B06C0018BE40 /* 卡片@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "卡片@2x.png"; sourceTree = "<group>"; };
+		706B26312022B06C0018BE40 /* 其他优势@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "其他优势@2x.png"; sourceTree = "<group>"; };
+		706B26322022B06C0018BE40 /* 权威机构@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "权威机构@2x.png"; sourceTree = "<group>"; };
+		706B26332022B06C0018BE40 /* 专家一对一@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "专家一对一@2x.png"; sourceTree = "<group>"; };
+		706B263A2022B6C20018BE40 /* 电话联系@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "电话联系@2x.png"; sourceTree = "<group>"; };
+		70CF774720216C6900B459F7 /* loginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loginView.h; sourceTree = "<group>"; };
+		70CF774820216C6900B459F7 /* loginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = loginView.m; sourceTree = "<group>"; };
+		70CF774920216C6900B459F7 /* TextFieldViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFieldViews.h; sourceTree = "<group>"; };
+		70CF774A20216C6900B459F7 /* TextFieldViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextFieldViews.m; sourceTree = "<group>"; };
+		70CF774D2021729E00B459F7 /* RegisterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegisterView.h; sourceTree = "<group>"; };
+		70CF774E2021729E00B459F7 /* RegisterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegisterView.m; sourceTree = "<group>"; };
+		70CF77502021AE5200B459F7 /* EnterpriseRegisterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnterpriseRegisterView.h; sourceTree = "<group>"; };
+		70CF77512021AE5200B459F7 /* EnterpriseRegisterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EnterpriseRegisterView.m; sourceTree = "<group>"; };
+		70CF77532021AE5900B459F7 /* EnterpriseRegisterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EnterpriseRegisterView.xib; sourceTree = "<group>"; };
+		70CF77552021BD8100B459F7 /* ResetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetPasswordViewController.h; sourceTree = "<group>"; };
+		70CF77562021BD8100B459F7 /* ResetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetPasswordViewController.m; sourceTree = "<group>"; };
 		71A9166307730159DB63610D /* libPods-IPOAsk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-IPOAsk.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84994DE7CA75AE47A7213852 /* Pods-IPOAsk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IPOAsk.release.xcconfig"; path = "Pods/Target Support Files/Pods-IPOAsk/Pods-IPOAsk.release.xcconfig"; sourceTree = "<group>"; };
 		84C47B372018238300E32486 /* SignInViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
@@ -164,10 +213,58 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		706B261A2022A99A0018BE40 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				706B262B2022A9AC0018BE40 /* login */,
+				706B261B2022A99A0018BE40 /* banner背景@2x.png */,
+				706B261C2022A99A0018BE40 /* 关于我们@2x.png */,
+				706B261D2022A99A0018BE40 /* 帮助中心@2x.png */,
+				706B261E2022A99A0018BE40 /* 我的钱包@2x.png */,
+				706B261F2022A99A0018BE40 /* 申请成为答主@2x.png */,
+				706B26202022A99A0018BE40 /* 草稿箱@2x.png */,
+				706B26212022A99A0018BE40 /* 设置@2x.png */,
+				706B26222022A99A0018BE40 /* 默认头像@2x.png */,
+				706B262C2022ACCF0018BE40 /* back@2x.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		706B262B2022A9AC0018BE40 /* login */ = {
+			isa = PBXGroup;
+			children = (
+				706B263A2022B6C20018BE40 /* 电话联系@2x.png */,
+				706B262F2022B06C0018BE40 /* 不显示密码@2x.png */,
+				706B26302022B06C0018BE40 /* 卡片@2x.png */,
+				706B26312022B06C0018BE40 /* 其他优势@2x.png */,
+				706B26322022B06C0018BE40 /* 权威机构@2x.png */,
+				706B262E2022B06C0018BE40 /* 显示密码@2x.png */,
+				706B26332022B06C0018BE40 /* 专家一对一@2x.png */,
+			);
+			path = login;
+			sourceTree = "<group>";
+		};
+		70CF774620216C6900B459F7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				70CF774720216C6900B459F7 /* loginView.h */,
+				70CF774820216C6900B459F7 /* loginView.m */,
+				70CF774D2021729E00B459F7 /* RegisterView.h */,
+				70CF774E2021729E00B459F7 /* RegisterView.m */,
+				70CF77502021AE5200B459F7 /* EnterpriseRegisterView.h */,
+				70CF77512021AE5200B459F7 /* EnterpriseRegisterView.m */,
+				70CF77532021AE5900B459F7 /* EnterpriseRegisterView.xib */,
+				70CF774920216C6900B459F7 /* TextFieldViews.h */,
+				70CF774A20216C6900B459F7 /* TextFieldViews.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		84C47B332018235500E32486 /* SignIn */ = {
 			isa = PBXGroup;
 			children = (
 				84C47B342018235F00E32486 /* Controller */,
+				70CF774620216C6900B459F7 /* Views */,
 			);
 			path = SignIn;
 			sourceTree = "<group>";
@@ -177,6 +274,8 @@
 			children = (
 				84C47B372018238300E32486 /* SignInViewController.h */,
 				84C47B382018238300E32486 /* SignInViewController.m */,
+				70CF77552021BD8100B459F7 /* ResetPasswordViewController.h */,
+				70CF77562021BD8100B459F7 /* ResetPasswordViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -465,6 +564,7 @@
 				84C47B43201869AA00E32486 /* Category */,
 				84D1B2CA20172ACD00DF2DE4 /* UI */,
 				84D1B2FF2017354300DF2DE4 /* Utils */,
+				706B261A2022A99A0018BE40 /* Resources */,
 				F563CCD32017153B00D4751A /* Main.storyboard */,
 				F563CCD62017153B00D4751A /* Assets.xcassets */,
 				F563CCD82017153B00D4751A /* LaunchScreen.storyboard */,
@@ -585,8 +685,25 @@
 			files = (
 				84D1B2FE201733AB00DF2DE4 /* Info.plist in Resources */,
 				F563CCDA2017153B00D4751A /* LaunchScreen.storyboard in Resources */,
+				706B26242022A99A0018BE40 /* 关于我们@2x.png in Resources */,
 				F563CCD72017153B00D4751A /* Assets.xcassets in Resources */,
+				706B262A2022A99A0018BE40 /* 默认头像@2x.png in Resources */,
+				706B26282022A99A0018BE40 /* 草稿箱@2x.png in Resources */,
+				706B26262022A99A0018BE40 /* 我的钱包@2x.png in Resources */,
+				706B26372022B06C0018BE40 /* 其他优势@2x.png in Resources */,
+				706B26362022B06C0018BE40 /* 卡片@2x.png in Resources */,
+				706B26392022B06C0018BE40 /* 专家一对一@2x.png in Resources */,
+				70CF77542021AE5A00B459F7 /* EnterpriseRegisterView.xib in Resources */,
+				706B26382022B06C0018BE40 /* 权威机构@2x.png in Resources */,
+				706B26342022B06C0018BE40 /* 显示密码@2x.png in Resources */,
+				706B26352022B06C0018BE40 /* 不显示密码@2x.png in Resources */,
+				706B26252022A99A0018BE40 /* 帮助中心@2x.png in Resources */,
+				706B262D2022ACCF0018BE40 /* back@2x.png in Resources */,
+				706B26292022A99A0018BE40 /* 设置@2x.png in Resources */,
 				F5E91EB6201B3A960059843A /* AnswerOrLikeTableViewCell.xib in Resources */,
+				706B26232022A99A0018BE40 /* banner背景@2x.png in Resources */,
+				706B26272022A99A0018BE40 /* 申请成为答主@2x.png in Resources */,
+				706B263B2022B6C20018BE40 /* 电话联系@2x.png in Resources */,
 				84FBDC2A2019B1DF007A7E45 /* EnterpriseTableViewCell.xib in Resources */,
 				F563CCD52017153B00D4751A /* Main.storyboard in Resources */,
 			);
@@ -621,7 +738,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -661,8 +778,11 @@
 				84FBDC2D2019C474007A7E45 /* TipsViews.m in Sources */,
 				F5E91EB8201B3A960059843A /* AnswerOrLikeModel.m in Sources */,
 				84FBDC202019AC9B007A7E45 /* UINavigationBar+MyNavigationBar.m in Sources */,
+				70CF774C20216C6900B459F7 /* TextFieldViews.m in Sources */,
+				70CF774F2021729E00B459F7 /* RegisterView.m in Sources */,
 				84D1B3042017356200DF2DE4 /* UtilsCommon.m in Sources */,
 				F5E91E9C201B3A540059843A /* QuestionViewController.m in Sources */,
+				70CF774B20216C6900B459F7 /* loginView.m in Sources */,
 				84FBDC142019A83F007A7E45 /* ApplicationEnterpriseViewController.m in Sources */,
 				F5E91E9E201B3A540059843A /* EditQuestionViewController.m in Sources */,
 				84D1B2EE20172E9A00DF2DE4 /* EnterpriseViewController.m in Sources */,
@@ -671,6 +791,7 @@
 				84D1B2E820172CD800DF2DE4 /* BaseNavViewController.m in Sources */,
 				84FBDC11201987CF007A7E45 /* AskProgressHUD.m in Sources */,
 				84D1B2EB20172DFD00DF2DE4 /* MainAskViewController.m in Sources */,
+				70CF77572021BD8100B459F7 /* ResetPasswordViewController.m in Sources */,
 				F563CCCF2017153B00D4751A /* AppDelegate.m in Sources */,
 				F5E91EA0201B3A540059843A /* AnswerDetailViewController.m in Sources */,
 				84C47B47201869AA00E32486 /* MBProgressHUD.m in Sources */,
@@ -680,6 +801,7 @@
 				84FBDC252019B081007A7E45 /* EnterpriseModel.m in Sources */,
 				84D1B2F120172F4F00DF2DE4 /* MessageViewController.m in Sources */,
 				F5E91EAC201B3A750059843A /* AnswerModel.m in Sources */,
+				70CF77522021AE5200B459F7 /* EnterpriseRegisterView.m in Sources */,
 				F5E91EAE201B3A750059843A /* QuestionTableViewCell.m in Sources */,
 				84D1B2F92017326600DF2DE4 /* main.m in Sources */,
 				84D1B2E520172B0900DF2DE4 /* BaseTabBarViewController.m in Sources */,

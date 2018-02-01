@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="515"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oq2-D9-6Zb">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="卡片.png" translatesAutoresizingMaskIntoConstraints="NO" id="oq2-D9-6Zb">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="289"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
@@ -28,9 +28,8 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4El-JX-EWD">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="权威机构.png" translatesAutoresizingMaskIntoConstraints="NO" id="4El-JX-EWD">
                     <rect key="frame" x="38" y="75" width="35" height="35"/>
-                    <color key="backgroundColor" red="0.95399731399999999" green="0.52942264009999995" blue="0.23496766029999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="35" id="XVY-Xa-ipV"/>
                         <constraint firstAttribute="height" constant="35" id="jbh-tC-0EJ"/>
@@ -54,9 +53,8 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YSr-hT-kVd">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="专家一对一.png" translatesAutoresizingMaskIntoConstraints="NO" id="YSr-hT-kVd">
                     <rect key="frame" x="38" y="124" width="35" height="35"/>
-                    <color key="backgroundColor" red="0.2130591869" green="0.54711550470000003" blue="0.95399731399999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="35" id="BCB-kw-xmb"/>
                         <constraint firstAttribute="height" constant="35" id="mt3-3g-5vS"/>
@@ -71,9 +69,8 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9If-Jr-Dlg">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="其他优势.png" translatesAutoresizingMaskIntoConstraints="NO" id="9If-Jr-Dlg">
                     <rect key="frame" x="38" y="174" width="35" height="35"/>
-                    <color key="backgroundColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="0kq-x1-OVg"/>
                         <constraint firstAttribute="width" constant="35" id="T6m-OD-R0a"/>
@@ -86,13 +83,18 @@
                         <constraint firstAttribute="height" constant="0.5" id="GEL-49-4VU"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gqr-YH-Pdi">
-                    <rect key="frame" x="114" y="239" width="92" height="30"/>
-                    <state key="normal" title="马上联系我们"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gqr-YH-Pdi">
+                    <rect key="frame" x="100.5" y="239.5" width="119" height="21"/>
+                    <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="16"/>
+                    <state key="normal" title="马上联系我们" image="电话联系.png">
+                        <color key="titleColor" red="0.043137254901960784" green="0.59607843137254901" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S5L-Ay-Jpp">
                     <rect key="frame" x="212" y="308" width="92" height="30"/>
-                    <state key="normal" title="已有账号登录"/>
+                    <state key="normal" title="已有账号登录">
+                        <color key="titleColor" red="0.043137254899999998" green="0.59607843140000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
                     <connections>
                         <action selector="LoginClick:" destination="Q5M-ji-8sG" eventType="touchUpInside" id="e6r-gh-Y04"/>
                     </connections>
@@ -129,4 +131,11 @@
             <point key="canvasLocation" x="175" y="53.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="专家一对一.png" width="21" height="21"/>
+        <image name="其他优势.png" width="21" height="21"/>
+        <image name="卡片.png" width="367" height="266"/>
+        <image name="权威机构.png" width="21" height="21"/>
+        <image name="电话联系.png" width="21" height="21"/>
+    </resources>
 </document>

@@ -72,7 +72,7 @@
         make.left.mas_equalTo(self.mas_left).offset(40);
         make.right.mas_equalTo(self.mas_right).offset(-40);
         make.top.mas_equalTo(self.mas_top);
-        make.height.mas_equalTo(@88);
+        make.height.mas_equalTo(@74);
     }];
     
     
@@ -85,14 +85,14 @@
         make.top.mas_equalTo(_PhoneView.mas_bottom);
         make.left.mas_equalTo(_PhoneView.mas_left);
         make.right.mas_equalTo(_PhoneView.mas_right);
-        make.height.mas_equalTo(@88);
+        make.height.mas_equalTo(@74);
     }];
     
     //获取验证码
     _CodeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [_CodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
-    [_CodeBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-    _CodeBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    [_CodeBtn setTitleColor:HEX_RGB_COLOR(0x0b98f2) forState:UIControlStateNormal];
+    _CodeBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     [_CodeBtn addTarget:self action:@selector(BtnClick:) forControlEvents:UIControlEventTouchUpInside];
     _CodeBtn.enabled = NO;
     _CodeBtn.tag = RegisterbtnType_Code;
@@ -114,27 +114,25 @@
         make.top.mas_equalTo(_CodeView.mas_bottom);
         make.left.mas_equalTo(_CodeView.mas_left);
         make.right.mas_equalTo(_CodeView.mas_right);
-        make.height.mas_equalTo(@88);
+        make.height.mas_equalTo(@74);
     }];
     
     //是否显示密码
     _SecurityBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_SecurityBtn setTitle:@"加密" forState:UIControlStateNormal];
-    [_SecurityBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    _SecurityBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    [_SecurityBtn setImage:[UIImage imageNamed:@"不显示密码"] forState:UIControlStateNormal];
     [_SecurityBtn addTarget:self action:@selector(BtnClick:) forControlEvents:UIControlEventTouchUpInside];
     _SecurityBtn.tag = RegisterbtnType_Security;
     [self addSubview:_SecurityBtn];
     
     [_SecurityBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(_PasswordView.mas_right);
-        make.bottom.mas_equalTo(_PasswordView.mas_bottom);
+        make.bottom.mas_equalTo(_PasswordView.mas_bottom).offset(-3);
     }];
     
     //提示
     UILabel *label = [[UILabel alloc]init];
     label.text = @"字母和数字组合，8-20位之间";
-    label.textColor = [UIColor redColor];
+    label.textColor = HEX_RGB_COLOR(0xff443b);
     label.font = [UIFont systemFontOfSize:14];
     [self addSubview:label];
     
@@ -153,11 +151,13 @@
     [_RegisterBtn setBackgroundColor:[UIColor lightGrayColor]];
     [_RegisterBtn addTarget:self action:@selector(BtnClick:) forControlEvents:UIControlEventTouchUpInside];
     _RegisterBtn.tag = RegisterbtnType_Register;
+    _RegisterBtn.layer.cornerRadius = 5;
+    _RegisterBtn.layer.masksToBounds = YES;
     [self addSubview:_RegisterBtn];
     
     [_RegisterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH / 2, 30));
-        make.top.mas_equalTo(label.mas_bottom).offset(20);
+        make.size.mas_equalTo(CGSizeMake(412 / 2, 44));
+        make.top.mas_equalTo(label.mas_bottom).offset(SCREEN_HEIGHT >= 667 ? 36 : 20);
         make.centerX.mas_equalTo(self.mas_centerX);
     }];
     
@@ -165,16 +165,38 @@
     //登录按钮
     _LoginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [_LoginBtn setTitle:@"已有账号登录" forState:UIControlStateNormal];
-    [_LoginBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [_LoginBtn setTitleColor:HEX_RGB_COLOR(0x0b98f2) forState:UIControlStateNormal];
     [_LoginBtn addTarget:self action:@selector(BtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    _LoginBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     _LoginBtn.tag = RegisterbtnType_Login;
     [self addSubview:_LoginBtn];
     
     [_LoginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(_PasswordView.mas_right);
-        make.bottom.mas_equalTo(self.mas_bottom).offset(-20); 
+        make.bottom.mas_equalTo(self.mas_bottom).offset(-29); 
     }];
     
+    //协议
+    UIButton * AgreementBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [AgreementBtn setTitle:@"证金快答隐私政策协议" forState:UIControlStateNormal];
+    [AgreementBtn setTitleColor:HEX_RGB_COLOR(0x969ca1) forState:UIControlStateNormal];
+    [AgreementBtn addTarget:self action:@selector(BtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    AgreementBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+    AgreementBtn.tag = RegisterbtnType_Agreement;
+    [self addSubview:AgreementBtn];
+    
+    [AgreementBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(_PasswordView.mas_left);
+        make.bottom.mas_equalTo(self.mas_bottom).offset(-29);
+    }];
+    
+    UIView *line = [[UIView alloc]init];
+    line.backgroundColor  = HEX_RGB_COLOR(0x969ca1);
+    [self addSubview:line];
+    [line mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.and.right.and.bottom.mas_equalTo(AgreementBtn);
+        make.height.equalTo(@0.5);
+    }];
 }
 
 
@@ -194,9 +216,10 @@
         sender.enabled = NO;
         
     } else if (sender.tag == RegisterbtnType_Security){
-        sender.selected = !sender.selected;
         [_PasswordView changeSecureTextEntry:sender.selected];
+        sender.selected = !sender.selected;
         
+        [_SecurityBtn setImage:sender.selected ? [UIImage imageNamed:@"显示密码"] : [UIImage imageNamed:@"不显示密码"] forState:UIControlStateNormal];
     }
     
     _ClickBlock(sender.tag,[_PhoneView text],[_PasswordView text],[_CodeView text]);
@@ -210,7 +233,7 @@
     _count = 60;
     [_CodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
     [_CodeBtn setTitle:@"获取验证码" forState:UIControlStateDisabled];
-    [_CodeBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [_CodeBtn setTitleColor:HEX_RGB_COLOR(0x0b98f2) forState:UIControlStateNormal];
     _CodeBtn.enabled = NO;
     
     [_PhoneView clearText];
@@ -233,6 +256,8 @@
         }
         [sender setTitle:@"获取验证码" forState:UIControlStateNormal];
         [sender setTitle:@"获取验证码" forState:UIControlStateDisabled];
+        
+        [self refreshbtn];
         
         [_countDownTimer invalidate];
         _countDownTimer = nil;
@@ -287,23 +312,29 @@
 
 - (void)textFieldChanged:(id)sender
 {
-    if ([UtilsCommon validPhoneNum:[self.PhoneView text]].length > 0 && [_CodeBtn.titleLabel.text isEqualToString:@"获取验证码"]) {
-        _CodeBtn.enabled = YES;
-        [_CodeBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-        
-    }else if (!([UtilsCommon validPhoneNum:[self.PhoneView text]].length > 0) && [_CodeBtn.titleLabel.text isEqualToString:@"获取验证码"]){
-        _CodeBtn.enabled = NO;
-        [_CodeBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-    }
+    [self refreshbtn];
+    
     
     //判断注册可点击
     if ([self.PhoneView text].length > 0 && [self.CodeView text].length > 0 && [self.PasswordView text].length > 0 ) {
         _RegisterBtn.userInteractionEnabled = YES;
-        [_RegisterBtn setBackgroundColor:[UIColor blackColor]];
+        [_RegisterBtn setBackgroundColor:HEX_RGB_COLOR(0x0b98f2)];
         
     } else {
         _RegisterBtn.userInteractionEnabled = NO;
         [_RegisterBtn setBackgroundColor:[UIColor lightGrayColor]];
     }
 }
+
+- (void)refreshbtn{
+    if ([UtilsCommon validPhoneNum:[self.PhoneView text]].length > 0 && [_CodeBtn.titleLabel.text isEqualToString:@"获取验证码"]) {
+        _CodeBtn.enabled = YES;
+        [_CodeBtn setTitleColor:HEX_RGB_COLOR(0x969ca1) forState:UIControlStateNormal];
+        
+    }else if (!([UtilsCommon validPhoneNum:[self.PhoneView text]].length > 0) && [_CodeBtn.titleLabel.text isEqualToString:@"获取验证码"]){
+        _CodeBtn.enabled = NO;
+        [_CodeBtn setTitleColor:HEX_RGB_COLOR(0x0b98f2) forState:UIControlStateNormal];
+    }
+}
+
 @end

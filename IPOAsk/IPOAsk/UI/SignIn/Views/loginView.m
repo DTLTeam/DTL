@@ -78,6 +78,18 @@
        
     }];
     
+    UIButton *Securitybtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [Securitybtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+    Securitybtn.tag = btnType_Security;
+    [Securitybtn setImage:[UIImage imageNamed:@"不显示密码"] forState:UIControlStateNormal];
+    [self addSubview:Securitybtn];
+    
+    [Securitybtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(_PasswordView.mas_right);
+        make.bottom.mas_equalTo(_PasswordView.mas_bottom).offset(-3);
+        make.size.mas_equalTo(CGSizeMake(35, 35));
+    }];
+    
   
     for (NSInteger i = 0 ; i < 4 ; i++) {
         
@@ -92,6 +104,8 @@
             [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [btn setBackgroundColor:[UIColor lightGrayColor]];
             [btn setTitle:@"登录" forState:UIControlStateNormal];
+            btn.layer.cornerRadius = 5;
+            btn.layer.masksToBounds = YES;
             _loginBtn = btn;
             
             //登录
@@ -120,8 +134,8 @@
                 btn.titleLabel.font = [UIFont systemFontOfSize:12];
                 //随便看看
                 [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.left.mas_equalTo(self).offset(40);
-                    make.bottom.mas_equalTo(self.mas_bottom).offset(-40);
+                    make.left.mas_equalTo(self).offset(49);
+                    make.bottom.mas_equalTo(self.mas_bottom).offset(-51);
                 }];
             }
             
@@ -134,8 +148,8 @@
             
             //新用户注册
             [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.right.mas_equalTo(self.mas_right).offset(-40);
-                make.bottom.mas_equalTo(self.mas_bottom).offset(-40);
+                make.right.mas_equalTo(self.mas_right).offset(-49);
+                make.bottom.mas_equalTo(self.mas_bottom).offset(-51);
             }];
         }
         
@@ -144,6 +158,15 @@
 
 #pragma mark - 按钮点击事件
 - (void)btnClick:(UIButton *)sender{
+    
+    if (sender.tag == btnType_Security) {
+        
+        [_PasswordView changeSecureTextEntry:sender.selected];
+        sender.selected = !sender.selected;
+        
+        [sender setImage:sender.selected ? [UIImage imageNamed:@"显示密码"] : [UIImage imageNamed:@"不显示密码"] forState:UIControlStateNormal];
+        return;
+    }
  
     _ClickBlock(sender.tag,[_NameView text],[_PasswordView text]);
     
@@ -169,7 +192,7 @@
 {
     //判断登录可点击
     if ([self.NameView text].length > 0 && [self.PasswordView text].length > 0) {
-        [_loginBtn setBackgroundColor:[UIColor blackColor]];
+        [_loginBtn setBackgroundColor:HEX_RGB_COLOR(0x0b98f2)];
         _loginBtn.userInteractionEnabled = YES;
         
     } else {

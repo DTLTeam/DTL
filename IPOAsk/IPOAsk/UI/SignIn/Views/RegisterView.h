@@ -11,6 +11,7 @@ typedef enum : NSUInteger {
     RegisterbtnType_Security,
     RegisterbtnType_Register,
     RegisterbtnType_Login,
+    RegisterbtnType_Agreement,
     
 } RegisterbtnType;
 

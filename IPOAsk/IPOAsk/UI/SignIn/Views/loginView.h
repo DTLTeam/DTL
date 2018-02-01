@@ -12,6 +12,7 @@ typedef enum : NSUInteger {
     btnType_forgot,
     btnType_pass,
     btnType_register,
+    btnType_Security,
     
 } btnType;
 

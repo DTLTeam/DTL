@@ -14,6 +14,8 @@
 
 @interface SignInViewController ()
 @property (weak, nonatomic) IBOutlet UIView *TopViews;
+@property (weak, nonatomic) IBOutlet UIImageView *UserHead;
+
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *TopH;
 @property (nonatomic,assign)CGRect keyboardFrame;
 
@@ -40,6 +42,9 @@ static NSString * phoneNum = @"15012345678";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    _UserHead.layer.cornerRadius = CGRectGetHeight(_UserHead.frame) / 2;
+    _UserHead.layer.masksToBounds = YES;
     
     [self setUpLoginView];
     
@@ -116,6 +121,9 @@ static NSString * phoneNum = @"15012345678";
                 NSLog(@"%@-%@-%@",phone,Password,Code);
                 //成功
                 [WeakSelf noRegister];
+                break;
+            case RegisterbtnType_Agreement://协议
+                
                 break;
                 
             default:
@@ -209,14 +217,15 @@ static NSString * phoneNum = @"15012345678";
     if (!_RegisterView) {
         [self SetUpRegisterView];
         
-    }else{
-      
-        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionShowHideTransitionViews animations:^{
-            
-            _RegisterView.alpha = 1;
-            
-        } completion:nil];
-    }
+    } 
+    [_RegisterView changeType:_MainLoginType];
+    
+    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionShowHideTransitionViews animations:^{
+        
+        _RegisterView.alpha = 1;
+        
+    } completion:nil];
+
 }
 
 

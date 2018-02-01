@@ -314,6 +314,7 @@
                         <outlet property="PersonView" destination="ixM-3h-FVs" id="pbF-Bu-dCY"/>
                         <outlet property="TopH" destination="gMA-Af-7gP" id="nQy-vT-R1Z"/>
                         <outlet property="TopViews" destination="6eL-OQ-UeV" id="Fbi-GS-4jq"/>
+                        <outlet property="UserHead" destination="6nL-qt-IZQ" id="PHV-3A-zQC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="acB-v1-UJ6" userLabel="First Responder" sceneMemberID="firstResponder"/>
