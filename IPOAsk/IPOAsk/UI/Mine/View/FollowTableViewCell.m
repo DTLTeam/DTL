@@ -12,7 +12,6 @@
 
 @property (nonatomic,strong) UILabel *txtLabel;
 
-@property (nonatomic,strong) UIButton *followButton;
 
 @end
 
@@ -34,21 +33,31 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 40, 15)];
-        tipLabel.text = @"问题:";
-        tipLabel.font = [UIFont systemFontOfSize:15];
-        [self addSubview:tipLabel];
         
-        _txtLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 35, SCREEN_WIDTH - 40, 50)];
-        _txtLabel.numberOfLines = 0;
+        _txtLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 20, SCREEN_WIDTH - 40, 20)];
         _txtLabel.text = @"外国人眼中的汉字是怎样的";
         [self addSubview:_txtLabel];
         
-        _followButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _followButton.frame = CGRectMake(SCREEN_WIDTH - 80, 70, 60, 30);
-        [_followButton setTitle:@"已关注" forState:UIControlStateNormal];
-        [_followButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [self addSubview:_followButton];
+        for (int i = 0; i < 3; i++) {
+            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(15+i*50, 50, 15, 15)];
+            imgView.backgroundColor = [UIColor redColor];
+            imgView.tag = 10+i;
+            [self addSubview:imgView];
+            
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(30+i*50, 50, 20, 15)];
+            label.text = @"15";
+            label.textAlignment = NSTextAlignmentLeft;
+            label.font = [UIFont systemFontOfSize:13];
+            label.tag = 20*i;
+            [self addSubview:label];
+        }
+        
+        UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 100, 47, 80, 20)];
+        dateLabel.text = @"2018-01-01";
+        dateLabel.textAlignment = NSTextAlignmentLeft;
+        dateLabel.font = [UIFont systemFontOfSize:15];
+        [self addSubview:dateLabel];
+        
     }
     
     return self;

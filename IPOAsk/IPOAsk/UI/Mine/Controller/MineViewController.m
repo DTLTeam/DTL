@@ -37,11 +37,6 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.navigationController.tabBarController.tabBar.hidden = NO;
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
-    UINavigationBar *navigationBar = self.navigationController.navigationBar;
-    [navigationBar setBackgroundImage:[UtilsCommon createImageWithColor:[UIColor clearColor]] forBarMetrics:UIBarMetricsDefault];
-    [navigationBar setShadowImage:[UtilsCommon createImageWithColor:[UIColor clearColor]]];
-    navigationBar.shadowImage = [UtilsCommon createImageWithColor:[UIColor clearColor]];
     
 }
 
@@ -56,7 +51,7 @@
 {
     self.view.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
-    CGFloat height = 160 + 64 + dataArr.count * 50 + 10;
+    CGFloat height = 160 + 64 + dataArr.count * 50.5 + 10;
     if (height + TABBAR_HEIGHT >= SCREEN_HEIGHT) {
         height = SCREEN_HEIGHT;
     }
@@ -64,6 +59,7 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.bounces = NO;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;                                                                                                                                                                                                                                                                                                                                                                                                                                                  
     [self.view addSubview:_tableView];
     if (@available(iOS 11.0, *)) {
         _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
@@ -106,7 +102,7 @@
     if (indexPath.section == 0) {
         return 160 + 64;
     }
-    return 50;
+    return 51;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -137,12 +133,12 @@
                 switch (tag) {
                     case 0:
                     {
-                        
+                        [self performSegueWithIdentifier:@"pushMyAsk" sender:nil];
                     }
                         break;
                     case 1:
                     {
-                        
+                        [self performSegueWithIdentifier:@"pushMyAnswer" sender:nil];
                     }
                         break;
                     case 2:
@@ -152,7 +148,7 @@
                         break;
                     case 3:
                     {
-                        
+                        [self performSegueWithIdentifier:@"pushMyLike" sender:nil];
                     }
                         break;
                     default:
@@ -169,6 +165,11 @@
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+            if (indexPath.section != 6) {
+                UIView *view = [[UIView alloc] initWithFrame:CGRectMake(50, 50, SCREEN_WIDTH, 0.5)];
+                view.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.8];
+                [cell addSubview:view];
+            }
         }
         cell.textLabel.text = dataArr[indexPath.section - 1];
         cell.textLabel.font = [UIFont systemFontOfSize:16];

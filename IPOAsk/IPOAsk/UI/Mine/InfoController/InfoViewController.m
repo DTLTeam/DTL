@@ -38,6 +38,7 @@
     _tableView.bounces = NO;
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_tableView];
 }
 
@@ -88,7 +89,7 @@
         return 150;
     }else
     {
-        return 60;
+        return 60.5;
     }
 }
 
@@ -117,6 +118,11 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+        if (indexPath.row != 5 || (indexPath.section == 1 && indexPath.row == 1)) {
+            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(15, 60, SCREEN_WIDTH, 0.5)];
+            view.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.8];
+            [cell addSubview:view];
+        }
     }
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {

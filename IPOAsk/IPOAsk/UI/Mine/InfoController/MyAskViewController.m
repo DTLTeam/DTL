@@ -1,21 +1,19 @@
 //
-//  MyFollowViewController.m
+//  MyAskViewController.m
 //  IPOAsk
 //
-//  Created by lzw on 2018/1/29.
+//  Created by lzw on 2018/2/1.
 //  Copyright © 2018年 law. All rights reserved.
 //
 
-#import "MyFollowViewController.h"
-
+#import "MyAskViewController.h"
 #import "FollowTableViewCell.h"
 
-@interface MyFollowViewController ()
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@interface MyAskViewController () <UITableViewDelegate,UITableViewDataSource>
 
 @end
 
-@implementation MyFollowViewController
+@implementation MyAskViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -32,19 +30,18 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     self.navigationController.tabBarController.tabBar.hidden = YES;
-    self.title = @"我的关注";
+    self.title = @"我的提问";
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 #pragma mark - tableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
