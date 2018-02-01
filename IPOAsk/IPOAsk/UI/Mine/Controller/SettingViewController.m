@@ -10,8 +10,7 @@
 
 @interface SettingViewController () <UITableViewDelegate,UITableViewDataSource>
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property (strong, nonatomic) UITableView *tableView;
 @end
 
 @implementation SettingViewController
@@ -24,7 +23,22 @@
     // Do any additional setup after loading the view.
     
     dataArr = @[@"消息通知",@"给APP评分",@"用户协议",@"联系我们"];
+    [self setupView];
+}
+
+- (void)setupView
+{
+    self.view.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
+    CGFloat height = dataArr.count * 50;
+    if (height + NAVBAR_HEIGHT >= SCREEN_HEIGHT) {
+        height = SCREEN_HEIGHT;
+    }
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, height) style:UITableViewStylePlain];
+    _tableView.bounces = NO;
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [self.view addSubview:_tableView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -64,7 +78,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60;
+    return 50;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -77,7 +91,7 @@
     }
     cell.textLabel.text = dataArr[indexPath.section];
     if (indexPath.section == 0) {
-        UISwitch *sw = [[UISwitch alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 80, 10, 60, 40)];
+        UISwitch *sw = [[UISwitch alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 70, 5, 60, 40)];
         [cell addSubview:sw];
     }
     return cell;
