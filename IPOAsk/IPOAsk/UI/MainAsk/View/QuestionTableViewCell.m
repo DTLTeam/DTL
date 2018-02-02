@@ -29,6 +29,9 @@ typedef enum : NSUInteger {
 @property (strong, nonatomic) UIButton *attentionNumBtn;
 @property (strong, nonatomic) UIButton *attentionBtn;
 
+@property (nonatomic,assign)  BOOL Main;
+
+
 @end
 
 @implementation QuestionTableViewCell
@@ -54,9 +57,10 @@ typedef enum : NSUInteger {
     return self;
 }
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier Main:(BOOL)main{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        _Main = main;
         
         [self setupInterface];
         
@@ -67,7 +71,7 @@ typedef enum : NSUInteger {
 
 #pragma mark - 界面
 
-- (void)setupInterface {
+- (void)setupInterface{
     
     //头像
     _headImgView = [[UIImageView alloc] init];
@@ -132,6 +136,12 @@ typedef enum : NSUInteger {
     [_attentionBtn addTarget:self action:@selector(attentionAction:) forControlEvents:UIControlEventTouchUpInside];
     _attentionBtn.tag = kButtonNormal;
     [self addSubview:_attentionBtn];
+    
+    
+    if (_Main) {
+        _titleLabel.numberOfLines = 1;
+        _contentLabel.numberOfLines = 2;
+    }
     
     
     [_headImgView mas_makeConstraints:^(MASConstraintMaker *make) {

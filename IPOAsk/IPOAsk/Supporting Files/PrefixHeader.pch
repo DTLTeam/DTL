@@ -25,6 +25,7 @@
 #import <MJRefresh.h>
 
 #import "MainAskViewController.h"
+#import "MainAskDetailViewController.h"
 #import "MineViewController.h"
 
 

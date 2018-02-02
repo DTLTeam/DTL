@@ -143,7 +143,7 @@ static NSString * CellIdentifier = @"EnterpriseCell";
 #pragma mark - 马上咨询专家
 - (void)Consultation{
     EditQuestionViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:self options:nil][0];
-    VC.title = @"企业+"; 
+    [VC UserType:AnswerType_AskQuestionEnterprise NavTitle:@"企业+"];
     [self.navigationController pushViewController:VC animated:YES];
     
 }

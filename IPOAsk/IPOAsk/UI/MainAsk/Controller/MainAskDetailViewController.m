@@ -1,48 +1,58 @@
 //
-//  MainAskViewController.m
+//  MainAskDetailViewController.m
 //  IPOAsk
 //
-//  Created by admin on 2018/1/23.
+//  Created by adminMac on 2018/2/2.
 //  Copyright © 2018年 law. All rights reserved.
 //
 
-#import "MainAskViewController.h" 
+#import "MainAskDetailViewController.h"
+#import "EditQuestionViewController.h"
 
 //View
 #import "QuestionTableViewCell.h"
+#import "SearchView.h"
 
-//Controller
-#import "SignInViewController.h"
-
-@interface MainAskViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface MainAskDetailViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *contentTableView;
-
 @property (strong, nonatomic) NSMutableArray *contentArr;
 @property (assign, nonatomic) NSInteger currentPage;
 
 @end
 
-@implementation MainAskViewController
+@implementation MainAskDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self login];
+    self.navigationController.navigationBarHidden = YES;
+    [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
+    
+    UIButton *lbtn = [UIButton buttonWithType:UIButtonTypeCustom];
+  
+    UIBarButtonItem *leftBtn = [UIBarButtonItem returnTabBarItemWithBtn:lbtn image:@"back" bgimage:nil  Title:@"" SelectedTitle:@" " titleFont:12 itemtype:Itemtype_left SystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
+    [lbtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    leftBtn = nil;
+    
+    [self.view addSubview:lbtn];
+    
+    SearchView *view = [[SearchView alloc]initWithFrame:CGRectMake(44, 20, SCREEN_WIDTH - 44, 44) SearchClick:^(NSString * searchtext) {
+        
+        NSLog(@"%@",searchtext);
+    } WithAnswerClick:^(BOOL answer) {
+        NSLog(@"点击发表");
+    }];
+    
+    lbtn.center = CGPointMake(lbtn.center.x, view.center.y);
+    
+    [self.view addSubview:view];
+    
     [self setupInterface];
     
+    
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 - (void)viewDidAppear:(BOOL)animated{
     
@@ -90,7 +100,7 @@
 - (void)requestContent:(NSInteger)page {
     
     
-    /* test */ 
+    /* test */
     
     if (_currentPage == 0) {
         [_contentArr removeAllObjects];
@@ -110,13 +120,14 @@
     if (_contentTableView.mj_footer.isRefreshing) {
         [_contentTableView.mj_footer endRefreshing];
     }
+     
+    
+    
     return;
     /* test */
-    
-    
     __weak typeof(self) weakSelf = self;
     [[AskHttpLink shareInstance] post:@"" bodyparam:nil backData:NetSessionResponseTypeJSON success:^(id response) {
-
+        
         sleep(3);
         
         if (weakSelf.currentPage == 0) {
@@ -145,18 +156,8 @@
         
     }];
     
-}
-
--(void)login{
-    
-    UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    
-    SignInViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"SignInView"]; 
-    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:VC];
-    [self.navigationController presentViewController:nav animated:YES completion:nil];
     
 }
-
 
 #pragma mark - UITableViewDelegate && UITableViewDataSource
 
@@ -164,13 +165,13 @@
     return _contentArr.count;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 0.5;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    return nil;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+//    return 0.5;
+//}
+//
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//    return nil;
+//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 10;
@@ -186,25 +187,39 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    //传问题模型
-    MainAskDetailViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil][0];
-     
-    [self.navigationController pushViewController:VC animated:YES];
-    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    static NSString *identifier = @"questionCell";
+    static NSString *identifier = @"questiondetailCell";
     QuestionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
-        cell = [[QuestionTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier Main:YES];
+        cell = [[QuestionTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier Main:NO];
     }
     
     [cell refreshWithModel:_contentArr[indexPath.section]];
-    
+
     return cell;
     
 }
+
+- (void)back{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
 
 @end
