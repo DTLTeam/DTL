@@ -69,6 +69,8 @@
     }
     
     _Title2Line.hidden = _Title2.hidden;
+    
+    self.title = title;
 }
 - (void)setUpNav{
     

@@ -12,12 +12,14 @@
 //View
 #import "QuestionTableViewCell.h"
 #import "SearchView.h"
+#import "MainAskDetailHeadViewCellTableViewCell.h"
 
 @interface MainAskDetailViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *contentTableView;
 @property (strong, nonatomic) NSMutableArray *contentArr;
 @property (assign, nonatomic) NSInteger currentPage;
+@property (assign, nonatomic) BOOL all;
 
 @end
 
@@ -27,11 +29,20 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    
+    [self setupInterface];
+    
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+  
     self.navigationController.navigationBarHidden = YES;
     [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
     
     UIButton *lbtn = [UIButton buttonWithType:UIButtonTypeCustom];
-  
+    
     UIBarButtonItem *leftBtn = [UIBarButtonItem returnTabBarItemWithBtn:lbtn image:@"back" bgimage:nil  Title:@"" SelectedTitle:@" " titleFont:12 itemtype:Itemtype_left SystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
     [lbtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     leftBtn = nil;
@@ -48,10 +59,6 @@
     lbtn.center = CGPointMake(lbtn.center.x, view.center.y);
     
     [self.view addSubview:view];
-    
-    [self setupInterface];
-    
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -120,7 +127,8 @@
     if (_contentTableView.mj_footer.isRefreshing) {
         [_contentTableView.mj_footer endRefreshing];
     }
-     
+    
+    
     
     
     return;
@@ -165,9 +173,9 @@
     return _contentArr.count;
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-//    return 0.5;
-//}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.5;
+}
 //
 //- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 //    return nil;
@@ -190,6 +198,37 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (indexPath.section == 0) {
+        //并且有数据
+        MainAskDetailHeadViewCellTableViewCell *head  = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailHeadViewCellTableViewCell" owner:self options:nil][0];
+        head.ContentLabel.numberOfLines = _all ? 0 : 5;
+        QuestionModel *model = [_contentArr firstObject];
+        
+        __weak MainAskDetailViewController *WeakSelf = self;
+        __weak UITableView *WeakTableView = tableView;
+        __weak QuestionModel *WeakModel = model;
+        
+        [head UpdateContent:model WithFollowClick:^(UIButton *btn) {
+            NSLog(@"%@",btn);
+            
+            //成功
+            btn.selected = !btn.selected;
+        }WithAnswerClick:^(UIButton *btn) {
+            
+            WeakSelf.navigationController.navigationBarHidden = NO;
+            
+            EditQuestionViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:self options:nil][0];
+            [VC UserType:AnswerType_Answer NavTitle:WeakModel.title];
+            [WeakSelf.navigationController pushViewController:VC animated:YES];
+            
+        } WithAllClick:^(BOOL click) {
+            WeakSelf.all = YES;
+            [WeakTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }];
+        
+        return head;
+    }
     
     static NSString *identifier = @"questiondetailCell";
     QuestionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
