@@ -141,6 +141,9 @@ typedef enum : NSUInteger {
     if (_Main) {
         _titleLabel.numberOfLines = 1;
         _contentLabel.numberOfLines = 2;
+    }else{
+        
+        _contentLabel.numberOfLines = 5;
     }
     
     

@@ -170,7 +170,8 @@
 #pragma mark - UITableViewDelegate && UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return _contentArr.count;
+//    return _contentArr.count + 1;
+    return  1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -181,11 +182,23 @@
 //    return nil;
 //}
 
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (1) {//没有评论
+        return 70;
+    }
     return 10;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (1) {//没有评论
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
+        label.text = @"还没有人回复这个问题，快去抢答助力小伙伴";
+        label.font = [UIFont systemFontOfSize:14];
+        label.textColor = HEX_RGB_COLOR(0x969ca1);
+        label.textAlignment = NSTextAlignmentCenter;
+        return label;
+    }
     return nil;
 }
 
