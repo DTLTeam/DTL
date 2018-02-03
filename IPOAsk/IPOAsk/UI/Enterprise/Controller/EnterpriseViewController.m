@@ -42,7 +42,7 @@ static NSString * CellIdentifier = @"EnterpriseCell";
     
     self.myTableView.backgroundColor = HEX_RGB_COLOR(0xF2F2F2);
     
-    self.haveRefresh = NO;
+    self.haveRefresh = YES;
     
     
     [self setUpViews];
@@ -61,7 +61,7 @@ static NSString * CellIdentifier = @"EnterpriseCell";
     __weak EnterpriseViewController *WeakSelf = self;
     
 #if 1 //是否是专家
-//    [self setUpdata];
+    [self setUpdata];
     
     // ****************** 已经是专家
     if (!self.haveData) {
@@ -106,6 +106,11 @@ static NSString * CellIdentifier = @"EnterpriseCell";
 
 
 #pragma mark -  UITableViewDataSource
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 10;
+}
+ 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.sourceData.count;
     

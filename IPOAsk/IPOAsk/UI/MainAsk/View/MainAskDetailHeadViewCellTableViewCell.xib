@@ -18,18 +18,25 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="234.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="01q-uW-LwY">
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="01q-uW-LwY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="235"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Myz-F0-zx1">
                                 <rect key="frame" x="12" y="12" width="25" height="25"/>
+                                <color key="backgroundColor" red="0.58823529409999997" green="0.61176470589999998" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="25" id="2A6-h1-fGV"/>
                                     <constraint firstAttribute="height" constant="25" id="M82-dd-6br"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <real key="value" value="12.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RIG-98-t5g">
-                                <rect key="frame" x="45" y="12" width="37.5" height="25"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RIG-98-t5g">
+                                <rect key="frame" x="45" y="12" width="0.0" height="25"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" red="0.58823529409999997" green="0.61176470589999998" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -55,36 +62,36 @@
                                     <action selector="AnswerClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="qlf-fw-Gcy"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s68-zi-GOg">
-                                <rect key="frame" x="12" y="49" width="296" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s68-zi-GOg">
+                                <rect key="frame" x="12" y="49" width="296" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2JR-kL-BdB">
-                                <rect key="frame" x="12" y="82" width="296" height="79"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2JR-kL-BdB">
+                                <rect key="frame" x="12" y="61" width="296" height="100"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ga5-pn-Ayo">
-                                <rect key="frame" x="12" y="201" width="36" height="22"/>
+                                <rect key="frame" x="12" y="201" width="16" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="H6h-h1-kOs"/>
                                 </constraints>
-                                <state key="normal" title="14" image="查看.png">
+                                <state key="normal" image="查看.png">
                                     <color key="titleColor" red="0.58823529409999997" green="0.61176470589999998" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CUP-Im-KvI">
-                                <rect key="frame" x="75" y="201" width="36" height="22"/>
-                                <state key="normal" title="14" image="回答.png">
+                                <rect key="frame" x="55" y="201" width="16" height="22"/>
+                                <state key="normal" image="回答.png">
                                     <color key="titleColor" red="0.58823529409999997" green="0.61176470589999998" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rlE-Xy-pfW">
-                                <rect key="frame" x="138" y="201" width="36" height="22"/>
-                                <state key="normal" title="14" image="关注.png">
+                                <rect key="frame" x="98" y="201" width="16" height="22"/>
+                                <state key="normal" image="关注.png">
                                     <color key="titleColor" red="0.58823529409999997" green="0.61176470589999998" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                             </button>
@@ -92,10 +99,10 @@
                                 <rect key="frame" x="228" y="201" width="80" height="22"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="关注问题" image="+关注.png">
-                                    <color key="titleColor" red="0.58823529409999997" green="0.61176470589999998" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleColor" red="0.0" green="0.58845514060000004" blue="0.94562488789999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <state key="selected" title="已关注问题" image="已关注.png">
-                                    <color key="titleColor" red="0.0" green="0.58845514060000004" blue="0.94562488789999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleColor" red="0.58823529409999997" green="0.61176470589999998" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="FollowClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="hEj-0V-0qY"/>
@@ -178,6 +185,7 @@
                 <outlet property="ContentLabel" destination="2JR-kL-BdB" id="1rT-yu-bCV"/>
                 <outlet property="FollowBtn" destination="Dod-QG-ORl" id="Xwb-Ha-Qfq"/>
                 <outlet property="FollowNum" destination="rlE-Xy-pfW" id="qFJ-py-1JJ"/>
+                <outlet property="Mainview" destination="01q-uW-LwY" id="XRB-iM-9c4"/>
                 <outlet property="QuestionLabel" destination="s68-zi-GOg" id="fPs-Tv-qJG"/>
                 <outlet property="SeeNum" destination="Ga5-pn-Ayo" id="yWB-2U-pGc"/>
                 <outlet property="ShowAll" destination="4Yh-ZJ-yu8" id="hap-XY-eqH"/>

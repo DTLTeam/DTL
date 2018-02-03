@@ -66,20 +66,23 @@
     _contentTableView.estimatedRowHeight = 999;
     
     __weak typeof(self) weakSelf = self;
-    //刷新
-    _contentTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        
-        weakSelf.currentPage = 0;
-        [weakSelf requestContent:weakSelf.currentPage];
-        
-    }];
-    //加载
-    _contentTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
-        
+    
+    // 上拉加载
+    MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
         _currentPage++;
         [weakSelf requestContent:weakSelf.currentPage];
         
     }];
+    [footer setUpGifImage:@"下拉加载"];
+    self.contentTableView.mj_footer = footer;
+    
+    MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
+        weakSelf.currentPage = 0;
+        [weakSelf requestContent:weakSelf.currentPage];
+    }];
+    [header setUpGifImage:@"上拉刷新"];
+    self.contentTableView.mj_header = header;
+    
     
 }
 

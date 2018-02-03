@@ -8,7 +8,6 @@
 
 #import "BaseTableViewController.h"
 
-
 @implementation BaseTableViewController
 
 - (void)viewDidLoad {
@@ -38,6 +37,7 @@
     _myTableView.dataSource = self;
     _myTableView.showsHorizontalScrollIndicator = NO;
     _myTableView.showsVerticalScrollIndicator = NO;
+    _myTableView.backgroundColor = HEX_RGB_COLOR(0xF1F1F1);
     [self.view addSubview:_myTableView];
     
     _sourceData = [NSMutableArray array];
@@ -62,22 +62,26 @@
     //实现刷新方法
     if (_haveRefresh) {
         // 上拉加载
-        _myTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
-            
+        MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
             weakSelf.currentPage ++;
-            if (weakSelf.headerRefresh) {
-                weakSelf.headerRefresh(NO);
-            }
-        }];
-        
-        //下拉刷新
-        _myTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             
+//            if (weakSelf.headerRefresh) {
+//                weakSelf.headerRefresh(NO);
+//            }
+            
+        }];
+        [footer setUpGifImage:@"下拉加载"];
+        self.myTableView.mj_footer = footer;
+         
+        MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
             weakSelf.currentPage = 1;
             if (weakSelf.headerRefresh) {
                 weakSelf.headerRefresh(YES);
             }
         }];
+        [header setUpGifImage:@"上拉刷新"];
+        self.myTableView.mj_header = header;
+         
     }else{
         
         //移除刷新
@@ -91,7 +95,6 @@
     }
     
 }
-
 
 /**
  停止刷新
@@ -140,22 +143,7 @@
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 0.5;
-}
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    return nil;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 10;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 0;
-    
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     

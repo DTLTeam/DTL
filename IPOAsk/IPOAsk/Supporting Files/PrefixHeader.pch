@@ -31,8 +31,12 @@
 
 #import "Macro.h"
 #import "UtilsCommon.h"
-#import "AskProgressHUD.h"
 #import "AskHttpLink.h"
+
+
 #import "UIBarButtonItem+myBarButtonItem.h"
+#import "AskProgressHUD.h"
+#import "MyRefreshAutoGifFooter.h"
+#import "MyRefreshAutoGifHeader.h"
 
 #endif

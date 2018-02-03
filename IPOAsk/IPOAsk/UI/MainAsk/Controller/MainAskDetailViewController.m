@@ -6,18 +6,22 @@
 //  Copyright © 2018年 law. All rights reserved.
 //
 
+#define haveComm 1  //test****************有无评论
+
 #import "MainAskDetailViewController.h"
+#import "MainAskCommViewController.h"
 #import "EditQuestionViewController.h"
 
 //View
-#import "QuestionTableViewCell.h"
 #import "SearchView.h"
+#import "QuestionTableViewCell.h"
 #import "MainAskDetailHeadViewCellTableViewCell.h"
 
 @interface MainAskDetailViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *contentTableView;
-@property (strong, nonatomic) NSMutableArray *contentArr;
+@property (strong, nonatomic) NSMutableArray *CommArr;
+@property (strong, nonatomic) QuestionModel *QuestionModal;
 @property (assign, nonatomic) NSInteger currentPage;
 @property (assign, nonatomic) BOOL all;
 
@@ -77,26 +81,27 @@
 - (void)setupInterface {
     
     _currentPage = -1;
-    _contentArr = [NSMutableArray array];
+    _CommArr = [NSMutableArray array];
     
     _contentTableView.rowHeight = UITableViewAutomaticDimension;
     _contentTableView.estimatedRowHeight = 999;
-    
     __weak typeof(self) weakSelf = self;
-    //刷新
-    _contentTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        
-        weakSelf.currentPage = 0;
-        [weakSelf requestContent:weakSelf.currentPage];
-        
-    }];
-    //加载
-    _contentTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
-        
+    
+    // 上拉加载
+    MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
         _currentPage++;
         [weakSelf requestContent:weakSelf.currentPage];
         
     }];
+    [footer setUpGifImage:@"下拉加载"];
+    self.contentTableView.mj_footer = footer;
+    
+    MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
+        weakSelf.currentPage = 0;
+        [weakSelf requestContent:weakSelf.currentPage];
+    }];
+    [header setUpGifImage:@"上拉刷新"];
+    self.contentTableView.mj_header = header;
     
 }
 
@@ -110,13 +115,20 @@
     /* test */
     
     if (_currentPage == 0) {
-        [_contentArr removeAllObjects];
+        [_CommArr removeAllObjects];
     }
     
     for (int i = 0; i < 15; i++) {
         QuestionModel *model = [[QuestionModel alloc] init];
         [model refreshModel:nil];
-        [_contentArr addObject:model];
+        [_CommArr addObject:model];
+        
+        //test*******************
+        if (i == 0) {
+            _QuestionModal = model;
+        }
+        //test*******************
+        
     }
     
     [_contentTableView reloadData];
@@ -139,9 +151,9 @@
         sleep(3);
         
         if (weakSelf.currentPage == 0) {
-            [weakSelf.contentArr removeAllObjects];
+            [weakSelf.CommArr removeAllObjects];
         }
-        [weakSelf.contentArr addObjectsFromArray:@[@"", @"", @"", @"", @"", @""]];
+        [weakSelf.CommArr addObjectsFromArray:@[@"", @"", @"", @"", @"", @""]];
         [_contentTableView reloadData];
         
         if (weakSelf.contentTableView.mj_header.isRefreshing) {
@@ -170,8 +182,10 @@
 #pragma mark - UITableViewDelegate && UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//    return _contentArr.count + 1;
-    return  1;
+    if (!haveComm) {
+        return  1;
+    }
+    return _CommArr.count + 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -184,14 +198,14 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (1) {//没有评论
+    if (!haveComm) {//没有评论
         return 70;
     }
     return 10;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    if (1) {//没有评论
+    if (!haveComm) {//没有评论
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
         label.text = @"还没有人回复这个问题，快去抢答助力小伙伴";
         label.font = [UIFont systemFontOfSize:14];
@@ -207,6 +221,20 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section > 0) { //评论
+        self.navigationController.navigationBarHidden = NO;
+        if (indexPath.section < _CommArr.count + 1) {
+            
+            QuestionModel *model = _CommArr[indexPath.section + 1];
+            
+            MainAskCommViewController *VC = [[[NSBundle mainBundle] loadNibNamed:@"MainAskCommViewController" owner:self options:nil] firstObject];
+            [VC UpdateContentWithModel:model];
+            VC.hidesBottomBarWhenPushed = YES;
+            
+            [self.navigationController pushViewController:VC animated:YES];
+            
+        }
+    }
     
 }
 
@@ -216,13 +244,13 @@
         //并且有数据
         MainAskDetailHeadViewCellTableViewCell *head  = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailHeadViewCellTableViewCell" owner:self options:nil][0];
         head.ContentLabel.numberOfLines = _all ? 0 : 5;
-        QuestionModel *model = [_contentArr firstObject];
+        
         
         __weak MainAskDetailViewController *WeakSelf = self;
         __weak UITableView *WeakTableView = tableView;
-        __weak QuestionModel *WeakModel = model;
+        __weak QuestionModel *WeakModel = _QuestionModal;
         
-        [head UpdateContent:model WithFollowClick:^(UIButton *btn) {
+        [head UpdateContent:_QuestionModal WithFollowClick:^(UIButton *btn) {
             NSLog(@"%@",btn);
             
             //成功
@@ -247,9 +275,12 @@
     QuestionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
         cell = [[QuestionTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier Main:NO];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-    [cell refreshWithModel:_contentArr[indexPath.section]];
+    if (indexPath.section < _CommArr.count) {
+        [cell refreshWithModel:_CommArr[indexPath.section]];
+    }
 
     return cell;
     

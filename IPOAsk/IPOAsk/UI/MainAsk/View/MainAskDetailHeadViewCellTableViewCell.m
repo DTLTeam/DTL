@@ -10,6 +10,7 @@
 
 
 @interface MainAskDetailHeadViewCellTableViewCell()
+@property (weak, nonatomic) IBOutlet UIView *Mainview;
 
 @property (weak, nonatomic) IBOutlet UIImageView *UserImage;
 @property (weak, nonatomic) IBOutlet UILabel *UserName;
@@ -37,6 +38,7 @@
 
 #pragma mark - 更新数据
 -(void)UpdateContent:(QuestionModel *)model WithFollowClick:(void (^)(UIButton *))FollowClick WithAnswerClick:(void (^)(UIButton *))AnswerClick WithAllClick:(void (^)(BOOL))AllClick{
+    _Mainview.hidden = NO;
     _followClick = FollowClick;
     _answerClick = AnswerClick;
     _allClick = AllClick;
