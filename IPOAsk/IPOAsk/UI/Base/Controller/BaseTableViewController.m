@@ -65,9 +65,9 @@
         MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
             weakSelf.currentPage ++;
             
-//            if (weakSelf.headerRefresh) {
-//                weakSelf.headerRefresh(NO);
-//            }
+            if (weakSelf.headerRefresh) {
+                weakSelf.headerRefresh(NO);
+            }
             
         }];
         [footer setUpGifImage:@"上拉刷新"];
@@ -75,9 +75,9 @@
          
         MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
             weakSelf.currentPage = 1;
-//            if (weakSelf.headerRefresh) {
-//                weakSelf.headerRefresh(YES);
-//            }
+            if (weakSelf.headerRefresh) {
+                weakSelf.headerRefresh(YES);
+            }
         }];
         [header setUpGifImage:@"下拉加载"];
         self.myTableView.mj_header = header;
