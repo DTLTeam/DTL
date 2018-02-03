@@ -8,6 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainNavigationController : UINavigationController
+@interface MainNavigationController : UINavigationController <UITextFieldDelegate>
+
+@property (strong, nonatomic, readonly) UITextField *searchTextField;
+
+/**
+ 显示搜索导航栏
+ */
+- (void)showSearchNavBar;
+
+/**
+ 隐藏搜索导航栏
+ */
+- (void)hideSearchNavBar;
 
 @end
