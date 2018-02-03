@@ -300,7 +300,7 @@
     
     [self layoutIfNeeded];
     
-    [UIView animateWithDuration:0.38 animations:^{
+    [UIView animateWithDuration:0.2 animations:^{
         
         _LoginEnterpriseRegisterView.alpha = _LoginType == loginType_Enterprise ? 1 : 0;
       

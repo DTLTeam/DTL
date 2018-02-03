@@ -72,6 +72,7 @@ typedef enum : NSUInteger {
 #pragma mark - 界面
 
 - (void)setupInterface{
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     
     //头像
     _headImgView = [[UIImageView alloc] init];

@@ -53,6 +53,10 @@
     [aString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:17] range:NSMakeRange(0,5)];
     _QuestionLabel.attributedText= aString;
     
+    if (SCREEN_HEIGHT < 667) {
+        _QuestionLabel.font = [UIFont systemFontOfSize:15];
+        _AnswerLabel.font = [UIFont systemFontOfSize:13];
+    }
 }
 
 #pragma mark - 点赞／取消点赞 行为

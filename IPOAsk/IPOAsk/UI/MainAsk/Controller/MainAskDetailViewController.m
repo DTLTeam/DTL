@@ -93,14 +93,14 @@
         [weakSelf requestContent:weakSelf.currentPage];
         
     }];
-    [footer setUpGifImage:@"下拉加载"];
+    [footer setUpGifImage:@"上拉刷新"];
     self.contentTableView.mj_footer = footer;
     
     MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
         weakSelf.currentPage = 0;
         [weakSelf requestContent:weakSelf.currentPage];
     }];
-    [header setUpGifImage:@"上拉刷新"];
+    [header setUpGifImage:@"下拉加载"];
     self.contentTableView.mj_header = header;
     
 }
@@ -251,9 +251,7 @@
         __weak QuestionModel *WeakModel = _QuestionModal;
         
         [head UpdateContent:_QuestionModal WithFollowClick:^(UIButton *btn) {
-            NSLog(@"%@",btn);
-            
-            //成功
+              //成功
             btn.selected = !btn.selected;
         }WithAnswerClick:^(UIButton *btn) {
             

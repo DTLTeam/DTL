@@ -28,6 +28,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    UIImage *img = [[UIImage imageNamed:@"home_pre"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    [self.navigationController.tabBarItem setSelectedImage:img];
+    [self.navigationController.tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:HEX_RGB_COLOR(0x0b98f2),NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
     
     [self login];
     [self setupInterface];
@@ -73,14 +76,14 @@
         [weakSelf requestContent:weakSelf.currentPage];
         
     }];
-    [footer setUpGifImage:@"下拉加载"];
+    [footer setUpGifImage:@"上拉刷新"];
     self.contentTableView.mj_footer = footer;
     
     MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
         weakSelf.currentPage = 0;
         [weakSelf requestContent:weakSelf.currentPage];
     }];
-    [header setUpGifImage:@"上拉刷新"];
+    [header setUpGifImage:@"下拉加载"];
     self.contentTableView.mj_header = header;
     
     

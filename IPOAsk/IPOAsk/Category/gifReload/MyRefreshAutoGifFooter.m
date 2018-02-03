@@ -43,7 +43,6 @@
     // 初始化间距
     self.labelLeftInset = 20;
     
-    self.mj_h = 48 + 10; //更改默认高度
 }
 
 - (void)placeSubviews
@@ -51,14 +50,21 @@
     [super placeSubviews];
     
     if (self.animaImgView.constraints.count) return;
-    
+ 
+    [self layoutIfNeeded];
+    [UIView animateWithDuration:0.1 animations:^{
+        self.mj_h = self.animaImgView.animatedImage.size.width; //更改默认高度
+        [self layoutIfNeeded];
+    }];
     
     self.animaImgView.frame = self.bounds;
     if (self.isRefreshingTitleHidden) {
         self.animaImgView.contentMode = UIViewContentModeCenter;
     } else {
-        self.animaImgView.contentMode = UIViewContentModeRight;
-        self.animaImgView.mj_w = self.mj_w * 0.5 - self.labelLeftInset - self.stateLabel.mj_textWith * 0.5;
+        self.animaImgView.mj_w = self.animaImgView.animatedImage.size.width / 2 ;
+        self.animaImgView.mj_h = self.animaImgView.animatedImage.size.width / 2 ;
+        self.animaImgView.mj_x = self.mj_w * 0.5 - self.labelLeftInset - self.stateLabel.mj_textWith * 0.5 - 15;
+        self.animaImgView.mj_y = (self.mj_h - self.animaImgView.mj_h) / 2;
     }
 }
 

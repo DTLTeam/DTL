@@ -34,6 +34,10 @@ static NSString * CellIdentifier = @"EnterpriseCell";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    UIImage *img = [[UIImage imageNamed:@"企业-pre"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    [self.navigationController.tabBarItem setSelectedImage:img];
+    [self.navigationController.tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:HEX_RGB_COLOR(0x0b98f2),NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
+    
     self.title = @"企业+";
     
     self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;

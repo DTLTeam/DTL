@@ -70,16 +70,16 @@
 //            }
             
         }];
-        [footer setUpGifImage:@"下拉加载"];
+        [footer setUpGifImage:@"上拉刷新"];
         self.myTableView.mj_footer = footer;
          
         MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
             weakSelf.currentPage = 1;
-            if (weakSelf.headerRefresh) {
-                weakSelf.headerRefresh(YES);
-            }
+//            if (weakSelf.headerRefresh) {
+//                weakSelf.headerRefresh(YES);
+//            }
         }];
-        [header setUpGifImage:@"上拉刷新"];
+        [header setUpGifImage:@"下拉加载"];
         self.myTableView.mj_header = header;
          
     }else{

@@ -71,6 +71,7 @@
 #pragma mark - 更新数据
 -(void)UpdateContentWithModel:(QuestionModel *)model{
     
+    _TitleLabel.text = model.title;
     _UserNameLabel.text = model.userName;
     _CommDate.text = model.dateStr;
     [_SeeBtn setTitle:[NSString stringWithFormat:@"%ld",model.lookNum] forState:UIControlStateNormal];
@@ -81,7 +82,7 @@
     [_CommScrollView addSubview:commlabel];
     commlabel.text = [NSString stringWithFormat:@"%@%@%@",model.content,model.content,model.content];
     commlabel.numberOfLines = 0;
-    commlabel.font = [UIFont systemFontOfSize:16];
+    commlabel.font = [UIFont systemFontOfSize:SCREEN_HEIGHT >= 667 ? 16 : 14];
     
     _CommScrollView.contentSize = CGSizeMake(0, 0);
     

@@ -9,9 +9,7 @@
 #import "MainAskDetailHeadViewCellTableViewCell.h"
 
 
-@interface MainAskDetailHeadViewCellTableViewCell()
-@property (weak, nonatomic) IBOutlet UIView *Mainview;
-
+@interface MainAskDetailHeadViewCellTableViewCell() 
 @property (weak, nonatomic) IBOutlet UIImageView *UserImage;
 @property (weak, nonatomic) IBOutlet UILabel *UserName;
 @property (weak, nonatomic) IBOutlet UILabel *QuestionLabel;
@@ -29,16 +27,21 @@
 @property (nonatomic,strong)void (^(allClick))(BOOL all);
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *BottomH;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *Line1;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *Line2;
 
 @end
 
 @implementation MainAskDetailHeadViewCellTableViewCell
 
+-(void)awakeFromNib{
+    [super awakeFromNib];
+}
 
 
 #pragma mark - 更新数据
 -(void)UpdateContent:(QuestionModel *)model WithFollowClick:(void (^)(UIButton *))FollowClick WithAnswerClick:(void (^)(UIButton *))AnswerClick WithAllClick:(void (^)(BOOL))AllClick{
-    _Mainview.hidden = NO;
+    
     _followClick = FollowClick;
     _answerClick = AnswerClick;
     _allClick = AllClick;
@@ -56,6 +59,14 @@
     if (_ContentLabel.numberOfLines == 0) {
         _ShowAll.hidden = YES;
         _BottomH.constant -= 28;
+    }
+    
+    if (SCREEN_HEIGHT < 667) {
+        _Line1.constant = 10;
+        _Line2.constant = 10;
+        _FollowBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+        _ContentLabel.font = [UIFont systemFontOfSize:15];
+        _QuestionLabel.font = [UIFont systemFontOfSize:15];
     }
 }
 
@@ -86,10 +97,6 @@
     
 }
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

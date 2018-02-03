@@ -78,7 +78,7 @@
     self.navigationController.navigationBar.translucent = NO;
     
     UIButton *lbtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIBarButtonItem *leftBtn = [UIBarButtonItem returnTabBarItemWithBtn:lbtn image:@"" bgimage:nil  Title:@"取消" SelectedTitle:@" " titleFont:12 itemtype:Itemtype_left SystemItem:UIBarButtonSystemItemFixedSpace target:self action:@selector(back)];
+    UIBarButtonItem *leftBtn = [UIBarButtonItem returnTabBarItemWithBtn:lbtn image:@"" bgimage:nil  Title:@"取消" SelectedTitle:@" " titleFont:16 itemtype:Itemtype_left SystemItem:UIBarButtonSystemItemFixedSpace target:self action:@selector(back)];
     [lbtn setTitleColor:HEX_RGB_COLOR(0x969ca1) forState:UIControlStateNormal];
     
     UIBarButtonItem *fixedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
@@ -87,7 +87,7 @@
     
     
     UIButton *rbtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIBarButtonItem *rightBtn = [UIBarButtonItem returnTabBarItemWithBtn:rbtn image:@"" bgimage:nil  Title:@"发布" SelectedTitle:@""  titleFont:12 itemtype:Itemtype_rigth SystemItem:UIBarButtonSystemItemFixedSpace target:self action:@selector(SendOut)];
+    UIBarButtonItem *rightBtn = [UIBarButtonItem returnTabBarItemWithBtn:rbtn image:@"" bgimage:nil  Title:@"发布" SelectedTitle:@""  titleFont:16 itemtype:Itemtype_rigth SystemItem:UIBarButtonSystemItemFixedSpace target:self action:@selector(SendOut)];
     [rbtn setTitleColor:HEX_RGB_COLOR(0x0b98f2) forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItems = @[fixedButton, rightBtn]; 
     
@@ -172,7 +172,14 @@
     [self.view layoutIfNeeded];
     [UIView animateWithDuration:0.38 animations:^{
         
-        _BottomH.constant = CGRectGetHeight(_keyboardFrame) + _defBottomH ;
+        if (!IS_IPHONE_X) {
+            
+            _BottomH.constant = CGRectGetHeight(_keyboardFrame) + _defBottomH ;
+        }else{
+            
+            _BottomH.constant = CGRectGetHeight(_keyboardFrame) + _defBottomH - 24;
+        }
+        
         [self.view layoutIfNeeded];
     }];
     
