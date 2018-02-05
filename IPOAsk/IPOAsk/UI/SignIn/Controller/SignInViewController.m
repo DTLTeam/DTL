@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *UserHead;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *TopH;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *TopHeight;
 @property (nonatomic,assign)CGRect keyboardFrame;
 
 @property (weak, nonatomic) IBOutlet UIView *ChooseLine;
@@ -48,6 +49,9 @@
     
     if (SCREEN_HEIGHT < 667 ) {
         _TopH.constant -= 20;
+    }else if (IS_IPHONE_X){
+        _TopH.constant -= 24;
+        _TopHeight.constant += 24;
     }
     self.navigationController.navigationBar.hidden = YES;
     

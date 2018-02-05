@@ -6,7 +6,7 @@
 //  Copyright © 2018年 law. All rights reserved.
 //
 
-#import "MainAskViewController.h"
+#import "MainAskViewController.h" 
 
 //View
 #import "QuestionTableViewCell.h"
@@ -28,6 +28,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    UIImage *img = [[UIImage imageNamed:@"home_pre"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    [self.navigationController.tabBarItem setSelectedImage:img];
+    [self.navigationController.tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:HEX_RGB_COLOR(0x0b98f2),NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
     
     [self login];
     [self setupInterface];
@@ -66,20 +69,23 @@
     _contentTableView.estimatedRowHeight = 999;
     
     __weak typeof(self) weakSelf = self;
-    //刷新
-    _contentTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        
-        weakSelf.currentPage = 0;
-        [weakSelf requestContent:weakSelf.currentPage];
-        
-    }];
-    //加载
-    _contentTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
-        
+    
+    // 上拉加载
+    MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
         _currentPage++;
         [weakSelf requestContent:weakSelf.currentPage];
         
     }];
+    [footer setUpGifImage:@"上拉刷新"];
+    self.contentTableView.mj_footer = footer;
+    
+    MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
+        weakSelf.currentPage = 0;
+        [weakSelf requestContent:weakSelf.currentPage];
+    }];
+    [header setUpGifImage:@"下拉加载"];
+    self.contentTableView.mj_header = header;
+    
     
 }
 
@@ -184,12 +190,21 @@
     return 1;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    //传问题模型
+    MainAskDetailViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil][0];
+     
+    [self.navigationController pushViewController:VC animated:YES];
+    
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     static NSString *identifier = @"questionCell";
     QuestionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
-        cell = [[QuestionTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell = [[QuestionTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier Main:YES];
     }
     
     [cell refreshWithModel:_contentArr[indexPath.section]];

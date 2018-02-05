@@ -21,6 +21,7 @@
 @property (nonatomic, readonly) NSInteger lookNum;      //查看数量
 @property (nonatomic, readonly) NSInteger replyNum;     //回复数量
 @property (nonatomic, readonly) NSInteger attentionNum; //关注数量
+@property (nonatomic, readonly) NSInteger LikeNum;      //点赞数量
 
 /**
  刷新模型数据

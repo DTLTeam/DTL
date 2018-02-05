@@ -17,6 +17,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    if (!IS_IOS11LATER) {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {

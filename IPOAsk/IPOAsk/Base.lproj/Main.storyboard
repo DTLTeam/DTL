@@ -61,7 +61,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="P7M-UY-8d7">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="P7M-UY-8d7">
                                 <rect key="frame" x="0.0" y="70" width="320" height="449"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
@@ -111,7 +111,7 @@
         <scene sceneID="K2V-dd-vQc">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="xh2-uR-gkf" customClass="MainNavigationController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="首页" id="qj0-PH-Ze4"/>
+                    <tabBarItem key="tabBarItem" title="首页" image="home_nor.png" id="qj0-PH-Ze4"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="BKf-q0-i2S">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -127,7 +127,7 @@
         <scene sceneID="nGw-pP-tVg">
             <objects>
                 <navigationController id="02P-ck-418" customClass="BaseNavViewController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="企业+" id="kVI-co-u5E"/>
+                    <tabBarItem key="tabBarItem" title="企业+" image="企业-nor.png" id="kVI-co-u5E"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="i9e-De-RbG">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -313,6 +313,7 @@
                         <outlet property="EnterpriseView" destination="hP2-HX-8Ce" id="Qnn-uu-LyM"/>
                         <outlet property="PersonView" destination="ixM-3h-FVs" id="pbF-Bu-dCY"/>
                         <outlet property="TopH" destination="gMA-Af-7gP" id="nQy-vT-R1Z"/>
+                        <outlet property="TopHeight" destination="UAf-6i-jFX" id="3ZT-zj-xG6"/>
                         <outlet property="TopViews" destination="6eL-OQ-UeV" id="Fbi-GS-4jq"/>
                         <outlet property="UserHead" destination="6nL-qt-IZQ" id="PHV-3A-zQC"/>
                     </connections>
@@ -890,7 +891,7 @@
         <scene sceneID="IOV-ay-u1B">
             <objects>
                 <navigationController id="tEt-fU-fs4" customClass="BaseNavViewController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="消息" id="5gd-UC-IqL"/>
+                    <tabBarItem key="tabBarItem" title="消息" image="消息-nor.png" id="5gd-UC-IqL"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="9GN-tG-Unk">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -907,7 +908,7 @@
         <scene sceneID="N0O-sv-Xqc">
             <objects>
                 <navigationController id="1aa-hu-prU" customClass="BaseNavViewController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="我的" id="ehY-KT-213"/>
+                    <tabBarItem key="tabBarItem" title="我的" image="我的-nor.png" id="ehY-KT-213"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="KCa-bH-GIX">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1143,4 +1144,10 @@
             <point key="canvasLocation" x="-4460" y="2823"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="home_nor.png" width="22" height="22"/>
+        <image name="企业-nor.png" width="22" height="22"/>
+        <image name="我的-nor.png" width="22" height="22"/>
+        <image name="消息-nor.png" width="22" height="22"/>
+    </resources>
 </document>

@@ -34,6 +34,10 @@ static NSString * CellIdentifier = @"EnterpriseCell";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    UIImage *img = [[UIImage imageNamed:@"企业-pre"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    [self.navigationController.tabBarItem setSelectedImage:img];
+    [self.navigationController.tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:HEX_RGB_COLOR(0x0b98f2),NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
+    
     self.title = @"企业+";
     
     self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -42,7 +46,7 @@ static NSString * CellIdentifier = @"EnterpriseCell";
     
     self.myTableView.backgroundColor = HEX_RGB_COLOR(0xF2F2F2);
     
-    self.haveRefresh = NO;
+    self.haveRefresh = YES;
     
     
     [self setUpViews];
@@ -60,8 +64,8 @@ static NSString * CellIdentifier = @"EnterpriseCell";
     
     __weak EnterpriseViewController *WeakSelf = self;
     
-#if 1 //是否是专家
-//    [self setUpdata];
+#if 0 //是否是专家
+    [self setUpdata];
     
     // ****************** 已经是专家
     if (!self.haveData) {
@@ -106,6 +110,11 @@ static NSString * CellIdentifier = @"EnterpriseCell";
 
 
 #pragma mark -  UITableViewDataSource
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 10;
+}
+ 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.sourceData.count;
     
@@ -143,7 +152,7 @@ static NSString * CellIdentifier = @"EnterpriseCell";
 #pragma mark - 马上咨询专家
 - (void)Consultation{
     EditQuestionViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:self options:nil][0];
-    VC.title = @"企业+"; 
+    [VC UserType:AnswerType_AskQuestionEnterprise NavTitle:@"企业+"];
     [self.navigationController pushViewController:VC animated:YES];
     
 }

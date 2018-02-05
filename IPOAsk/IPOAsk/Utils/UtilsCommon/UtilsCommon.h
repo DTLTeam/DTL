@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+static NSString * phoneNum = @"15012345678";
+
 //登录类型
 typedef enum : NSUInteger {
     loginType_Person,

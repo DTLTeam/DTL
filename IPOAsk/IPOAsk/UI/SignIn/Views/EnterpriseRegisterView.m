@@ -7,8 +7,6 @@
 //
 
 
-static NSString * phoneNum = @"15012345678";
-
 #import "EnterpriseRegisterView.h"
 
 
