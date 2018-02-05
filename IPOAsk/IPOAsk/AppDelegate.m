@@ -17,6 +17,23 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    [[FMDBManager sharedInstance]creatTableWithName:@"Drafts" path:@[@"title",@"content",@"Type",@"anonymous"]];
+    
+
+    //test*******
+#if 0
+    for (NSInteger i = 0 ; i < 1000 ; i ++) {
+        DraftsModel *model = [[DraftsModel alloc]init];
+        model.title = [NSString stringWithFormat:@"标题%ld",i];
+        model.content = [NSString stringWithFormat:@"标题标题标题标题标题标题标题标题标题标题%ld",i];
+        model.Type = 2;
+        model.anonymous = @"0";
+        [[FMDBManager sharedInstance]insertToDB:model];
+    }
+#endif
+    //test*******
+    
     return YES;
 }
 

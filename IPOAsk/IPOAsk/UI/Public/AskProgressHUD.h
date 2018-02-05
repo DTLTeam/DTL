@@ -29,7 +29,7 @@
  @param title 文字
  @param tag 标示
  */
-+ (void)AskShowOnlyTitleInView:(UIView *)view Title:(NSString *)title viewtag:(int)tag;
++ (void)AskShowOnlyTitleInView:(UIView *)view Title:(NSString *)title viewtag:(int)tag AfterDelay:(CGFloat)afterDelay;
 
 
 /**
