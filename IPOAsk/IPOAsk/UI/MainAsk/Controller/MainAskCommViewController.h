@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "QuestionModel.h"
+#import "AnswerModel.h"
 
 @interface MainAskCommViewController : UIViewController
  
 
 #pragma mark - 更新数据
--(void)UpdateContentWithModel:(QuestionModel *)model;
+-(void)UpdateContentWithModel:(AnswerModel *)model;
 
 @end

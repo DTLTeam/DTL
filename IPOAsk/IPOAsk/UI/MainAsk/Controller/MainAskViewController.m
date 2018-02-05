@@ -192,9 +192,11 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    QuestionModel *model = _contentArr[indexPath.section];
+    
     //传问题模型
     MainAskDetailViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil][0];
-     
+    VC.model = model;
     [self.navigationController pushViewController:VC animated:YES];
     
 }

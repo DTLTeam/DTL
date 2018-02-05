@@ -69,13 +69,13 @@
 }
 
 #pragma mark - 更新数据
--(void)UpdateContentWithModel:(QuestionModel *)model{
+-(void)UpdateContentWithModel:(AnswerModel *)model{
     
     _TitleLabel.text = model.title;
     _UserNameLabel.text = model.userName;
     _CommDate.text = model.dateStr;
     [_SeeBtn setTitle:[NSString stringWithFormat:@"%ld",model.lookNum] forState:UIControlStateNormal];
-    [_LikeBtn setTitle:[NSString stringWithFormat:@"%ld",model.LikeNum] forState:UIControlStateNormal];
+    [_LikeBtn setTitle:[NSString stringWithFormat:@"%ld",model.likeNum] forState:UIControlStateNormal];
     
    
     UILabel *commlabel = [[UILabel alloc]init];

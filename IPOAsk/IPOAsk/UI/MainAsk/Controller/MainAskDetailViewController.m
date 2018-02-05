@@ -14,14 +14,14 @@
 
 //View
 #import "SearchView.h"
-#import "QuestionTableViewCell.h"
+#import "AnswerModel.h"
+#import "AnswerTableViewCell.h"
 #import "MainAskDetailHeadViewCellTableViewCell.h"
 
-@interface MainAskDetailViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface MainAskDetailViewController ()<UITableViewDelegate, UITableViewDataSource,AnswerTableViewCellDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *contentTableView;
 @property (strong, nonatomic) NSMutableArray *CommArr;
-@property (strong, nonatomic) QuestionModel *QuestionModal;
 @property (assign, nonatomic) NSInteger currentPage;
 @property (assign, nonatomic) BOOL all;
 
@@ -36,8 +36,8 @@
     
     [self setupInterface];
     
-    
 }
+
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -119,15 +119,9 @@
     }
     
     for (int i = 0; i < 15; i++) {
-        QuestionModel *model = [[QuestionModel alloc] init];
+        AnswerModel *model = [[AnswerModel alloc] init];
         [model refreshModel:nil];
         [_CommArr addObject:model];
-        
-        //test*******************
-        if (i == 0) {
-            _QuestionModal = model;
-        }
-        //test*******************
         
     }
     
@@ -223,9 +217,9 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section > 0) { //评论
         self.navigationController.navigationBarHidden = NO;
-        if (indexPath.section < _CommArr.count + 1) {
+        if (indexPath.section < _CommArr.count) {
             
-            QuestionModel *model = _CommArr[indexPath.section + 1];
+            AnswerModel *model = _CommArr[indexPath.section + 1];
             
             MainAskCommViewController *VC = [[[NSBundle mainBundle] loadNibNamed:@"MainAskCommViewController" owner:self options:nil] firstObject];
             [VC UpdateContentWithModel:model];
@@ -248,9 +242,9 @@
         
         __weak MainAskDetailViewController *WeakSelf = self;
         __weak UITableView *WeakTableView = tableView;
-        __weak QuestionModel *WeakModel = _QuestionModal;
+        __weak QuestionModel *WeakModel = _model;
         
-        [head UpdateContent:_QuestionModal WithFollowClick:^(UIButton *btn) {
+        [head UpdateContent:_model WithFollowClick:^(UIButton *btn) {
               //成功
             btn.selected = !btn.selected;
         }WithAnswerClick:^(UIButton *btn) {
@@ -269,11 +263,12 @@
         return head;
     }
     
-    static NSString *identifier = @"questiondetailCell";
-    QuestionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    static NSString *identifier = @"AnswerTableViewCell";
+    AnswerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
-        cell = [[QuestionTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier Main:NO];
+        cell = [[AnswerTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.delegate = self;
     }
     
     if (indexPath.section < _CommArr.count) {
@@ -282,6 +277,18 @@
 
     return cell;
     
+}
+
+#pragma mark - 喜欢 点击事件
+-(void)likeWithCell:(AnswerTableViewCell *)cell{
+    NSIndexPath *indexpath = [_contentTableView indexPathForCell:cell];
+    
+    AnswerModel *model = [_CommArr objectAtIndex:indexpath.section];
+    NSLog(@"%ld",indexpath.section);
+    
+    //点击事件请求成功
+    model.isLike = !model.isLike;
+    [_contentTableView reloadSections:[NSIndexSet indexSetWithIndex:indexpath.section] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)back{
