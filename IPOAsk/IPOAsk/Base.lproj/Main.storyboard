@@ -22,7 +22,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="REI-o7-4pA">
-                                <rect key="frame" x="0.0" y="70" width="320" height="449"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="Sr0-ST-FrR" id="QkE-S5-byN"/>
@@ -34,7 +34,7 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="REI-o7-4pA" secondAttribute="trailing" id="6O3-pK-XhM"/>
                             <constraint firstItem="mpF-h7-07K" firstAttribute="top" secondItem="REI-o7-4pA" secondAttribute="bottom" id="FXh-2o-6Ev"/>
-                            <constraint firstItem="REI-o7-4pA" firstAttribute="top" secondItem="JPd-CM-FUN" secondAttribute="bottom" constant="50" id="OGg-RF-eoV"/>
+                            <constraint firstItem="REI-o7-4pA" firstAttribute="top" secondItem="JPd-CM-FUN" secondAttribute="bottom" id="OGg-RF-eoV"/>
                             <constraint firstItem="REI-o7-4pA" firstAttribute="leading" secondItem="0AE-E6-Zeg" secondAttribute="leading" id="heI-6Y-QdS"/>
                         </constraints>
                     </view>
@@ -46,7 +46,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PQ6-Sy-LRV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4460" y="2084"/>
+            <point key="canvasLocation" x="-4460.625" y="2083.0985915492956"/>
         </scene>
         <!--首页-->
         <scene sceneID="DHS-TP-YoX">
@@ -61,7 +61,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="P7M-UY-8d7">
-                                <rect key="frame" x="0.0" y="70" width="320" height="449"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="Wm5-77-h3R" id="rnG-sw-4wZ"/>
@@ -72,7 +72,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="P7M-UY-8d7" secondAttribute="trailing" id="EjD-Rz-yNF"/>
-                            <constraint firstItem="P7M-UY-8d7" firstAttribute="top" secondItem="ze5-E7-whC" secondAttribute="bottom" constant="50" id="ExI-UL-d5Q"/>
+                            <constraint firstItem="P7M-UY-8d7" firstAttribute="top" secondItem="ze5-E7-whC" secondAttribute="bottom" id="ExI-UL-d5Q"/>
                             <constraint firstItem="A3L-a3-4C4" firstAttribute="top" secondItem="P7M-UY-8d7" secondAttribute="bottom" id="bkd-tg-vau"/>
                             <constraint firstItem="P7M-UY-8d7" firstAttribute="leading" secondItem="nKL-EW-3uM" secondAttribute="leading" id="pzM-Zg-cga"/>
                         </constraints>
@@ -85,7 +85,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fnv-wh-Jsh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4460" y="1334"/>
+            <point key="canvasLocation" x="-4460.625" y="1333.0985915492959"/>
         </scene>
         <!--Enterprise View Controller-->
         <scene sceneID="Hss-IT-oJL">
@@ -109,9 +109,10 @@
         <!--首页-->
         <scene sceneID="K2V-dd-vQc">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="xh2-uR-gkf" customClass="MainNavigationController" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xh2-uR-gkf" customClass="MainNavigationController" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="首页" image="home_nor.png" id="qj0-PH-Ze4"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="BKf-q0-i2S">
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -1086,43 +1087,6 @@
             </objects>
             <point key="canvasLocation" x="-6564" y="2408.5457271364321"/>
         </scene>
-        <!--搜索-->
-        <scene sceneID="zfI-gb-Myb">
-            <objects>
-                <viewController storyboardIdentifier="searchVC" title="搜索" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Eo7-bo-L21" customClass="SearchViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="4Md-Fr-S8L"/>
-                        <viewControllerLayoutGuide type="bottom" id="ePf-w8-1fI"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="x49-BZ-Bnl">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4Ke-er-OOq">
-                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="Eo7-bo-L21" id="xrQ-Gk-gfb"/>
-                                    <outlet property="delegate" destination="Eo7-bo-L21" id="0cM-Uq-wi7"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="4Ke-er-OOq" secondAttribute="trailing" id="YNY-HK-quH"/>
-                            <constraint firstItem="ePf-w8-1fI" firstAttribute="top" secondItem="4Ke-er-OOq" secondAttribute="bottom" id="a0v-LF-rv5"/>
-                            <constraint firstItem="4Ke-er-OOq" firstAttribute="top" secondItem="4Md-Fr-S8L" secondAttribute="bottom" id="dLS-f3-hu0"/>
-                            <constraint firstItem="4Ke-er-OOq" firstAttribute="leading" secondItem="x49-BZ-Bnl" secondAttribute="leading" id="y3c-xP-W5X"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="contentTableView" destination="4Ke-er-OOq" id="vbd-jF-34Q"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rcz-RE-Ugz" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-7234" y="2409"/>
-        </scene>
         <!--答案详情-->
         <scene sceneID="RM6-9f-zUT">
             <objects>
@@ -1136,7 +1100,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="aAu-yC-0N3">
-                                <rect key="frame" x="0.0" y="70" width="320" height="449"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="O2l-JA-Rz8" id="VtW-cW-fha"/>
@@ -1147,7 +1111,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="cP6-2W-IfU" firstAttribute="top" secondItem="aAu-yC-0N3" secondAttribute="bottom" id="T7v-wz-KLS"/>
-                            <constraint firstItem="aAu-yC-0N3" firstAttribute="top" secondItem="ko4-WB-G0D" secondAttribute="bottom" constant="50" id="dZI-aO-fxN"/>
+                            <constraint firstItem="aAu-yC-0N3" firstAttribute="top" secondItem="ko4-WB-G0D" secondAttribute="bottom" id="dZI-aO-fxN"/>
                             <constraint firstItem="aAu-yC-0N3" firstAttribute="leading" secondItem="NGa-tu-xUi" secondAttribute="leading" id="p79-EJ-D57"/>
                             <constraint firstAttribute="trailing" secondItem="aAu-yC-0N3" secondAttribute="trailing" id="soM-S2-6QO"/>
                         </constraints>
@@ -1159,7 +1123,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xbv-ZX-p4W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4460" y="2823"/>
+            <point key="canvasLocation" x="-4460.625" y="2822.5352112676055"/>
         </scene>
     </scenes>
     <resources>

@@ -10,8 +10,6 @@
 
 #import "HeadViewTableViewCell.h"
 
-#import "AskHttpLink.h"
-
 @interface MineViewController () <UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) UITableView *tableView;
 
@@ -29,15 +27,6 @@
     dataArr = @[@"我的钱包",@"申请成为答主",@"草稿箱",@"帮助中心",@"关于我们",@"设置"];
     [self setupView];
     
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"login",@"phone":@"18602741534",@"password":@"123456"} backData:NetSessionResponseTypeJSON success:^(id response) {
-
-    } requestHead:^(id response) {
-
-    } faile:^(NSError *error) {
-        
-    }];
-    
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -45,6 +34,7 @@
     self.title = @"我的";
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBarHidden = YES;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     self.navigationController.tabBarController.tabBar.hidden = NO;
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
@@ -61,7 +51,7 @@
 {
     self.view.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
     
-    CGFloat height = 160 + 64 + dataArr.count * 51 + 10;
+    CGFloat height = 160 + 64 + dataArr.count * 50.5 + 10;
     if (height + TABBAR_HEIGHT >= SCREEN_HEIGHT) {
         height = SCREEN_HEIGHT;
     }
@@ -73,9 +63,6 @@
     [self.view addSubview:_tableView];
     if (@available(iOS 11.0, *)) {
         _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-    }else
-    {
-        self.automaticallyAdjustsScrollViewInsets = NO;
     }
 }
 

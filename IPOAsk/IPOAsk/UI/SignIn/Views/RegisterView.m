@@ -91,7 +91,7 @@
     //获取验证码
     _CodeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [_CodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
-    [_CodeBtn setTitleColor:HEX_RGB_COLOR(0x0b98f2) forState:UIControlStateNormal];
+    [_CodeBtn setTitleColor:HEX_RGB_COLOR(0x969ca1) forState:UIControlStateNormal];
     _CodeBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     [_CodeBtn addTarget:self action:@selector(BtnClick:) forControlEvents:UIControlEventTouchUpInside];
     _CodeBtn.enabled = NO;
@@ -213,6 +213,7 @@
         }
         //验证码倒数计时
         [sender setTitle:[NSString stringWithFormat:@"%i秒", _count] forState:UIControlStateDisabled];
+        [sender setTitleColor:HEX_RGB_COLOR(0x969ca1) forState:UIControlStateNormal];
         sender.enabled = NO;
         
     } else if (sender.tag == RegisterbtnType_Security){
@@ -233,7 +234,7 @@
     _count = 60;
     [_CodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
     [_CodeBtn setTitle:@"获取验证码" forState:UIControlStateDisabled];
-    [_CodeBtn setTitleColor:HEX_RGB_COLOR(0x0b98f2) forState:UIControlStateNormal];
+    [_CodeBtn setTitleColor:HEX_RGB_COLOR(0x969ca1) forState:UIControlStateNormal];
     _CodeBtn.enabled = NO;
     
     [_PhoneView clearText];
@@ -322,18 +323,18 @@
         
     } else {
         _RegisterBtn.userInteractionEnabled = NO;
-        [_RegisterBtn setBackgroundColor:[UIColor lightGrayColor]];
+        [_RegisterBtn setBackgroundColor:HEX_RGB_COLOR(0x969ca1)];
     }
 }
 
 - (void)refreshbtn{
     if ([UtilsCommon validPhoneNum:[self.PhoneView text]].length > 0 && [_CodeBtn.titleLabel.text isEqualToString:@"获取验证码"]) {
         _CodeBtn.enabled = YES;
-        [_CodeBtn setTitleColor:HEX_RGB_COLOR(0x969ca1) forState:UIControlStateNormal];
+        [_CodeBtn setTitleColor:HEX_RGB_COLOR(0x0b98f2) forState:UIControlStateNormal];
         
     }else if (!([UtilsCommon validPhoneNum:[self.PhoneView text]].length > 0) && [_CodeBtn.titleLabel.text isEqualToString:@"获取验证码"]){
         _CodeBtn.enabled = NO;
-        [_CodeBtn setTitleColor:HEX_RGB_COLOR(0x0b98f2) forState:UIControlStateNormal];
+        [_CodeBtn setTitleColor:HEX_RGB_COLOR(0x969ca1) forState:UIControlStateNormal];
     }
 }
 

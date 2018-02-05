@@ -9,7 +9,10 @@
 
 @interface AnswerModel : NSObject
 
-@property (nonatomic, readonly) BOOL isLike;    //是否已经点赞
+//test*********
+@property (nonatomic, assign) BOOL isLike;    //是否已经点赞
+
+//@property (nonatomic, readonly) BOOL isLike;    //是否已经点赞
 
 @property (strong, nonatomic, readonly) NSString *headImgUrlStr; //用户头像图片加载路径
 @property (strong, nonatomic, readonly) NSString *userName;      //用户名

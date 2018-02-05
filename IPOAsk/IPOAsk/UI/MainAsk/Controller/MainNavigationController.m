@@ -293,8 +293,6 @@
         [_putQuestionBtn setTitle:@"取消" forState:UIControlStateNormal];
         [_putQuestionBtn addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
         
-        [self hideSearchNavBar];
-        
     } else { //非搜索页面
         
         [_putQuestionBtn setTitle:@"" forState:UIControlStateNormal];
