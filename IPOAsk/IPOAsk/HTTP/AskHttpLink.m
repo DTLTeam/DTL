@@ -151,7 +151,7 @@ static id _instance;
         }
         
         // 解析服务器返回的数据(返回的数据为JSON格式，因此使用NSJNOSerialization进行反序列化)
-        id dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+        id dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
         
 //        NSLog(@"response%@",response);
         NSHTTPURLResponse * da =(NSHTTPURLResponse *)response;
