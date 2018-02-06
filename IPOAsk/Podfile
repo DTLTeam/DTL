@@ -8,6 +8,7 @@ target 'IPOAsk' do
 	pod 'Masonry'
 	pod 'MJRefresh'
 	pod 'Bugly'
+    pod 'FMDB'
 end
 
 
