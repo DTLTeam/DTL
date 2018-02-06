@@ -24,6 +24,36 @@
     return theImage;
 }
 
+#pragma mark document目录下的文件路径
++ (NSString *)documentFilePathWithFileName:(NSString *)fileName
+{
+    return [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:fileName];
+}
+ 
+
++(NSString *)getPathForDocuments:(NSString *)filename inDir:(NSString *)dir
+{
+    return [[self getDirectoryForDocuments:dir] stringByAppendingPathComponent:filename];
+}
+
++(NSString *)getDirectoryForDocuments:(NSString *)dir
+{
+    NSError* error;
+    NSString* path = [[self getDocumentPath] stringByAppendingPathComponent:dir];
+    
+    if(![[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:&error])
+    {
+        DLog(@"create dir error: %@",error.debugDescription);
+    }
+    return path;
+}
++(NSString *)getDocumentPath
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    return documentsDirectory;
+}
+
 #pragma mark - <识手机号>
 +(NSString *)validPhoneNum:(NSString *)phone{
     //获取字符串中的电话号码

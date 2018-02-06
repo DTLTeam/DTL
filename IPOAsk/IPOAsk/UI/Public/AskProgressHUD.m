@@ -9,7 +9,7 @@
 #import "AskProgressHUD.h"
 #import "MBProgressHUD.h"
 
-#define bgcolor [UIColor greenColor]
+#define bgcolor HEX_RGB_COLOR(0xe3e3e3)
 
 #define textColor [UIColor redColor]
 
@@ -32,7 +32,7 @@
 }
 
 #pragma mark - 只有文字
-+(void)AskShowOnlyTitleInView:(UIView *)view Title:(NSString *)title viewtag:(int)tag {
++(void)AskShowOnlyTitleInView:(UIView *)view Title:(NSString *)title viewtag:(int)tag AfterDelay:(CGFloat)afterDelay{
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     
@@ -43,6 +43,9 @@
     hud.label.text = title;
     
     hud.tag = tag;
+    
+    
+    [hud hideAnimated:YES afterDelay:afterDelay];
 }
 
 
@@ -51,7 +54,7 @@
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     
-    hud.contentColor = [UIColor whiteColor]; //文字颜色
+    hud.contentColor = [UIColor blackColor]; //文字颜色
     hud.bezelView.backgroundColor = bgcolor;//加载框背景色
     hud.label.text = title;
     

@@ -9,6 +9,7 @@
 #import "AnswerViewController.h"
 
 @interface AnswerViewController ()
+@property (weak, nonatomic) IBOutlet UIButton *answerBtn;
 
 @end
 
@@ -19,7 +20,7 @@
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
-    
+    _answerBtn.layer.cornerRadius = 3;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,5 +45,7 @@
     // Pass the selected object to the new view controller.
 }
 */
+- (IBAction)ansterAction:(id)sender {
+}
 
 @end
