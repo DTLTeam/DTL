@@ -15,11 +15,11 @@
 /**
  显示搜索导航栏
  */
-- (void)showSearchNavBar;
+- (void)showSearchNavBar:(BOOL)animated;
 
 /**
  隐藏搜索导航栏
  */
-- (void)hideSearchNavBar;
+- (void)hideSearchNavBar:(BOOL)animated;
 
 @end

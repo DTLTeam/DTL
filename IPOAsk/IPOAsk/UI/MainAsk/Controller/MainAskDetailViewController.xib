@@ -21,7 +21,7 @@
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="QrC-Qv-8gq">
-                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <color key="sectionIndexBackgroundColor" red="0.94499540328979492" green="0.94515722990036011" blue="0.94498521089553833" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <connections>
@@ -35,7 +35,7 @@
                     <constraint firstItem="Kf8-gg-gxd" firstAttribute="top" secondItem="QrC-Qv-8gq" secondAttribute="bottom" id="82f-3o-lkA"/>
                     <constraint firstAttribute="trailing" secondItem="QrC-Qv-8gq" secondAttribute="trailing" id="PtU-kY-6hY"/>
                     <constraint firstItem="QrC-Qv-8gq" firstAttribute="leading" secondItem="YYZ-xM-Y3n" secondAttribute="leading" id="ahq-d6-qea"/>
-                    <constraint firstItem="QrC-Qv-8gq" firstAttribute="top" secondItem="Yp4-dj-Qrx" secondAttribute="bottom" constant="44" id="csV-An-KZQ"/>
+                    <constraint firstItem="QrC-Qv-8gq" firstAttribute="top" secondItem="Yp4-dj-Qrx" secondAttribute="bottom" id="csV-An-KZQ"/>
                 </constraints>
             </view>
             <connections>

@@ -23,6 +23,14 @@ typedef enum : NSUInteger {
 + (UIImage *)createImageWithColor:(UIColor *)color;
 
 
+#pragma mark document目录下的文件路径
++ (NSString *)documentFilePathWithFileName:(NSString *)fileName;
++(NSString *)getPathForDocuments:(NSString *)filename inDir:(NSString *)dir;
+
+#pragma mark document路径
++ (NSString *)documentPath;
+
+
 #pragma mark - <识手机号> 正则匹配
 + (NSString *)validPhoneNum:(NSString *)phone;
 

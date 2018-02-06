@@ -8,6 +8,8 @@
 
 #import "MineViewController.h"
 
+#import "DraftsViewController.h"
+
 #import "HeadViewTableViewCell.h"
 
 @interface MineViewController () <UITableViewDelegate,UITableViewDataSource>
@@ -224,7 +226,8 @@
             break;
         case 3:
         {
-            [self performSegueWithIdentifier:@"pushDraft" sender:nil];
+            DraftsViewController *vc = [[DraftsViewController alloc]init]; 
+            [self.navigationController pushViewController:vc animated:YES];
         }
             break;
         case 4:

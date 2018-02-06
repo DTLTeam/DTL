@@ -64,8 +64,8 @@ static NSString * CellIdentifier = @"EnterpriseCell";
     
     __weak EnterpriseViewController *WeakSelf = self;
     
-#if 0 //是否是专家
-    [self setUpdata];
+#if 1 //是否是专家
+//    [self setUpdata];
     
     // ****************** 已经是专家
     if (!self.haveData) {

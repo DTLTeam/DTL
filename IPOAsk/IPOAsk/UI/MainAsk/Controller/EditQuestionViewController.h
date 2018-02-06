@@ -13,10 +13,19 @@ typedef enum : NSUInteger {
 } AnswerType;
 
 #import <UIKit/UIKit.h>
+#import "DraftsModel.h"
 
 @interface EditQuestionViewController : UIViewController
 
-
+/**
+ 编辑
+ **/
 - (void)UserType:(AnswerType)type NavTitle:(NSString *)title;
+
+
+/**
+ 草稿箱修改
+ **/
+- (void)EditModel:(DraftsModel *)model  WithHaveChangeClick:(void (^)(BOOL Change))ChangeClick;;
 
 @end
