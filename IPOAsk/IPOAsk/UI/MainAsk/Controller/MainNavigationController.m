@@ -17,7 +17,8 @@
 @interface MainNavigationController () <UINavigationControllerDelegate>
 
 //参数
-@property (nonatomic) BOOL isShowBack;  //显示返回按钮
+@property (nonatomic) BOOL isShowSearchBar; //是否显示搜索栏
+@property (nonatomic) BOOL isShowBack;      //是否显示返回按钮
 
 //导航栏
 @property (strong, nonatomic) UIView *customNavBar;
@@ -37,6 +38,7 @@
     self.navigationBar.translucent = NO;
     
     [self setupNavBar];
+    [self.navigationBar addObserver:self forKeyPath:@"hidden" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
     
     [self changeShowStatus:YES];
     
@@ -62,22 +64,13 @@
 
 - (void)setupNavBar {
     
+    _isShowSearchBar = YES;
     _isShowBack = YES;
     self.delegate = self;
     
-    UIColor *barColor = [UIColor whiteColor];
-    
-    UIView *statusBGBar = [[UIView alloc] init];
-    statusBGBar.backgroundColor = barColor;
-    [self.view addSubview:statusBGBar];
-    
     _customNavBar = [[UIView alloc] init];
-    _customNavBar.backgroundColor = barColor;
+    _customNavBar.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_customNavBar];
-    
-    UIView *line = [[UIView alloc] init];
-    line.backgroundColor = HEX_RGBA_COLOR(0xE2E2E7, 1);
-    [_customNavBar addSubview:line];
     
     _backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [_backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
@@ -93,7 +86,7 @@
     
     UIImageView *imgView = [[UIImageView alloc] init];
     imgView.image = [UIImage imageNamed:@"搜索.png"];
-    imgView.contentMode = UIViewContentModeScaleAspectFit;
+    imgView.contentMode = UIViewContentModeCenter;
     [_searchBGView addSubview:imgView];
     
     _searchTextField = [[UITextField alloc] init];
@@ -114,39 +107,11 @@
     [_customNavBar addSubview:_putQuestionBtn];
     
     
-    CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
-    [statusBGBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top);
-        if (@available(iOS 11.0, *)) {
-            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideTop);
-            make.left.equalTo(self.view.mas_safeAreaLayoutGuideLeft);
-            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight);
-        } else {
-            make.left.equalTo(self.view.mas_left);
-            make.right.equalTo(self.view.mas_right);
-            make.height.offset(statusBarHeight);
-        }
-    }];
-    
-    CGFloat navBarHeight = self.navigationBar.frame.size.height;
     [_customNavBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        if (@available(iOS 11.0, *)) {
-            make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
-            make.left.equalTo(self.view.mas_safeAreaLayoutGuideLeft);
-            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight);
-        } else {
-            make.top.equalTo(self.view.mas_top).offset(statusBarHeight);
-            make.left.equalTo(self.view.mas_left);
-            make.right.equalTo(self.view.mas_right);
-        }
-        make.height.offset(navBarHeight);
-    }];
-    
-    [line mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_customNavBar.mas_left);
-        make.right.equalTo(_customNavBar.mas_right);
-        make.bottom.equalTo(_customNavBar.mas_bottom);
-        make.height.offset(1);
+        make.top.equalTo(self.view.mas_top);
+        make.bottom.equalTo(self.navigationBar.mas_bottom);
+        make.left.equalTo(self.navigationBar.mas_left);
+        make.right.equalTo(self.navigationBar.mas_right);
     }];
     
     [_backBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -208,8 +173,6 @@
 #pragma mark 发布问题
 - (void)putQuestionAction:(id)sender {
     
-    [self hideSearchNavBar];
-    
     EditQuestionViewController *editQuestionVC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:nil options:nil].firstObject;
     [self pushViewController:editQuestionVC animated:YES];
     
@@ -219,21 +182,63 @@
 #pragma mark - 功能
 
 #pragma mark 显示搜索导航栏
-- (void)showSearchNavBar {
+- (void)showSearchNavBar:(BOOL)animated {
     
-    if (_customNavBar.hidden) {
-        _customNavBar.hidden = NO;
-        [self changeShowStatus:NO];
+    _isShowSearchBar = YES;
+    if (_customNavBar.hidden && !self.navigationBar.hidden) {
+        
+        if (animated) {
+            
+            _customNavBar.alpha = 0;
+            _customNavBar.hidden = NO;
+            [UIView animateWithDuration:AnimatedTime animations:^{
+                
+                _customNavBar.alpha = 1;
+                
+            } completion:^(BOOL finished) {
+                
+            }];
+            
+        } else {
+            
+            _customNavBar.hidden = NO;
+            
+        }
+        
+        [self changeShowStatus:AnimatedTime];
+        
     }
     
 }
 
 #pragma mark 隐藏搜索导航栏
-- (void)hideSearchNavBar {
+- (void)hideSearchNavBar:(BOOL)animated {
     
+    _isShowSearchBar = NO;
     if (!_customNavBar.hidden) {
-        _customNavBar.hidden = YES;
-        [self changeShowStatus:NO];
+        
+        if (animated) {
+            
+            _customNavBar.alpha = 1;
+            [UIView animateWithDuration:AnimatedTime animations:^{
+                
+                _customNavBar.alpha = 0;
+                
+            } completion:^(BOOL finished) {
+                
+                _customNavBar.alpha = 1;
+                _customNavBar.hidden = YES;
+                
+            }];
+            
+        } else {
+            
+            _customNavBar.hidden = YES;
+            
+        }
+        
+        [self changeShowStatus:animated];
+        
     }
     
 }
@@ -422,6 +427,29 @@
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
     
     [self changeShowStatus:animated];
+    
+}
+
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    
+    if ([keyPath isEqualToString:@"hidden"]) {
+        
+        if ([change[NSKeyValueChangeNewKey] boolValue]) { //隐藏
+            
+            _customNavBar.hidden = YES;
+            
+        } else { //显示
+            
+            if (_isShowSearchBar) {
+                _customNavBar.hidden = NO;
+            }
+            
+        }
+        
+    }
     
 }
 

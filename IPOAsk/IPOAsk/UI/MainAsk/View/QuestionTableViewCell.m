@@ -60,9 +60,18 @@ typedef enum : NSUInteger {
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier Main:(BOOL)main{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        
         _Main = main;
         
         [self setupInterface];
+        
+        //根据页面来判断需要显示多少的内容
+        if (_Main) {
+            _titleLabel.numberOfLines = 1;
+            _contentLabel.numberOfLines = 2;
+        }else{
+            _contentLabel.numberOfLines = 5;
+        }
         
     }
     return self;
@@ -72,36 +81,44 @@ typedef enum : NSUInteger {
 #pragma mark - 界面
 
 - (void)setupInterface{
+    
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     
     //头像
+    CGFloat headImgWidth = 22;
     _headImgView = [[UIImageView alloc] init];
+    _headImgView.contentMode = UIViewContentModeScaleAspectFit;
+    _headImgView.layer.masksToBounds = YES;
+    _headImgView.layer.cornerRadius = headImgWidth / 2;
+    _headImgView.image = [UIImage imageNamed:@"默认头像.png"];
     [self addSubview:_headImgView];
     
     //用户名
     _userNameLabel = [[UILabel alloc] init];
-    _userNameLabel.textColor = HEX_RGBA_COLOR(0xA6ABAF, 1);
+    _userNameLabel.font = [UIFont systemFontOfSize:15];
+    _userNameLabel.textColor = HEX_RGBA_COLOR(0x969CA1, 1);
     _userNameLabel.textAlignment = NSTextAlignmentLeft;
     [self addSubview:_userNameLabel];
     
     //日期
     _dateLabel = [[UILabel alloc] init];
-    _dateLabel.textColor = HEX_RGBA_COLOR(0xA6ABAF, 1);
+    _dateLabel.font = [UIFont systemFontOfSize:13];
+    _dateLabel.textColor = HEX_RGBA_COLOR(0x969CA1, 1);
     _dateLabel.textAlignment = NSTextAlignmentRight;
     [self addSubview:_dateLabel];
     
     //标题
     _titleLabel = [[UILabel alloc] init];
     _titleLabel.font = [UIFont boldSystemFontOfSize:17];
-    _titleLabel.textColor = HEX_RGBA_COLOR(0x000000, 1);
+    _titleLabel.textColor = HEX_RGBA_COLOR(0x333333, 1);
     _titleLabel.textAlignment = NSTextAlignmentLeft;
     _titleLabel.numberOfLines = 0;
     [self addSubview:_titleLabel];
     
     //内容
     _contentLabel = [[UILabel alloc] init];
-    _contentLabel.font = [UIFont systemFontOfSize:15];
-    _contentLabel.textColor = HEX_RGBA_COLOR(0x7F7F7F, 1);
+    _contentLabel.font = [UIFont systemFontOfSize:14];
+    _contentLabel.textColor = HEX_RGBA_COLOR(0x333333, 1);
     _contentLabel.textAlignment = NSTextAlignmentLeft;
     _contentLabel.numberOfLines = 0;
     [self addSubview:_contentLabel];
@@ -109,43 +126,62 @@ typedef enum : NSUInteger {
     //查看数量
     _lookNumBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _lookNumBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-    [_lookNumBtn setTitleColor:HEX_RGBA_COLOR(0xA6ABAF, 1) forState:UIControlStateNormal];
-    [_lookNumBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+    [_lookNumBtn setTitleColor:HEX_RGBA_COLOR(0x969CA1, 1) forState:UIControlStateNormal];
+    [_lookNumBtn setImage:[UIImage imageNamed:@"查看.png"] forState:UIControlStateNormal];
+    _lookNumBtn.userInteractionEnabled = NO;
+    UIEdgeInsets insets = _lookNumBtn.imageEdgeInsets;
+    insets.left = insets.left - 5;
+    _lookNumBtn.imageEdgeInsets = insets;
+    insets = _lookNumBtn.titleEdgeInsets;
+    insets.left = insets.left + 5;
+    _lookNumBtn.titleEdgeInsets = insets;
     [self addSubview:_lookNumBtn];
     
     //回复数量
     _replyNumBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _replyNumBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-    [_replyNumBtn setTitleColor:HEX_RGBA_COLOR(0xA6ABAF, 1) forState:UIControlStateNormal];
-    [_replyNumBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+    [_replyNumBtn setTitleColor:HEX_RGBA_COLOR(0x969CA1, 1) forState:UIControlStateNormal];
+    [_replyNumBtn setImage:[UIImage imageNamed:@"回答.png"] forState:UIControlStateNormal];
+    _replyNumBtn.userInteractionEnabled = NO;
+    insets = _replyNumBtn.imageEdgeInsets;
+    insets.left = insets.left - 5;
+    _replyNumBtn.imageEdgeInsets = insets;
+    insets = _replyNumBtn.titleEdgeInsets;
+    insets.left = insets.left + 5;
+    _replyNumBtn.titleEdgeInsets = insets;
     [self addSubview:_replyNumBtn];
     
-    //回复数量
+    //关注数量
     _attentionNumBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _attentionNumBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-    [_attentionNumBtn setTitleColor:HEX_RGBA_COLOR(0xA6ABAF, 1) forState:UIControlStateNormal];
-    [_attentionNumBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+    [_attentionNumBtn setTitleColor:HEX_RGBA_COLOR(0x969CA1, 1) forState:UIControlStateNormal];
+    [_attentionNumBtn setImage:[UIImage imageNamed:@"关注.png"] forState:UIControlStateNormal];
+    _attentionNumBtn.userInteractionEnabled = NO;
+    insets = _attentionNumBtn.imageEdgeInsets;
+    insets.left = insets.left - 5;
+    _attentionNumBtn.imageEdgeInsets = insets;
+    insets = _attentionNumBtn.titleEdgeInsets;
+    insets.left = insets.left + 5;
+    _attentionNumBtn.titleEdgeInsets = insets;
     [self addSubview:_attentionNumBtn];
     
     //关注按钮
     _attentionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _attentionBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-    [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x0A98F2, 1) forState:UIControlStateNormal];
-    [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x0A98F2, 1) forState:UIControlStateHighlighted];
-    [_attentionBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+    _attentionBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15];
+    [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x0B98F2, 1) forState:UIControlStateNormal];
+    [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x0B98F2, 1) forState:UIControlStateHighlighted];
+    [_attentionBtn setImage:[UIImage imageNamed:@"+关注.png"] forState:UIControlStateNormal];
+    [_attentionBtn setImage:[UIImage imageNamed:@"+关注.png"] forState:UIControlStateHighlighted];
     [_attentionBtn setTitle:@"关注问题" forState:UIControlStateNormal];
     [_attentionBtn addTarget:self action:@selector(attentionAction:) forControlEvents:UIControlEventTouchUpInside];
     _attentionBtn.tag = kButtonNormal;
+    insets = _attentionBtn.imageEdgeInsets;
+    insets.left = insets.left - 5;
+    _attentionBtn.imageEdgeInsets = insets;
+    insets = _attentionBtn.titleEdgeInsets;
+    insets.left = insets.left + 5;
+    _attentionBtn.titleEdgeInsets = insets;
     [self addSubview:_attentionBtn];
-    
-    
-    if (_Main) {
-        _titleLabel.numberOfLines = 1;
-        _contentLabel.numberOfLines = 2;
-    }else{
-        
-        _contentLabel.numberOfLines = 5;
-    }
     
     
     [_headImgView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -156,8 +192,8 @@ typedef enum : NSUInteger {
             make.top.equalTo(self.mas_top).offset(10);
             make.left.equalTo(self.mas_left).offset(10);
         }
-        make.width.offset(30);
-        make.height.offset(30);
+        make.width.offset(headImgWidth);
+        make.height.offset(headImgWidth);
     }];
     
     [_userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -181,7 +217,6 @@ typedef enum : NSUInteger {
             make.top.equalTo(_headImgView.mas_top).offset(10);
             make.right.equalTo(self.mas_right).offset(-10);
         }
-        make.width.offset(100);
         make.height.equalTo(_headImgView.mas_height);
     }];
     
@@ -211,52 +246,45 @@ typedef enum : NSUInteger {
     
     [_lookNumBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(iOS 11.0, *)) {
-            make.top.equalTo(_contentLabel.mas_safeAreaLayoutGuideBottom).offset(5);
+            make.top.equalTo(_contentLabel.mas_safeAreaLayoutGuideBottom).offset(10);
             make.left.equalTo(_contentLabel.mas_safeAreaLayoutGuideLeft);
             make.bottom.equalTo(self.mas_safeAreaLayoutGuideBottom).offset(-10);
         } else {
-            make.top.equalTo(_contentLabel.mas_bottom).offset(5);
+            make.top.equalTo(_contentLabel.mas_bottom).offset(10);
             make.left.equalTo(_contentLabel.mas_left);
             make.bottom.equalTo(self.mas_bottom).offset(-10);
         }
-        make.width.offset(50);
-        make.height.offset(30);
     }];
     
     [_replyNumBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_lookNumBtn.mas_centerY);
         if (@available(iOS 11.0, *)) {
-            make.top.equalTo(_lookNumBtn.mas_safeAreaLayoutGuideTop);
             make.left.equalTo(_lookNumBtn.mas_safeAreaLayoutGuideRight).offset(10);
         } else {
-            make.top.equalTo(_lookNumBtn.mas_top);
             make.left.equalTo(_lookNumBtn.mas_right).offset(10);
         }
-        make.width.equalTo(_lookNumBtn.mas_width);
-        make.height.equalTo(_lookNumBtn.mas_height);
     }];
     
     [_attentionNumBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_lookNumBtn.mas_centerY);
         if (@available(iOS 11.0, *)) {
-            make.top.equalTo(_replyNumBtn.mas_safeAreaLayoutGuideTop);
             make.left.equalTo(_replyNumBtn.mas_safeAreaLayoutGuideRight).offset(10);
+            make.right.lessThanOrEqualTo(_attentionBtn.mas_safeAreaLayoutGuideLeft).offset(-10);
         } else {
-            make.top.equalTo(_replyNumBtn.mas_top);
             make.left.equalTo(_replyNumBtn.mas_right).offset(10);
+            make.right.lessThanOrEqualTo(_attentionBtn.mas_left).offset(-10);
         }
-        make.width.equalTo(_replyNumBtn.mas_width);
-        make.height.equalTo(_replyNumBtn.mas_height);
     }];
     
     [_attentionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_lookNumBtn.mas_centerY);
         if (@available(iOS 11.0, *)) {
-            make.top.equalTo(_replyNumBtn.mas_safeAreaLayoutGuideTop);
+            make.left.greaterThanOrEqualTo(_attentionNumBtn.mas_safeAreaLayoutGuideRight).offset(10);
             make.right.equalTo(self.mas_safeAreaLayoutGuideRight).offset(-10);
         } else {
-            make.top.equalTo(_replyNumBtn.mas_top);
+            make.left.greaterThanOrEqualTo(_attentionNumBtn.mas_right).offset(10);
             make.right.equalTo(self.mas_right).offset(-10);
         }
-        make.width.offset(100);
-        make.height.equalTo(_replyNumBtn.mas_height);
     }];
     
 }
@@ -278,7 +306,7 @@ typedef enum : NSUInteger {
 
 - (void)refreshWithModel:(QuestionModel *)model {
     
-    [_headImgView sd_setImageWithURL:[NSURL URLWithString:model.headImgUrlStr] placeholderImage:[UIImage imageNamed:@""]];
+    [_headImgView sd_setImageWithURL:[NSURL URLWithString:model.headImgUrlStr] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
     _userNameLabel.text = model.userName;
     _dateLabel.text = model.dateStr;
     
@@ -289,19 +317,21 @@ typedef enum : NSUInteger {
     [_replyNumBtn setTitle:[NSString stringWithFormat:@"%lu", model.replyNum] forState:UIControlStateNormal];
     [_attentionNumBtn setTitle:[NSString stringWithFormat:@"%lu", model.attentionNum] forState:UIControlStateNormal];
     
-    if (model.isAttention) {
-        [_attentionBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-        [_attentionBtn setTitle:@"已关注问题" forState:UIControlStateNormal];
-        [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x0A98F2, 1) forState:UIControlStateNormal];
-        [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x0A98F2, 1) forState:UIControlStateHighlighted];
-        _attentionBtn.tag = kButtonSelected;
-    } else {
-        [_attentionBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-        [_attentionBtn setTitle:@"关注问题" forState:UIControlStateNormal];
-        [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0xA6ABAF, 1) forState:UIControlStateNormal];
-        [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0xA6ABAF, 1) forState:UIControlStateHighlighted];
-        _attentionBtn.tag = kButtonNormal;
-    }
+//    if (model.isAttention) {
+//        [_attentionBtn setImage:[UIImage imageNamed:@"已关注.png"] forState:UIControlStateNormal];
+//        [_attentionBtn setImage:[UIImage imageNamed:@"已关注.png"] forState:UIControlStateHighlighted];
+//        [_attentionBtn setTitle:@"已关注问题" forState:UIControlStateNormal];
+//        [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x969CA1, 1) forState:UIControlStateNormal];
+//        [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x969CA1, 1) forState:UIControlStateHighlighted];
+//        _attentionBtn.tag = kButtonSelected;
+//    } else {
+//        [_attentionBtn setImage:[UIImage imageNamed:@"+关注.png"] forState:UIControlStateNormal];
+//        [_attentionBtn setTitle:@"关注问题" forState:UIControlStateNormal];
+//        [_attentionBtn setTitle:@"关注问题" forState:UIControlStateHighlighted];
+//        [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x0B98F2, 1) forState:UIControlStateNormal];
+//        [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x0B98F2, 1) forState:UIControlStateHighlighted];
+//        _attentionBtn.tag = kButtonNormal;
+//    }
     
 }
 

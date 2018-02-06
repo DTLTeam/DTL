@@ -8,6 +8,9 @@
 
 #import "EditQuestionViewController.h"
 
+//Controller
+#import "MainNavigationController.h"
+
 @interface EditQuestionViewController ()
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *BottomH;
@@ -109,11 +112,18 @@
     [super viewWillAppear:animated];
     
     self.navigationController.tabBarController.tabBar.hidden = YES;
+    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) { //隐藏搜索导航栏
+        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    
     self.navigationController.tabBarController.tabBar.hidden = NO;
+    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) { //显示搜索导航栏
+        [(MainNavigationController *)self.navigationController showSearchNavBar:YES];
+    }
 }
 
 - (void)back{

@@ -64,14 +64,14 @@
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s68-zi-GOg">
                                 <rect key="frame" x="12" y="49" width="296" height="0.0"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2JR-kL-BdB">
                                 <rect key="frame" x="12" y="61" width="296" height="100"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ga5-pn-Ayo">
@@ -79,25 +79,28 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="H6h-h1-kOs"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" image="查看.png">
                                     <color key="titleColor" red="0.58823529409999997" green="0.61176470589999998" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CUP-Im-KvI">
-                                <rect key="frame" x="55" y="201" width="16" height="22"/>
+                                <rect key="frame" x="38" y="201" width="16" height="22"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" image="回答.png">
                                     <color key="titleColor" red="0.58823529409999997" green="0.61176470589999998" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rlE-Xy-pfW">
-                                <rect key="frame" x="98" y="201" width="16" height="22"/>
+                                <rect key="frame" x="64" y="201" width="16" height="22"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" image="关注.png">
                                     <color key="titleColor" red="0.58823529409999997" green="0.61176470589999998" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dod-QG-ORl">
                                 <rect key="frame" x="228" y="201" width="80" height="22"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="关注问题" image="+关注.png">
                                     <color key="titleColor" red="0.0" green="0.58845514060000004" blue="0.94562488789999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -150,7 +153,7 @@
                             <constraint firstItem="Myz-F0-zx1" firstAttribute="top" secondItem="01q-uW-LwY" secondAttribute="top" constant="12" id="HrG-de-rz4"/>
                             <constraint firstItem="s68-zi-GOg" firstAttribute="leading" secondItem="01q-uW-LwY" secondAttribute="leading" constant="12" id="JYb-GW-zLF"/>
                             <constraint firstAttribute="bottom" secondItem="Ga5-pn-Ayo" secondAttribute="bottom" constant="12" id="Lox-Hw-oY9"/>
-                            <constraint firstItem="CUP-Im-KvI" firstAttribute="leading" secondItem="Ga5-pn-Ayo" secondAttribute="trailing" constant="27" id="PbP-wB-V51"/>
+                            <constraint firstItem="CUP-Im-KvI" firstAttribute="leading" secondItem="Ga5-pn-Ayo" secondAttribute="trailing" constant="10" id="PbP-wB-V51"/>
                             <constraint firstItem="mg6-vb-v26" firstAttribute="centerY" secondItem="RIG-98-t5g" secondAttribute="centerY" id="RIN-mi-Bvr"/>
                             <constraint firstAttribute="trailing" secondItem="mg6-vb-v26" secondAttribute="trailing" constant="12" id="XGX-r5-hOw"/>
                             <constraint firstItem="4Yh-ZJ-yu8" firstAttribute="bottom" secondItem="2JR-kL-BdB" secondAttribute="bottom" constant="35" id="bbO-v6-tYo"/>
@@ -165,7 +168,7 @@
                             <constraint firstItem="CUP-Im-KvI" firstAttribute="centerY" secondItem="Ga5-pn-Ayo" secondAttribute="centerY" id="mQ5-11-b6E"/>
                             <constraint firstItem="Dod-QG-ORl" firstAttribute="top" secondItem="rlE-Xy-pfW" secondAttribute="top" id="nBK-fs-mjX"/>
                             <constraint firstItem="s68-zi-GOg" firstAttribute="top" secondItem="Myz-F0-zx1" secondAttribute="bottom" constant="12" id="nCz-cy-h9Y"/>
-                            <constraint firstItem="rlE-Xy-pfW" firstAttribute="leading" secondItem="CUP-Im-KvI" secondAttribute="trailing" constant="27" id="neD-FA-4JU"/>
+                            <constraint firstItem="rlE-Xy-pfW" firstAttribute="leading" secondItem="CUP-Im-KvI" secondAttribute="trailing" constant="10" id="neD-FA-4JU"/>
                             <constraint firstItem="rlE-Xy-pfW" firstAttribute="centerY" secondItem="CUP-Im-KvI" secondAttribute="centerY" id="q7D-5u-9ya"/>
                             <constraint firstItem="4Yh-ZJ-yu8" firstAttribute="trailing" secondItem="2JR-kL-BdB" secondAttribute="trailing" id="xRD-J3-Tvr"/>
                             <constraint firstItem="Myz-F0-zx1" firstAttribute="leading" secondItem="01q-uW-LwY" secondAttribute="leading" constant="12" id="xjV-3w-SNi"/>

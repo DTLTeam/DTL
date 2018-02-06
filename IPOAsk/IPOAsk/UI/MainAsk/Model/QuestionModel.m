@@ -38,15 +38,15 @@
     _isAttention = (arc4random() % 2 == 0);
     
     _headImgUrlStr = @"";
-    _userName = @"用户名";
-    _dateStr = @"2018-01-05";
+    _userName = infoDic[@"userName"];
+    _dateStr = infoDic[@"date"];
     
-    _title = @"标题1111111111111";
-    _content = @"内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容v";
+    _title = infoDic[@"title"];
+    _content = infoDic[@"content"];
     
-    _lookNum = 999;
-    _replyNum = 300;
-    _attentionNum = 5000;
+    _lookNum = [infoDic[@"lookNum"] intValue];
+    _replyNum = [infoDic[@"replyNum"] intValue];
+    _attentionNum = [infoDic[@"attentionNum"] intValue];
     
 }
 

@@ -36,6 +36,78 @@
 
 -(void)awakeFromNib{
     [super awakeFromNib];
+    
+    UIEdgeInsets insets = _SeeNum.imageEdgeInsets;
+    insets.left = insets.left - 5;
+    _SeeNum.imageEdgeInsets = insets;
+    insets = _SeeNum.titleEdgeInsets;
+    insets.left = insets.left + 5;
+    _SeeNum.titleEdgeInsets = insets;
+    
+    insets = _CommNum.imageEdgeInsets;
+    insets.left = insets.left - 5;
+    _CommNum.imageEdgeInsets = insets;
+    insets = _CommNum.titleEdgeInsets;
+    insets.left = insets.left + 5;
+    _CommNum.titleEdgeInsets = insets;
+    
+    insets = _FollowNum.imageEdgeInsets;
+    insets.left = insets.left - 5;
+    _FollowNum.imageEdgeInsets = insets;
+    insets = _FollowNum.titleEdgeInsets;
+    insets.left = insets.left + 5;
+    _FollowNum.titleEdgeInsets = insets;
+    
+    insets = _FollowBtn.imageEdgeInsets;
+    insets.left = insets.left - 5;
+    _FollowBtn.imageEdgeInsets = insets;
+    insets = _FollowBtn.titleEdgeInsets;
+    insets.left = insets.left + 5;
+    _FollowBtn.titleEdgeInsets = insets;
+    
+    [_SeeNum mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (@available(iOS 11.0, *)) {
+            make.top.equalTo(_ContentLabel.mas_safeAreaLayoutGuideBottom).offset(10);
+            make.left.equalTo(_ContentLabel.mas_safeAreaLayoutGuideLeft);
+            make.bottom.equalTo(self.mas_safeAreaLayoutGuideBottom).offset(-10);
+        } else {
+            make.top.equalTo(_ContentLabel.mas_bottom).offset(10);
+            make.left.equalTo(_ContentLabel.mas_left);
+            make.bottom.equalTo(self.mas_bottom).offset(-10);
+        }
+    }];
+    
+    [_CommNum mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_SeeNum.mas_centerY);
+        if (@available(iOS 11.0, *)) {
+            make.left.equalTo(_SeeNum.mas_safeAreaLayoutGuideRight).offset(10);
+        } else {
+            make.left.equalTo(_SeeNum.mas_right).offset(10);
+        }
+    }];
+    
+    [_FollowNum mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_SeeNum.mas_centerY);
+        if (@available(iOS 11.0, *)) {
+            make.left.equalTo(_CommNum.mas_safeAreaLayoutGuideRight).offset(10);
+            make.right.lessThanOrEqualTo(_FollowBtn.mas_safeAreaLayoutGuideLeft).offset(-10);
+        } else {
+            make.left.equalTo(_CommNum.mas_right).offset(10);
+            make.right.lessThanOrEqualTo(_FollowBtn.mas_left).offset(-10);
+        }
+    }];
+    
+    [_FollowBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_SeeNum.mas_centerY);
+        if (@available(iOS 11.0, *)) {
+            make.left.greaterThanOrEqualTo(_FollowNum.mas_safeAreaLayoutGuideRight).offset(10);
+            make.right.equalTo(self.mas_safeAreaLayoutGuideRight).offset(-10);
+        } else {
+            make.left.greaterThanOrEqualTo(_FollowNum.mas_right).offset(10);
+            make.right.equalTo(self.mas_right).offset(-10);
+        }
+    }];
+    
 }
 
 
