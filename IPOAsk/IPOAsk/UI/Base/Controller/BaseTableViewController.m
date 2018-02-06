@@ -110,12 +110,20 @@
         [self.myTableView.mj_header endRefreshing];
         
     }else if (Type == RefreshType_foot){
-        [self.myTableView.mj_footer endRefreshing];
+       
+        [self.myTableView.mj_footer endRefreshingWithCompletionBlock:^{
+            [self.myTableView.mj_footer endRefreshingWithNoMoreData];
+            self.myTableView.mj_footer.hidden = YES;
+        }];
         
     }else{
         
         [self.myTableView.mj_header endRefreshing];
-        [self.myTableView.mj_footer endRefreshing];
+       
+        [self.myTableView.mj_footer endRefreshingWithCompletionBlock:^{
+            [self.myTableView.mj_footer endRefreshingWithNoMoreData];
+//            self.myTableView.mj_footer.hidden = YES;
+        }];
     }
     
 }

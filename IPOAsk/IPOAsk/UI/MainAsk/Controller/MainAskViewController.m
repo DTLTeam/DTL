@@ -100,8 +100,7 @@
 #pragma mark - 功能
 
 #pragma mark 请求列表内容
-- (void)requestContent:(NSInteger)page {
-    
+- (void)requestContent:(NSInteger)page { 
     
     /* test */ 
     
