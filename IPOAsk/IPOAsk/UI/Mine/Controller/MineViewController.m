@@ -24,6 +24,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    //self.navigationController.navigationBarHidden = YES;
     dataArr = @[@"我的钱包",@"申请成为答主",@"草稿箱",@"帮助中心",@"关于我们",@"设置"];
     [self setupView];
     
@@ -31,20 +32,43 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.title = @"我的";
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.navigationBarHidden = YES;
-    self.automaticallyAdjustsScrollViewInsets = NO;
     self.navigationController.tabBarController.tabBar.hidden = NO;
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    
+
 }
 
-- (void)viewDidDisappear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewDidDisappear:animated];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    [super viewDidAppear:animated];
+    self.navigationController.navigationBar.translucent = YES;
+    [self setNeedsNavigationBackground:0.0];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
     self.navigationController.navigationBar.translucent = NO;
+    [self setNeedsNavigationBackground:1.0];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+}
+
+- (void)setNeedsNavigationBackground:(CGFloat)alpha {
+    // 导航栏背景透明度设置
+    UIView *barBackgroundView = [[self.navigationController.navigationBar subviews] objectAtIndex:0];// _UIBarBackground
+    UIImageView *backgroundImageView = [[barBackgroundView subviews] objectAtIndex:0];// UIImageView
+    if (self.navigationController.navigationBar.isTranslucent) {
+        if (backgroundImageView != nil && backgroundImageView.image != nil) {
+            barBackgroundView.alpha = alpha;
+        } else if([barBackgroundView subviews].count > 1){
+            UIView *backgroundEffectView = [[barBackgroundView subviews] objectAtIndex:1];// UIVisualEffectView
+            if (backgroundEffectView != nil) {
+                backgroundEffectView.alpha = alpha;
+            }
+        }
+    } else {
+        barBackgroundView.alpha = alpha;
+    }
+    self.navigationController.navigationBar.clipsToBounds = alpha == 0.0;
 }
 
 - (void)setupView
@@ -183,6 +207,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    self.navigationController.tabBarController.tabBar.hidden = YES;
     switch (indexPath.section) {
         case 0:
             [self performSegueWithIdentifier:@"pushInfo" sender:nil];

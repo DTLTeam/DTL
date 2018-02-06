@@ -51,8 +51,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = NO;
-    self.navigationController.tabBarController.tabBar.hidden = YES;
     self.title = @"个人资料";
 }
 
