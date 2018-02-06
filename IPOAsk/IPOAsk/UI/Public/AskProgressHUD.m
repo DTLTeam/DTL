@@ -11,7 +11,7 @@
 
 #define bgcolor HEX_RGB_COLOR(0xe3e3e3)
 
-#define textColor [UIColor redColor]
+#define textColor [UIColor grayColor]
 
 @implementation AskProgressHUD
 

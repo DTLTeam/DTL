@@ -34,4 +34,7 @@ typedef enum : NSUInteger {
 #pragma mark - <识手机号> 正则匹配
 + (NSString *)validPhoneNum:(NSString *)phone;
 
+#pragma mark - 识别邮箱
++ (BOOL)isValidateEmail:(NSString *)email;
+
 @end

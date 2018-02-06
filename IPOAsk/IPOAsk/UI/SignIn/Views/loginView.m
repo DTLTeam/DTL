@@ -176,7 +176,7 @@
     _LoginType = type;
     
     if (_LoginType == loginType_Person) {
-        [_NameView changePlaceholderText:@"请输入个人用户名"];
+        [_NameView changePlaceholderText:@"手机号"];
         
     }else if (_LoginType == loginType_Enterprise){
         [_NameView changePlaceholderText:@"用户名或邮箱"];

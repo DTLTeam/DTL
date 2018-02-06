@@ -12,6 +12,8 @@
 #import "loginView.h"
 #import "RegisterView.h"
 
+#import "UserDataManager.h"
+
 @interface SignInViewController ()
 @property (weak, nonatomic) IBOutlet UIView *TopViews;
 @property (weak, nonatomic) IBOutlet UIImageView *UserHead;
@@ -57,6 +59,18 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+}
+
  
 #pragma mark - 登录界面
 - (void)setUpLoginView{
@@ -78,7 +92,19 @@
         switch (tag) {
             case btnType_login:
                 //登录
-                
+                if ([[UtilsCommon validPhoneNum:userName] isEqualToString:@""] && WeakSelf.MainLoginType == loginType_Person) {
+                    GCD_MAIN(^{
+                        [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"请输入正确的手机号" viewtag:1 AfterDelay:3];
+                    });
+                    return;
+                }
+                if (![UtilsCommon isValidateEmail:userName] && WeakSelf.MainLoginType == loginType_Enterprise) {
+                    GCD_MAIN(^{
+                        [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"请输入正确的邮箱号" viewtag:1 AfterDelay:3];
+                    });
+                    return;
+                }
+                [WeakSelf goLogin:userName pwd:Password];
                 break;
               
             case btnType_forgot:
@@ -123,8 +149,7 @@
                 
             case RegisterbtnType_Register://注册
                 NSLog(@"%@-%@-%@",phone,Password,Code);
-                //成功
-                [WeakSelf noRegister];
+                [WeakSelf registerAciton:phone pwd:Password phoneCode:Code];
                 break;
             case RegisterbtnType_Agreement://协议
                 
@@ -215,7 +240,50 @@
     
 }
 
-#pragma mark - 注册
+#pragma mark - 登录
+- (void)goLogin:(NSString *)phone pwd:(NSString *)pwd
+{
+    __weak SignInViewController *WeakSelf = self;
+    [AskProgressHUD AskShowInView:self.view viewtag:1];
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"login",@"phone":phone,@"password":pwd} backData:NetSessionResponseTypeJSON success:^(id response) {
+        NSDictionary *dic = (NSDictionary *)response;
+        int result = [dic[@"status"] intValue];
+        NSDictionary *dataDic = dic[@"data"];
+        if (result == 1 && dataDic) {
+            GCD_MAIN(^{
+                //缓存登录数据
+                UserDataManager *manager = [UserDataManager shareInstance];
+                UserDataModel *model = [[UserDataModel alloc] init];
+                model.userID = dataDic[@"userID"];
+                model.headIcon = dataDic[@"headIcon"];
+                model.phone = dataDic[@"phone"];
+                model.realName = dataDic[@"realName"];
+                model.nickName = dataDic[@"nickName"];
+                model.company = dataDic[@"company"];
+                model.details = dataDic[@"details"];
+                model.email = dataDic[@"email"];
+                model.forbidden = [dataDic[@"forbidden"] intValue];
+                model.isAnswerer = [dataDic[@"isAnswerer"] intValue];
+                model.userType = [dataDic[@"userType"] intValue];
+                [manager loginSetUpModel:model];
+                
+                [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
+                [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"登录成功" viewtag:2 AfterDelay:3];
+                [WeakSelf dismiss];
+            });
+        }
+    } requestHead:^(id response) {
+        
+    } faile:^(NSError *error) {
+        
+        GCD_MAIN(^{
+            [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
+            [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"登录失败" viewtag:2 AfterDelay:3];
+        });
+    }];
+}
+
+#pragma mark - 前往注册
 - (void)goRegister{
     
     if (!_RegisterView) {
@@ -232,6 +300,39 @@
 
 }
 
+#pragma mark - 注册
+- (void)registerAciton:(NSString *)phone pwd:(NSString *)pwd phoneCode:(NSString *)code
+{
+    __weak SignInViewController *WeakSelf = self;
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"register",@"phone":phone,@"password":pwd,@"verificationCode":code,@"userType":@"1"} backData:NetSessionResponseTypeJSON success:^(id response) {
+        
+        GCD_MAIN(^{
+            NSString *msg = @"注册失败";
+            if ([response[@"status"] intValue] == 1) {
+                msg = @"注册成功,请重新登录";
+                [WeakSelf noRegister];
+            }else
+            {
+                NSString *result = response[@"msg"];
+                if (result) {
+                    msg = result;
+                }
+            }
+
+            [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
+            [AskProgressHUD AskShowOnlyTitleInView:self.view Title:msg viewtag:2 AfterDelay:3];
+            
+        });
+        
+    } requestHead:^(id response) {
+        
+    } faile:^(NSError *error) {
+        GCD_MAIN(^{
+            [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
+            [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"注册失败" viewtag:2 AfterDelay:3];
+        });
+    }];
+}
 
 #pragma mark - 已有账号登录
 
