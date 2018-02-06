@@ -14,17 +14,31 @@
 @interface UserDataModel : NSObject
 
 @property (strong, nonatomic) NSString *userID;
+@property (nonatomic, strong) NSString *phone;
 @property (strong, nonatomic) NSString *headIcon;
 @property (strong, nonatomic) NSString *nickName;
 @property (strong, nonatomic) NSString *realName;
-@property (strong, nonatomic) NSString *userType;
+@property (assign, nonatomic) int userType;
 @property (strong, nonatomic) NSString *company;
-@property (strong, nonatomic) NSString *isAnswerer;
+@property (assign, nonatomic) int isAnswerer;
+@property (strong, nonatomic) NSString *details;
+@property (strong, nonatomic) NSString *email;
+@property (nonatomic, assign) int forbidden;
 
 @end
 
 
 
 @interface UserDataManager : NSObject
+
+/**
+ 单例初始化
+ 
+ @return 单例对象
+ */
++ (instancetype)shareInstance;
+
+
+- (void)loginSetUpModel:(UserDataModel *)model;
 
 @end

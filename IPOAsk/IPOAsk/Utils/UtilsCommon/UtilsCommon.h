@@ -52,4 +52,8 @@ typedef enum : NSUInteger {
 #pragma mark - 联系企业
 + (void)CallPhone;
 
+#pragma mark - 识别邮箱
++ (BOOL)isValidateEmail:(NSString *)email;
+
+
 @end
