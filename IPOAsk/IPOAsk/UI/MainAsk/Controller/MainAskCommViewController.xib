@@ -21,7 +21,7 @@
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TFe-ZR-b2o">
-                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lnH-21-k62">
                                 <rect key="frame" x="12" y="79" width="30" height="30"/>
@@ -90,7 +90,7 @@
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hsl-Lf-lVd">
-                                <rect key="frame" x="12" y="140" width="351" height="464"/>
+                                <rect key="frame" x="12" y="140" width="351" height="528"/>
                                 <connections>
                                     <outlet property="delegate" destination="LYL-MG-ake" id="g1O-OO-wFz"/>
                                 </connections>
@@ -127,7 +127,7 @@
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="Dgj-fF-uq4" firstAttribute="top" secondItem="TFe-ZR-b2o" secondAttribute="bottom" id="2zg-zK-yQ6"/>
-                    <constraint firstItem="TFe-ZR-b2o" firstAttribute="top" secondItem="KiP-UT-RGu" secondAttribute="top" constant="64" id="Ae5-T4-Jtp"/>
+                    <constraint firstItem="TFe-ZR-b2o" firstAttribute="top" secondItem="KiP-UT-RGu" secondAttribute="top" id="Ae5-T4-Jtp"/>
                     <constraint firstItem="TFe-ZR-b2o" firstAttribute="leading" secondItem="KiP-UT-RGu" secondAttribute="leading" id="iZx-aZ-y7q"/>
                     <constraint firstAttribute="trailing" secondItem="TFe-ZR-b2o" secondAttribute="trailing" id="n6l-Ll-tfM"/>
                 </constraints>

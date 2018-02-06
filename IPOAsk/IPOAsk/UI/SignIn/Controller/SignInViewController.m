@@ -7,7 +7,7 @@
 //
 
 #import "SignInViewController.h"
-#import "ResetPasswordViewController.h"
+#import "SendPhoneCodeViewController.h"
 
 #import "loginView.h"
 #import "RegisterView.h"
@@ -249,10 +249,8 @@
 
 #pragma mark - 忘记密码
 -(void)forgotPassword{
-    UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    
-    ResetPasswordViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"ResetPasswordView"]; 
-    [self.navigationController pushViewController:VC animated:YES];
+    SendPhoneCodeViewController *Vc = [[SendPhoneCodeViewController alloc]init];
+    [self.navigationController pushViewController:Vc animated:YES];
 }
  
 

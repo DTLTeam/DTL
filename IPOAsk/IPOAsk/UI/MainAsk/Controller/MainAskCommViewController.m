@@ -8,8 +8,6 @@
 
 #import "MainAskCommViewController.h"
 
-#import "SearchView.h"
-
 @interface MainAskCommViewController ()<UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *TitleLabel;
@@ -34,29 +32,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
-    self.navigationController.navigationBarHidden = YES;
-    [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
-    
-    UIButton *lbtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    
-    UIBarButtonItem *leftBtn = [UIBarButtonItem returnTabBarItemWithBtn:lbtn image:@"back" bgimage:nil  Title:@"" SelectedTitle:@" " titleFont:12 itemtype:Itemtype_left SystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
-    [lbtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    leftBtn = nil;
-    
-    [self.view addSubview:lbtn];
-    
-    SearchView *view = [[SearchView alloc]initWithFrame:CGRectMake(44, 20, SCREEN_WIDTH - 44, 44) SearchClick:^(NSString * searchtext) {
-        
-        NSLog(@"%@",searchtext);
-    } WithAnswerClick:^(BOOL answer) {
-        NSLog(@"点击发表");
-    }];
-    
-    lbtn.center = CGPointMake(lbtn.center.x, view.center.y);
-    
-    [self.view addSubview:view];
-    
+     
 }
 
 - (void)back{

@@ -6,8 +6,8 @@
 //  Copyright © 2018年 law. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface MyAnswerViewController : UIViewController
+@interface MyAnswerViewController : BaseViewController
 
 @end

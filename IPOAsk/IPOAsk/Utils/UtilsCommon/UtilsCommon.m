@@ -54,6 +54,19 @@
     return documentsDirectory;
 }
 
+#pragma mark - 计算文字高度
++(float)calculateSizeWithWidth:(float)width font:(UIFont *)font content:(NSString *)content
+{
+    
+    CGSize maximumSize =CGSizeMake(width,9999);
+    NSDictionary *textDic = @{NSFontAttributeName : font};
+    CGSize contentSize = [content boundingRectWithSize:maximumSize options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading) attributes:textDic context:nil].size;
+    CGSize oneLineSize = [@"test" boundingRectWithSize:CGSizeMake(MAXFLOAT,MAXFLOAT) options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading) attributes:textDic context:nil].size;
+    return (contentSize.height/oneLineSize.height) * 10 + contentSize.height;
+    
+}
+
+
 #pragma mark - <识手机号>
 +(NSString *)validPhoneNum:(NSString *)phone{
     //获取字符串中的电话号码
@@ -102,6 +115,15 @@
     NSString *phoneRegex = @"^((13[0-9])|(15[^4,\\D])|(18[0-9])|(14[57])|(17[013678]))\\d{8}$";
     NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
     return [phoneTest evaluateWithObject:mobile];
+}
+
++(void)CallPhone{
+    
+    if (IS_IOS10LATER) {
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",phoneNum]] options:@{} completionHandler:nil];
+        
+    }else  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",phoneNum]]];
+    
 }
 
 @end

@@ -10,4 +10,12 @@
 
 @interface BaseViewController : UIViewController
 
+
+- (void)setUpNavBgColor:(UIColor *)color;
+
+
+- (void)hiddenNav;
+
+- (void)back;
+
 @end

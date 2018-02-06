@@ -65,7 +65,7 @@
     
     //手机号
     _PhoneView = [[TextFieldViews alloc]init];
-    [_PhoneView textFieldPlaceholder:@"手机号" KeyboardType:UIKeyboardTypeDefault SecureTextEntry:NO Height:74];
+    [_PhoneView textFieldPlaceholder:@"手机号" KeyboardType:UIKeyboardTypeNumberPad SecureTextEntry:NO Height:74];
     [self addSubview:_PhoneView];
     
     [_PhoneView mas_makeConstraints:^(MASConstraintMaker *make) {

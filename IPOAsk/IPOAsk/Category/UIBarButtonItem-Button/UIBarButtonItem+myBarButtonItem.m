@@ -14,7 +14,7 @@
 
 +(instancetype)returnTabBarItemWithBtn:(UIButton *)btn image:(NSString *)img bgimage:(UIImage *)bgimg Title:(NSString *)title SelectedTitle:(NSString *)Selectedtitle titleFont:(CGFloat)font itemtype:(Itemtype)type SystemItem:(UIBarButtonSystemItem)systemItem target:(id)target action:(SEL)action{
     
-    CGFloat width = [self calculateSizeWithWidth:MAXFLOAT font:[UIFont systemFontOfSize:font] content:Selectedtitle];
+    CGFloat width = [UtilsCommon calculateSizeWithWidth:MAXFLOAT font:[UIFont systemFontOfSize:font] content:Selectedtitle];
     UIImage *image = nil;
     if (img) {
         image = [UIImage imageNamed:img];
@@ -78,25 +78,5 @@
     return [[UIBarButtonItem alloc]initWithCustomView:bgview];
 }
 
-/**
- *  计算高度
- *
- *  @param width   label width
- *  @param font    label font
- *  @param content label content
- *
- *  @return hight
- */
-
-+(float)calculateSizeWithWidth:(float)width font:(UIFont *)font content:(NSString *)content
-{
-    
-    CGSize maximumSize =CGSizeMake(width,9999);
-    NSDictionary *textDic = @{NSFontAttributeName : font};
-    CGSize contentSize = [content boundingRectWithSize:maximumSize options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading) attributes:textDic context:nil].size;
-    CGSize oneLineSize = [@"test" boundingRectWithSize:CGSizeMake(MAXFLOAT,MAXFLOAT) options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading) attributes:textDic context:nil].size;
-    return (contentSize.height/oneLineSize.height) * 10 + contentSize.height;
-    
-}
 
 @end

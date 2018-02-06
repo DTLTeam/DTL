@@ -30,7 +30,15 @@
     self.navigationController.navigationBarHidden = NO;
     self.navigationController.tabBarController.tabBar.hidden = YES;
     self.title = @"帮助中心";
+    [self setUpNavBgColor:MineTopColor];
 }
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    [self hiddenNav];
+}
+
 /*
 #pragma mark - Navigation
 

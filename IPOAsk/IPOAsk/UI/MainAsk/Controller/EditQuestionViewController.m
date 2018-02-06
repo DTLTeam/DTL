@@ -46,6 +46,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    
     [self setUpGradient];
     
     [NOTIFICATIONCENTER addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
@@ -57,6 +58,10 @@
     [super viewWillAppear:animated];
     
     self.navigationController.tabBarController.tabBar.hidden = YES;
+    
+    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
+        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
+    }
     
     [self setUpNav];
 }
@@ -119,8 +124,9 @@
     self.navigationController.tabBarController.tabBar.hidden = YES;
     
     UIButton *lbtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIBarButtonItem *leftBtn = [UIBarButtonItem returnTabBarItemWithBtn:lbtn image:@"" bgimage:nil  Title:@"取消" SelectedTitle:@" " titleFont:16 itemtype:Itemtype_left SystemItem:UIBarButtonSystemItemFixedSpace target:self action:@selector(back)];
+    UIBarButtonItem *leftBtn = [UIBarButtonItem returnTabBarItemWithBtn:lbtn image:@"" bgimage:nil  Title:@"取消" SelectedTitle:@" " titleFont:3 itemtype:Itemtype_left SystemItem:UIBarButtonSystemItemFixedSpace target:self action:@selector(back)];
     [lbtn setTitleColor:HEX_RGB_COLOR(0x969ca1) forState:UIControlStateNormal];
+    lbtn.titleLabel.font = [UIFont systemFontOfSize:16];
     
     UIBarButtonItem *fixedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedButton.width = -14;
@@ -128,8 +134,9 @@
     
     
     UIButton *rbtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIBarButtonItem *rightBtn = [UIBarButtonItem returnTabBarItemWithBtn:rbtn image:@"" bgimage:nil  Title:@"发布" SelectedTitle:@""  titleFont:16 itemtype:Itemtype_rigth SystemItem:UIBarButtonSystemItemFixedSpace target:self action:@selector(SendOut)];
+    UIBarButtonItem *rightBtn = [UIBarButtonItem returnTabBarItemWithBtn:rbtn image:@"" bgimage:nil  Title:@"发布" SelectedTitle:@""  titleFont:3 itemtype:Itemtype_rigth SystemItem:UIBarButtonSystemItemFixedSpace target:self action:@selector(SendOut)];
     [rbtn setTitleColor:HEX_RGB_COLOR(0x0b98f2) forState:UIControlStateNormal];
+    rbtn.titleLabel.font = [UIFont systemFontOfSize:16];
     self.navigationItem.rightBarButtonItems = @[fixedButton, rightBtn]; 
     
 }
@@ -149,8 +156,11 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    
     self.navigationController.tabBarController.tabBar.hidden = NO;
+    
+    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
+        [(MainNavigationController *)self.navigationController showSearchNavBar:YES];
+    }
 }
 
 - (void)back{
@@ -233,11 +243,7 @@
 #pragma mark - 联系我们
 - (IBAction)Call:(UIButton *)sender {
     
-    if (IS_IOS10LATER) {
-        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",phoneNum]] options:@{} completionHandler:nil];
-        
-    }else  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",phoneNum]]];
-    
+    [UtilsCommon CallPhone];
 }
 
 #pragma mark - 匿名发布按钮

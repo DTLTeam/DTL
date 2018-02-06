@@ -14,6 +14,7 @@
 
 @interface MineViewController () <UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) UITableView *tableView;
+@property (assign, nonatomic) BOOL failShow;
 
 @end
 
@@ -44,6 +45,22 @@
     [super viewDidAppear:animated];
     self.navigationController.navigationBar.translucent = YES;
     [self setNeedsNavigationBackground:0.0];
+    
+    if (!_failShow) {
+        TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:YES];
+        UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+        [window addSubview:tips];
+        
+        __weak TipsViews *WeakTips = tips;
+        [tips showWithContent:@"由于您违反了用户管理协议，平台拒绝了您的答主申请" tipsImage:@"申请失败" LeftTitle:@"我知道了" RightTitle:@"联系我们" block:^(UIButton *btn) {
+            [WeakTips dissmiss];
+            
+        } rightblock:^(UIButton *btn) {
+            
+            [UtilsCommon CallPhone];
+        }];
+        _failShow = YES;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -75,7 +92,7 @@
 
 - (void)setupView
 {
-    self.view.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    self.view.backgroundColor = MineTopColor;
     
     CGFloat height = 160 + 64 + dataArr.count * 50.5 + 10;
     if (height + TABBAR_HEIGHT >= SCREEN_HEIGHT) {
@@ -143,7 +160,7 @@
 {
     if (section == 0) {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10)];
-        view.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+        view.backgroundColor = MineTopColor;
         return view;
     }
     return [[UIView alloc]init];
@@ -221,6 +238,22 @@
             break;
         case 2:
         {
+            if (1) {//已经申请过
+                self.navigationController.tabBarController.tabBar.hidden = NO;
+              TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:NO];
+                UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+                [window addSubview:tips];
+                
+                __weak TipsViews *WeakTips = tips;
+                
+                [tips showWithContent:@"您已申请过答主,审核正在进行中,请耐心等待" tipsImage:@"正在审核中" LeftTitle:@"我知道了" RightTitle:nil block:^(UIButton *btn) {
+                    [WeakTips dissmiss];
+                    
+                } rightblock:^(UIButton *btn) {
+                    
+                }];
+                return;
+            }
             [self performSegueWithIdentifier:@"pushAnswer" sender:nil];
         }
             break;
@@ -249,6 +282,7 @@
             break;
     }
 }
+
 
 
 

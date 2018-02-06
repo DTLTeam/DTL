@@ -35,6 +35,8 @@
     [super viewWillAppear:animated];
     
 
+    self.title = @"草稿箱";
+    
     [self setUpNav];
 }
 
@@ -53,7 +55,6 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.navigationController.tabBarController.tabBar.hidden = YES;
     
-    self.title = @"草稿箱";
     
     UIButton *lbtn = [UIButton buttonWithType:UIButtonTypeCustom];
     UIBarButtonItem *leftBtn = [UIBarButtonItem returnTabBarItemWithBtn:lbtn image:@"back" bgimage:nil  Title:@"" SelectedTitle:@" " titleFont:12 itemtype:Itemtype_left SystemItem:UIBarButtonSystemItemFixedSpace target:self action:@selector(back)];
