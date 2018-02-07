@@ -42,7 +42,6 @@
     
     // 初始化间距
     self.labelLeftInset = 20;
-    
 }
 
 - (void)placeSubviews
@@ -85,6 +84,6 @@
         self.animaImgView.hidden = YES;
     }
 }
-
+ 
 
 @end

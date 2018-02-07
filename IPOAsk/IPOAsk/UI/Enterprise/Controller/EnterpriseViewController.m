@@ -51,10 +51,15 @@ static NSString * CellIdentifier = @"EnterpriseCell";
     
     [self setUpViews];
     
-    
+    __weak EnterpriseViewController *weakSlef = self; 
     self.headerRefresh = ^(BOOL headerR) {
-        
-        NSLog(@"点击背景图刷新消息");
+        if (headerR) {
+            //下拉刷新
+            [weakSlef endHeaderRefresh:RefreshType_header];
+        }else{
+            //上拉加载
+            [weakSlef endHeaderRefresh:RefreshType_foot];
+        }
     };
     
 }
@@ -65,7 +70,7 @@ static NSString * CellIdentifier = @"EnterpriseCell";
     __weak EnterpriseViewController *WeakSelf = self;
     
 #if 1 //是否是专家
-//    [self setUpdata];
+    [self setUpdata];
     
     // ****************** 已经是专家
     if (!self.haveData) {

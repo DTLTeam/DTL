@@ -14,9 +14,13 @@
     if (self) {
         
         _isAttention = NO;
+        _isAnonymous = NO;
+        
+        _questionID = @"";
         
         _headImgUrlStr = @"";
         _userName = @"";
+        _dateStr = @"";
         
         _title = @"";
         _content = @"";
@@ -34,19 +38,25 @@
 
 - (void)refreshModel:(NSDictionary *)infoDic {
     
-    //test
-    _isAttention = (arc4random() % 2 == 0);
+    _isAttention = [infoDic[@"like"] boolValue];
+    _isAnonymous = [infoDic[@"isAnonymous"] boolValue];
     
-    _headImgUrlStr = @"";
-    _userName = infoDic[@"userName"];
-    _dateStr = infoDic[@"date"];
+    _questionID = infoDic[@"id"];
+    
+    _headImgUrlStr = infoDic[@"headIcon"];
+    _userName = infoDic[@"nickName"];
+    
+    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:[infoDic[@"addTime"] integerValue]];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    _dateStr = [formatter stringFromDate:date];
     
     _title = infoDic[@"title"];
     _content = infoDic[@"content"];
     
-    _lookNum = [infoDic[@"lookNum"] intValue];
-    _replyNum = [infoDic[@"replyNum"] intValue];
-    _attentionNum = [infoDic[@"attentionNum"] intValue];
+    _lookNum = [infoDic[@"isFollow"] integerValue];
+    _replyNum = [infoDic[@"answer"] integerValue];
+    _attentionNum = [infoDic[@"isLike"] integerValue];
     
 }
 

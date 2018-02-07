@@ -31,6 +31,8 @@
 
 @interface UserDataManager : NSObject
 
+@property (nonatomic,strong, readonly) UserDataModel *userModel;
+
 /**
  单例初始化
  

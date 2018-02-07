@@ -10,6 +10,10 @@
 @interface QuestionModel : NSObject
 
 @property (nonatomic, readonly) BOOL isAttention;   //是否已经关注
+@property (nonatomic, readonly) BOOL isAnonymous;   //是否匿名
+
+@property (strong, nonatomic, readonly) NSString *questionID;   //问题ID
+@property (strong, nonatomic, readonly) NSString *userID;       //用户ID
 
 @property (strong, nonatomic, readonly) NSString *headImgUrlStr; //用户头像图片加载路径
 @property (strong, nonatomic, readonly) NSString *userName;      //用户名
