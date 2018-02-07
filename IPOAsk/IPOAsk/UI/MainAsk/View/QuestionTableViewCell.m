@@ -306,32 +306,40 @@ typedef enum : NSUInteger {
 
 - (void)refreshWithModel:(QuestionModel *)model {
     
-    [_headImgView sd_setImageWithURL:[NSURL URLWithString:model.headImgUrlStr] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
-    _userNameLabel.text = model.userName;
+    if (model.isAnonymous) { //匿名
+        _headImgView.image = [UIImage imageNamed:@"默认头像.png"];
+        _userNameLabel.text = @"匿名";
+    } else {
+        [_headImgView sd_setImageWithURL:[NSURL URLWithString:model.headImgUrlStr] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
+        _userNameLabel.text = model.userName;
+    }
     _dateLabel.text = model.dateStr;
     
     _titleLabel.text = model.title;
     _contentLabel.text = model.content;
     
-    [_lookNumBtn setTitle:[NSString stringWithFormat:@"%lu", model.lookNum] forState:UIControlStateNormal];
-    [_replyNumBtn setTitle:[NSString stringWithFormat:@"%lu", model.replyNum] forState:UIControlStateNormal];
-    [_attentionNumBtn setTitle:[NSString stringWithFormat:@"%lu", model.attentionNum] forState:UIControlStateNormal];
+    NSString *numStr = model.lookNum <= 0 ? @"" : [NSString stringWithFormat:@"%lu", model.lookNum];
+    [_lookNumBtn setTitle:numStr forState:UIControlStateNormal];
+    numStr = model.replyNum <= 0 ? @"" : [NSString stringWithFormat:@"%lu", model.replyNum];
+    [_replyNumBtn setTitle:numStr forState:UIControlStateNormal];
+    numStr = model.attentionNum <= 0 ? @"" : [NSString stringWithFormat:@"%lu", model.attentionNum];
+    [_attentionNumBtn setTitle:numStr forState:UIControlStateNormal];
     
-//    if (model.isAttention) {
-//        [_attentionBtn setImage:[UIImage imageNamed:@"已关注.png"] forState:UIControlStateNormal];
-//        [_attentionBtn setImage:[UIImage imageNamed:@"已关注.png"] forState:UIControlStateHighlighted];
-//        [_attentionBtn setTitle:@"已关注问题" forState:UIControlStateNormal];
-//        [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x969CA1, 1) forState:UIControlStateNormal];
-//        [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x969CA1, 1) forState:UIControlStateHighlighted];
-//        _attentionBtn.tag = kButtonSelected;
-//    } else {
-//        [_attentionBtn setImage:[UIImage imageNamed:@"+关注.png"] forState:UIControlStateNormal];
-//        [_attentionBtn setTitle:@"关注问题" forState:UIControlStateNormal];
-//        [_attentionBtn setTitle:@"关注问题" forState:UIControlStateHighlighted];
-//        [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x0B98F2, 1) forState:UIControlStateNormal];
-//        [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x0B98F2, 1) forState:UIControlStateHighlighted];
-//        _attentionBtn.tag = kButtonNormal;
-//    }
+    if (model.isAttention) {
+        [_attentionBtn setImage:[UIImage imageNamed:@"已关注.png"] forState:UIControlStateNormal];
+        [_attentionBtn setImage:[UIImage imageNamed:@"已关注.png"] forState:UIControlStateHighlighted];
+        [_attentionBtn setTitle:@"已关注问题" forState:UIControlStateNormal];
+        [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x969CA1, 1) forState:UIControlStateNormal];
+        [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x969CA1, 1) forState:UIControlStateHighlighted];
+        _attentionBtn.tag = kButtonSelected;
+    } else {
+        [_attentionBtn setImage:[UIImage imageNamed:@"+关注.png"] forState:UIControlStateNormal];
+        [_attentionBtn setTitle:@"关注问题" forState:UIControlStateNormal];
+        [_attentionBtn setTitle:@"关注问题" forState:UIControlStateHighlighted];
+        [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x0B98F2, 1) forState:UIControlStateNormal];
+        [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x0B98F2, 1) forState:UIControlStateHighlighted];
+        _attentionBtn.tag = kButtonNormal;
+    }
     
 }
 

@@ -9,10 +9,8 @@
 
 @interface AnswerModel : NSObject
 
-//test*********
-@property (nonatomic, assign) BOOL isLike;    //是否已经点赞
 @property (nonatomic, readonly) BOOL isAnonymous;   //是否匿名
-//@property (nonatomic, readonly) BOOL isLike;        //是否已经点赞
+@property (nonatomic, readonly) BOOL isLike;        //是否已经点赞
 
 @property (strong, nonatomic, readonly) NSString *questionID;   //问题ID
 @property (strong, nonatomic, readonly) NSString *answerID;     //答案ID

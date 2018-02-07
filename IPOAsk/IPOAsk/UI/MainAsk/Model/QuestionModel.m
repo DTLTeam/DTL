@@ -38,25 +38,64 @@
 
 - (void)refreshModel:(NSDictionary *)infoDic {
     
-    _isAttention = [infoDic[@"like"] boolValue];
-    _isAnonymous = [infoDic[@"isAnonymous"] boolValue];
+    if (!infoDic) {
+        return;
+    }
     
-    _questionID = infoDic[@"id"];
+    id content;
     
-    _headImgUrlStr = infoDic[@"headIcon"];
-    _userName = infoDic[@"nickName"];
+    content = infoDic[@"isAnonymous"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _isAnonymous = [content boolValue];
+    }
+    content = infoDic[@"isFollow"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _isAttention = [content boolValue];
+    }
     
-    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:[infoDic[@"addTime"] integerValue]];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
-    _dateStr = [formatter stringFromDate:date];
+    content = infoDic[@"id"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _questionID = content;
+    }
     
-    _title = infoDic[@"title"];
-    _content = infoDic[@"content"];
+    content = infoDic[@"headIcon"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _headImgUrlStr = content;
+    }
+    content = infoDic[@"nickName"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _userName = content;
+    }
     
-    _lookNum = [infoDic[@"isFollow"] integerValue];
-    _replyNum = [infoDic[@"answer"] integerValue];
-    _attentionNum = [infoDic[@"isLike"] integerValue];
+    content = infoDic[@"addTime"];
+    if (content && [content isKindOfClass:[NSNull class]]) {
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:[content integerValue]];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        _dateStr = [formatter stringFromDate:date];
+    }
+    
+    content = infoDic[@"title"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _title = content;
+    }
+    content = infoDic[@"content"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _content = content;
+    }
+    
+    content = infoDic[@"view"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _lookNum = [content integerValue];
+    }
+    content = infoDic[@"answer"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _replyNum = [content integerValue];
+    }
+    content = infoDic[@"follow"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _attentionNum = [content integerValue];
+    }
     
 }
 

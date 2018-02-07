@@ -39,25 +39,64 @@
 #pragma mark 刷新模型数据
 - (void)refreshModel:(NSDictionary *)infoDic {
     
-    _isAnonymous = [infoDic[@"isAnonymous"] boolValue];
-//    _isLike = [infoDic[@"like"] boolValue];
+    if (!infoDic) {
+        return;
+    }
     
-    _questionID = infoDic[@"id"];
-    _answerID = infoDic[@"answerUID"];
+    id content;
     
-    _headImgUrlStr = infoDic[@"headIcon"];
-    _userName = infoDic[@"nickName"];
+    content = infoDic[@"isAnonymous"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _isAnonymous = [content boolValue];
+    }
+    content = infoDic[@"isLike"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _isLike = [content boolValue];
+    }
     
-    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:[infoDic[@"addTime"] integerValue]];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
-    _dateStr = [formatter stringFromDate:date];
+    content = infoDic[@"id"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _questionID = content;
+    }
+    content = infoDic[@"answerUID"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _answerID = content;
+    }
     
-    _title = infoDic[@"title"];
-    _content = infoDic[@"content"];
+    content = infoDic[@"headIcon"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _headImgUrlStr = content;
+    }
+    content = infoDic[@"nickName"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _userName = content;
+    }
     
-    _lookNum = [infoDic[@"isFollow"] integerValue];
-    _likeNum = [infoDic[@"isLike"] integerValue];
+    content = infoDic[@"addTime"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:[content integerValue]];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        _dateStr = [formatter stringFromDate:date];
+    }
+    
+    content = infoDic[@"title"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _title = content;
+    }
+    content = infoDic[@"content"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _content = content;
+    }
+    
+    content = infoDic[@"view"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _lookNum = [content integerValue];
+    }
+    content = infoDic[@"like"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _likeNum = [content integerValue];
+    }
     
 }
 
