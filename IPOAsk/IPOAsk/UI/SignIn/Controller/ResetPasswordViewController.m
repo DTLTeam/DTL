@@ -66,6 +66,28 @@
         
     }else{
         //上传接口 成功 返回
+        __weak ResetPasswordViewController *WeakSelf = self;
+        [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"resetPassword",@"phone":WeakSelf.phone,@"password":_password1.text} backData:NetSessionResponseTypeJSON success:^(id response) {
+            GCD_MAIN(^{
+                NSString *msg = @"修改成功";
+                if ([response[@"status"] intValue] == 1) {
+                    UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                    ResetPasswordViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"ResetPasswordView"];
+                    [WeakSelf.navigationController pushViewController:VC animated:YES];
+                }else
+                {
+                    msg = @"修改失败";
+                }
+                [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
+                [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:msg viewtag:2 AfterDelay:3];
+            });
+        } requestHead:nil faile:^(NSError *error) {
+            GCD_MAIN(^{
+                [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
+                [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"修改失败" viewtag:2 AfterDelay:3];
+            });
+        }];
+        
         static BOOL haveController;
         haveController = NO;
         

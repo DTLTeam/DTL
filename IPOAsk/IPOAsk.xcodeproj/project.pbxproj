@@ -8,15 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		130FA5160092F9EAED210012 /* libPods-IPOAsk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71A9166307730159DB63610D /* libPods-IPOAsk.a */; };
-		706B26232022A99A0018BE40 /* banner背景@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B261B2022A99A0018BE40 /* banner背景@2x.png */; };
-		706B26242022A99A0018BE40 /* 关于我们@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B261C2022A99A0018BE40 /* 关于我们@2x.png */; };
-		706B26252022A99A0018BE40 /* 帮助中心@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B261D2022A99A0018BE40 /* 帮助中心@2x.png */; };
-		706B26262022A99A0018BE40 /* 我的钱包@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B261E2022A99A0018BE40 /* 我的钱包@2x.png */; };
-		706B26272022A99A0018BE40 /* 申请成为答主@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B261F2022A99A0018BE40 /* 申请成为答主@2x.png */; };
-		706B26282022A99A0018BE40 /* 草稿箱@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B26202022A99A0018BE40 /* 草稿箱@2x.png */; };
-		706B26292022A99A0018BE40 /* 设置@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B26212022A99A0018BE40 /* 设置@2x.png */; };
-		706B262A2022A99A0018BE40 /* 默认头像@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B26222022A99A0018BE40 /* 默认头像@2x.png */; };
-		706B262D2022ACCF0018BE40 /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B262C2022ACCF0018BE40 /* back@2x.png */; };
 		706B26342022B06C0018BE40 /* 显示密码@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B262E2022B06C0018BE40 /* 显示密码@2x.png */; };
 		706B26352022B06C0018BE40 /* 不显示密码@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B262F2022B06C0018BE40 /* 不显示密码@2x.png */; };
 		706B26362022B06C0018BE40 /* 卡片@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 706B26302022B06C0018BE40 /* 卡片@2x.png */; };
@@ -40,10 +31,8 @@
 		84D1B2F120172F4F00DF2DE4 /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D1B2F020172F4F00DF2DE4 /* MessageViewController.m */; };
 		84D1B2F420172F7300DF2DE4 /* MineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D1B2F320172F7300DF2DE4 /* MineViewController.m */; };
 		84D1B2F92017326600DF2DE4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D1B2F72017326600DF2DE4 /* main.m */; };
-		84D1B2FE201733AB00DF2DE4 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84D1B2FD201733AB00DF2DE4 /* Info.plist */; };
 		84D1B3042017356200DF2DE4 /* UtilsCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D1B3032017356200DF2DE4 /* UtilsCommon.m */; };
 		84FBDC0A20198675007A7E45 /* AskHttpLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FBDC0920198675007A7E45 /* AskHttpLink.m */; };
-		84FBDC10201987CF007A7E45 /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FBDC0C201987CF007A7E45 /* SearchView.m */; };
 		84FBDC11201987CF007A7E45 /* AskProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FBDC0D201987CF007A7E45 /* AskProgressHUD.m */; };
 		84FBDC142019A83F007A7E45 /* ApplicationEnterpriseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FBDC132019A83F007A7E45 /* ApplicationEnterpriseViewController.m */; };
 		84FBDC182019AC15007A7E45 /* UIBarButtonItem+myBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FBDC172019AC15007A7E45 /* UIBarButtonItem+myBarButtonItem.m */; };
@@ -52,10 +41,81 @@
 		84FBDC292019B1DF007A7E45 /* EnterpriseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FBDC272019B1DF007A7E45 /* EnterpriseTableViewCell.m */; };
 		84FBDC2A2019B1DF007A7E45 /* EnterpriseTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84FBDC282019B1DF007A7E45 /* EnterpriseTableViewCell.xib */; };
 		84FBDC2D2019C474007A7E45 /* TipsViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FBDC2C2019C474007A7E45 /* TipsViews.m */; };
+		F502DBAC2028594400D898D5 /* UserDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F502DBAB2028594400D898D5 /* UserDataManager.m */; };
+		F502DBB02029534500D898D5 /* FMDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F502DBAF2029534500D898D5 /* FMDBManager.m */; };
+		F502DBB32029536E00D898D5 /* DraftsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F502DBB22029536D00D898D5 /* DraftsModel.m */; };
+		F502DBB72029537800D898D5 /* DraftsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F502DBB52029537800D898D5 /* DraftsTableViewCell.m */; };
+		F502DBB82029537800D898D5 /* DraftsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F502DBB62029537800D898D5 /* DraftsTableViewCell.xib */; };
+		F502DBBB2029538500D898D5 /* DraftsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F502DBB92029538500D898D5 /* DraftsViewController.m */; };
+		F502DBBE2029A78500D898D5 /* SendPhoneCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F502DBBC2029A78500D898D5 /* SendPhoneCodeViewController.m */; };
 		F563CCCF2017153B00D4751A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F563CCCE2017153B00D4751A /* AppDelegate.m */; };
 		F563CCD52017153B00D4751A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F563CCD32017153B00D4751A /* Main.storyboard */; };
 		F563CCD72017153B00D4751A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F563CCD62017153B00D4751A /* Assets.xcassets */; };
 		F563CCDA2017153B00D4751A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F563CCD82017153B00D4751A /* LaunchScreen.storyboard */; };
+		F5759A3A2022C29200DAE584 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759A362022C29200DAE584 /* InfoViewController.m */; };
+		F5759A3B2022C29200DAE584 /* MyFollowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759A382022C29200DAE584 /* MyFollowViewController.m */; };
+		F5759A402022C2AB00DAE584 /* DraftViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759A3D2022C2AA00DAE584 /* DraftViewTableViewCell.m */; };
+		F5759A412022C2AB00DAE584 /* FollowTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759A3F2022C2AA00DAE584 /* FollowTableViewCell.m */; };
+		F5759A4E2022C2B700DAE584 /* AnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759A422022C2B600DAE584 /* AnswerViewController.m */; };
+		F5759A4F2022C2B700DAE584 /* DraftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759A432022C2B600DAE584 /* DraftViewController.m */; };
+		F5759A502022C2B700DAE584 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759A452022C2B700DAE584 /* SettingViewController.m */; };
+		F5759A512022C2B700DAE584 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759A472022C2B700DAE584 /* AboutViewController.m */; };
+		F5759A522022C2B700DAE584 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759A482022C2B700DAE584 /* HelpViewController.m */; };
+		F5759A532022C2B700DAE584 /* WalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759A492022C2B700DAE584 /* WalletViewController.m */; };
+		F5759A562022FCC400DAE584 /* MyLikeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759A552022FCC400DAE584 /* MyLikeViewController.m */; };
+		F5759A59202300BF00DAE584 /* LikeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759A58202300BF00DAE584 /* LikeTableViewCell.m */; };
+		F5759A5C2023167A00DAE584 /* MyAskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759A5B2023167A00DAE584 /* MyAskViewController.m */; };
+		F5759A5F2023169C00DAE584 /* MyAnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759A5E2023169C00DAE584 /* MyAnswerViewController.m */; };
+		F5759A652023F88500DAE584 /* 未勾选@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A612023F88500DAE584 /* 未勾选@2x.png */; };
+		F5759A662023F88500DAE584 /* 勾选@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A622023F88500DAE584 /* 勾选@2x.png */; };
+		F5759A672023F88500DAE584 /* 没有提问@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A632023F88500DAE584 /* 没有提问@2x.png */; };
+		F5759A682023F88500DAE584 /* 不是企业用户@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A642023F88500DAE584 /* 不是企业用户@2x.png */; };
+		F5759A6A2023F88F00DAE584 /* 虚线@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A692023F88F00DAE584 /* 虚线@2x.png */; };
+		F5759A6E2023F8AB00DAE584 /* loginEnterpriseRegisterView.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759A6B2023F8AB00DAE584 /* loginEnterpriseRegisterView.m */; };
+		F5759A6F2023F8AB00DAE584 /* loginEnterpriseRegisterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5759A6C2023F8AB00DAE584 /* loginEnterpriseRegisterView.xib */; };
+		F5759A762023FA6700DAE584 /* EnterpriseNotQuestionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5759A702023FA6700DAE584 /* EnterpriseNotQuestionView.xib */; };
+		F5759A772023FA6700DAE584 /* NotEnterpriseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5759A722023FA6700DAE584 /* NotEnterpriseView.xib */; };
+		F5759A782023FA6700DAE584 /* EnterpriseNotQuestionView.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759A732023FA6700DAE584 /* EnterpriseNotQuestionView.m */; };
+		F5759A792023FA6700DAE584 /* NotEnterpriseView.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759A752023FA6700DAE584 /* NotEnterpriseView.m */; };
+		F5759A982027EE6000DAE584 /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A7B2027EE6000DAE584 /* back@2x.png */; };
+		F5759A992027EE6000DAE584 /* 默认头像@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A7C2027EE6000DAE584 /* 默认头像@2x.png */; };
+		F5759A9A2027EE6000DAE584 /* 帮助中心@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A7D2027EE6000DAE584 /* 帮助中心@2x.png */; };
+		F5759A9B2027EE6000DAE584 /* 企业-pre@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A7E2027EE6000DAE584 /* 企业-pre@2x.png */; };
+		F5759A9C2027EE6000DAE584 /* 消息-nor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A7F2027EE6000DAE584 /* 消息-nor@2x.png */; };
+		F5759A9D2027EE6000DAE584 /* 设置@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A802027EE6000DAE584 /* 设置@2x.png */; };
+		F5759A9E2027EE6000DAE584 /* 我的钱包@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A812027EE6000DAE584 /* 我的钱包@2x.png */; };
+		F5759A9F2027EE6000DAE584 /* home_nor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A822027EE6000DAE584 /* home_nor@2x.png */; };
+		F5759AA02027EE6000DAE584 /* banner背景@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A832027EE6000DAE584 /* banner背景@2x.png */; };
+		F5759AA12027EE6000DAE584 /* 我的-pre@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A842027EE6000DAE584 /* 我的-pre@2x.png */; };
+		F5759AA22027EE6000DAE584 /* 消息-pre@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A852027EE6000DAE584 /* 消息-pre@2x.png */; };
+		F5759AA32027EE6000DAE584 /* 企业-nor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A862027EE6000DAE584 /* 企业-nor@2x.png */; };
+		F5759AA42027EE6000DAE584 /* 关于我们@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A872027EE6000DAE584 /* 关于我们@2x.png */; };
+		F5759AA52027EE6000DAE584 /* 我的-nor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A882027EE6000DAE584 /* 我的-nor@2x.png */; };
+		F5759AA62027EE6000DAE584 /* home_pre@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A892027EE6000DAE584 /* home_pre@2x.png */; };
+		F5759AA72027EE6000DAE584 /* 申请成为答主@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A8A2027EE6000DAE584 /* 申请成为答主@2x.png */; };
+		F5759AA82027EE6000DAE584 /* 草稿箱@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A8B2027EE6000DAE584 /* 草稿箱@2x.png */; };
+		F5759AA92027EE6000DAE584 /* 下拉加载.gif in Resources */ = {isa = PBXBuildFile; fileRef = F5759A8C2027EE6000DAE584 /* 下拉加载.gif */; };
+		F5759AAA2027EE6000DAE584 /* 已关注@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A8E2027EE6000DAE584 /* 已关注@2x.png */; };
+		F5759AAB2027EE6000DAE584 /* 关注@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A8F2027EE6000DAE584 /* 关注@2x.png */; };
+		F5759AAC2027EE6000DAE584 /* 回答@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A902027EE6000DAE584 /* 回答@2x.png */; };
+		F5759AAD2027EE6000DAE584 /* 详情-查看@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A912027EE6000DAE584 /* 详情-查看@2x.png */; };
+		F5759AAE2027EE6000DAE584 /* 查看@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A922027EE6000DAE584 /* 查看@2x.png */; };
+		F5759AAF2027EE6000DAE584 /* 问题列表-点赞-按下@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A932027EE6000DAE584 /* 问题列表-点赞-按下@2x.png */; };
+		F5759AB02027EE6000DAE584 /* +关注@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A942027EE6000DAE584 /* +关注@2x.png */; };
+		F5759AB12027EE6000DAE584 /* 展开全文@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A952027EE6000DAE584 /* 展开全文@2x.png */; };
+		F5759AB22027EE6000DAE584 /* 问题列表-点赞@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F5759A962027EE6000DAE584 /* 问题列表-点赞@2x.png */; };
+		F5759AB32027EE6000DAE584 /* 上拉刷新.gif in Resources */ = {isa = PBXBuildFile; fileRef = F5759A972027EE6000DAE584 /* 上拉刷新.gif */; };
+		F5759ABA2027EE9A00DAE584 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759AB62027EE9A00DAE584 /* FLAnimatedImage.m */; };
+		F5759ABB2027EE9A00DAE584 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759AB72027EE9A00DAE584 /* FLAnimatedImageView.m */; };
+		F5759ABF2027EF2F00DAE584 /* MainAskDetailHeadViewCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5759ABD2027EF2F00DAE584 /* MainAskDetailHeadViewCellTableViewCell.xib */; };
+		F5759AC02027EF2F00DAE584 /* MainAskDetailHeadViewCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759ABE2027EF2F00DAE584 /* MainAskDetailHeadViewCellTableViewCell.m */; };
+		F5759AC82027EF3C00DAE584 /* MainAskCommViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759AC12027EF3B00DAE584 /* MainAskCommViewController.m */; };
+		F5759AC92027EF3C00DAE584 /* EditQuestionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5759AC22027EF3C00DAE584 /* EditQuestionViewController.xib */; };
+		F5759ACA2027EF3C00DAE584 /* MainAskCommViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5759AC32027EF3C00DAE584 /* MainAskCommViewController.xib */; };
+		F5759ACB2027EF3C00DAE584 /* MainAskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759AC42027EF3C00DAE584 /* MainAskDetailViewController.m */; };
+		F5759ACC2027EF3C00DAE584 /* MainAskDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5759AC52027EF3C00DAE584 /* MainAskDetailViewController.xib */; };
+		F5759AD22027EFB400DAE584 /* MyRefreshAutoGifFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759AD02027EFB400DAE584 /* MyRefreshAutoGifFooter.m */; };
+		F5759AD32027EFB400DAE584 /* MyRefreshAutoGifHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = F5759AD12027EFB400DAE584 /* MyRefreshAutoGifHeader.m */; };
 		F5E91E8B201B39C80059843A /* HeadViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F5E91E8A201B39C80059843A /* HeadViewTableViewCell.m */; };
 		F5E91E8E201B3A120059843A /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5E91E8D201B3A110059843A /* BaseViewController.m */; };
 		F5E91E9B201B3A540059843A /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F5E91E90201B3A530059843A /* SearchViewController.m */; };
@@ -75,15 +135,6 @@
 
 /* Begin PBXFileReference section */
 		0441DF22CC1CD148DF8C8CB4 /* Pods-IPOAsk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IPOAsk.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IPOAsk/Pods-IPOAsk.debug.xcconfig"; sourceTree = "<group>"; };
-		706B261B2022A99A0018BE40 /* banner背景@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "banner背景@2x.png"; sourceTree = "<group>"; };
-		706B261C2022A99A0018BE40 /* 关于我们@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "关于我们@2x.png"; sourceTree = "<group>"; };
-		706B261D2022A99A0018BE40 /* 帮助中心@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "帮助中心@2x.png"; sourceTree = "<group>"; };
-		706B261E2022A99A0018BE40 /* 我的钱包@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "我的钱包@2x.png"; sourceTree = "<group>"; };
-		706B261F2022A99A0018BE40 /* 申请成为答主@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "申请成为答主@2x.png"; sourceTree = "<group>"; };
-		706B26202022A99A0018BE40 /* 草稿箱@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "草稿箱@2x.png"; sourceTree = "<group>"; };
-		706B26212022A99A0018BE40 /* 设置@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "设置@2x.png"; sourceTree = "<group>"; };
-		706B26222022A99A0018BE40 /* 默认头像@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "默认头像@2x.png"; sourceTree = "<group>"; };
-		706B262C2022ACCF0018BE40 /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
 		706B262E2022B06C0018BE40 /* 显示密码@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "显示密码@2x.png"; sourceTree = "<group>"; };
 		706B262F2022B06C0018BE40 /* 不显示密码@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "不显示密码@2x.png"; sourceTree = "<group>"; };
 		706B26302022B06C0018BE40 /* 卡片@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "卡片@2x.png"; sourceTree = "<group>"; };
@@ -130,9 +181,7 @@
 		84D1B305201735B400DF2DE4 /* Macro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Macro.h; sourceTree = "<group>"; };
 		84FBDC0820198675007A7E45 /* AskHttpLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AskHttpLink.h; sourceTree = "<group>"; };
 		84FBDC0920198675007A7E45 /* AskHttpLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AskHttpLink.m; sourceTree = "<group>"; };
-		84FBDC0C201987CF007A7E45 /* SearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchView.m; sourceTree = "<group>"; };
 		84FBDC0D201987CF007A7E45 /* AskProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AskProgressHUD.m; sourceTree = "<group>"; };
-		84FBDC0E201987CF007A7E45 /* SearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchView.h; sourceTree = "<group>"; };
 		84FBDC0F201987CF007A7E45 /* AskProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AskProgressHUD.h; sourceTree = "<group>"; };
 		84FBDC122019A83F007A7E45 /* ApplicationEnterpriseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApplicationEnterpriseViewController.h; sourceTree = "<group>"; };
 		84FBDC132019A83F007A7E45 /* ApplicationEnterpriseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApplicationEnterpriseViewController.m; sourceTree = "<group>"; };
@@ -147,12 +196,113 @@
 		84FBDC282019B1DF007A7E45 /* EnterpriseTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EnterpriseTableViewCell.xib; sourceTree = "<group>"; };
 		84FBDC2B2019C474007A7E45 /* TipsViews.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TipsViews.h; sourceTree = "<group>"; };
 		84FBDC2C2019C474007A7E45 /* TipsViews.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TipsViews.m; sourceTree = "<group>"; };
+		F502DBAA2028594400D898D5 /* UserDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserDataManager.h; sourceTree = "<group>"; };
+		F502DBAB2028594400D898D5 /* UserDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserDataManager.m; sourceTree = "<group>"; };
+		F502DBAE2029534500D898D5 /* FMDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDBManager.h; sourceTree = "<group>"; };
+		F502DBAF2029534500D898D5 /* FMDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDBManager.m; sourceTree = "<group>"; };
+		F502DBB12029536D00D898D5 /* DraftsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DraftsModel.h; sourceTree = "<group>"; };
+		F502DBB22029536D00D898D5 /* DraftsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DraftsModel.m; sourceTree = "<group>"; };
+		F502DBB42029537800D898D5 /* DraftsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DraftsTableViewCell.h; sourceTree = "<group>"; };
+		F502DBB52029537800D898D5 /* DraftsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DraftsTableViewCell.m; sourceTree = "<group>"; };
+		F502DBB62029537800D898D5 /* DraftsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DraftsTableViewCell.xib; sourceTree = "<group>"; };
+		F502DBB92029538500D898D5 /* DraftsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DraftsViewController.m; sourceTree = "<group>"; };
+		F502DBBA2029538500D898D5 /* DraftsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DraftsViewController.h; sourceTree = "<group>"; };
+		F502DBBC2029A78500D898D5 /* SendPhoneCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendPhoneCodeViewController.m; sourceTree = "<group>"; };
+		F502DBBD2029A78500D898D5 /* SendPhoneCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendPhoneCodeViewController.h; sourceTree = "<group>"; };
 		F563CCCA2017153B00D4751A /* IPOAsk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IPOAsk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F563CCCD2017153B00D4751A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F563CCCE2017153B00D4751A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		F563CCD42017153B00D4751A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F563CCD62017153B00D4751A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F563CCD92017153B00D4751A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F5759A362022C29200DAE584 /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoViewController.m; sourceTree = "<group>"; };
+		F5759A372022C29200DAE584 /* MyFollowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyFollowViewController.h; sourceTree = "<group>"; };
+		F5759A382022C29200DAE584 /* MyFollowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyFollowViewController.m; sourceTree = "<group>"; };
+		F5759A392022C29200DAE584 /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
+		F5759A3C2022C2AA00DAE584 /* FollowTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowTableViewCell.h; sourceTree = "<group>"; };
+		F5759A3D2022C2AA00DAE584 /* DraftViewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DraftViewTableViewCell.m; sourceTree = "<group>"; };
+		F5759A3E2022C2AA00DAE584 /* DraftViewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DraftViewTableViewCell.h; sourceTree = "<group>"; };
+		F5759A3F2022C2AA00DAE584 /* FollowTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowTableViewCell.m; sourceTree = "<group>"; };
+		F5759A422022C2B600DAE584 /* AnswerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnswerViewController.m; sourceTree = "<group>"; };
+		F5759A432022C2B600DAE584 /* DraftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DraftViewController.m; sourceTree = "<group>"; };
+		F5759A442022C2B600DAE584 /* AnswerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnswerViewController.h; sourceTree = "<group>"; };
+		F5759A452022C2B700DAE584 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		F5759A462022C2B700DAE584 /* DraftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DraftViewController.h; sourceTree = "<group>"; };
+		F5759A472022C2B700DAE584 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		F5759A482022C2B700DAE584 /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = "<group>"; };
+		F5759A492022C2B700DAE584 /* WalletViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WalletViewController.m; sourceTree = "<group>"; };
+		F5759A4A2022C2B700DAE584 /* WalletViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WalletViewController.h; sourceTree = "<group>"; };
+		F5759A4B2022C2B700DAE584 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		F5759A4C2022C2B700DAE584 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		F5759A4D2022C2B700DAE584 /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = "<group>"; };
+		F5759A542022FCC400DAE584 /* MyLikeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyLikeViewController.h; sourceTree = "<group>"; };
+		F5759A552022FCC400DAE584 /* MyLikeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyLikeViewController.m; sourceTree = "<group>"; };
+		F5759A57202300BF00DAE584 /* LikeTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LikeTableViewCell.h; sourceTree = "<group>"; };
+		F5759A58202300BF00DAE584 /* LikeTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LikeTableViewCell.m; sourceTree = "<group>"; };
+		F5759A5A2023167A00DAE584 /* MyAskViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyAskViewController.h; sourceTree = "<group>"; };
+		F5759A5B2023167A00DAE584 /* MyAskViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyAskViewController.m; sourceTree = "<group>"; };
+		F5759A5D2023169C00DAE584 /* MyAnswerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyAnswerViewController.h; sourceTree = "<group>"; };
+		F5759A5E2023169C00DAE584 /* MyAnswerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyAnswerViewController.m; sourceTree = "<group>"; };
+		F5759A612023F88500DAE584 /* 未勾选@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "未勾选@2x.png"; sourceTree = "<group>"; };
+		F5759A622023F88500DAE584 /* 勾选@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "勾选@2x.png"; sourceTree = "<group>"; };
+		F5759A632023F88500DAE584 /* 没有提问@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "没有提问@2x.png"; sourceTree = "<group>"; };
+		F5759A642023F88500DAE584 /* 不是企业用户@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "不是企业用户@2x.png"; sourceTree = "<group>"; };
+		F5759A692023F88F00DAE584 /* 虚线@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "虚线@2x.png"; sourceTree = "<group>"; };
+		F5759A6B2023F8AB00DAE584 /* loginEnterpriseRegisterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = loginEnterpriseRegisterView.m; sourceTree = "<group>"; };
+		F5759A6C2023F8AB00DAE584 /* loginEnterpriseRegisterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = loginEnterpriseRegisterView.xib; sourceTree = "<group>"; };
+		F5759A6D2023F8AB00DAE584 /* loginEnterpriseRegisterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loginEnterpriseRegisterView.h; sourceTree = "<group>"; };
+		F5759A702023FA6700DAE584 /* EnterpriseNotQuestionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EnterpriseNotQuestionView.xib; sourceTree = "<group>"; };
+		F5759A712023FA6700DAE584 /* EnterpriseNotQuestionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnterpriseNotQuestionView.h; sourceTree = "<group>"; };
+		F5759A722023FA6700DAE584 /* NotEnterpriseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotEnterpriseView.xib; sourceTree = "<group>"; };
+		F5759A732023FA6700DAE584 /* EnterpriseNotQuestionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnterpriseNotQuestionView.m; sourceTree = "<group>"; };
+		F5759A742023FA6700DAE584 /* NotEnterpriseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotEnterpriseView.h; sourceTree = "<group>"; };
+		F5759A752023FA6700DAE584 /* NotEnterpriseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotEnterpriseView.m; sourceTree = "<group>"; };
+		F5759A7B2027EE6000DAE584 /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
+		F5759A7C2027EE6000DAE584 /* 默认头像@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "默认头像@2x.png"; sourceTree = "<group>"; };
+		F5759A7D2027EE6000DAE584 /* 帮助中心@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "帮助中心@2x.png"; sourceTree = "<group>"; };
+		F5759A7E2027EE6000DAE584 /* 企业-pre@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "企业-pre@2x.png"; sourceTree = "<group>"; };
+		F5759A7F2027EE6000DAE584 /* 消息-nor@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "消息-nor@2x.png"; sourceTree = "<group>"; };
+		F5759A802027EE6000DAE584 /* 设置@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "设置@2x.png"; sourceTree = "<group>"; };
+		F5759A812027EE6000DAE584 /* 我的钱包@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "我的钱包@2x.png"; sourceTree = "<group>"; };
+		F5759A822027EE6000DAE584 /* home_nor@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home_nor@2x.png"; sourceTree = "<group>"; };
+		F5759A832027EE6000DAE584 /* banner背景@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "banner背景@2x.png"; sourceTree = "<group>"; };
+		F5759A842027EE6000DAE584 /* 我的-pre@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "我的-pre@2x.png"; sourceTree = "<group>"; };
+		F5759A852027EE6000DAE584 /* 消息-pre@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "消息-pre@2x.png"; sourceTree = "<group>"; };
+		F5759A862027EE6000DAE584 /* 企业-nor@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "企业-nor@2x.png"; sourceTree = "<group>"; };
+		F5759A872027EE6000DAE584 /* 关于我们@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "关于我们@2x.png"; sourceTree = "<group>"; };
+		F5759A882027EE6000DAE584 /* 我的-nor@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "我的-nor@2x.png"; sourceTree = "<group>"; };
+		F5759A892027EE6000DAE584 /* home_pre@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home_pre@2x.png"; sourceTree = "<group>"; };
+		F5759A8A2027EE6000DAE584 /* 申请成为答主@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "申请成为答主@2x.png"; sourceTree = "<group>"; };
+		F5759A8B2027EE6000DAE584 /* 草稿箱@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "草稿箱@2x.png"; sourceTree = "<group>"; };
+		F5759A8C2027EE6000DAE584 /* 下拉加载.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "下拉加载.gif"; sourceTree = "<group>"; };
+		F5759A8E2027EE6000DAE584 /* 已关注@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "已关注@2x.png"; sourceTree = "<group>"; };
+		F5759A8F2027EE6000DAE584 /* 关注@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "关注@2x.png"; sourceTree = "<group>"; };
+		F5759A902027EE6000DAE584 /* 回答@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "回答@2x.png"; sourceTree = "<group>"; };
+		F5759A912027EE6000DAE584 /* 详情-查看@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "详情-查看@2x.png"; sourceTree = "<group>"; };
+		F5759A922027EE6000DAE584 /* 查看@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "查看@2x.png"; sourceTree = "<group>"; };
+		F5759A932027EE6000DAE584 /* 问题列表-点赞-按下@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "问题列表-点赞-按下@2x.png"; sourceTree = "<group>"; };
+		F5759A942027EE6000DAE584 /* +关注@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "+关注@2x.png"; sourceTree = "<group>"; };
+		F5759A952027EE6000DAE584 /* 展开全文@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "展开全文@2x.png"; sourceTree = "<group>"; };
+		F5759A962027EE6000DAE584 /* 问题列表-点赞@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "问题列表-点赞@2x.png"; sourceTree = "<group>"; };
+		F5759A972027EE6000DAE584 /* 上拉刷新.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "上拉刷新.gif"; sourceTree = "<group>"; };
+		F5759AB62027EE9A00DAE584 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImage.m; sourceTree = "<group>"; };
+		F5759AB72027EE9A00DAE584 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImageView.m; sourceTree = "<group>"; };
+		F5759AB82027EE9A00DAE584 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImage.h; sourceTree = "<group>"; };
+		F5759AB92027EE9A00DAE584 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImageView.h; sourceTree = "<group>"; };
+		F5759ABC2027EF2F00DAE584 /* MainAskDetailHeadViewCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainAskDetailHeadViewCellTableViewCell.h; sourceTree = "<group>"; };
+		F5759ABD2027EF2F00DAE584 /* MainAskDetailHeadViewCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainAskDetailHeadViewCellTableViewCell.xib; sourceTree = "<group>"; };
+		F5759ABE2027EF2F00DAE584 /* MainAskDetailHeadViewCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainAskDetailHeadViewCellTableViewCell.m; sourceTree = "<group>"; };
+		F5759AC12027EF3B00DAE584 /* MainAskCommViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainAskCommViewController.m; sourceTree = "<group>"; };
+		F5759AC22027EF3C00DAE584 /* EditQuestionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditQuestionViewController.xib; sourceTree = "<group>"; };
+		F5759AC32027EF3C00DAE584 /* MainAskCommViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainAskCommViewController.xib; sourceTree = "<group>"; };
+		F5759AC42027EF3C00DAE584 /* MainAskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainAskDetailViewController.m; sourceTree = "<group>"; };
+		F5759AC52027EF3C00DAE584 /* MainAskDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainAskDetailViewController.xib; sourceTree = "<group>"; };
+		F5759AC62027EF3C00DAE584 /* MainAskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainAskDetailViewController.h; sourceTree = "<group>"; };
+		F5759AC72027EF3C00DAE584 /* MainAskCommViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainAskCommViewController.h; sourceTree = "<group>"; };
+		F5759ACE2027EFB400DAE584 /* MyRefreshAutoGifHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyRefreshAutoGifHeader.h; sourceTree = "<group>"; };
+		F5759ACF2027EFB400DAE584 /* MyRefreshAutoGifFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyRefreshAutoGifFooter.h; sourceTree = "<group>"; };
+		F5759AD02027EFB400DAE584 /* MyRefreshAutoGifFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyRefreshAutoGifFooter.m; sourceTree = "<group>"; };
+		F5759AD12027EFB400DAE584 /* MyRefreshAutoGifHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyRefreshAutoGifHeader.m; sourceTree = "<group>"; };
 		F5E91E89201B39C80059843A /* HeadViewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeadViewTableViewCell.h; sourceTree = "<group>"; };
 		F5E91E8A201B39C80059843A /* HeadViewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeadViewTableViewCell.m; sourceTree = "<group>"; };
 		F5E91E8C201B3A110059843A /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
@@ -216,16 +366,12 @@
 		706B261A2022A99A0018BE40 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F5759A972027EE6000DAE584 /* 上拉刷新.gif */,
+				F5759A8C2027EE6000DAE584 /* 下拉加载.gif */,
+				F5759A7A2027EE6000DAE584 /* Main */,
+				F5759A8D2027EE6000DAE584 /* MainAsk */,
+				F5759A602023F88500DAE584 /* Enterprise */,
 				706B262B2022A9AC0018BE40 /* login */,
-				706B261B2022A99A0018BE40 /* banner背景@2x.png */,
-				706B261C2022A99A0018BE40 /* 关于我们@2x.png */,
-				706B261D2022A99A0018BE40 /* 帮助中心@2x.png */,
-				706B261E2022A99A0018BE40 /* 我的钱包@2x.png */,
-				706B261F2022A99A0018BE40 /* 申请成为答主@2x.png */,
-				706B26202022A99A0018BE40 /* 草稿箱@2x.png */,
-				706B26212022A99A0018BE40 /* 设置@2x.png */,
-				706B26222022A99A0018BE40 /* 默认头像@2x.png */,
-				706B262C2022ACCF0018BE40 /* back@2x.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -233,6 +379,7 @@
 		706B262B2022A9AC0018BE40 /* login */ = {
 			isa = PBXGroup;
 			children = (
+				F5759A692023F88F00DAE584 /* 虚线@2x.png */,
 				706B263A2022B6C20018BE40 /* 电话联系@2x.png */,
 				706B262F2022B06C0018BE40 /* 不显示密码@2x.png */,
 				706B26302022B06C0018BE40 /* 卡片@2x.png */,
@@ -247,6 +394,9 @@
 		70CF774620216C6900B459F7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F5759A6D2023F8AB00DAE584 /* loginEnterpriseRegisterView.h */,
+				F5759A6B2023F8AB00DAE584 /* loginEnterpriseRegisterView.m */,
+				F5759A6C2023F8AB00DAE584 /* loginEnterpriseRegisterView.xib */,
 				70CF774720216C6900B459F7 /* loginView.h */,
 				70CF774820216C6900B459F7 /* loginView.m */,
 				70CF774D2021729E00B459F7 /* RegisterView.h */,
@@ -272,6 +422,8 @@
 		84C47B342018235F00E32486 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				F502DBBD2029A78500D898D5 /* SendPhoneCodeViewController.h */,
+				F502DBBC2029A78500D898D5 /* SendPhoneCodeViewController.m */,
 				84C47B372018238300E32486 /* SignInViewController.h */,
 				84C47B382018238300E32486 /* SignInViewController.m */,
 				70CF77552021BD8100B459F7 /* ResetPasswordViewController.h */,
@@ -290,6 +442,8 @@
 		84C47B43201869AA00E32486 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				F502DBAD2029534500D898D5 /* FMDBManager */,
+				F5759ACD2027EFB400DAE584 /* gifReload */,
 				84FBDC1D2019AC87007A7E45 /* UINavigationBar+NavigationBar */,
 				84FBDC152019ABEA007A7E45 /* UIBarButtonItem-Button */,
 				84C47B44201869AA00E32486 /* MBProgressHUD */,
@@ -386,6 +540,15 @@
 		84D1B2D420172ACD00DF2DE4 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				F502DBBA2029538500D898D5 /* DraftsViewController.h */,
+				F502DBB92029538500D898D5 /* DraftsViewController.m */,
+				F5759AC22027EF3C00DAE584 /* EditQuestionViewController.xib */,
+				F5759AC72027EF3C00DAE584 /* MainAskCommViewController.h */,
+				F5759AC12027EF3B00DAE584 /* MainAskCommViewController.m */,
+				F5759AC32027EF3C00DAE584 /* MainAskCommViewController.xib */,
+				F5759AC62027EF3C00DAE584 /* MainAskDetailViewController.h */,
+				F5759AC42027EF3C00DAE584 /* MainAskDetailViewController.m */,
+				F5759AC52027EF3C00DAE584 /* MainAskDetailViewController.xib */,
 				F5E91E95201B3A530059843A /* AnswerDetailViewController.h */,
 				F5E91E9A201B3A530059843A /* AnswerDetailViewController.m */,
 				F5E91E97201B3A530059843A /* EditAnswerViewController.h */,
@@ -426,6 +589,7 @@
 		84D1B2DB20172ACD00DF2DE4 /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				F5759A352022C29200DAE584 /* InfoController */,
 				F5E91E88201B39C80059843A /* View */,
 				84D1B2DC20172ACD00DF2DE4 /* Controller */,
 			);
@@ -435,6 +599,18 @@
 		84D1B2DC20172ACD00DF2DE4 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				F5759A4C2022C2B700DAE584 /* AboutViewController.h */,
+				F5759A472022C2B700DAE584 /* AboutViewController.m */,
+				F5759A442022C2B600DAE584 /* AnswerViewController.h */,
+				F5759A422022C2B600DAE584 /* AnswerViewController.m */,
+				F5759A462022C2B700DAE584 /* DraftViewController.h */,
+				F5759A432022C2B600DAE584 /* DraftViewController.m */,
+				F5759A4D2022C2B700DAE584 /* HelpViewController.h */,
+				F5759A482022C2B700DAE584 /* HelpViewController.m */,
+				F5759A4B2022C2B700DAE584 /* SettingViewController.h */,
+				F5759A452022C2B700DAE584 /* SettingViewController.m */,
+				F5759A4A2022C2B700DAE584 /* WalletViewController.h */,
+				F5759A492022C2B700DAE584 /* WalletViewController.m */,
 				84D1B2F220172F7300DF2DE4 /* MineViewController.h */,
 				84D1B2F320172F7300DF2DE4 /* MineViewController.m */,
 			);
@@ -490,8 +666,6 @@
 			children = (
 				84FBDC0F201987CF007A7E45 /* AskProgressHUD.h */,
 				84FBDC0D201987CF007A7E45 /* AskProgressHUD.m */,
-				84FBDC0E201987CF007A7E45 /* SearchView.h */,
-				84FBDC0C201987CF007A7E45 /* SearchView.m */,
 				84FBDC2B2019C474007A7E45 /* TipsViews.h */,
 				84FBDC2C2019C474007A7E45 /* TipsViews.m */,
 			);
@@ -519,6 +693,12 @@
 		84FBDC212019B057007A7E45 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F5759A712023FA6700DAE584 /* EnterpriseNotQuestionView.h */,
+				F5759A732023FA6700DAE584 /* EnterpriseNotQuestionView.m */,
+				F5759A702023FA6700DAE584 /* EnterpriseNotQuestionView.xib */,
+				F5759A742023FA6700DAE584 /* NotEnterpriseView.h */,
+				F5759A752023FA6700DAE584 /* NotEnterpriseView.m */,
+				F5759A722023FA6700DAE584 /* NotEnterpriseView.xib */,
 				84FBDC262019B1DF007A7E45 /* EnterpriseTableViewCell.h */,
 				84FBDC272019B1DF007A7E45 /* EnterpriseTableViewCell.m */,
 				84FBDC282019B1DF007A7E45 /* EnterpriseTableViewCell.xib */,
@@ -533,6 +713,32 @@
 				84FBDC242019B081007A7E45 /* EnterpriseModel.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		F502DBA82028585D00D898D5 /* Handle */ = {
+			isa = PBXGroup;
+			children = (
+				F502DBA92028591F00D898D5 /* UserManager */,
+			);
+			path = Handle;
+			sourceTree = "<group>";
+		};
+		F502DBA92028591F00D898D5 /* UserManager */ = {
+			isa = PBXGroup;
+			children = (
+				F502DBAA2028594400D898D5 /* UserDataManager.h */,
+				F502DBAB2028594400D898D5 /* UserDataManager.m */,
+			);
+			path = UserManager;
+			sourceTree = "<group>";
+		};
+		F502DBAD2029534500D898D5 /* FMDBManager */ = {
+			isa = PBXGroup;
+			children = (
+				F502DBAE2029534500D898D5 /* FMDBManager.h */,
+				F502DBAF2029534500D898D5 /* FMDBManager.m */,
+			);
+			path = FMDBManager;
 			sourceTree = "<group>";
 		};
 		F563CCC12017153B00D4751A = {
@@ -558,25 +764,131 @@
 			children = (
 				F563CCCD2017153B00D4751A /* AppDelegate.h */,
 				F563CCCE2017153B00D4751A /* AppDelegate.m */,
-				84D1B2FD201733AB00DF2DE4 /* Info.plist */,
+				F5759AB42027EE9A00DAE584 /* ThirdParty */,
 				84FBDC0720198675007A7E45 /* HTTP */,
 				84D1B2F52017326600DF2DE4 /* Supporting Files */,
 				84C47B43201869AA00E32486 /* Category */,
 				84D1B2CA20172ACD00DF2DE4 /* UI */,
 				84D1B2FF2017354300DF2DE4 /* Utils */,
+				F502DBA82028585D00D898D5 /* Handle */,
 				706B261A2022A99A0018BE40 /* Resources */,
 				F563CCD32017153B00D4751A /* Main.storyboard */,
 				F563CCD62017153B00D4751A /* Assets.xcassets */,
 				F563CCD82017153B00D4751A /* LaunchScreen.storyboard */,
+				84D1B2FD201733AB00DF2DE4 /* Info.plist */,
 			);
 			path = IPOAsk;
+			sourceTree = "<group>";
+		};
+		F5759A352022C29200DAE584 /* InfoController */ = {
+			isa = PBXGroup;
+			children = (
+				F5759A392022C29200DAE584 /* InfoViewController.h */,
+				F5759A362022C29200DAE584 /* InfoViewController.m */,
+				F5759A372022C29200DAE584 /* MyFollowViewController.h */,
+				F5759A382022C29200DAE584 /* MyFollowViewController.m */,
+				F5759A542022FCC400DAE584 /* MyLikeViewController.h */,
+				F5759A552022FCC400DAE584 /* MyLikeViewController.m */,
+				F5759A5A2023167A00DAE584 /* MyAskViewController.h */,
+				F5759A5B2023167A00DAE584 /* MyAskViewController.m */,
+				F5759A5D2023169C00DAE584 /* MyAnswerViewController.h */,
+				F5759A5E2023169C00DAE584 /* MyAnswerViewController.m */,
+			);
+			path = InfoController;
+			sourceTree = "<group>";
+		};
+		F5759A602023F88500DAE584 /* Enterprise */ = {
+			isa = PBXGroup;
+			children = (
+				F5759A612023F88500DAE584 /* 未勾选@2x.png */,
+				F5759A622023F88500DAE584 /* 勾选@2x.png */,
+				F5759A632023F88500DAE584 /* 没有提问@2x.png */,
+				F5759A642023F88500DAE584 /* 不是企业用户@2x.png */,
+			);
+			path = Enterprise;
+			sourceTree = "<group>";
+		};
+		F5759A7A2027EE6000DAE584 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				F5759A7B2027EE6000DAE584 /* back@2x.png */,
+				F5759A7C2027EE6000DAE584 /* 默认头像@2x.png */,
+				F5759A7D2027EE6000DAE584 /* 帮助中心@2x.png */,
+				F5759A7E2027EE6000DAE584 /* 企业-pre@2x.png */,
+				F5759A7F2027EE6000DAE584 /* 消息-nor@2x.png */,
+				F5759A802027EE6000DAE584 /* 设置@2x.png */,
+				F5759A812027EE6000DAE584 /* 我的钱包@2x.png */,
+				F5759A822027EE6000DAE584 /* home_nor@2x.png */,
+				F5759A832027EE6000DAE584 /* banner背景@2x.png */,
+				F5759A842027EE6000DAE584 /* 我的-pre@2x.png */,
+				F5759A852027EE6000DAE584 /* 消息-pre@2x.png */,
+				F5759A862027EE6000DAE584 /* 企业-nor@2x.png */,
+				F5759A872027EE6000DAE584 /* 关于我们@2x.png */,
+				F5759A882027EE6000DAE584 /* 我的-nor@2x.png */,
+				F5759A892027EE6000DAE584 /* home_pre@2x.png */,
+				F5759A8A2027EE6000DAE584 /* 申请成为答主@2x.png */,
+				F5759A8B2027EE6000DAE584 /* 草稿箱@2x.png */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		F5759A8D2027EE6000DAE584 /* MainAsk */ = {
+			isa = PBXGroup;
+			children = (
+				F5759A8E2027EE6000DAE584 /* 已关注@2x.png */,
+				F5759A8F2027EE6000DAE584 /* 关注@2x.png */,
+				F5759A902027EE6000DAE584 /* 回答@2x.png */,
+				F5759A912027EE6000DAE584 /* 详情-查看@2x.png */,
+				F5759A922027EE6000DAE584 /* 查看@2x.png */,
+				F5759A932027EE6000DAE584 /* 问题列表-点赞-按下@2x.png */,
+				F5759A942027EE6000DAE584 /* +关注@2x.png */,
+				F5759A952027EE6000DAE584 /* 展开全文@2x.png */,
+				F5759A962027EE6000DAE584 /* 问题列表-点赞@2x.png */,
+			);
+			path = MainAsk;
+			sourceTree = "<group>";
+		};
+		F5759AB42027EE9A00DAE584 /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				F5759AB52027EE9A00DAE584 /* FLAnimatedImage */,
+			);
+			path = ThirdParty;
+			sourceTree = "<group>";
+		};
+		F5759AB52027EE9A00DAE584 /* FLAnimatedImage */ = {
+			isa = PBXGroup;
+			children = (
+				F5759AB62027EE9A00DAE584 /* FLAnimatedImage.m */,
+				F5759AB72027EE9A00DAE584 /* FLAnimatedImageView.m */,
+				F5759AB82027EE9A00DAE584 /* FLAnimatedImage.h */,
+				F5759AB92027EE9A00DAE584 /* FLAnimatedImageView.h */,
+			);
+			path = FLAnimatedImage;
+			sourceTree = "<group>";
+		};
+		F5759ACD2027EFB400DAE584 /* gifReload */ = {
+			isa = PBXGroup;
+			children = (
+				F5759ACE2027EFB400DAE584 /* MyRefreshAutoGifHeader.h */,
+				F5759ACF2027EFB400DAE584 /* MyRefreshAutoGifFooter.h */,
+				F5759AD02027EFB400DAE584 /* MyRefreshAutoGifFooter.m */,
+				F5759AD12027EFB400DAE584 /* MyRefreshAutoGifHeader.m */,
+			);
+			path = gifReload;
 			sourceTree = "<group>";
 		};
 		F5E91E88201B39C80059843A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F5759A3E2022C2AA00DAE584 /* DraftViewTableViewCell.h */,
+				F5759A3D2022C2AA00DAE584 /* DraftViewTableViewCell.m */,
+				F5759A3C2022C2AA00DAE584 /* FollowTableViewCell.h */,
+				F5759A3F2022C2AA00DAE584 /* FollowTableViewCell.m */,
 				F5E91E89201B39C80059843A /* HeadViewTableViewCell.h */,
 				F5E91E8A201B39C80059843A /* HeadViewTableViewCell.m */,
+				F5759A57202300BF00DAE584 /* LikeTableViewCell.h */,
+				F5759A58202300BF00DAE584 /* LikeTableViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -584,6 +896,8 @@
 		F5E91EA1201B3A750059843A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				F502DBB12029536D00D898D5 /* DraftsModel.h */,
+				F502DBB22029536D00D898D5 /* DraftsModel.m */,
 				F5E91EA2201B3A750059843A /* QuestionModel.h */,
 				F5E91EA3201B3A750059843A /* AnswerModel.h */,
 				F5E91EA4201B3A750059843A /* QuestionModel.m */,
@@ -595,6 +909,12 @@
 		F5E91EA6201B3A750059843A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F502DBB42029537800D898D5 /* DraftsTableViewCell.h */,
+				F502DBB52029537800D898D5 /* DraftsTableViewCell.m */,
+				F502DBB62029537800D898D5 /* DraftsTableViewCell.xib */,
+				F5759ABC2027EF2F00DAE584 /* MainAskDetailHeadViewCellTableViewCell.h */,
+				F5759ABE2027EF2F00DAE584 /* MainAskDetailHeadViewCellTableViewCell.m */,
+				F5759ABD2027EF2F00DAE584 /* MainAskDetailHeadViewCellTableViewCell.xib */,
 				F5E91EA7201B3A750059843A /* QuestionTableViewCell.h */,
 				F5E91EA8201B3A750059843A /* AnswerTableViewCell.m */,
 				F5E91EA9201B3A750059843A /* QuestionTableViewCell.m */,
@@ -683,29 +1003,60 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84D1B2FE201733AB00DF2DE4 /* Info.plist in Resources */,
 				F563CCDA2017153B00D4751A /* LaunchScreen.storyboard in Resources */,
-				706B26242022A99A0018BE40 /* 关于我们@2x.png in Resources */,
+				F5759ACC2027EF3C00DAE584 /* MainAskDetailViewController.xib in Resources */,
+				F5759AA32027EE6000DAE584 /* 企业-nor@2x.png in Resources */,
 				F563CCD72017153B00D4751A /* Assets.xcassets in Resources */,
-				706B262A2022A99A0018BE40 /* 默认头像@2x.png in Resources */,
-				706B26282022A99A0018BE40 /* 草稿箱@2x.png in Resources */,
-				706B26262022A99A0018BE40 /* 我的钱包@2x.png in Resources */,
+				F5759AB12027EE6000DAE584 /* 展开全文@2x.png in Resources */,
+				F5759A9F2027EE6000DAE584 /* home_nor@2x.png in Resources */,
+				F5759A772023FA6700DAE584 /* NotEnterpriseView.xib in Resources */,
+				F5759A662023F88500DAE584 /* 勾选@2x.png in Resources */,
+				F5759A992027EE6000DAE584 /* 默认头像@2x.png in Resources */,
 				706B26372022B06C0018BE40 /* 其他优势@2x.png in Resources */,
+				F5759ACA2027EF3C00DAE584 /* MainAskCommViewController.xib in Resources */,
+				F5759AA12027EE6000DAE584 /* 我的-pre@2x.png in Resources */,
+				F5759AA92027EE6000DAE584 /* 下拉加载.gif in Resources */,
+				F5759A682023F88500DAE584 /* 不是企业用户@2x.png in Resources */,
+				F5759A982027EE6000DAE584 /* back@2x.png in Resources */,
+				F5759A6A2023F88F00DAE584 /* 虚线@2x.png in Resources */,
+				F5759AAD2027EE6000DAE584 /* 详情-查看@2x.png in Resources */,
 				706B26362022B06C0018BE40 /* 卡片@2x.png in Resources */,
 				706B26392022B06C0018BE40 /* 专家一对一@2x.png in Resources */,
+				F5759AAE2027EE6000DAE584 /* 查看@2x.png in Resources */,
+				F5759A9C2027EE6000DAE584 /* 消息-nor@2x.png in Resources */,
 				70CF77542021AE5A00B459F7 /* EnterpriseRegisterView.xib in Resources */,
+				F5759AC92027EF3C00DAE584 /* EditQuestionViewController.xib in Resources */,
+				F5759AA82027EE6000DAE584 /* 草稿箱@2x.png in Resources */,
+				F5759AAF2027EE6000DAE584 /* 问题列表-点赞-按下@2x.png in Resources */,
+				F5759ABF2027EF2F00DAE584 /* MainAskDetailHeadViewCellTableViewCell.xib in Resources */,
 				706B26382022B06C0018BE40 /* 权威机构@2x.png in Resources */,
+				F5759A9A2027EE6000DAE584 /* 帮助中心@2x.png in Resources */,
 				706B26342022B06C0018BE40 /* 显示密码@2x.png in Resources */,
+				F5759AA42027EE6000DAE584 /* 关于我们@2x.png in Resources */,
 				706B26352022B06C0018BE40 /* 不显示密码@2x.png in Resources */,
-				706B26252022A99A0018BE40 /* 帮助中心@2x.png in Resources */,
-				706B262D2022ACCF0018BE40 /* back@2x.png in Resources */,
-				706B26292022A99A0018BE40 /* 设置@2x.png in Resources */,
+				F502DBB82029537800D898D5 /* DraftsTableViewCell.xib in Resources */,
+				F5759AA02027EE6000DAE584 /* banner背景@2x.png in Resources */,
+				F5759AAA2027EE6000DAE584 /* 已关注@2x.png in Resources */,
+				F5759AAC2027EE6000DAE584 /* 回答@2x.png in Resources */,
+				F5759AA52027EE6000DAE584 /* 我的-nor@2x.png in Resources */,
+				F5759A9E2027EE6000DAE584 /* 我的钱包@2x.png in Resources */,
+				F5759A6F2023F8AB00DAE584 /* loginEnterpriseRegisterView.xib in Resources */,
 				F5E91EB6201B3A960059843A /* AnswerOrLikeTableViewCell.xib in Resources */,
-				706B26232022A99A0018BE40 /* banner背景@2x.png in Resources */,
-				706B26272022A99A0018BE40 /* 申请成为答主@2x.png in Resources */,
+				F5759AB02027EE6000DAE584 /* +关注@2x.png in Resources */,
+				F5759AA72027EE6000DAE584 /* 申请成为答主@2x.png in Resources */,
+				F5759AAB2027EE6000DAE584 /* 关注@2x.png in Resources */,
+				F5759AB32027EE6000DAE584 /* 上拉刷新.gif in Resources */,
 				706B263B2022B6C20018BE40 /* 电话联系@2x.png in Resources */,
+				F5759AA22027EE6000DAE584 /* 消息-pre@2x.png in Resources */,
+				F5759AA62027EE6000DAE584 /* home_pre@2x.png in Resources */,
+				F5759AB22027EE6000DAE584 /* 问题列表-点赞@2x.png in Resources */,
+				F5759A672023F88500DAE584 /* 没有提问@2x.png in Resources */,
+				F5759A652023F88500DAE584 /* 未勾选@2x.png in Resources */,
 				84FBDC2A2019B1DF007A7E45 /* EnterpriseTableViewCell.xib in Resources */,
+				F5759A762023FA6700DAE584 /* EnterpriseNotQuestionView.xib in Resources */,
 				F563CCD52017153B00D4751A /* Main.storyboard in Resources */,
+				F5759A9D2027EE6000DAE584 /* 设置@2x.png in Resources */,
+				F5759A9B2027EE6000DAE584 /* 企业-pre@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -738,7 +1089,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -770,44 +1121,73 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5759AD32027EFB400DAE584 /* MyRefreshAutoGifHeader.m in Sources */,
+				F502DBAC2028594400D898D5 /* UserDataManager.m in Sources */,
+				F5759A6E2023F8AB00DAE584 /* loginEnterpriseRegisterView.m in Sources */,
 				F5E91E9D201B3A540059843A /* EditAnswerViewController.m in Sources */,
+				F5759AC02027EF2F00DAE584 /* MainAskDetailHeadViewCellTableViewCell.m in Sources */,
+				F502DBB32029536E00D898D5 /* DraftsModel.m in Sources */,
 				84FBDC0A20198675007A7E45 /* AskHttpLink.m in Sources */,
 				84C47B422018368A00E32486 /* BaseTableViewController.m in Sources */,
 				F5E91EAD201B3A750059843A /* AnswerTableViewCell.m in Sources */,
+				F502DBB02029534500D898D5 /* FMDBManager.m in Sources */,
 				84C47B392018238300E32486 /* SignInViewController.m in Sources */,
 				84FBDC2D2019C474007A7E45 /* TipsViews.m in Sources */,
+				F5759A412022C2AB00DAE584 /* FollowTableViewCell.m in Sources */,
 				F5E91EB8201B3A960059843A /* AnswerOrLikeModel.m in Sources */,
+				F5759A4F2022C2B700DAE584 /* DraftViewController.m in Sources */,
+				F5759A532022C2B700DAE584 /* WalletViewController.m in Sources */,
 				84FBDC202019AC9B007A7E45 /* UINavigationBar+MyNavigationBar.m in Sources */,
 				70CF774C20216C6900B459F7 /* TextFieldViews.m in Sources */,
 				70CF774F2021729E00B459F7 /* RegisterView.m in Sources */,
+				F5759A502022C2B700DAE584 /* SettingViewController.m in Sources */,
+				F502DBBE2029A78500D898D5 /* SendPhoneCodeViewController.m in Sources */,
+				F5759AD22027EFB400DAE584 /* MyRefreshAutoGifFooter.m in Sources */,
 				84D1B3042017356200DF2DE4 /* UtilsCommon.m in Sources */,
+				F5759A3A2022C29200DAE584 /* InfoViewController.m in Sources */,
 				F5E91E9C201B3A540059843A /* QuestionViewController.m in Sources */,
+				F5759ABB2027EE9A00DAE584 /* FLAnimatedImageView.m in Sources */,
 				70CF774B20216C6900B459F7 /* loginView.m in Sources */,
 				84FBDC142019A83F007A7E45 /* ApplicationEnterpriseViewController.m in Sources */,
+				F502DBB72029537800D898D5 /* DraftsTableViewCell.m in Sources */,
+				F5759A792023FA6700DAE584 /* NotEnterpriseView.m in Sources */,
+				F5759A4E2022C2B700DAE584 /* AnswerViewController.m in Sources */,
 				F5E91E9E201B3A540059843A /* EditQuestionViewController.m in Sources */,
 				84D1B2EE20172E9A00DF2DE4 /* EnterpriseViewController.m in Sources */,
 				84D1B2F420172F7300DF2DE4 /* MineViewController.m in Sources */,
 				84FBDC292019B1DF007A7E45 /* EnterpriseTableViewCell.m in Sources */,
+				F502DBBB2029538500D898D5 /* DraftsViewController.m in Sources */,
+				F5759A5F2023169C00DAE584 /* MyAnswerViewController.m in Sources */,
 				84D1B2E820172CD800DF2DE4 /* BaseNavViewController.m in Sources */,
+				F5759ACB2027EF3C00DAE584 /* MainAskDetailViewController.m in Sources */,
+				F5759A782023FA6700DAE584 /* EnterpriseNotQuestionView.m in Sources */,
+				F5759A5C2023167A00DAE584 /* MyAskViewController.m in Sources */,
 				84FBDC11201987CF007A7E45 /* AskProgressHUD.m in Sources */,
 				84D1B2EB20172DFD00DF2DE4 /* MainAskViewController.m in Sources */,
 				70CF77572021BD8100B459F7 /* ResetPasswordViewController.m in Sources */,
+				F5759A3B2022C29200DAE584 /* MyFollowViewController.m in Sources */,
+				F5759ABA2027EE9A00DAE584 /* FLAnimatedImage.m in Sources */,
 				F563CCCF2017153B00D4751A /* AppDelegate.m in Sources */,
+				F5759AC82027EF3C00DAE584 /* MainAskCommViewController.m in Sources */,
 				F5E91EA0201B3A540059843A /* AnswerDetailViewController.m in Sources */,
 				84C47B47201869AA00E32486 /* MBProgressHUD.m in Sources */,
+				F5759A402022C2AB00DAE584 /* DraftViewTableViewCell.m in Sources */,
+				F5759A562022FCC400DAE584 /* MyLikeViewController.m in Sources */,
 				F5E91E9F201B3A540059843A /* MainNavigationController.m in Sources */,
 				F5E91EB7201B3A960059843A /* AnswerOrLikeTableViewCell.m in Sources */,
-				84FBDC10201987CF007A7E45 /* SearchView.m in Sources */,
 				84FBDC252019B081007A7E45 /* EnterpriseModel.m in Sources */,
+				F5759A59202300BF00DAE584 /* LikeTableViewCell.m in Sources */,
 				84D1B2F120172F4F00DF2DE4 /* MessageViewController.m in Sources */,
 				F5E91EAC201B3A750059843A /* AnswerModel.m in Sources */,
 				70CF77522021AE5200B459F7 /* EnterpriseRegisterView.m in Sources */,
 				F5E91EAE201B3A750059843A /* QuestionTableViewCell.m in Sources */,
 				84D1B2F92017326600DF2DE4 /* main.m in Sources */,
 				84D1B2E520172B0900DF2DE4 /* BaseTabBarViewController.m in Sources */,
+				F5759A512022C2B700DAE584 /* AboutViewController.m in Sources */,
 				F5E91EAB201B3A750059843A /* QuestionModel.m in Sources */,
 				F5E91E8B201B39C80059843A /* HeadViewTableViewCell.m in Sources */,
 				84FBDC182019AC15007A7E45 /* UIBarButtonItem+myBarButtonItem.m in Sources */,
+				F5759A522022C2B700DAE584 /* HelpViewController.m in Sources */,
 				F5E91E9B201B3A540059843A /* SearchViewController.m in Sources */,
 				F5E91E8E201B3A120059843A /* BaseViewController.m in Sources */,
 			);
@@ -948,6 +1328,7 @@
 				DEVELOPMENT_TEAM = NG2U3PU777;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/IPOAsk/Supporting Files/PrefixHeader.pch";
 				INFOPLIST_FILE = IPOAsk/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.IPOAsk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -965,6 +1346,7 @@
 				DEVELOPMENT_TEAM = NG2U3PU777;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/IPOAsk/Supporting Files/PrefixHeader.pch";
 				INFOPLIST_FILE = IPOAsk/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.IPOAsk;
 				PRODUCT_NAME = "$(TARGET_NAME)";

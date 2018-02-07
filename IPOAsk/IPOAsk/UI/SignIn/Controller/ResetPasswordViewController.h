@@ -10,4 +10,6 @@
 
 @interface ResetPasswordViewController : UIViewController
 
+@property (nonatomic,strong) NSString *phone;
+
 @end

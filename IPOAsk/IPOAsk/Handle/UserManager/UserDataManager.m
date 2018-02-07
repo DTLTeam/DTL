@@ -18,8 +18,6 @@
 
 @interface UserDataManager ()
 
-@property (nonatomic,strong) UserDataModel *userModel;
-
 @end
 
 @implementation UserDataManager

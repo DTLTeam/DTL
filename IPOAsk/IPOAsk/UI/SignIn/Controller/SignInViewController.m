@@ -268,17 +268,15 @@
                 [manager loginSetUpModel:model];
                 
                 [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
-                [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"登录成功" viewtag:2 AfterDelay:3];
+                [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"登录成功" viewtag:2 AfterDelay:3];
                 [WeakSelf dismiss];
             });
         }
-    } requestHead:^(id response) {
-        
-    } faile:^(NSError *error) {
+    } requestHead:nil faile:^(NSError *error) {
         
         GCD_MAIN(^{
             [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
-            [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"登录失败" viewtag:2 AfterDelay:3];
+            [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"登录失败" viewtag:2 AfterDelay:3];
         });
     }];
 }
@@ -320,16 +318,14 @@
             }
 
             [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
-            [AskProgressHUD AskShowOnlyTitleInView:self.view Title:msg viewtag:2 AfterDelay:3];
+            [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:msg viewtag:2 AfterDelay:3];
             
         });
         
-    } requestHead:^(id response) {
-        
-    } faile:^(NSError *error) {
+    } requestHead:nil faile:^(NSError *error) {
         GCD_MAIN(^{
             [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
-            [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"注册失败" viewtag:2 AfterDelay:3];
+            [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"注册失败" viewtag:2 AfterDelay:3];
         });
     }];
 }

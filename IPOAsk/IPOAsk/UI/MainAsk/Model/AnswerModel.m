@@ -13,7 +13,15 @@
     self = [super init];
     if (self) {
         
+        _isAnonymous = NO;
         _isLike = NO;
+        
+        _questionID = @"";
+        _answerID = @"";
+        
+        _headImgUrlStr = @"";
+        _userName = @"";
+        _dateStr = @"";
         
         _title = @"";
         _content = @"";
@@ -30,17 +38,26 @@
 
 #pragma mark 刷新模型数据
 - (void)refreshModel:(NSDictionary *)infoDic {
-     
     
-    _headImgUrlStr = @"";
-    _userName = @"用户名";
-    _dateStr = @"2018-01-05";
+    _isAnonymous = [infoDic[@"isAnonymous"] boolValue];
+//    _isLike = [infoDic[@"like"] boolValue];
     
-    _title = @"标题1111111111111";
-    _content = @"内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容v";
+    _questionID = infoDic[@"id"];
+    _answerID = infoDic[@"answerUID"];
     
-    _lookNum = 999;
-    _likeNum = 22;
+    _headImgUrlStr = infoDic[@"headIcon"];
+    _userName = infoDic[@"nickName"];
+    
+    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:[infoDic[@"addTime"] integerValue]];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    _dateStr = [formatter stringFromDate:date];
+    
+    _title = infoDic[@"title"];
+    _content = infoDic[@"content"];
+    
+    _lookNum = [infoDic[@"isFollow"] integerValue];
+    _likeNum = [infoDic[@"isLike"] integerValue];
     
 }
 

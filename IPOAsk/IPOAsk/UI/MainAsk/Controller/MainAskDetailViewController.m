@@ -38,6 +38,8 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    self.tabBarController.tabBar.hidden = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -59,7 +61,7 @@
     _CommArr = [NSMutableArray array];
     
     _contentTableView.rowHeight = UITableViewAutomaticDimension;
-    _contentTableView.estimatedRowHeight = 999;
+    _contentTableView.estimatedRowHeight = 9999;
     __weak typeof(self) weakSelf = self;
     
     // 上拉加载
