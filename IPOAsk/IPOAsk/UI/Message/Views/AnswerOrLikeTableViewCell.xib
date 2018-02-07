@@ -21,9 +21,8 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9MX-AM-caz">
                         <rect key="frame" x="9" y="9" width="302" height="82.5"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1tA-kA-8H8">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="默认头像.png" translatesAutoresizingMaskIntoConstraints="NO" id="1tA-kA-8H8">
                                 <rect key="frame" x="8" y="12" width="40" height="40"/>
-                                <color key="backgroundColor" red="0.35281143710000001" green="1" blue="0.15375212590000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="SgT-KY-QS6"/>
                                     <constraint firstAttribute="width" constant="40" id="nn3-Ir-abJ"/>
@@ -86,4 +85,7 @@
             <point key="canvasLocation" x="34" y="27"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="默认头像.png" width="57" height="57"/>
+    </resources>
 </document>

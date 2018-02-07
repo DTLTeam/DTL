@@ -174,6 +174,8 @@
 - (void)putQuestionAction:(id)sender {
     
     EditQuestionViewController *editQuestionVC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:nil options:nil].firstObject;
+    [editQuestionVC UserType:AnswerType_AskQuestionPerson NavTitle:@"提问"];
+ 
     [self pushViewController:editQuestionVC animated:YES];
     
 }

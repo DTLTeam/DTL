@@ -72,6 +72,9 @@
                     </label>
                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zxb-Ph-SvV">
                         <rect key="frame" x="171" y="629" width="80" height="28"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="80" id="dPd-LG-73t"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <state key="normal" title="注册企业账号">
                             <color key="titleColor" red="0.0" green="0.58845514059066772" blue="0.94562488794326782" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -111,7 +114,7 @@
                     <constraint firstItem="8Ky-i5-VCE" firstAttribute="firstBaseline" secondItem="QeQ-qS-rSD" secondAttribute="baseline" constant="19" id="PGX-dZ-p7Y"/>
                     <constraint firstItem="0hB-p8-cZc" firstAttribute="top" secondItem="zXc-hp-m6b" secondAttribute="top" id="PhD-Iq-kUv"/>
                     <constraint firstItem="Zxb-Ph-SvV" firstAttribute="leading" secondItem="Kkd-LX-4vI" secondAttribute="trailing" constant="-1" id="Q5I-GU-Wab"/>
-                    <constraint firstItem="QDY-2G-wrB" firstAttribute="leading" secondItem="Zxb-Ph-SvV" secondAttribute="trailing" constant="38" id="TP0-5Z-esy"/>
+                    <constraint firstAttribute="trailing" secondItem="QDY-2G-wrB" secondAttribute="trailing" constant="12" id="VqP-Ja-MgH"/>
                     <constraint firstItem="pKF-xV-Dtc" firstAttribute="top" secondItem="Maz-10-fwh" secondAttribute="bottom" constant="19" id="XJQ-67-6mb"/>
                     <constraint firstItem="yqW-JK-4Ge" firstAttribute="trailing" secondItem="Zxb-Ph-SvV" secondAttribute="trailing" id="bKT-MP-PPu"/>
                     <constraint firstAttribute="trailing" secondItem="8Ky-i5-VCE" secondAttribute="trailing" constant="12" id="cUT-cF-iPD"/>

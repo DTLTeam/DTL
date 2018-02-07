@@ -229,6 +229,10 @@
             
             EditQuestionViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:self options:nil][0];
             [VC UserType:AnswerType_Answer NavTitle:WeakModel.title];
+           if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
+               [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
+   
+           }
             [WeakSelf.navigationController pushViewController:VC animated:YES];
             
         } WithAllClick:^(BOOL click) {

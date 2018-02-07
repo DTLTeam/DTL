@@ -54,6 +54,10 @@
     [super viewWillAppear:animated];
     
     self.tabBarController.tabBar.hidden = NO;
+    
+    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
+        [(MainNavigationController *)self.navigationController showSearchNavBar:YES];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated{

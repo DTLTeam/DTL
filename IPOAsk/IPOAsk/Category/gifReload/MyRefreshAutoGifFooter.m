@@ -75,8 +75,7 @@
     if (state == MJRefreshStateRefreshing) {
         FLAnimatedImage *img = self.animaImgView.animatedImage;
         if (!img) return;
-        [self.animaImgView stopAnimating];
-        
+        [self.animaImgView stopAnimating]; 
         self.animaImgView.hidden = NO;
         
     } else if (state == MJRefreshStateNoMoreData || state == MJRefreshStateIdle) {

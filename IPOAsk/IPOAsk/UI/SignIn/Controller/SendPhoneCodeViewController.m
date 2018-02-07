@@ -127,6 +127,14 @@
     
     __weak SendPhoneCodeViewController *WeakSelf = self;
     if (sender.tag == 100) {
+       
+        if ([[UtilsCommon validPhoneNum:[_PhoneView text]] isEqualToString:@""]) {
+            GCD_MAIN(^{
+                [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"请输入正确的手机号" viewtag:1 AfterDelay:3];
+            });
+            return;
+        }
+        
         //重置密码
         [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"checkCode",@"phone":_PhoneView.text,@"verificationCode":_CodeView.text} backData:NetSessionResponseTypeJSON success:^(id response) {
             if ([response[@"status"] intValue] == 1) {
@@ -145,6 +153,7 @@
         return;
     }
     
+    
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getVerificationCode",@"phone":_PhoneView.text} backData:NetSessionResponseTypeJSON success:^(id response) {
         
         GCD_MAIN(^{
@@ -155,24 +164,25 @@
             }
         });
         
+        
+        //获取验证码成功
+        _count = 60;
+        
+        if (!_countDownTimer) {
+            _countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod:) userInfo:sender repeats:YES];
+        }
+        //验证码倒数计时
+        [sender setTitle:[NSString stringWithFormat:@"%i秒", _count] forState:UIControlStateDisabled];
+        [sender setTitleColor:HEX_RGB_COLOR(0x969ca1) forState:UIControlStateNormal];
+        sender.enabled = NO;
+        
+        
     } requestHead:nil faile:^(NSError *error) {
         GCD_MAIN(^{
             [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
             [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"获取验证码失败" viewtag:2 AfterDelay:3];
         });
     }];
-    
-    //获取验证码
-    _count = 60;
-    
-    if (!_countDownTimer) {
-        _countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod:) userInfo:sender repeats:YES];
-    }
-    //验证码倒数计时
-    [sender setTitle:[NSString stringWithFormat:@"%i秒", _count] forState:UIControlStateDisabled];
-    [sender setTitleColor:HEX_RGB_COLOR(0x969ca1) forState:UIControlStateNormal];
-    sender.enabled = NO;
-    
 }
 
 

@@ -222,6 +222,10 @@
 - (void)putQuestionAction:(id)sender {
     
     EditQuestionViewController *editQuestionVC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:nil options:nil].firstObject;
+    [editQuestionVC UserType:AnswerType_AskQuestionPerson NavTitle:@"提问"];
+   if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
+        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
+    }
     [self.navigationController pushViewController:editQuestionVC animated:YES];
     
 }

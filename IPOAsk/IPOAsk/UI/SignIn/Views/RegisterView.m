@@ -153,6 +153,7 @@
     _RegisterBtn.tag = RegisterbtnType_Register;
     _RegisterBtn.layer.cornerRadius = 5;
     _RegisterBtn.layer.masksToBounds = YES;
+    _RegisterBtn.userInteractionEnabled = NO;
     [self addSubview:_RegisterBtn];
     
     [_RegisterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -221,6 +222,14 @@
         sender.selected = !sender.selected;
         
         [_SecurityBtn setImage:sender.selected ? [UIImage imageNamed:@"显示密码"] : [UIImage imageNamed:@"不显示密码"] forState:UIControlStateNormal];
+        
+    }else if (sender.tag == RegisterbtnType_Register){
+        if ([[UtilsCommon validPhoneNum:[_PhoneView text]] isEqualToString:@""]) {
+            GCD_MAIN(^{
+                [AskProgressHUD AskShowOnlyTitleInView:self Title:@"请输入正确的手机号" viewtag:1 AfterDelay:3];
+            });
+            return;
+        }
     }
     
     _ClickBlock(sender.tag,[_PhoneView text],[_PasswordView text],[_CodeView text]);

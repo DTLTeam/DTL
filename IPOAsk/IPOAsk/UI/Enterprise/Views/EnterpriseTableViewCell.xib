@@ -36,9 +36,8 @@
                                         <color key="textColor" red="0.28235294117647058" green="0.28235294117647058" blue="0.28235294117647058" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="A9N-JC-cya">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="默认头像.png" translatesAutoresizingMaskIntoConstraints="NO" id="A9N-JC-cya">
                                         <rect key="frame" x="11" y="11" width="35" height="35"/>
-                                        <color key="backgroundColor" red="0.35281143710000001" green="1" blue="0.15375212590000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="35" id="ChB-xo-ZJd"/>
                                             <constraint firstAttribute="width" constant="35" id="GxG-y6-hqx"/>
@@ -136,5 +135,6 @@
     <resources>
         <image name="问题列表-点赞-按下.png" width="17" height="17"/>
         <image name="问题列表-点赞.png" width="17" height="17"/>
+        <image name="默认头像.png" width="57" height="57"/>
     </resources>
 </document>

@@ -64,9 +64,12 @@
     }
     
     [self setUpNav];
-    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) { //隐藏搜索导航栏
-        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
-    }
+  
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+   
 }
 
 -(void)UserType:(AnswerType)type NavTitle:(NSString *)title{
@@ -179,6 +182,7 @@
             // 过滤空格
             model.content = [model.content stringByReplacingOccurrencesOfString:@" " withString:@""];
             model.Type = WeakSelf.MainAnswerType;
+            model.anonymous =  @"0";
             
             if (WeakSelf.MainAnswerType == AnswerType_Answer) {//回答页面用户是否匿名
                 model.anonymous = WeakSelf.anonymousBtn.selected ? @"1" : @"0";

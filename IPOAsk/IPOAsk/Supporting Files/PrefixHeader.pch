@@ -27,6 +27,7 @@
 
 #import "MainAskViewController.h"
 #import "MainAskDetailViewController.h"
+#import "MainNavigationController.h"
 #import "MineViewController.h"
 
 
