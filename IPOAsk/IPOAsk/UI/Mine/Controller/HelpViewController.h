@@ -6,8 +6,8 @@
 //  Copyright © 2018年 law. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface HelpViewController : UIViewController
+@interface HelpViewController : BaseViewController
 
 @end

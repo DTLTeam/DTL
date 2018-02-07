@@ -10,6 +10,9 @@
 
 static NSString * phoneNum = @"15012345678";
 
+#define MineTopColor    [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1]
+
+
 //登录类型
 typedef enum : NSUInteger {
     loginType_Person,
@@ -30,11 +33,27 @@ typedef enum : NSUInteger {
 #pragma mark document路径
 + (NSString *)documentPath;
 
+/**
+ *  计算高度
+ *
+ *  @param width   label width
+ *  @param font    label font
+ *  @param content label content
+ *
+ *  @return hight
+ */
+
++(float)calculateSizeWithWidth:(float)width font:(UIFont *)font content:(NSString *)content;
 
 #pragma mark - <识手机号> 正则匹配
 + (NSString *)validPhoneNum:(NSString *)phone;
 
+
+#pragma mark - 联系企业
++ (void)CallPhone;
+
 #pragma mark - 识别邮箱
 + (BOOL)isValidateEmail:(NSString *)email;
+
 
 @end

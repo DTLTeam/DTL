@@ -31,6 +31,14 @@
     self.navigationController.navigationBarHidden = NO;
     self.navigationController.tabBarController.tabBar.hidden = YES;
     self.title = @"我的成就";
+    [self setUpNavBgColor:MineTopColor];
+}
+
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    [self hiddenNav];
 }
 
 /*

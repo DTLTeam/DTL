@@ -21,12 +21,54 @@
     if (!IS_IOS11LATER) {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
+    self.view.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+- (void)setUpNavBgColor:(UIColor *)color{
+    
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBarHidden = NO;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.navigationController.tabBarController.tabBar.hidden = YES;
+    
+    
+    UIButton *lbtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIBarButtonItem *leftBtn = [UIBarButtonItem returnTabBarItemWithBtn:lbtn image:@"back" bgimage:nil  Title:@"" SelectedTitle:@" " titleFont:12 itemtype:Itemtype_left SystemItem:UIBarButtonSystemItemFixedSpace target:self action:@selector(back)];
+    [lbtn setTitleColor:HEX_RGB_COLOR(0x969ca1) forState:UIControlStateNormal];
+    
+    UIBarButtonItem *fixedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixedButton.width = -14;
+    self.navigationItem.leftBarButtonItems = @[fixedButton, leftBtn];
+    
+    
+    //占位 防止左边按钮偏移
+    UIButton *rbtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIBarButtonItem *rightBtn = [UIBarButtonItem returnTabBarItemWithBtn:rbtn image:@"" bgimage:nil  Title:@"占" SelectedTitle:@""  titleFont:1 itemtype:Itemtype_rigth SystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
+    self.navigationItem.rightBarButtonItems = @[fixedButton, rightBtn];
+    [rbtn setTitleColor:[UIColor clearColor] forState:UIControlStateNormal];
+    self.navigationItem.rightBarButtonItems = @[fixedButton, rightBtn];
+    
+    [self.navigationController.navigationBar setShadowImage:[UtilsCommon createImageWithColor:HEX_RGB_COLOR(0xE9E9E9)]];
+    self.navigationController.navigationBar.shadowImage = [UtilsCommon createImageWithColor:HEX_RGB_COLOR(0xE9E9E9)];
+    self.navigationController.view.backgroundColor = color;
+    self.view.backgroundColor = color;
+}
+
+- (void)hiddenNav{
+    
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.tabBarController.tabBar.hidden = NO;
+}
+
+- (void)back{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 /*

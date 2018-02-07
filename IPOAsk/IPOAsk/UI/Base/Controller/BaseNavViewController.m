@@ -10,7 +10,6 @@
 
 #import "ApplicationEnterpriseViewController.h"
 
-#import "SearchView.h"
 
 @interface BaseNavViewController ()
 
@@ -21,27 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    
-    //自定义导航 --- 首页问答
-    UIViewController *vc = self.viewControllers[self.viewControllers.count - 1];
-    
-    if (vc && ([vc isKindOfClass:[MainAskViewController class]])) {
-        self.navigationController.navigationBarHidden = YES;
-        [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
-        
-        
-        SearchView *view = [[SearchView alloc]initWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, 44) SearchClick:^(NSString * searchtext) {
-            
-            NSLog(@"%@",searchtext);
-        } WithAnswerClick:^(BOOL answer) {
-            NSLog(@"点击发表");
-        }];
-       
-        [self.view addSubview:view];
-    }
-    
-    
+      
 }
 
 - (void)didReceiveMemoryWarning {

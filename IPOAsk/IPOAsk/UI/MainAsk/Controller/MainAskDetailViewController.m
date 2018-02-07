@@ -12,8 +12,6 @@
 #import "MainAskCommViewController.h"
 #import "EditQuestionViewController.h"
 
-//View
-#import "SearchView.h"
 #import "AnswerModel.h"
 #import "AnswerTableViewCell.h"
 #import "MainAskDetailHeadViewCellTableViewCell.h"
@@ -218,7 +216,6 @@
         MainAskDetailHeadViewCellTableViewCell *head  = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailHeadViewCellTableViewCell" owner:self options:nil][0];
         head.ContentLabel.numberOfLines = _all ? 0 : 5;
         
-        
         __weak MainAskDetailViewController *WeakSelf = self;
         __weak UITableView *WeakTableView = tableView;
         __weak QuestionModel *WeakModel = _model;
@@ -278,6 +275,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 /*
 #pragma mark - Navigation

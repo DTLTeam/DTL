@@ -28,7 +28,7 @@
 
 - (void)setupView
 {
-    self.view.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    self.view.backgroundColor = MineTopColor;
     
     CGFloat height = dataArr.count * 50;
     if (height + NAVBAR_HEIGHT >= SCREEN_HEIGHT) {
@@ -52,6 +52,13 @@
     self.navigationController.navigationBarHidden = NO;
     self.navigationController.tabBarController.tabBar.hidden = YES;
     self.title = @"设置";
+    [self setUpNavBgColor:MineTopColor];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    [self hiddenNav];
 }
 
 

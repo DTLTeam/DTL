@@ -20,11 +20,8 @@
 }
 - (IBAction)CallPhone:(UIButton *)sender {
     
-    if (IS_IOS10LATER) {
-        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",phoneNum]] options:@{} completionHandler:nil];
-        
-    }else  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",phoneNum]]];
-    
+  
+    [UtilsCommon CallPhone];
 }
 
 @end

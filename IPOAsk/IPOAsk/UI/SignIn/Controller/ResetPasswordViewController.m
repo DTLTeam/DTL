@@ -7,6 +7,9 @@
 //
 
 #import "ResetPasswordViewController.h"
+#import "SignInViewController.h"
+
+
 #import "TextFieldViews.h" 
 
 @interface ResetPasswordViewController ()
@@ -45,22 +48,40 @@
     [_password2 textFieldPlaceholder:@"确认密码" KeyboardType:UIKeyboardTypeDefault SecureTextEntry:NO Height:88];
     
 }
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    
-    self.navigationController.navigationBar.hidden = YES;
-    self.navigationController.navigationBar.translucent = YES;
-}
 
 
 #pragma mark - 重置密码
 - (IBAction)ResetPassword:(UIButton *)sender {
     
-    if (![[_password1 text] isEqualToString:[_password2 text]] && [_password1 text].length > 0) {
+    if ([_password1 text].length == 0 && [_password2 text].length == 0) {
+        [self.view endEditing:YES];
+        [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"请输入重置密码!" viewtag:100 AfterDelay:3];
+        return;
+    }
+    
+    if (![[_password1 text] isEqualToString:[_password2 text]] && ([_password1 text].length > 0 || [_password2 text].length > 0)) {
         NSLog(@"不一致");
+        [self.view endEditing:YES];
+        [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"两次密码不一致!" viewtag:100 AfterDelay:3];
+        
     }else{
-        //上传接口 返回
-        [self back];
+        //上传接口 成功 返回
+        static BOOL haveController;
+        haveController = NO;
+        
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[SignInViewController class]]) {
+                haveController = YES;
+                
+                self.navigationController.navigationBar.hidden = YES;
+                self.navigationController.navigationBar.translucent = YES;
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
+        
+        if (!haveController) {
+            [self back];
+        }
     }
 }
 #pragma mark -触摸空白地方隐藏键盘

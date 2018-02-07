@@ -38,6 +38,7 @@
 
 #import "UIBarButtonItem+myBarButtonItem.h"
 #import "AskProgressHUD.h"
+#import "TipsViews.h"
 #import "MyRefreshAutoGifFooter.h"
 #import "MyRefreshAutoGifHeader.h"
 

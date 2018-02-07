@@ -112,8 +112,7 @@
 #pragma mark - 功能
 
 #pragma mark 请求列表内容
-- (void)requestContent:(NSInteger)page {
-    
+- (void)requestContent:(NSInteger)page { 
     
     NSDictionary *infoDic = @{@"cmd":@"getQuestionIndex",
                               @"userID":@"90b333b92b630b472467b9b4ccbe42a4",

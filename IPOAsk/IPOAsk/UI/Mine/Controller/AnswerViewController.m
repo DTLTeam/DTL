@@ -19,7 +19,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.view.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    self.view.backgroundColor = MineTopColor;
     _answerBtn.layer.cornerRadius = 3;
 }
 
@@ -34,6 +34,13 @@
     self.navigationController.navigationBarHidden = NO;
     self.navigationController.tabBarController.tabBar.hidden = YES;
     self.title = @"申请成为答主";
+    [self setUpNavBgColor:MineTopColor];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    [self hiddenNav];
 }
 
 /*

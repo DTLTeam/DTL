@@ -24,6 +24,7 @@ typedef enum : NSUInteger {
     
 }
 
+-(instancetype)initWithFrame:(CGRect)frame HaveCancel:(BOOL)have;
 
 - (void)showWithContent:(NSString *)content
                tipsImage:(NSString *)img

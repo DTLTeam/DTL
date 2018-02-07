@@ -16,17 +16,20 @@
 
 @property (nonatomic,assign)int click;
 
+@property (nonatomic,assign)BOOL haveCancel;
+
 @end
 
 @implementation TipsViews
 
--(instancetype)initWithFrame:(CGRect)frame{
+-(instancetype)initWithFrame:(CGRect)frame HaveCancel:(BOOL)have{
     self = [super initWithFrame:frame];
     if (self) {
         
         self.backgroundColor = [UIColor clearColor];
         self.userInteractionEnabled = YES;
         _click = 0;
+        _haveCancel = have;
         
         [self setUpViews];
         
@@ -86,10 +89,12 @@
 
 -(void)show{
     
-    [UIView animateWithDuration:0.38 delay:0 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
+    [self layoutIfNeeded];
+    [UIView animateWithDuration:1.0 delay:0 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
         
         self.alpha = 1;
         
+        [self layoutIfNeeded];
     } completion:^(BOOL finished) {
         
     }];
@@ -111,17 +116,18 @@
 
 - (void)dissmiss{
     
+    [self layoutIfNeeded];
     [UIView animateWithDuration:0.38 delay:0 options:UIViewAnimationOptionTransitionFlipFromRight animations:^{
         
         self.alpha = 0;
         
+        [self layoutIfNeeded];
     } completion:^(BOOL finished) {
         
         _clicklbtn = nil;
         _clickrbtn = nil;
         
         [self removeFromSuperview];
-        
         
     }];
 }
@@ -156,14 +162,14 @@
     
     //tipsClose
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn setBackgroundColor:[UIColor redColor]];
+    [btn setImage:[UIImage imageNamed:@"关闭"] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(dissmiss) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:btn];
     
     [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(_View.mas_right).offset(-15);
-        make.top.mas_equalTo(_View.mas_top).offset(15);
-        make.size.mas_equalTo(CGSizeMake(30, 30));
+        make.right.mas_equalTo(_View.mas_right).offset(-10);
+        make.top.mas_equalTo(_View.mas_top).offset(10);
+        make.size.mas_equalTo(CGSizeMake(22, 22));
     }];
     
     UIImageView *img = [[UIImageView alloc]init];
@@ -184,9 +190,9 @@
     [_View addSubview:content];
     
     [content mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(_View).mas_equalTo(15);
-        make.top.mas_equalTo(img.mas_bottom).offset(15);
-        make.right.mas_equalTo(_View.mas_right).offset(-15);
+        make.left.mas_equalTo(_View).mas_equalTo(20);
+        make.top.mas_equalTo(img.mas_bottom).offset(20);
+        make.right.mas_equalTo(_View.mas_right).offset(-20);
     }];
     
     
@@ -197,9 +203,32 @@
     
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.and.right.mas_equalTo(_View);
-        make.top.mas_equalTo(content.mas_bottom).offset(20);
+        make.top.mas_equalTo(content.mas_bottom).offset(33);
         make.height.mas_equalTo(@0.5);
     }];
+    
+    
+    if (!_haveCancel) {
+        
+        //左按钮
+        UIButton * leftbtn = [self returnbtnWithColor:HEX_RGB_COLOR(0x0b98f2) TextFont:[UIFont systemFontOfSize:16] action:@selector(leftbtn:) Text:NSLocalizedString(@"以后再说", nil)];
+        leftbtn.tag = controlTag_leftbtn;
+        [_View addSubview:leftbtn];
+        
+        
+        [leftbtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.and.right.mas_equalTo(_View);
+            make.top.mas_equalTo(line.mas_bottom).offset(5);
+            make.height.mas_equalTo(@47);
+        }];
+        
+        [_View mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.mas_equalTo(self);
+            make.bottom.mas_equalTo(leftbtn.mas_bottom);
+            make.width.mas_equalTo(SCREEN_HEIGHT >= 667 ? proportionW(536 / 2) : proportionW(280 - 100));
+        }];
+        return;
+    }
     
     //line
     UIView *line2 = [[UIView alloc]init];
@@ -214,7 +243,7 @@
     }];
     
     //左按钮
-    UIButton * leftbtn = [self returnbtnWithColor:[UIColor lightGrayColor] TextFont:[UIFont systemFontOfSize:18] action:@selector(leftbtn:) Text:NSLocalizedString(@"以后再说", nil)];
+    UIButton * leftbtn = [self returnbtnWithColor:HEX_RGB_COLOR(0x333333) TextFont:[UIFont systemFontOfSize:16] action:@selector(leftbtn:) Text:NSLocalizedString(@"以后再说", nil)];
     leftbtn.tag = controlTag_leftbtn;
     [_View addSubview:leftbtn];
     
@@ -223,10 +252,10 @@
         make.left.mas_equalTo(_View);
         make.top.mas_equalTo(line.mas_bottom).offset(5);
         make.right.mas_equalTo(line2.mas_left);
-        make.height.mas_equalTo(@50);
+        make.height.mas_equalTo(@47);
     }];
     
-    UIButton * rightbtn = [self returnbtnWithColor:HEX_RGB_COLOR(0x333333) TextFont:[UIFont boldSystemFontOfSize:18] action:@selector(rightbtn:) Text:NSLocalizedString(@"申请成为答主", nil)];
+    UIButton * rightbtn = [self returnbtnWithColor:HEX_RGB_COLOR(0x0b98f2) TextFont:[UIFont boldSystemFontOfSize:16] action:@selector(rightbtn:) Text:NSLocalizedString(@"申请成为答主", nil)];
     rightbtn.tag = controlTag_rightbtn;
     [_View addSubview:rightbtn];
     
@@ -234,14 +263,14 @@
         make.right.mas_equalTo(_View);
         make.top.mas_equalTo(line.mas_bottom).offset(5);
         make.left.mas_equalTo(line2.mas_right);
-        make.height.mas_equalTo(@50);
+        make.height.mas_equalTo(@47);
         
     }];
     
     [_View mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.mas_equalTo(self);
         make.bottom.mas_equalTo(rightbtn.mas_bottom);
-        make.width.mas_equalTo(SCREEN_HEIGHT >= 667 ? proportionW(320 - 100) : proportionW(280 - 100));
+        make.width.mas_equalTo(SCREEN_HEIGHT >= 667 ? proportionW(536 / 2) : proportionW(280 - 100));
     }];
     
 }

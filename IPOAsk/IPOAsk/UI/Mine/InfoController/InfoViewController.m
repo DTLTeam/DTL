@@ -28,7 +28,7 @@
 
 - (void)setupView
 {
-    self.view.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    self.view.backgroundColor = MineTopColor;
     
     CGFloat height = 150 + 7 * 60 + 10;
     if (height + NAVBAR_HEIGHT >= SCREEN_HEIGHT) {
@@ -52,6 +52,13 @@
 {
     [super viewWillAppear:animated];
     self.title = @"个人资料";
+    [self setUpNavBgColor:MineTopColor];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    [self hiddenNav];
 }
 
 /*
@@ -103,7 +110,7 @@
 {
     if (section == 0) {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10)];
-        view.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+        view.backgroundColor = MineTopColor;
         return view;
     }
     return [[UIView alloc]init];

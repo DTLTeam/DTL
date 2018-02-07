@@ -65,19 +65,7 @@
     insets.left = insets.left + 5;
     _FollowBtn.titleEdgeInsets = insets;
     
-    [_SeeNum mas_makeConstraints:^(MASConstraintMaker *make) {
-        if (@available(iOS 11.0, *)) {
-            make.top.equalTo(_ContentLabel.mas_safeAreaLayoutGuideBottom).offset(10);
-            make.left.equalTo(_ContentLabel.mas_safeAreaLayoutGuideLeft);
-            make.bottom.equalTo(self.mas_safeAreaLayoutGuideBottom).offset(-10);
-        } else {
-            make.top.equalTo(_ContentLabel.mas_bottom).offset(10);
-            make.left.equalTo(_ContentLabel.mas_left);
-            make.bottom.equalTo(self.mas_bottom).offset(-10);
-        }
-    }];
-    
-    [_CommNum mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_CommNum mas_updateConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_SeeNum.mas_centerY);
         if (@available(iOS 11.0, *)) {
             make.left.equalTo(_SeeNum.mas_safeAreaLayoutGuideRight).offset(10);
@@ -86,7 +74,7 @@
         }
     }];
     
-    [_FollowNum mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_FollowNum mas_updateConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_SeeNum.mas_centerY);
         if (@available(iOS 11.0, *)) {
             make.left.equalTo(_CommNum.mas_safeAreaLayoutGuideRight).offset(10);
@@ -97,17 +85,17 @@
         }
     }];
     
-    [_FollowBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    
+    [_FollowBtn mas_updateConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_SeeNum.mas_centerY);
         if (@available(iOS 11.0, *)) {
             make.left.greaterThanOrEqualTo(_FollowNum.mas_safeAreaLayoutGuideRight).offset(10);
-            make.right.equalTo(self.mas_safeAreaLayoutGuideRight).offset(-10);
+            make.right.equalTo(self.mas_safeAreaLayoutGuideRight).offset(-12);
         } else {
             make.left.greaterThanOrEqualTo(_FollowNum.mas_right).offset(10);
-            make.right.equalTo(self.mas_right).offset(-10);
+            make.right.equalTo(self.mas_right).offset(-12);
         }
     }];
-    
 }
 
 
@@ -140,6 +128,16 @@
         _ContentLabel.font = [UIFont systemFontOfSize:15];
         _QuestionLabel.font = [UIFont systemFontOfSize:15];
     }
+    
+    
+    
+//    CGFloat labelHeight = [_ContentLabel sizeThatFits:CGSizeMake(SCREEN_WIDTH - 12 - 12 , MAXFLOAT)].height;
+//    NSNumber *count = @((labelHeight) /_ContentLabel.font.lineHeight);
+    NSInteger count =  [self needLinesWithWidth:SCREEN_WIDTH - 12 - 12 string:_ContentLabel.text Label:_ContentLabel];
+    if (count <= 5 && !_ShowAll.hidden) {
+        _ShowAll.hidden = YES;
+        _BottomH.constant -= 28;
+    }
 }
 
 #pragma mark - 关注
@@ -168,12 +166,31 @@
     }
     
 }
-
-
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
 }
 
+/**
+ 显示当前文字需要几行
+ @param width 宽度
+ @return 行数
+ */
+- (NSInteger)needLinesWithWidth:(CGFloat)width string:(NSString *)text Label:(UILabel *)label{
+    
+    NSInteger sum = 0;
+    
+    NSArray * splitText = [text componentsSeparatedByString:@"\n"];
+    for (NSString * sText in splitText) {
+        label.text = sText;
+        
+        CGSize textSize = [label systemLayoutSizeFittingSize:CGSizeZero];
+        NSInteger lines = ceilf( textSize.width / width);
+        
+        lines = lines == 0 ? 1 : lines;
+        sum += lines;
+    }
+    return sum;
+}
 @end
