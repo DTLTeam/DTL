@@ -79,11 +79,11 @@
 - (void)setUpData{
     [self.sourceData removeAllObjects];
     
-    self.sourceData = [NSMutableArray arrayWithArray:[[FMDBManager sharedInstance]ArrWithSqlDB:[DraftsModel class]Where:@"" orderBy:@"order by id desc" offset:0]];
+    self.sourceData = [NSMutableArray arrayWithArray:[[FMDBManager sharedInstance]ArrWithSqlDB:[DraftsModel class]Where:@"" orderBy:@"order by id desc" offset:0]]; 
+    self.BgTitle = @"暂无草稿哦";
+    self.BgImage = @"没有提问";
     
-    self.haveData = self.sourceData.count > 0 ? YES : NO;
-    
-    [self.myTableView reloadData];
+    self.haveData = self.sourceData.count > 0 ? YES : NO; 
 }
 
 #pragma mark -  UITableViewDataSource
@@ -133,6 +133,7 @@
             
             [self.sourceData removeObjectAtIndex:indexPath.row];
             [self.myTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            self.haveData = self.sourceData.count > 0 ? YES : NO;
             
         }else [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"删除失败" viewtag:100 AfterDelay:5];
         

@@ -135,31 +135,13 @@ static NSString * CellIdentifier = @"AOrLikeCell";
         }];
         
         // test****************** 测试数据
-    }else{
-        
-        UILabel *label = [[UILabel alloc]init];
-        [self.bgImageView addSubview:label];
-        label.text = @"暂无消息哦";
-        
-        [label mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            make.centerX.mas_equalTo(self.bgImageView.mas_centerX);
-            make.centerY.mas_equalTo(self.bgImageView.mas_centerY).offset(30);
-        }];
-        
-        UIImageView *img = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"没有提问"]];
-        [self.bgImageView addSubview:img];
-        
-        [img mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.mas_equalTo(label.mas_centerX).offset(30);
-            make.bottom.mas_equalTo(label.mas_top).offset(-30);
-        }];
-        
     }
     
-    
+    self.BgTitle = @"暂无消息哦";
+    self.BgImage = @"没有提问";
     
     self.haveData = self.sourceData.count > 0 ? YES : NO;
+    
 }
 
 @end

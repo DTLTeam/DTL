@@ -18,6 +18,8 @@ typedef enum : NSUInteger {
 
 @property (nonatomic,strong)UIImageView *bgImageView;
 @property (nonatomic,strong)UITableView *myTableView;
+@property (nonatomic,strong)NSString    *BgTitle;
+@property (nonatomic,strong)NSString    *BgImage;
 
 /**
  控制器的刷新数据实现

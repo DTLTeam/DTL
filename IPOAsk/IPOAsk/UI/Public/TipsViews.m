@@ -172,8 +172,7 @@
         make.size.mas_equalTo(CGSizeMake(22, 22));
     }];
     
-    UIImageView *img = [[UIImageView alloc]init];
-    img.backgroundColor = [UIColor greenColor];
+    UIImageView *img = [[UIImageView alloc]init]; 
     img.tag = controlTag_img;
     [_View addSubview:img];
     

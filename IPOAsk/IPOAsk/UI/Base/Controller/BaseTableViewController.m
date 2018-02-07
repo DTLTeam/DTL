@@ -41,6 +41,8 @@
     [self.view addSubview:_myTableView];
     
     _sourceData = [NSMutableArray array];
+  
+    self.view.backgroundColor = [UIColor whiteColor];
     
     //    [AskProgressHUD AskShowTitleInView:self.view Title:@"正在加载" viewtag:100];
     
@@ -148,7 +150,31 @@
     }else{
         self.bgImageView.hidden = NO;
         self.myTableView.hidden = YES;
+        
+        if (![self.bgImageView viewWithTag:2000]) {
+         
+            UILabel *label = [[UILabel alloc]init];
+            label.tag = 2000;
+            [self.bgImageView addSubview:label];
+            label.text = _BgTitle;
+            
+            [label mas_makeConstraints:^(MASConstraintMaker *make) {
+                
+                make.centerX.mas_equalTo(self.bgImageView.mas_centerX);
+                make.centerY.mas_equalTo(self.bgImageView.mas_centerY).offset(30);
+            }];
+            
+            UIImageView *img = [[UIImageView alloc]initWithImage:[UIImage imageNamed:_BgImage]];
+            [self.bgImageView addSubview:img];
+            
+            [img mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerX.mas_equalTo(label.mas_centerX).offset(30);
+                make.bottom.mas_equalTo(label.mas_top).offset(-30);
+            }];
+            
+        }
     }
+    [self.myTableView reloadData];
 }
 
 
