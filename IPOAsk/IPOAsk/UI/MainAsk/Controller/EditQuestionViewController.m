@@ -56,9 +56,20 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    self.navigationController.tabBarController.tabBar.hidden = YES;
+    self.tabBarController.tabBar.hidden = YES;
     
     [self setUpNav];
+    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) { //隐藏搜索导航栏
+        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) { //隐藏搜索导航栏
+        [(MainNavigationController *)self.navigationController showSearchNavBar:YES];
+    }
 }
 
 -(void)UserType:(AnswerType)type NavTitle:(NSString *)title{
@@ -145,12 +156,6 @@
     
     
     
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    
-    self.navigationController.tabBarController.tabBar.hidden = NO;
 }
 
 - (void)back{
