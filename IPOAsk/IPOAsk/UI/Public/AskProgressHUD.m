@@ -34,14 +34,26 @@
 #pragma mark - 只有文字
 +(void)AskShowOnlyTitleInView:(UIView *)view Title:(NSString *)title viewtag:(int)tag AfterDelay:(CGFloat)afterDelay{
     
+    MBProgressHUD *defhud = [AskProgressHUD haveView:view Tag:tag];
+    
+    if (defhud) {
+        defhud.contentColor = textColor; //文字颜色
+        defhud.bezelView.backgroundColor = bgcolor;//加载框背景色
+        defhud.mode = MBProgressHUDModeText;
+        defhud.label.text = title;
+        
+        [defhud showAnimated:YES];
+        [defhud hideAnimated:YES afterDelay:afterDelay];
+        return;
+    }
+     
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     
     hud.contentColor = textColor; //文字颜色
     hud.bezelView.backgroundColor = bgcolor;//加载框背景色
     hud.mode = MBProgressHUDModeText;
-    
     hud.label.text = title;
-    
     hud.tag = tag;
     
     
@@ -52,12 +64,20 @@
 #pragma mark - 小菊花+文字
 + (void)AskShowTitleInView:(UIView *)view Title:(NSString *)title viewtag:(int)tag{
     
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    MBProgressHUD *defhud = [AskProgressHUD haveView:view Tag:tag];
+    if (defhud) {
+        defhud.contentColor = [UIColor blackColor]; //文字颜色
+        defhud.bezelView.backgroundColor = bgcolor;//加载框背景色
+        defhud.label.text = title;
+        
+        [defhud showAnimated:YES];
+        return;
+    }
     
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     hud.contentColor = [UIColor blackColor]; //文字颜色
     hud.bezelView.backgroundColor = bgcolor;//加载框背景色
     hud.label.text = title;
-    
     hud.tag = tag;
     
     //修改 MBProgressHUD 菊花颜色
@@ -66,19 +86,28 @@
             ((UIActivityIndicatorView *)obj).color = [UIColor redColor];
             *stop = YES;
         }
-        
     }];
 }
 
 
 #pragma mark - 小菊花+文字+detailsLabel
 +(void)AskShowDetailsAndTitleInView:(UIView *)view Title:(NSString *)title Detail:(NSString *)detail viewtag:(int)tag {
+  
+    MBProgressHUD *defhud = [AskProgressHUD haveView:view Tag:tag];
+    if (defhud) {
+        defhud.contentColor = textColor; //文字颜色
+        defhud.bezelView.backgroundColor = bgcolor;//加载框背景色
+        defhud.label.text = title;
+        defhud.detailsLabel.text = detail;
+        
+        [defhud showAnimated:YES];
+        return;
+    }
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     
     hud.contentColor = textColor; //文字颜色
-    hud.bezelView.backgroundColor = bgcolor;//加载框背景色
-    
+    hud.bezelView.backgroundColor = bgcolor;//加载框背景色 
     hud.label.text = title;
     hud.detailsLabel.text = detail;
     
@@ -89,6 +118,7 @@
 
 #pragma mark - 隐藏
 +(void)AskHideAnimatedInView:(UIView *)view viewtag:(int)tag AfterDelay:(CGFloat)afterDelay{
+    
     MBProgressHUD *hud = [view viewWithTag:tag];
     if (hud) {
         
@@ -124,7 +154,18 @@
     Controller(alertVc);
     
 }
- 
+
++ (MBProgressHUD *)haveView:(UIView *)view Tag:(NSInteger)tag{
+    
+    for(UIView *View in view.subviews){
+        if (View.tag == tag && [View isKindOfClass:[MBProgressHUD class]]) {
+            
+            return (MBProgressHUD*)View;
+        }
+    }
+    
+    return nil;
+}
 
 @end
 

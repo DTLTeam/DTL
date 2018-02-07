@@ -72,6 +72,10 @@
    
 }
 
+-(void)dealloc{
+    NSLog(@"销毁");
+}
+
 -(void)UserType:(AnswerType)type NavTitle:(NSString *)title{
     _MainAnswerType = type;
     
@@ -184,7 +188,7 @@
             model.Type = WeakSelf.MainAnswerType;
             model.anonymous =  @"0";
             
-            if (WeakSelf.MainAnswerType == AnswerType_Answer) {//回答页面用户是否匿名
+            if (WeakSelf.MainAnswerType != AnswerType_AskQuestionEnterprise) {//回答页面用户是否匿名
                 model.anonymous = WeakSelf.anonymousBtn.selected ? @"1" : @"0";
             }
             
@@ -221,6 +225,18 @@
 
 #pragma mark - 发布
 - (void)SendOut{
+    
+    if (_question.text.length == 0 && _MainAnswerType != AnswerType_Answer) {
+        [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"请写标题!" viewtag:100 AfterDelay:3];
+        return;
+    }
+    
+    if (_QuestionContent.text.length == 0) {
+        
+        [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"请写内容!" viewtag:100 AfterDelay:3];
+        return;
+    }
+    
     
     if (_IsChangeModel && [[FMDBManager sharedInstance]DeleteWithSqlDB:[DraftsModel class] Where:[NSString stringWithFormat:@" where id = %@",_IsChangeModel.Id]]) {
         //发布草稿
