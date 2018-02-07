@@ -125,14 +125,43 @@
 #pragma mark  - 点击事件
 - (void)BtnClick:(UIButton *)sender{
     
+    __weak SendPhoneCodeViewController *WeakSelf = self;
     if (sender.tag == 100) {
         //重置密码
-        UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"checkCode",@"phone":_PhoneView.text,@"verificationCode":_CodeView.text} backData:NetSessionResponseTypeJSON success:^(id response) {
+            if ([response[@"status"] intValue] == 1) {
+                UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                ResetPasswordViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"ResetPasswordView"];
+                VC.phone = _PhoneView.text;
+                [WeakSelf.navigationController pushViewController:VC animated:YES];
+            }
+        } requestHead:nil faile:^(NSError *error) {
+            GCD_MAIN(^{
+                [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
+                [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"验证失败" viewtag:2 AfterDelay:3];
+            });
+        }];
         
-        ResetPasswordViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"ResetPasswordView"];
-        [self.navigationController pushViewController:VC animated:YES];
         return;
     }
+    
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getVerificationCode",@"phone":_PhoneView.text} backData:NetSessionResponseTypeJSON success:^(id response) {
+        
+        GCD_MAIN(^{
+            if ([response[@"status"] integerValue] == 0) {
+                NSString *msg = response[@"msg"];
+                [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
+                [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:msg viewtag:2 AfterDelay:3];
+            }
+        });
+        
+    } requestHead:nil faile:^(NSError *error) {
+        GCD_MAIN(^{
+            [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
+            [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"获取验证码失败" viewtag:2 AfterDelay:3];
+        });
+    }];
+    
     //获取验证码
     _count = 60;
     
