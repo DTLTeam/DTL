@@ -8,10 +8,14 @@
 
 #import "FollowTableViewCell.h"
 
+
 @interface FollowTableViewCell ()
 
 @property (nonatomic,strong) UILabel *txtLabel;
-
+@property (nonatomic,strong) UILabel *viewLabel;
+@property (nonatomic,strong) UILabel *followLabel;
+@property (nonatomic,strong) UILabel *answerLabel;
+@property (nonatomic,strong) UILabel *dateLabel;
 
 @end
 
@@ -35,32 +39,67 @@
         
         
         _txtLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 20, SCREEN_WIDTH - 40, 20)];
-        _txtLabel.text = @"外国人眼中的汉字是怎样的";
+        _txtLabel.text = @"";
         [self addSubview:_txtLabel];
         
         for (int i = 0; i < 3; i++) {
             UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(15+i*50, 50, 15, 15)];
-            imgView.backgroundColor = [UIColor redColor];
-            imgView.tag = 10+i;
+            imgView.image = [UIImage imageNamed:i==0?@"查看":i==1?@"回答":@"关注"];
             [self addSubview:imgView];
             
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(30+i*50, 50, 20, 15)];
-            label.text = @"15";
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(32+i*50, 50, 20, 15)];
+            label.text = @"0";
             label.textAlignment = NSTextAlignmentLeft;
             label.font = [UIFont systemFontOfSize:13];
-            label.tag = 20*i;
             [self addSubview:label];
+            if (i == 0) {
+                _viewLabel = label;
+            }else if (i == 2)
+            {
+                _answerLabel = label;
+            }else
+            {
+                _followLabel = label;
+            }
         }
         
-        UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 100, 47, 80, 20)];
-        dateLabel.text = @"2018-01-01";
-        dateLabel.textAlignment = NSTextAlignmentLeft;
-        dateLabel.font = [UIFont systemFontOfSize:15];
-        [self addSubview:dateLabel];
+        _dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 100, 47, 80, 20)];
+        _dateLabel.text = @"";
+        _dateLabel.textAlignment = NSTextAlignmentLeft;
+        _dateLabel.font = [UIFont systemFontOfSize:15];
+        [self addSubview:_dateLabel];
         
     }
     
     return self;
+}
+
+
+- (void)updateAskCell:(AskDataModel *)model
+{
+    _txtLabel.text = model.title;
+    _viewLabel.text = [NSString stringWithFormat:@"%d",model.view];
+    _answerLabel.text = [NSString stringWithFormat:@"%d",model.answer];
+    _followLabel.text = [NSString stringWithFormat:@"%d",model.follow];
+    _dateLabel.text = model.addTime;
+}
+
+- (void)updateAnswerCell:(AnswerDataModel *)model
+{
+    _txtLabel.text = model.title;
+    _viewLabel.text = [NSString stringWithFormat:@"%d",model.view];
+    _answerLabel.text = [NSString stringWithFormat:@"%d",model.answer];
+    _followLabel.text = [NSString stringWithFormat:@"%d",model.follow];
+    _dateLabel.text = model.addTime;
+}
+
+- (void)updateFollowCell:(FollowDataModel *)model
+{
+    _txtLabel.text = model.title;
+    _viewLabel.text = [NSString stringWithFormat:@"%d",model.view];
+    _answerLabel.text = [NSString stringWithFormat:@"%d",model.answer];
+    _followLabel.text = [NSString stringWithFormat:@"%d",model.follow];
+    _dateLabel.text = model.addTime;
 }
 
 @end

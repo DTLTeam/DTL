@@ -117,4 +117,9 @@
 
 - (void)loginSetUpModel:(UserDataModel *)model;
 
+- (void )getAskWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
+- (void )getFollowWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
+- (void )getLikeWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
+- (void )getAnswerWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
+
 @end

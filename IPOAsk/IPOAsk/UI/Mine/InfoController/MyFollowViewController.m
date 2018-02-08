@@ -12,7 +12,7 @@
 
 @interface MyFollowViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
+@property (nonatomic,strong) NSMutableArray *followArr;
 @property (nonatomic,assign) NSInteger  currentPage;
 
 @end
@@ -22,8 +22,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _currentPage = 0;
-    
+    _currentPage = 1;
+    _followArr = [NSMutableArray array];
     
     __weak MyFollowViewController *weakSelf = self;
     // 上拉加载
@@ -38,10 +38,32 @@
     
     MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
         weakSelf.currentPage = 1;
-        [self.tableView.mj_header endRefreshing];
+        [weakSelf.followArr removeAllObjects];
+        [weakSelf.tableView.mj_header endRefreshing];
     }];
     [header setUpGifImage:@"下拉加载"];
     self.tableView.mj_header = header;
+    
+    [self getFollowList];
+}
+
+- (void)getFollowList
+{
+     __weak MyFollowViewController *weakSelf = self;
+    [[UserDataManager shareInstance] getFollowWithpage:[NSString stringWithFormat:@"%d",(int)_currentPage] finish:^(NSArray *dataArr) {
+        GCD_MAIN(^{
+            if (dataArr.count > 0) {
+                [weakSelf.followArr addObjectsFromArray:dataArr];
+                [weakSelf.tableView reloadData];
+            }
+            if (dataArr.count == 0 && weakSelf.followArr.count > 0) {
+                [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
+            }else
+            {
+                [weakSelf end];
+            }
+        });
+    }];
 }
 
 - (void)end{
@@ -85,7 +107,7 @@
 #pragma mark - tableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return _followArr.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -119,7 +141,8 @@
     if (cell == nil) {
         cell = [[FollowTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
     }
-    
+    FollowDataModel *model = _followArr[indexPath.section];
+    [cell updateFollowCell:model];
     return cell;
 }
 

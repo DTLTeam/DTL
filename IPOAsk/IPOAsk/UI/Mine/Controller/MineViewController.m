@@ -197,6 +197,23 @@
                 }];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        if (_userManager.userModel) {
+            [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyReflection",@"userID":_userManager.userModel.userID} backData:NetSessionResponseTypeJSON success:^(id response) {
+                GCD_MAIN(^{
+                    if ([response[@"status"] intValue] == 1) {
+                        NSDictionary *dic = response[@"data"];
+                        NSInteger questionCount = [dic[@"questionCount"] integerValue];
+                        NSInteger answerCount = [dic[@"answerCount"] integerValue];
+                        NSInteger followCount = [dic[@"followCount"] integerValue];
+                        NSInteger achievementCount = [dic[@"achievementCount"] integerValue];
+                        
+                        [cell updateAskInfo:questionCount answer:answerCount follow:followCount like:achievementCount];
+                    }
+                });
+            } requestHead:nil faile:nil];
+        }
+        
         return cell;
     }else
     {

@@ -9,10 +9,12 @@
 #import "MyLikeViewController.h"
 #import "LikeTableViewCell.h"
 
+#import "UserDataManager.h"
+
 @interface MyLikeViewController () <UITableViewDelegate,UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
+@property (nonatomic,strong) NSMutableArray *likeArr;
 @property (nonatomic,assign) NSInteger  currentPage;
 
 @end
@@ -21,8 +23,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _currentPage = 0;
-    
+    _currentPage = 1;
+    _likeArr = [NSMutableArray array];
     
     __weak MyLikeViewController *weakSelf = self;
     // 上拉加载
@@ -37,10 +39,31 @@
     
     MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
         weakSelf.currentPage = 1;
-        [self.tableView.mj_header endRefreshing];
+        [weakSelf.likeArr removeAllObjects];
+        [weakSelf.tableView.mj_header endRefreshing];
     }];
     [header setUpGifImage:@"下拉加载"];
     self.tableView.mj_header = header;
+}
+
+- (void)getLikeList
+{
+    __weak MyLikeViewController *weakSelf = self;
+    [[UserDataManager shareInstance] getLikeWithpage:[NSString stringWithFormat:@"%d",(int)_currentPage] finish:^(NSArray *dataArr) {
+        GCD_MAIN(^{
+            if (dataArr.count > 0) {
+                [weakSelf.likeArr addObjectsFromArray:dataArr];
+                [weakSelf.tableView reloadData];
+            }
+            if (dataArr.count == 0 && weakSelf.likeArr.count > 0) {
+                [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
+            }else
+            {
+                [weakSelf end];
+            }
+            
+        });
+    }];
 }
 
 - (void)end{
@@ -83,7 +106,7 @@
 #pragma mark - tableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return _likeArr.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -117,7 +140,8 @@
     if (cell == nil) {
         cell = [[LikeTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
     }
-    
+    LikeDataModel *model = _likeArr[indexPath.section];
+    [cell updateCell:model];
     return cell;
 }
 
