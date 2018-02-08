@@ -140,7 +140,10 @@
     FLAnimatedImage *animatedImage = [FLAnimatedImage animatedImageWithGIFData:data];
     animaImgView.animatedImage = animatedImage;
    
-     
+    
+    [animaImgView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(50, 50));
+    }];
     hud.customView = animaImgView;
     hud.label.text = title;
     hud.removeFromSuperViewOnHide = YES;
