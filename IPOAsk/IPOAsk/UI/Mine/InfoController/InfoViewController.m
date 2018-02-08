@@ -6,9 +6,15 @@
 //  Copyright © 2018年 law. All rights reserved.
 //
 
+#import <AssetsLibrary/AssetsLibrary.h>
+#import <AVFoundation/AVFoundation.h>
+#import <Photos/Photos.h>
 #import "InfoViewController.h"
 
-@interface InfoViewController () <UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UITextFieldDelegate>
+@interface InfoViewController () <UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@property (strong, nonatomic)UIActionSheet *sheet;
+@property (strong, nonatomic)UIButton *HeadImageBtn;
+
 @property (strong, nonatomic) UITableView *tableView;
 @property (assign, nonatomic) InfoCellType Select;
 @property (assign, nonatomic) CGFloat tableViewHeight;
@@ -34,11 +40,12 @@
 
 - (void)setupView
 {
+    
     self.view.backgroundColor = MineTopColor;
     
     _tableViewHeight = 150 + 7 * 60 + 10;
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAVBAR_HEIGHT) style:UITableViewStylePlain];
     _tableView.bounces = NO;
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -108,7 +115,7 @@
     if (section == 0) {
         return 10;
     }
-    return 0;
+    return 0.5;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
@@ -143,13 +150,13 @@
        
             
             cell.textLabel.text = dataArr[indexPath.section][indexPath.row];
-            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-            btn.frame = CGRectMake(SCREEN_WIDTH - 60, 10, 40, 40);
-            [btn setImage:[UIImage imageNamed:@"默认头像"] forState:UIControlStateNormal];
-            [btn addTarget:self action:@selector(changeHead:) forControlEvents:UIControlEventTouchUpInside];
-            btn.layer.cornerRadius = 20;
-            btn.layer.masksToBounds = YES;
-            [cell addSubview:btn];
+            _HeadImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            _HeadImageBtn.frame = CGRectMake(SCREEN_WIDTH - 60, 10, 40, 40);
+            [_HeadImageBtn setImage:[UIImage imageNamed:@"默认头像"] forState:UIControlStateNormal];
+            [_HeadImageBtn addTarget:self action:@selector(changeHead:) forControlEvents:UIControlEventTouchUpInside];
+            _HeadImageBtn.layer.cornerRadius = 20;
+            _HeadImageBtn.layer.masksToBounds = YES;
+            [cell addSubview:_HeadImageBtn];
             
             
         }else if (indexPath.row == InfoCellType_introduction)
@@ -196,7 +203,7 @@
             }];
         }
     }
-    else if (indexPath.section == 1) {
+    else if (indexPath.section == 1  && indexPath.section == 1) {
         cell.textLabel.text = dataArr[indexPath.section][indexPath.row];
         if (indexPath.row == 0) {
             cell.detailTextLabel.text = @"个人用户";
@@ -209,13 +216,7 @@
     return cell;
 }
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    [self.view endEditing:YES];
-    
-    if (SCREEN_HEIGHT < 667) {
-        _tableView.contentSize = CGSizeMake(SCREEN_WIDTH, _tableViewHeight + 100);
-    }
-}
+
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -248,9 +249,23 @@
 - (void)changeHead:(UIButton *)sender{
     
     //更换头像
+    if (_sheet == nil) {
+        _sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"拍摄" otherButtonTitles:@"从手机相册中选择", nil];
+        _sheet.destructiveButtonIndex = 0;
+    }
     
+    [_sheet showInView:self.view];
 }
 
+#pragma mark - 点击头像
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        [self takephoto:buttonIndex];
+    }else if (buttonIndex == 1){
+        
+        [self takephoto:buttonIndex];
+    }
+}
 
 #pragma mark -触摸空白地方隐藏键盘
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -297,6 +312,91 @@
     }];
     
   
+}
+
+
+#pragma mark -拍照/相册
+- (void)takephoto:(NSInteger)photoType
+{
+    NSString *mediaType = AVMediaTypeVideo;
+    
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
+    
+    if((authStatus == PHAuthorizationStatusRestricted || authStatus == PHAuthorizationStatusDenied) && photoType == 0){
+        
+        [AskProgressHUD AskShowDetailsAndTitleInView:self.view Title:@"您禁用了拍照功能" Detail:@"请前往系统设置打开拍照功能!" viewtag:100];
+        [AskProgressHUD AskHideAnimatedInView:self.view viewtag:100 AfterDelay:3];
+        
+        return;
+    }
+    
+    @autoreleasepool {
+        
+        UIImagePickerController *ipc=[[UIImagePickerController alloc] init];
+        ipc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        ipc.delegate = self;
+        
+        if (photoType == 1)
+        {
+            [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+            ipc.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+            ipc.allowsEditing = YES;
+        }
+        else
+        {
+            ipc.sourceType = UIImagePickerControllerSourceTypeCamera;
+            ipc.allowsEditing = YES;
+        }
+        
+        [self presentViewController:ipc animated:YES completion:nil];
+    }
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+    UIImage* original_image;
+    
+    if ([mediaType isEqualToString:@"public.image"])
+    {
+        if (picker.sourceType == UIImagePickerControllerSourceTypeCamera)
+        {
+            original_image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        }
+        else if (picker.sourceType == UIImagePickerControllerSourceTypeSavedPhotosAlbum)
+        {
+            original_image = [info objectForKey:UIImagePickerControllerEditedImage];
+        }
+    }
+    UIImage *img = nil;
+    if (original_image) {
+        NSData *imgData = UIImageJPEGRepresentation(original_image, 0.5);
+        img = [UIImage imageWithData:imgData];
+     
+        [_HeadImageBtn setImage:img forState:UIControlStateNormal];
+    }
+    
+    __block NSURL *imageAssetUrl = [info objectForKey:UIImagePickerControllerReferenceURL];
+    if (imageAssetUrl == nil) {
+        ALAssetsLibrary *libarary = [[ALAssetsLibrary alloc] init];
+        [libarary writeImageToSavedPhotosAlbum:img.CGImage orientation:ALAssetOrientationUp completionBlock:^(NSURL *assetURL, NSError *error) {
+            if (assetURL) {
+                imageAssetUrl = assetURL;
+                [picker dismissViewControllerAnimated:YES completion:nil];
+            }
+        }];
+    }else
+    {
+        [picker dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+//取消选择头像
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
