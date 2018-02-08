@@ -55,6 +55,9 @@
     
     content = infoDic[@"id"];
     if (content && ![content isKindOfClass:[NSNull class]]) {
+        if ([content isKindOfClass:[NSNumber class]]) {
+            content = [content stringValue];
+        }
         _questionID = content;
     }
     
@@ -99,19 +102,10 @@
     
 }
 
-- (void)changeAttentionStatus:(BOOL)status {
+- (void)changeAttentionStatus:(BOOL)status count:(NSInteger)count {
     
-    if (_isAttention != status) {
-        
-        if (status) {
-            _attentionNum++;
-        } else {
-            _attentionNum--;
-        }
-        
-        _isAttention = status;
-        
-    }
+    _isAttention = status;
+    _attentionNum = count;
     
 }
 

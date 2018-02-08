@@ -8,9 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol MainNavigationControllerDelegate <NSObject>
+
+@optional
+- (void)searchTextChange:(NSString *)text;
+- (void)beginSearch;
+
+@end
+
 @interface MainNavigationController : UINavigationController <UITextFieldDelegate>
 
 @property (strong, nonatomic, readonly) UITextField *searchTextField;
+
+@property (weak, nonatomic) id<MainNavigationControllerDelegate> searchDelegate;
 
 /**
  显示搜索导航栏

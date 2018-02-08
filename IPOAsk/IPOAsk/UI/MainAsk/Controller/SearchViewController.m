@@ -12,7 +12,10 @@
 #import "MainNavigationController.h"
 #import "EditQuestionViewController.h"
 
-@interface SearchViewController () <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
+//View
+#import "QuestionTableViewCell.h"
+
+@interface SearchViewController () <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, MainNavigationControllerDelegate, QuestionTableViewCellDelegate>
 
 //搜索内容
 @property (strong, nonatomic) UIView        *searchContentView;
@@ -22,6 +25,9 @@
 
 @property (strong, nonatomic) NSMutableArray *historyItems;
 @property (strong, nonatomic) NSMutableArray *searchNetworkItems;
+
+@property (nonatomic) NSInteger curSearchPage;
+@property (strong, nonatomic) NSString *searchContent;
 
 @end
 
@@ -56,6 +62,27 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    //限制同时只存在一个搜索类页面
+    NSInteger count = 0;
+    for (id vc in self.navigationController.viewControllers) {
+        if ([vc isKindOfClass:[self class]]) {
+            count++;
+        }
+    }
+    if (count > 1) {
+        NSMutableArray *vcItems = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+        NSInteger removeIndex = 0;
+        for (id vc in vcItems.reverseObjectEnumerator) { //从页面数组的末尾开始向前移除
+            if ([vc isKindOfClass:[self class]]) {
+                if (removeIndex != 0) { //保留最后一个显示的搜索页面
+                    [vcItems removeObject:vc];
+                }
+                removeIndex++;
+            }
+        }
+        self.navigationController.viewControllers = vcItems;
+    }
+    
     self.tabBarController.tabBar.hidden = YES;
     self.navigationController.navigationBar.hidden = NO;
     if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
@@ -77,9 +104,9 @@
     
     if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
         
-        UITextField *searchTextField = ((MainNavigationController *)self.navigationController).searchTextField;
-        [searchTextField becomeFirstResponder];
-        [searchTextField addTarget:self action:@selector(searchTextChangeAction:)  forControlEvents:UIControlEventAllEditingEvents];
+        MainNavigationController *mainNav = (MainNavigationController *)self.navigationController;
+        mainNav.searchDelegate = self;
+        [mainNav.searchTextField becomeFirstResponder];
         
     }
     
@@ -90,9 +117,9 @@
     
     if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
         
-        UITextField *searchTextField = ((MainNavigationController *)self.navigationController).searchTextField;
-        [searchTextField resignFirstResponder];
-        [searchTextField removeTarget:self action:@selector(searchTextChangeAction:)  forControlEvents:UIControlEventAllEditingEvents];
+        MainNavigationController *mainNav = (MainNavigationController *)self.navigationController;
+        mainNav.searchDelegate = nil;
+        [mainNav.searchTextField resignFirstResponder];
         
     }
 }
@@ -130,6 +157,11 @@
     _searchNetworkTableView.tableHeaderView = [[UIView alloc] init];
     _searchNetworkTableView.tableFooterView = [[UIView alloc] init];
     [_searchContentView addSubview:_searchNetworkTableView];
+    
+    MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
+        [self requestSearchInfo:@"" page:_curSearchPage];
+    }];
+    _searchNetworkTableView.mj_footer = footer;
     
     _searchFailView = [[UIView alloc] init];
     _searchFailView.backgroundColor = _searchContentView.backgroundColor;
@@ -229,26 +261,10 @@
     
     EditQuestionViewController *editQuestionVC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:nil options:nil].firstObject;
     [editQuestionVC UserType:AnswerType_AskQuestionPerson NavTitle:@"提问"];
-   if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
+    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
         [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
     }
     [self.navigationController pushViewController:editQuestionVC animated:YES];
-    
-}
-
-- (void)searchTextChangeAction:(id)sender {
-    
-    UITextField *textField = (UITextField *)sender;
-    
-    if (textField.text.length > 0) {
-        [self requestSearchInfo:textField.text];
-    } else {
-        
-        _historyTableView.hidden = NO;
-        _searchNetworkTableView.hidden = YES;
-        _searchFailView.hidden = YES;
-        
-    }
     
 }
 
@@ -266,13 +282,29 @@
     
 }
 
-#pragma mark - 删除历史搜索
+#pragma mark 删除历史搜索
 - (void)deleteHistoryAction:(id)sender {
     
     UITableViewCell *cell = (UITableViewCell *)((UIButton *)sender).superview;
     NSIndexPath *indexPath = [_historyTableView indexPathForCell:cell];
     
+    QuestionModel *mod = _historyItems[indexPath.row];
     
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *historyItems = [NSMutableArray arrayWithArray:[defaults objectForKey:@"history_search_items"]];
+    
+    for (QuestionModel *tempMod in historyItems) {
+        if ([tempMod.questionID isEqualToString:mod.questionID]) {
+            [historyItems removeObject:tempMod];
+            return;
+        }
+    }
+    
+    [defaults setObject:historyItems forKey:@"history_search_items"];
+    [defaults synchronize];
+    
+    _historyItems = historyItems;
+    [_historyTableView reloadData];
     
 }
 
@@ -280,9 +312,49 @@
 #pragma mark - 功能
 
 #pragma mark 搜索问题
-- (void)requestSearchInfo:(NSString *)questionTitle {
+- (void)requestSearchInfo:(NSString *)questionTitle page:(NSInteger)page {
     
-    [[AskHttpLink shareInstance] post:@"" bodyparam:nil backData:NetSessionResponseTypeJSON success:^(id response) {
+    NSDictionary *infoDic = @{@"cmd":@"getQuestionIndex",
+                              @"userID":@"90b333b92b630b472467b9b4ccbe42a4",
+                              @"pageSize":@20,
+                              @"page":@(page),
+                              @"keyword":questionTitle
+                              };
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+        
+        GCD_MAIN(^{
+            
+            if (response && ([response[@"status"] integerValue] == 1)) {
+                
+                if (page == 0) {
+                    [_searchNetworkItems removeAllObjects];
+                }
+                _curSearchPage = page;
+                _curSearchPage++;
+                
+                for (NSDictionary *dic in response[@"data"][@"data"]) {
+                    QuestionModel *mod = [[QuestionModel alloc] init];
+                    [mod refreshModel:dic];
+                    [_searchNetworkItems addObject:mod];
+                }
+                
+            }
+            
+            [_searchNetworkTableView reloadData];
+            
+            if (page == 0 && _searchNetworkItems.count > 0
+                && questionTitle.length > 0
+                && _searchContent.length > 0) {
+                _historyTableView.hidden = YES;
+                _searchNetworkTableView.hidden = NO;
+                _searchFailView.hidden = YES;
+            } else {
+                _historyTableView.hidden = YES;
+                _searchNetworkTableView.hidden = YES;
+                _searchFailView.hidden = NO;
+            }
+            
+        });
         
     } requestHead:^(id response) {
         
@@ -293,11 +365,87 @@
 }
 
 
+#pragma mark - MainNavigationControllerDelegate
+
+- (void)searchTextChange:(NSString *)text {
+    
+    _searchContent = text;
+    
+    if (_searchContent.length > 0) {
+        
+        [_searchNetworkItems removeAllObjects];
+        [_searchNetworkTableView reloadData];
+        
+    } else {
+        
+        _historyTableView.hidden = NO;
+        _searchNetworkTableView.hidden = YES;
+        _searchFailView.hidden = YES;
+        
+    }
+    
+}
+
+- (void)beginSearch {
+    
+    if (_searchContent.length > 0) {
+        
+        [_searchNetworkItems removeAllObjects];
+        [_searchNetworkTableView reloadData];
+        
+        _curSearchPage = 0;
+        [self requestSearchInfo:_searchContent page:_curSearchPage];
+        
+    }
+    
+}
+
+
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     
     [self hideKeyboard:nil];
+    
+}
+
+
+#pragma mark - QuestionTableViewCellDelegate
+
+- (void)attentionWithCell:(QuestionTableViewCell *)cell {
+    
+    NSIndexPath *indexPath = [_searchNetworkTableView indexPathForCell:cell];
+    QuestionModel *mod = _searchNetworkItems[indexPath.section];
+    
+    __weak typeof(self) weakSelf = self;
+    
+    NSDictionary *infoDic = @{@"cmd":@"addFollow",
+                              @"userID":@"90b333b92b630b472467b9b4ccbe42a4",
+                              @"qID":mod.questionID,
+                              };
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+        
+        GCD_MAIN(^{
+            
+            if (response && ([response[@"status"] intValue] == 1)) {
+                
+                NSDictionary *dic = response[@"data"];
+                
+                //点击事件请求成功
+                [mod changeAttentionStatus:[dic[@"isFollow"] boolValue] count:[dic[@"followCount"] integerValue]];
+                [weakSelf.searchNetworkTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]] withRowAnimation:UITableViewRowAnimationNone];
+                
+            }
+            
+        });
+        
+    } requestHead:^(id response) {
+        
+    } faile:^(NSError *error) {
+        
+        
+        
+    }];
     
 }
 
@@ -319,23 +467,6 @@
     if (tableView == _historyTableView) {
         return _historyItems.count;
     } else {
-        
-        if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
-            
-            UITextField *searchTextField = ((MainNavigationController *)self.navigationController).searchTextField;
-            if (searchTextField.isEditing) {
-                [searchTextField resignFirstResponder];
-            }
-            
-            if (_historyItems.count == 0 && _searchNetworkItems.count == 0 && searchTextField.text.length > 0) {
-                _historyTableView.hidden = YES;
-                _searchNetworkTableView.hidden = YES;
-                _searchFailView.hidden = NO;
-                return 0;
-            }
-            
-        }
-        
         return _searchNetworkItems.count;
     }
     
@@ -387,34 +518,43 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *identifier = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        cell.selectionStyle = UITableViewCellSelectionStyleGray;
-        cell.textLabel.font = [UIFont systemFontOfSize:15];
-        cell.textLabel.textColor = HEX_RGBA_COLOR(0x333333, 1);
-        if (tableView == _historyTableView) {
-            cell.imageView.image = [UIImage imageNamed:@"搜索历史.png"];
-            UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            deleteBtn.frame = CGRectMake(0, 0, 40, 40);
-            [deleteBtn setImage:[UIImage imageNamed:@"删除搜索历史.png"] forState:UIControlStateNormal];
-            [deleteBtn setImage:[UIImage imageNamed:@"删除搜索历史.png"] forState:UIControlStateHighlighted];
-            [deleteBtn addTarget:self action:@selector(deleteHistoryAction:) forControlEvents:UIControlEventTouchUpInside];
-            cell.accessoryView = deleteBtn;
-        }
-    }
     
     if (tableView == _historyTableView) {
         
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            cell.selectionStyle = UITableViewCellSelectionStyleGray;
+            cell.textLabel.font = [UIFont systemFontOfSize:15];
+            cell.textLabel.textColor = HEX_RGBA_COLOR(0x333333, 1);
+            if (tableView == _historyTableView) {
+                cell.imageView.image = [UIImage imageNamed:@"搜索历史.png"];
+                UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                deleteBtn.frame = CGRectMake(0, 0, 40, 40);
+                [deleteBtn setImage:[UIImage imageNamed:@"删除搜索历史.png"] forState:UIControlStateNormal];
+                [deleteBtn setImage:[UIImage imageNamed:@"删除搜索历史.png"] forState:UIControlStateHighlighted];
+                [deleteBtn addTarget:self action:@selector(deleteHistoryAction:) forControlEvents:UIControlEventTouchUpInside];
+                cell.accessoryView = deleteBtn;
+            }
+        }
+        
         cell.textLabel.text = _historyItems[indexPath.row];
+        
+        return cell;
         
     } else {
         
-        cell.textLabel.text = _searchNetworkItems[indexPath.row];
+        QuestionTableViewCell *cell = [_searchNetworkTableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[QuestionTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier Main:YES];
+        }
+        
+        QuestionModel *mod = _searchNetworkItems[indexPath.row];
+        [cell refreshWithModel:mod];
+        
+        return cell;
         
     }
-    
-    return cell;
     
 }
 
@@ -423,13 +563,36 @@
     
     [self hideKeyboard:nil];
     
-    NSString *question;
-    if (tableView == _historyTableView) {
-        question = _historyItems[indexPath.row];
-    } else {
-        question = _searchNetworkItems[indexPath.row];
+    if (tableView == _historyTableView) { //历史搜索
+        
+        NSString *question = _historyItems[indexPath.row];
+        
+        NSMutableArray *tempItems = [NSMutableArray arrayWithArray:_historyItems];
+        [tempItems removeObject:question];
+        [tempItems insertObject:question atIndex:0];
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:tempItems forKey:@"history_search_items"];
+        [defaults synchronize];
+        
+        _historyItems = tempItems;
+        [_historyTableView reloadData];
+        
+        _curSearchPage = 0;
+        _searchContent = question;
+        if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
+            MainNavigationController *mainNav = (MainNavigationController *)self.navigationController;
+            mainNav.searchTextField.text = _searchContent;
+        }
+        [self requestSearchInfo:_searchContent page:_curSearchPage];
+        
+    } else { //网络搜索
+        
+        QuestionModel *mod = _searchNetworkItems[indexPath.row];
+        
+        
+        
     }
-    
     
     
 }

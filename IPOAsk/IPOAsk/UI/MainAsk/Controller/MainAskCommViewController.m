@@ -8,7 +8,6 @@
 
 #import "MainAskCommViewController.h"
 
-
 #import <UIImageView+WebCache.h>
 
 //Controller
@@ -76,22 +75,40 @@
 
 - (void)likeAction:(id)sender {
     
-    [_answerMod changeLikeStatus:!_answerMod.isLike];
+    __weak typeof(self) weakSelf = self;
     
-    UIImage *likeImg = _answerMod.isLike ? [UIImage imageNamed:@"点赞-回复-按下"] : [UIImage imageNamed:@"点赞-回复"];
-    UIColor *likeTextColor = _answerMod.isLike ? HEX_RGBA_COLOR(0x0B98F2, 1) : HEX_RGBA_COLOR(0x969CA1, 1);
-    [_LikeBtn setTitleColor:likeTextColor forState:UIControlStateNormal];
-    [_LikeBtn setTitle:[NSString stringWithFormat:@"%lu", _answerMod.likeNum] forState:UIControlStateNormal];
-    [_LikeBtn setImage:likeImg forState:UIControlStateNormal];
-    [_LikeBtn setImage:likeImg forState:UIControlStateHighlighted];
-    
-//    [[AskHttpLink shareInstance] post:@"" bodyparam:nil backData:NetSessionResponseTypeJSON success:^(id response) {
-//
-//    } requestHead:^(id response) {
-//
-//    } faile:^(NSError *error) {
-//
-//    }];
+    NSDictionary *infoDic = @{@"cmd":@"addLike",
+                              @"userID":@"90b333b92b630b472467b9b4ccbe42a4",
+                              @"qID":_answerMod.answerID,
+                              };
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+        
+        GCD_MAIN((^{
+            
+            if (response && ([response[@"status"] intValue] == 1)) {
+                
+                NSDictionary *dic = response[@"data"];
+                
+                //点击事件请求成功
+                [weakSelf.answerMod changeLikeStatus:[dic[@"isLike"] boolValue] count:[dic[@"likeCount"] integerValue]];
+                
+                NSString *numStr = weakSelf.answerMod.likeNum <= 0 ? @"" : [NSString stringWithFormat:@"%lu", weakSelf.answerMod.likeNum];
+                UIImage *likeImg = weakSelf.answerMod.isLike ? [UIImage imageNamed:@"点赞-回复-按下"] : [UIImage imageNamed:@"点赞-回复"];
+                UIColor *likeTextColor = weakSelf.answerMod.isLike ? HEX_RGBA_COLOR(0x0B98F2, 1) : HEX_RGBA_COLOR(0x969CA1, 1);
+                [weakSelf.LikeBtn setTitleColor:likeTextColor forState:UIControlStateNormal];
+                [weakSelf.LikeBtn setTitle:numStr forState:UIControlStateNormal];
+                [weakSelf.LikeBtn setImage:likeImg forState:UIControlStateNormal];
+                [weakSelf.LikeBtn setImage:likeImg forState:UIControlStateHighlighted];
+                
+            }
+            
+        }));
+        
+    } requestHead:^(id response) {
+        
+    } faile:^(NSError *error) {
+        
+    }];
     
 }
 
@@ -154,33 +171,25 @@
     _UserHeadImageView.layer.masksToBounds = YES;
     _UserHeadImageView.layer.cornerRadius = headImgWidth / 2;
     _UserHeadImageView.image = [UIImage imageNamed:@"默认头像.png"];
-//    [bgView addSubview:_UserHeadImageView];
+    [bgView addSubview:_UserHeadImageView];
     
     _UserNameLabel = [[UILabel alloc] init];
     _UserNameLabel.font = [UIFont systemFontOfSize:13];
     _UserNameLabel.textColor = HEX_RGBA_COLOR(0x333333, 1);
     _UserNameLabel.textAlignment = NSTextAlignmentLeft;
-//    [bgView addSubview:_UserNameLabel];
+    [bgView addSubview:_UserNameLabel];
     
     _CommDate = [[UILabel alloc] init];
     _CommDate.font = [UIFont systemFontOfSize:13];
     _CommDate.textColor = HEX_RGBA_COLOR(0x999999, 1);
     _CommDate.textAlignment = NSTextAlignmentLeft;
-//    [bgView addSubview:_CommDate];
-    
-    UIEdgeInsets insets;
+    [bgView addSubview:_CommDate];
     
     _SeeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _SeeBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [_SeeBtn setImage:[UIImage imageNamed:@"查看.png"] forState:UIControlStateNormal];
     [_SeeBtn setTitleColor:HEX_RGBA_COLOR(0x999999, 1) forState:UIControlStateNormal];
     _SeeBtn.userInteractionEnabled = NO;
-    insets = _SeeBtn.imageEdgeInsets;
-    insets.left = insets.left - 5;
-    _SeeBtn.imageEdgeInsets = insets;
-    insets = _SeeBtn.titleEdgeInsets;
-    insets.left = insets.left + 5;
-    _SeeBtn.titleEdgeInsets = insets;
     [bgView addSubview:_SeeBtn];
     
     //点赞数量
@@ -190,13 +199,6 @@
     [_LikeBtn setImage:[UIImage imageNamed:@"点赞-回复.png"] forState:UIControlStateNormal];
     [_LikeBtn setImage:[UIImage imageNamed:@"点赞-回复.png"] forState:UIControlStateHighlighted];
     [_LikeBtn addTarget:self action:@selector(likeAction:) forControlEvents:UIControlEventTouchUpInside];
-    insets = _LikeBtn.imageEdgeInsets;
-    insets.left = insets.left - 5;
-    _LikeBtn.imageEdgeInsets = insets;
-    insets = _LikeBtn.titleEdgeInsets;
-    insets.left = insets.left + 5;
-    insets.right = insets.right - 5;
-    _LikeBtn.titleEdgeInsets = insets;
     [bgView addSubview:_LikeBtn];
     
     
@@ -221,78 +223,59 @@
         make.right.equalTo(headerView.mas_right);
     }];
 
-//    [_UserHeadImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(_UserHeadImageView.superview.mas_centerY);
-//        make.left.equalTo(_UserHeadImageView.superview.mas_left).offset(10);
-//        make.width.offset(headImgWidth);
-//        make.height.equalTo(_UserHeadImageView.mas_width);
-//    }];
-//
-//    [_UserNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(_UserHeadImageView.mas_centerY).offset(-10);
-//        make.left.equalTo(_UserHeadImageView.mas_right).offset(10);
-//        make.height.offset(20);
-//        make.right.lessThanOrEqualTo(_SeeBtn.mas_left).offset(-30);
-//    }];
-//
-//    [_CommDate mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(_UserHeadImageView.mas_centerY).offset(10);
-//        make.left.equalTo(_UserNameLabel.mas_left);
-//        make.height.equalTo(_UserNameLabel.mas_height);
-//        make.right.lessThanOrEqualTo(_SeeBtn.mas_left).offset(-30);
-//    }];
+    [_UserHeadImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_UserHeadImageView.superview.mas_centerY);
+        make.left.equalTo(_UserHeadImageView.superview.mas_left).offset(10);
+        make.width.offset(headImgWidth);
+        make.height.equalTo(_UserHeadImageView.mas_width);
+    }];
+
+    [_UserNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_UserHeadImageView.mas_centerY).offset(-10);
+        make.left.equalTo(_UserHeadImageView.mas_right).offset(10);
+        make.height.offset(20);
+        make.right.lessThanOrEqualTo(_SeeBtn.mas_left).offset(-30);
+    }];
+
+    [_CommDate mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_UserHeadImageView.mas_centerY).offset(10);
+        make.left.equalTo(_UserNameLabel.mas_left);
+        make.height.equalTo(_UserNameLabel.mas_height);
+        make.right.lessThanOrEqualTo(_SeeBtn.mas_left).offset(-30);
+    }];
     
-//    UIButton *lbtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [bgView addSubview:lbtn];
-//
-//    [lbtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(bgView.mas_centerY);
-//        make.left.equalTo(bgView.mas_left).offset(10);
-//        make.right.equalTo(_SeeBtn.mas_left);
-//    }];
-//
-//    UIButton *rbtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [bgView addSubview:rbtn];
-//
-//    [rbtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(bgView.mas_centerY);
-//        make.right.equalTo(bgView.mas_right).offset(-10);
-//        make.left.greaterThanOrEqualTo(_LikeBtn.mas_right);
-//    }];
-//
     [_SeeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(_LikeBtn.mas_centerY);
-//        make.right.equalTo(_LikeBtn.mas_left).offset(-30);
-//        make.left.greaterThanOrEqualTo(lbtn.mas_right).offset(30);
-        make.centerY.equalTo(bgView.mas_centerY);
-//        make.left.equalTo(lbtn.mas_right);
+        make.centerY.equalTo(_LikeBtn.mas_centerY);
+        make.right.equalTo(_LikeBtn.mas_left).offset(-30);
     }];
     
     [_LikeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(bgView.mas_centerY);
-//        make.right.equalTo(rbtn.mas_left);
         make.centerY.equalTo(bgView.mas_centerY);
-        make.left.equalTo(_SeeBtn.mas_right).offset(10);
-//        make.right.lessThanOrEqualTo(rbtn.mas_right);
+        make.right.equalTo(bgView.mas_right).offset(-10);
     }];
-    
-//    lbtn.backgroundColor = [UIColor redColor];
-//    rbtn.backgroundColor = [UIColor redColor];
-    _SeeBtn.backgroundColor = [UIColor redColor];
-    _LikeBtn.backgroundColor = [UIColor redColor];
     
     
     if (_answerMod) {
-        _TitleLabel.text = _answerMod.title;
-        [_UserHeadImageView sd_setImageWithURL:[NSURL URLWithString:_answerMod.headImgUrlStr] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
-        _UserNameLabel.text = _answerMod.userName;
-        _CommDate.text = _answerMod.dateStr;
-        [_SeeBtn setTitle:[NSString stringWithFormat:@"%lu", _answerMod.lookNum] forState:UIControlStateNormal];
+        _TitleLabel.text = _questionTitle;
         
+        if (_answerMod.isAnonymous) { //匿名
+            _UserHeadImageView.image = [UIImage imageNamed:@"默认头像.png"];
+            _UserNameLabel.text = @"匿名";
+        } else {
+            [_UserHeadImageView sd_setImageWithURL:[NSURL URLWithString:_answerMod.headImgUrlStr] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
+            _UserNameLabel.text = _answerMod.userName;
+        }
+        
+        _CommDate.text = _answerMod.dateStr;
+        
+        NSString *numStr = _answerMod.lookNum <= 0 ? @"" : [NSString stringWithFormat:@" %lu", _answerMod.lookNum];
+        [_SeeBtn setTitle:numStr forState:UIControlStateNormal];
+        
+        numStr = _answerMod.likeNum <= 0 ? @"" : [NSString stringWithFormat:@" %lu", _answerMod.likeNum];
         UIImage *likeImg = _answerMod.isLike ? [UIImage imageNamed:@"点赞-回复-按下"] : [UIImage imageNamed:@"点赞-回复"];
         UIColor *likeTextColor = _answerMod.isLike ? HEX_RGBA_COLOR(0x0B98F2, 1) : HEX_RGBA_COLOR(0x969CA1, 1);
         [_LikeBtn setTitleColor:likeTextColor forState:UIControlStateNormal];
-        [_LikeBtn setTitle:[NSString stringWithFormat:@"%lu", _answerMod.likeNum] forState:UIControlStateNormal];
+        [_LikeBtn setTitle:numStr forState:UIControlStateNormal];
         [_LikeBtn setImage:likeImg forState:UIControlStateNormal];
         [_LikeBtn setImage:likeImg forState:UIControlStateHighlighted];
     }

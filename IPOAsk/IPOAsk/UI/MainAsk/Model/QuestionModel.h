@@ -24,7 +24,6 @@
 @property (nonatomic, readonly) NSInteger lookNum;      //查看数量
 @property (nonatomic, readonly) NSInteger replyNum;     //回复数量
 @property (nonatomic, readonly) NSInteger attentionNum; //关注数量
-@property (nonatomic, readonly) NSInteger LikeNum;      //点赞数量
 
 /**
  刷新模型数据
@@ -36,8 +35,9 @@
 /**
  更改关注状态
 
- @param status 关注状态
+ @param status  关注状态
+ @param count   关注数量
  */
-- (void)changeAttentionStatus:(BOOL)status;
+- (void)changeAttentionStatus:(BOOL)status count:(NSInteger)count;
 
 @end

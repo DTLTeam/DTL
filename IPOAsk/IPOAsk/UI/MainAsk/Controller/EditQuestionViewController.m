@@ -248,9 +248,57 @@
         
     }else{
         //发布接口
-        
-        [self back];
+        [self requestSend];
     }
+    
+}
+
+- (void)requestSend {
+        
+    __weak typeof(self) weakSelf = self;
+    
+    NSDictionary *infoDic;
+    switch (_MainAnswerType) {
+        case AnswerType_Answer:
+        {
+            infoDic = @{@"cmd":@"askComment",
+                        @"userID":@"90b333b92b630b472467b9b4ccbe42a4",
+                        @"qID":(_questionID ? _questionID : _IsChangeModel.Id),
+                        @"isAnonymous":@(_anonymousBtn.selected),
+                        @"content":_QuestionContent.text
+                        };
+        }
+            break;
+        case AnswerType_AskQuestionPerson:
+        {
+            infoDic = @{@"cmd":@"addQuestion",
+                        @"userID":@"90b333b92b630b472467b9b4ccbe42a4",
+                        @"isAnonymous":@(_anonymousBtn.selected),
+                        @"title":_question.text,
+                        @"content":_QuestionContent.text
+                        };
+        }
+            break;
+        default:
+            break;
+    }
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+        
+        GCD_MAIN((^{
+            
+            if (response && ([response[@"status"] intValue] == 1)) {
+                
+                [weakSelf.navigationController popViewControllerAnimated:YES];
+                
+            }
+            
+        }));
+        
+    } requestHead:^(id response) {
+        
+    } faile:^(NSError *error) {
+        
+    }];
     
 }
 

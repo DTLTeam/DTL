@@ -13,6 +13,7 @@
 
 @interface MainAskCommViewController : UIViewController
 
+@property (strong, nonatomic) NSString *questionTitle;
 @property (strong, nonatomic) AnswerModel *answerMod;
 
 #pragma mark - 更新数据
