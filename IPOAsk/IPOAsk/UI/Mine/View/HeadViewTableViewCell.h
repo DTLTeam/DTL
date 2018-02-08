@@ -13,4 +13,7 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier action:(void(^)(NSInteger tag))block;
 
+- (void)updateInfo:(NSString *)headUrl name:(NSString *)name phone:(NSString *)phone;
+- (void)updateAskInfo:(NSInteger)askNum answer:(NSInteger)ansNum follow:(NSInteger)foNum like:(NSInteger)likeNum;
+
 @end

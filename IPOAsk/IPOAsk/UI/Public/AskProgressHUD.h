@@ -54,7 +54,14 @@
 + (void)AskShowDetailsAndTitleInView:(UIView *)view Title:(NSString *)title Detail:(NSString *)detail viewtag:(int)tag;
 
 
-
+/**
+ GIF加载图片+文字提示
+ 
+ @param view 显示view
+ @param title 文字 
+ @param tag 标示
+ */
++ (void)AskShowGifImageReloadInView:(UIView *)view Title:(NSString *)title viewtag:(int)tag;
 
 
 

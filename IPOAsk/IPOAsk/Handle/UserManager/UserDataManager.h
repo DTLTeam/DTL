@@ -27,11 +27,85 @@
 
 @end
 
+/**
+ 关注数据模型
+ */
+@interface FollowDataModel : NSObject
 
+@property (strong, nonatomic) NSString *askId;
+@property (nonatomic, strong) NSString *nickName;
+@property (strong, nonatomic) NSString *headIcon;
+@property (strong, nonatomic) NSString *title;
+@property (strong, nonatomic) NSString *content;
+@property (strong, nonatomic) NSString *addTime;
+@property (assign, nonatomic) int view;
+@property (assign, nonatomic) int follow;
+@property (assign, nonatomic) int answer;
+@property (assign, nonatomic) int isAnonymous;
+@property (assign, nonatomic) int isCompany;
+@property (assign, nonatomic) int isFollow;
+
+@end
+
+/**
+ 回答数据模型
+ */
+@interface AnswerDataModel : NSObject
+
+@property (strong, nonatomic) NSString *askId;
+@property (nonatomic, strong) NSString *nickName;
+@property (strong, nonatomic) NSString *headIcon;
+@property (strong, nonatomic) NSString *content;
+@property (strong, nonatomic) NSString *addTime;
+@property (strong, nonatomic) NSString *title;
+@property (assign, nonatomic) int view;
+@property (assign, nonatomic) int answer;
+@property (assign, nonatomic) int isAnonymous;
+@property (assign, nonatomic) int isCompany;
+@property (assign, nonatomic) int isFollow;
+@property (nonatomic, assign) int follow;
+
+@end
+
+/**
+ 回答数据模型
+ */
+@interface LikeDataModel : NSObject
+
+@property (strong, nonatomic) NSString *askId;
+@property (nonatomic, strong) NSString *realName;
+@property (strong, nonatomic) NSString *headIcon;
+@property (strong, nonatomic) NSString *title;
+@property (strong, nonatomic) NSString *addTime;
+@property (strong, nonatomic) NSString *likeTime;
+@end
+
+/**
+ 问题数据模型
+ */
+@interface AskDataModel : NSObject
+
+@property (strong, nonatomic) NSString *askId;
+@property (nonatomic, strong) NSString *title;
+@property (strong, nonatomic) NSString *content;
+@property (strong, nonatomic) NSString *addTime;
+@property (assign, nonatomic) int view;
+@property (assign, nonatomic) int createUID;
+@property (assign, nonatomic) int answer;
+@property (assign, nonatomic) int isAnonymous;
+@property (assign, nonatomic) int isCompany;
+@property (assign, nonatomic) int follow;
+
+@end
 
 @interface UserDataManager : NSObject
 
 @property (nonatomic,strong, readonly) UserDataModel *userModel;
+
+@property (nonatomic,strong, readonly) NSArray *AskArr;
+@property (nonatomic,strong, readonly) NSArray *AnswerArr;
+@property (nonatomic,strong, readonly) NSArray *LikeArr;
+@property (nonatomic,strong, readonly) NSArray *FollowArr;
 
 /**
  单例初始化
@@ -42,5 +116,10 @@
 
 
 - (void)loginSetUpModel:(UserDataModel *)model;
+
+- (void )getAskWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
+- (void )getFollowWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
+- (void )getLikeWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
+- (void )getAnswerWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
 
 @end

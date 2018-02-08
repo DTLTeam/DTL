@@ -10,14 +10,66 @@
 #import "FollowTableViewCell.h"
 
 @interface MyAnswerViewController () <UITableViewDelegate,UITableViewDataSource>
-
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic,strong) NSMutableArray *answerArr;
+@property (nonatomic,assign) NSInteger  currentPage;
 @end
+ 
 
 @implementation MyAnswerViewController
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _currentPage = 1;
+    _answerArr = [NSMutableArray array];
+    
+    __weak MyAnswerViewController *weakSelf = self;
+    // 上拉加载
+    MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
+        weakSelf.currentPage ++;
+        
+      
+        [weakSelf performSelector:@selector(end) withObject:nil afterDelay:5];
+        
+    }];
+    [footer setUpGifImage:@"上拉刷新"];
+    self.tableView.mj_footer = footer;
+    
+    MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
+        weakSelf.currentPage = 1;
+        [weakSelf.answerArr removeAllObjects];
+        [weakSelf.tableView.mj_header endRefreshing];
+    }];
+    [header setUpGifImage:@"下拉加载"];
+    self.tableView.mj_header = header;
+    
+    [self getAnswerList];
+}
+
+- (void)getAnswerList
+{
+    __weak MyAnswerViewController *weakSelf = self;
+    [[UserDataManager shareInstance] getAnswerWithpage:[NSString stringWithFormat:@"%d",(int)_currentPage] finish:^(NSArray *dataArr) {
+        GCD_MAIN(^{
+            if (dataArr.count > 0) {
+                [weakSelf.answerArr addObjectsFromArray:dataArr];
+                [weakSelf.tableView reloadData];
+            }
+            if (dataArr.count == 0 && weakSelf.answerArr.count > 0) {
+                [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
+            }else
+            {
+                [weakSelf end];
+            }
+            
+        });
+    }];
+}
+
+- (void)end{
+    
+    //没有更多了了
+    [self.tableView.mj_footer endRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -53,7 +105,7 @@
 #pragma mark - tableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return _answerArr.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -87,7 +139,8 @@
     if (cell == nil) {
         cell = [[FollowTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
     }
-    
+    AnswerDataModel *model = _answerArr[indexPath.section];
+    [cell updateAnswerCell:model];
     return cell;
 }
 

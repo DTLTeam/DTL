@@ -8,6 +8,8 @@
 
 #import "LikeTableViewCell.h"
 
+#import <UIImageView+WebCache.h>
+
 @interface LikeTableViewCell()
 
 @property (nonatomic,strong) UIImageView *headView;
@@ -46,8 +48,6 @@
         _likeTxtlabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 20, SCREEN_WIDTH - 85, 45)];
         _likeTxtlabel.numberOfLines = 2;
         [self addSubview:_likeTxtlabel];
-        NSString *txt = @"猫鱼向日葵 赞了 w爱过人眼中汉字是怎么样d额 下你的回复";
-        _likeTxtlabel.attributedText = [self getAttributedStringWithString:txt];
         
         _likeDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 70, 200, 20)];
         _likeDateLabel.font = [UIFont systemFontOfSize:15];
@@ -61,6 +61,16 @@
     return self;
 }
 
+
+- (void)updateCell:(LikeDataModel *)model
+{
+    [_headView sd_setImageWithURL:[NSURL URLWithString:model.headIcon]];
+    
+    NSString *txt = [NSString stringWithFormat:@"%@ 赞了 %@ 下你的回复",model.realName,model.title];
+    _likeTxtlabel.attributedText = [self getAttributedStringWithString:txt];
+    _likeDateLabel.text = model.likeTime;
+    
+}
 
 -(NSAttributedString *)getAttributedStringWithString:(NSString *)string {
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:string];

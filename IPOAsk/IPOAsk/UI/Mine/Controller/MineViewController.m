@@ -7,15 +7,17 @@
 //
 
 #import "MineViewController.h"
-
 #import "DraftsViewController.h"
 
 #import "HeadViewTableViewCell.h"
 
+#import "UserDataManager.h"
+
+
+
 @interface MineViewController () <UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) UITableView *tableView;
-@property (assign, nonatomic) BOOL failShow;
-
+@property (nonatomic,strong) UserDataManager *userManager;
 @end
 
 @implementation MineViewController
@@ -34,6 +36,7 @@
     
     //self.navigationController.navigationBarHidden = YES;
     dataArr = @[@"我的钱包",@"申请成为答主",@"草稿箱",@"帮助中心",@"关于我们",@"设置"];
+    _userManager = [UserDataManager shareInstance];
     [self setupView];
     
 }
@@ -50,22 +53,6 @@
     [super viewDidAppear:animated];
     self.navigationController.navigationBar.translucent = YES;
     [self setNeedsNavigationBackground:0.0];
-    
-    if (!_failShow) {
-        TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:YES];
-        UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-        [window addSubview:tips];
-        
-        __weak TipsViews *WeakTips = tips;
-        [tips showWithContent:@"由于您违反了用户管理协议，平台拒绝了您的答主申请" tipsImage:@"申请失败" LeftTitle:@"我知道了" RightTitle:@"联系我们" block:^(UIButton *btn) {
-            [WeakTips dissmiss];
-            
-        } rightblock:^(UIButton *btn) {
-            
-            [UtilsCommon CallPhone];
-        }];
-        _failShow = YES;
-    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -99,10 +86,14 @@
 {
     self.view.backgroundColor = MineTopColor;
     
-    CGFloat height = 160 + 64 + dataArr.count * 50.5 + 10;
-    if (height + TABBAR_HEIGHT >= SCREEN_HEIGHT) {
-        height = SCREEN_HEIGHT;
+    CGFloat height = 160 + 72 + dataArr.count * 50.5 + 10;
+//    if (height + TABBAR_HEIGHT >= SCREEN_HEIGHT) {
+//        height = SCREEN_HEIGHT;
+//    }
+    if (SCREEN_HEIGHT < 667) {
+        height = 140 + 60 + dataArr.count * 50.5 + 10;
     }
+    
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, height) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -148,7 +139,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        return 160 + 64;
+        return SCREEN_HEIGHT >= 667 ? 160 + 72 : 140 + 60;
     }
     return 51;
 }
@@ -206,6 +197,23 @@
                 }];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        if (_userManager.userModel) {
+            [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyReflection",@"userID":_userManager.userModel.userID} backData:NetSessionResponseTypeJSON success:^(id response) {
+                GCD_MAIN(^{
+                    if ([response[@"status"] intValue] == 1) {
+                        NSDictionary *dic = response[@"data"];
+                        NSInteger questionCount = [dic[@"questionCount"] integerValue];
+                        NSInteger answerCount = [dic[@"answerCount"] integerValue];
+                        NSInteger followCount = [dic[@"followCount"] integerValue];
+                        NSInteger achievementCount = [dic[@"achievementCount"] integerValue];
+                        
+                        [cell updateAskInfo:questionCount answer:answerCount follow:followCount like:achievementCount];
+                    }
+                });
+            } requestHead:nil faile:nil];
+        }
+        
         return cell;
     }else
     {
@@ -243,23 +251,52 @@
             break;
         case 2:
         {
-            if (1) {//已经申请过
+            if (_userManager.userModel) {
                 self.navigationController.tabBarController.tabBar.hidden = NO;
-              TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:NO];
-                UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-                [window addSubview:tips];
-                
-                __weak TipsViews *WeakTips = tips;
-                
-                [tips showWithContent:@"您已申请过答主,审核正在进行中,请耐心等待" tipsImage:@"正在审核中" LeftTitle:@"我知道了" RightTitle:nil block:^(UIButton *btn) {
-                    [WeakTips dissmiss];
+                if (_userManager.userModel.isAnswerer == 1) {
+                    return;
+                }
+                if (_userManager.userModel.forbidden == 1) {
+                    TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:YES];
+                    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+                    [window addSubview:tips];
                     
-                } rightblock:^(UIButton *btn) {
+                    __weak TipsViews *WeakTips = tips;
+                    [tips showWithContent:@"由于您违反了用户管理协议，平台拒绝了您的答主申请" tipsImage:@"申请失败" LeftTitle:@"我知道了" RightTitle:@"联系我们" block:^(UIButton *btn) {
+                        [WeakTips dissmiss];
+                        
+                    } rightblock:^(UIButton *btn) {
+                        
+                        [UtilsCommon CallPhone];
+                    }];
                     
-                }];
-                return;
+                }else if ([USER_DEFAULT boolForKey:_userManager.userModel.userID]) {
+                    //已经申请过
+                    TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:NO];
+                    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+                    [window addSubview:tips];
+                    
+                    __weak TipsViews *WeakTips = tips;
+                    
+                    [tips showWithContent:@"您已申请过答主,审核正在进行中,请耐心等待" tipsImage:@"正在审核中" LeftTitle:@"我知道了" RightTitle:nil block:^(UIButton *btn) {
+                        [WeakTips dissmiss];
+                        
+                    } rightblock:^(UIButton *btn) {
+                        
+                    }];
+                    
+                }else
+                {
+                    [self performSegueWithIdentifier:@"pushAnswer" sender:nil];
+                }
+            }else
+            {
+                self.navigationController.tabBarController.tabBar.hidden = NO;
+                
+                //test******************
+                [self performSegueWithIdentifier:@"pushAnswer" sender:nil];
+                //test******************
             }
-            [self performSegueWithIdentifier:@"pushAnswer" sender:nil];
         }
             break;
         case 3:

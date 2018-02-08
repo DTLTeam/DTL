@@ -104,6 +104,7 @@
                     <constraint firstItem="QeQ-qS-rSD" firstAttribute="leading" secondItem="pKF-xV-Dtc" secondAttribute="leading" id="3WH-fh-xFC"/>
                     <constraint firstItem="QeQ-qS-rSD" firstAttribute="centerX" secondItem="pKF-xV-Dtc" secondAttribute="centerX" id="9PA-8A-cgW"/>
                     <constraint firstItem="ya8-2j-5JK" firstAttribute="leading" secondItem="zXc-hp-m6b" secondAttribute="leading" constant="12" id="BdM-iV-tpG"/>
+                    <constraint firstItem="yqW-JK-4Ge" firstAttribute="width" secondItem="Zxb-Ph-SvV" secondAttribute="width" id="BwA-pV-oFi"/>
                     <constraint firstItem="yqW-JK-4Ge" firstAttribute="leading" secondItem="Zxb-Ph-SvV" secondAttribute="leading" id="CHH-jL-gVY"/>
                     <constraint firstItem="QDY-2G-wrB" firstAttribute="leading" secondItem="ya8-2j-5JK" secondAttribute="trailing" constant="-74" id="EZN-6x-a10"/>
                     <constraint firstItem="Kkd-LX-4vI" firstAttribute="leading" secondItem="ya8-2j-5JK" secondAttribute="leading" id="HAa-MU-BmW"/>
@@ -137,8 +138,10 @@
                 <outlet property="QuestionContent" destination="8Ky-i5-VCE" id="SHb-Qb-Xgy"/>
                 <outlet property="TextH" destination="PGX-dZ-p7Y" id="SSe-kl-zKP"/>
                 <outlet property="Title1" destination="Kkd-LX-4vI" id="f3p-zH-wYI"/>
+                <outlet property="Title1Width" destination="SgC-R2-ogD" id="gc1-Mc-1Ra"/>
                 <outlet property="Title2" destination="Zxb-Ph-SvV" id="9fg-9n-InL"/>
                 <outlet property="Title2Line" destination="yqW-JK-4Ge" id="Wbb-qI-tD4"/>
+                <outlet property="Title2Width" destination="dPd-LG-73t" id="9Rl-St-W4w"/>
                 <outlet property="anonymousBtn" destination="QDY-2G-wrB" id="JVA-Ap-Ubh"/>
                 <outlet property="line" destination="QeQ-qS-rSD" id="J6N-jU-BhL"/>
                 <outlet property="question" destination="pKF-xV-Dtc" id="h8V-36-fZc"/>
