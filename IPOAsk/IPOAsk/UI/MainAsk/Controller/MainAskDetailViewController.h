@@ -11,6 +11,6 @@
 
 @interface MainAskDetailViewController : BaseViewController
 
-@property (nonatomic,strong)QuestionModel *model;
+@property (nonatomic, strong) QuestionModel *model;
 
 @end

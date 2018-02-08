@@ -114,7 +114,7 @@
     [_likeNumBtn setTitleColor:HEX_RGBA_COLOR(0x969CA1, 1) forState:UIControlStateNormal];
     [_likeNumBtn setImage:[UIImage imageNamed:@"点赞-回复.png"] forState:UIControlStateNormal];
     [_likeNumBtn setImage:[UIImage imageNamed:@"点赞-回复.png"] forState:UIControlStateHighlighted];
-    [_likeNumBtn addTarget:self action:@selector(likeWithCell:) forControlEvents:UIControlEventTouchUpInside];
+    [_likeNumBtn addTarget:self action:@selector(likeAction:) forControlEvents:UIControlEventTouchUpInside];
     insets = _likeNumBtn.imageEdgeInsets;
     insets.left = insets.left - 5;
     _likeNumBtn.imageEdgeInsets = insets;
@@ -215,30 +215,40 @@
 
 
 #pragma mark - 事件功能
-- (void)LikeBtnClick:(UIButton *)sender{
+- (void)likeAction:(UIButton *)sender {
+    
     if (_delegate && [_delegate respondsToSelector:@selector(likeWithCell:)]) {
         [self.delegate likeWithCell:self];
     }
+    
 }
+
 
 #pragma mark - 功能
 
 - (void)refreshWithModel:(AnswerModel *)model {
     
-    [_headImgView sd_setImageWithURL:[NSURL URLWithString:model.headImgUrlStr] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
-    _userNameLabel.text = model.userName;
+    if (model.isAnonymous) { //匿名
+        _headImgView.image = [UIImage imageNamed:@"默认头像.png"];
+        _userNameLabel.text = @"匿名";
+    } else {
+        [_headImgView sd_setImageWithURL:[NSURL URLWithString:model.headImgUrlStr] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
+        _userNameLabel.text = model.userName;
+    }
     _dateLabel.text = model.dateStr;
     
     _contentLabel.text = model.content;
     
-    [_lookNumBtn setTitle:[NSString stringWithFormat:@"%lu", model.lookNum] forState:UIControlStateNormal];
+    NSString *numStr = model.lookNum <= 0 ? @"" : [NSString stringWithFormat:@"%lu", model.lookNum];
+    [_lookNumBtn setTitle:numStr forState:UIControlStateNormal];
     
+    numStr = model.likeNum <= 0 ? @"" : [NSString stringWithFormat:@"%lu", model.likeNum];
     UIImage *likeImg = model.isLike ? [UIImage imageNamed:@"点赞-回复-按下"] : [UIImage imageNamed:@"点赞-回复"];
     UIColor *likeTextColor = model.isLike ? HEX_RGBA_COLOR(0x0B98F2, 1) : HEX_RGBA_COLOR(0x969CA1, 1);
     [_likeNumBtn setImage:likeImg forState:UIControlStateNormal];
     [_likeNumBtn setImage:likeImg forState:UIControlStateHighlighted];
     [_likeNumBtn setTitleColor:likeTextColor forState:UIControlStateNormal];
-    [_likeNumBtn setTitle:[NSString stringWithFormat:@"%lu", model.likeNum] forState:UIControlStateNormal];
+    [_likeNumBtn setTitle:numStr forState:UIControlStateNormal];
     
 }
 
