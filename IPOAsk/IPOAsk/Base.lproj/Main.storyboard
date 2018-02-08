@@ -627,6 +627,10 @@
                     <navigationItem key="navigationItem" id="VqT-6q-F1s"/>
                     <connections>
                         <outlet property="answerBtn" destination="kwA-kU-Ec1" id="fod-5j-p1a"/>
+                        <outlet property="companyTextField" destination="DHD-wq-VZ9" id="QSf-C9-iYc"/>
+                        <outlet property="experienceTextView" destination="Ioz-kh-NGu" id="5g1-xR-QLm"/>
+                        <outlet property="jobTextField" destination="PCh-qJ-40O" id="kjb-Ih-X8m"/>
+                        <outlet property="nameTextField" destination="8aO-rU-Hcd" id="JoT-Y1-cu5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UYY-25-NhR" userLabel="First Responder" sceneMemberID="firstResponder"/>

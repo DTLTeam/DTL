@@ -7,6 +7,7 @@
 //
 
 #import "HeadViewTableViewCell.h"
+#import <UIImageView+WebCache.h>
 
 typedef void(^ActionBlock)(NSInteger tag);
 
@@ -74,7 +75,6 @@ typedef void(^ActionBlock)(NSInteger tag);
         
         _nameLabel = [[UILabel alloc] init];
         _nameLabel.font = [UIFont systemFontOfSize:15];
-        _nameLabel.text = @"骑着妞妞打呼噜";
         _nameLabel.textColor = [UIColor whiteColor];
         _nameLabel.textAlignment = NSTextAlignmentLeft;
         [self addSubview:_nameLabel];
@@ -149,6 +149,22 @@ typedef void(^ActionBlock)(NSInteger tag);
     }
     
     return self;
+}
+
+- (void)updateInfo:(NSString *)headUrl name:(NSString *)name phone:(NSString *)phone
+{
+    [_headView sd_setImageWithURL:[NSURL URLWithString:headUrl] placeholderImage:[UIImage imageNamed:@"默认头像"]];
+    _nameLabel.text = name;
+    _phoneLabel.text = phone;
+}
+
+- (void)updateAskInfo:(NSInteger)askNum answer:(NSInteger)ansNum follow:(NSInteger)foNum like:(NSInteger)likeNum
+{
+    [_askButton setAttributedTitle:[self getAttributedStringWithString:[NSString stringWithFormat:@"%d\n我的提问",(int)askNum] lineSpace:5] forState:UIControlStateNormal];
+    [_answerButton setAttributedTitle:[self getAttributedStringWithString:[NSString stringWithFormat:@"%d\n我的回答",(int)ansNum] lineSpace:5] forState:UIControlStateNormal];
+    [_followButton setAttributedTitle:[self getAttributedStringWithString:[NSString stringWithFormat:@"%d\n我的关注",(int)foNum] lineSpace:5] forState:UIControlStateNormal];
+    [_likeButton setAttributedTitle:[self getAttributedStringWithString:[NSString stringWithFormat:@"%d\n我的成就",(int)likeNum] lineSpace:5] forState:UIControlStateNormal];
+    
 }
 
 -(NSAttributedString *)getAttributedStringWithString:(NSString *)string lineSpace:(CGFloat)lineSpace {

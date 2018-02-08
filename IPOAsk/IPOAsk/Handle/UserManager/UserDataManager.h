@@ -27,11 +27,74 @@
 
 @end
 
+/**
+ 关注数据模型
+ */
+@interface FollowDataModel : NSObject
 
+@property (strong, nonatomic) NSString *askId;
+@property (nonatomic, strong) NSString *nickName;
+@property (strong, nonatomic) NSString *headIcon;
+@property (strong, nonatomic) NSString *content;
+@property (strong, nonatomic) NSString *addTime;
+@property (assign, nonatomic) int view;
+@property (assign, nonatomic) int like;
+@property (assign, nonatomic) int answer;
+@property (assign, nonatomic) int isAnswerer;
+@property (assign, nonatomic) int isCompany;
+@property (assign, nonatomic) int isFollow;
+@property (nonatomic, assign) int isLike;
+
+@end
+
+/**
+ 回答数据模型
+ */
+@interface AnswerDataModel : NSObject
+
+@property (strong, nonatomic) NSString *askId;
+@property (nonatomic, strong) NSString *nickName;
+@property (strong, nonatomic) NSString *headIcon;
+@property (strong, nonatomic) NSString *content;
+@property (strong, nonatomic) NSString *addTime;
+@property (assign, nonatomic) int view;
+@property (assign, nonatomic) int like;
+@property (assign, nonatomic) int answer;
+@property (assign, nonatomic) int isAnswerer;
+@property (assign, nonatomic) int isCompany;
+@property (assign, nonatomic) int isFollow;
+@property (nonatomic, assign) int isLike;
+
+@end
+
+/**
+ 回答数据模型
+ */
+@interface LikeDataModel : NSObject
+
+@property (strong, nonatomic) NSString *askId;
+@property (nonatomic, strong) NSString *nickName;
+@property (strong, nonatomic) NSString *headIcon;
+@property (strong, nonatomic) NSString *content;
+@property (strong, nonatomic) NSString *addTime;
+@property (assign, nonatomic) int view;
+@property (assign, nonatomic) int like;
+@property (assign, nonatomic) int answer;
+@property (assign, nonatomic) int isAnswerer;
+@property (assign, nonatomic) int isCompany;
+@property (assign, nonatomic) int isFollow;
+@property (nonatomic, assign) int isLike;
+
+@end
 
 @interface UserDataManager : NSObject
 
 @property (nonatomic,strong, readonly) UserDataModel *userModel;
+
+@property (nonatomic,strong, readonly) NSArray *AskArr;
+@property (nonatomic,strong, readonly) NSArray *AnswerArr;
+@property (nonatomic,strong, readonly) NSArray *LikeArr;
+@property (nonatomic,strong, readonly) NSArray *FollowArr;
 
 /**
  单例初始化

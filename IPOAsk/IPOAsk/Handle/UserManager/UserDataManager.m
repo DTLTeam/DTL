@@ -51,5 +51,16 @@ static UserDataManager *manager; //单例对象
     _userModel = model;
 }
 
+- (void )getAskWithpage:(NSInteger)page finish:(void(^)(NSArray *dataArr))block;
+{
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyAskLists",@"userID":@"9093a3325caeb5b33eb08f172fe59e7c",@"pageSize":@"30",@"page":@"1"} backData:NetSessionResponseTypeJSON success:^(id response) {
+        
+    } requestHead:nil faile:nil];
+}
+
+
+
+
+
 
 @end
