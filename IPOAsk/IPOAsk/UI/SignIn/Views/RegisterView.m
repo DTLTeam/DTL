@@ -78,7 +78,7 @@
     
     //验证码
     _CodeView = [[TextFieldViews alloc]init];
-    [_CodeView textFieldPlaceholder:@"验证码" KeyboardType:UIKeyboardTypeDefault SecureTextEntry:YES Height:74];
+    [_CodeView textFieldPlaceholder:@"验证码" KeyboardType:UIKeyboardTypeDefault SecureTextEntry:NO Height:74];
     [self addSubview:_CodeView];
     
     [_CodeView mas_makeConstraints:^(MASConstraintMaker *make) {

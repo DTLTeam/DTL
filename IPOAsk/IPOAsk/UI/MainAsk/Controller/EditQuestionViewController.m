@@ -25,6 +25,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *Title2;
 @property (weak, nonatomic) IBOutlet UIView *Title2Line;
 @property (weak, nonatomic) IBOutlet UIButton *anonymousBtn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *Title1Width;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *Title2Width;
 
 @property (weak, nonatomic) IBOutlet UITextField *question;
 @property (weak, nonatomic) IBOutlet UITextView *QuestionContent;
@@ -52,13 +54,20 @@
     [NOTIFICATIONCENTER addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
     [NOTIFICATIONCENTER addObserver:self selector:@selector(KeyboardDidHideNotification:) name:UIKeyboardWillHideNotification object:nil];
   
-    
+    if (SCREEN_HEIGHT < 667) {
+        _Title1.font = [UIFont systemFontOfSize:11];
+        _Title2.titleLabel.font = [UIFont systemFontOfSize:11];
+        _anonymousBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+        
+        _Title1Width.constant -= 21;
+        _Title2Width.constant -= 10;
+    }
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
     self.tabBarController.tabBar.hidden = YES;
-    
+    self.navigationController.navigationBar.hidden = NO;
     if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
         [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
     }
@@ -70,6 +79,10 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
    
+}
+
+-(void)dealloc{
+    NSLog(@"销毁");
 }
 
 -(void)UserType:(AnswerType)type NavTitle:(NSString *)title{
@@ -184,7 +197,7 @@
             model.Type = WeakSelf.MainAnswerType;
             model.anonymous =  @"0";
             
-            if (WeakSelf.MainAnswerType == AnswerType_Answer) {//回答页面用户是否匿名
+            if (WeakSelf.MainAnswerType != AnswerType_AskQuestionEnterprise) {//回答页面用户是否匿名
                 model.anonymous = WeakSelf.anonymousBtn.selected ? @"1" : @"0";
             }
             
@@ -222,6 +235,18 @@
 #pragma mark - 发布
 - (void)SendOut{
     
+    if (_question.text.length == 0 && _MainAnswerType != AnswerType_Answer) {
+        [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"请写标题!" viewtag:100 AfterDelay:3];
+        return;
+    }
+    
+    if (_QuestionContent.text.length == 0) {
+        
+        [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"请写内容!" viewtag:100 AfterDelay:3];
+        return;
+    }
+    
+    
     if (_IsChangeModel && [[FMDBManager sharedInstance]DeleteWithSqlDB:[DraftsModel class] Where:[NSString stringWithFormat:@" where id = %@",_IsChangeModel.Id]]) {
         //发布草稿
         _ChangeClick(YES);
@@ -233,7 +258,8 @@
     }else{
         //发布接口
         
-        [self back];
+        //发布成功
+        [self.navigationController popViewControllerAnimated:YES];
     }
     
 }

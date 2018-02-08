@@ -275,9 +275,9 @@
                                             <constraint firstAttribute="height" constant="2" id="jnw-uR-8Jo"/>
                                         </constraints>
                                     </view>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6nL-qt-IZQ">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="默认头像.png" translatesAutoresizingMaskIntoConstraints="NO" id="6nL-qt-IZQ">
                                         <rect key="frame" x="115" y="61" width="91.5" height="91.5"/>
-                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="91.5" id="Gwf-Qk-LIr"/>
                                             <constraint firstAttribute="width" constant="91.5" id="PSB-w7-Erm"/>
@@ -1135,5 +1135,6 @@
         <image name="企业-nor.png" width="22" height="22"/>
         <image name="我的-nor.png" width="22" height="22"/>
         <image name="消息-nor.png" width="22" height="22"/>
+        <image name="默认头像.png" width="57" height="57"/>
     </resources>
 </document>

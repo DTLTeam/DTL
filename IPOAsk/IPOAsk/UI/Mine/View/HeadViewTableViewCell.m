@@ -51,7 +51,7 @@ typedef void(^ActionBlock)(NSInteger tag);
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        UIImageView *bgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 160)];
+        UIImageView *bgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT >= 667 ? 160 : 130)];
         bgView.image = [UIImage imageNamed:@"banner背景"];
         [self addSubview:bgView];
         
@@ -61,16 +61,19 @@ typedef void(^ActionBlock)(NSInteger tag);
         label.text = @"我的";
         [self addSubview:label];
         
+        CGFloat width = SCREEN_HEIGHT >= 667 ? 60 : 40;
+        
         _headView = [[UIImageView alloc] init];
         _headView.layer.masksToBounds = YES;
-        _headView.layer.cornerRadius = 30;
+        _headView.layer.cornerRadius = width / 2;
         _headView.backgroundColor = [UIColor whiteColor];
         _headView.image = [UIImage imageNamed:@"默认头像"];
         [self addSubview:_headView];
+        
         [_headView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(label).offset(25);
+            make.left.mas_equalTo(self).offset(SCREEN_HEIGHT > 667 ? 12 : 20);
             make.top.mas_equalTo(label.mas_bottom);
-            make.size.mas_equalTo(CGSizeMake(60, 60));
+            make.size.mas_equalTo(CGSizeMake(width,width));
         }];
         
         _nameLabel = [[UILabel alloc] init];
@@ -79,8 +82,8 @@ typedef void(^ActionBlock)(NSInteger tag);
         _nameLabel.textAlignment = NSTextAlignmentLeft;
         [self addSubview:_nameLabel];
         [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(label.mas_bottom).offset(10);
-            make.left.mas_equalTo(_headView.mas_left).offset(80);
+            make.top.mas_equalTo(_headView.mas_top).offset(5);
+            make.left.mas_equalTo(_headView.mas_right).offset(12);
             make.size.mas_equalTo(CGSizeMake(120, 20));
         }];
         
@@ -91,8 +94,8 @@ typedef void(^ActionBlock)(NSInteger tag);
         _phoneLabel.textAlignment = NSTextAlignmentLeft;
         [self addSubview:_phoneLabel];
         [_phoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(_nameLabel.mas_top).offset(20);
-            make.left.mas_equalTo(_headView.mas_left).offset(80);
+            make.top.mas_equalTo(_nameLabel.mas_bottom).offset(5);
+            make.left.mas_equalTo(_nameLabel.mas_left);
             make.size.mas_equalTo(CGSizeMake(120, 20));
         }];
         
@@ -104,7 +107,7 @@ typedef void(^ActionBlock)(NSInteger tag);
         [self addSubview:_askButton];
         [_askButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self).offset(0);
-            make.bottom.mas_equalTo(self).offset(-5);
+            make.bottom.mas_equalTo(self).offset(-12);
             make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH/4, 50));
         }];
        
@@ -116,7 +119,7 @@ typedef void(^ActionBlock)(NSInteger tag);
         [self addSubview:_answerButton];
         [_answerButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(_askButton).offset(SCREEN_WIDTH/4);
-            make.bottom.mas_equalTo(self).offset(-5);
+            make.bottom.mas_equalTo(_askButton.mas_bottom);
             make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH/4, 50));
         }];
         
@@ -128,7 +131,7 @@ typedef void(^ActionBlock)(NSInteger tag);
         [self addSubview:_followButton];
         [_followButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(_answerButton).offset(SCREEN_WIDTH/4);
-            make.bottom.mas_equalTo(self).offset(-5);
+            make.bottom.mas_equalTo(_answerButton.mas_bottom);
             make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH/4, 50));
         }];
 
@@ -140,7 +143,7 @@ typedef void(^ActionBlock)(NSInteger tag);
         [self addSubview:_likeButton];
         [_likeButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(_followButton).offset(SCREEN_WIDTH/4);
-            make.bottom.mas_equalTo(self).offset(-5);
+            make.bottom.mas_equalTo(_followButton.mas_bottom);
             make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH/4, 50));
         }];
     
