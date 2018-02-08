@@ -274,7 +274,11 @@
                 }
             }else
             {
+                self.navigationController.tabBarController.tabBar.hidden = NO;
                 
+                //test******************
+                [self performSegueWithIdentifier:@"pushAnswer" sender:nil];
+                //test******************
             }
         }
             break;

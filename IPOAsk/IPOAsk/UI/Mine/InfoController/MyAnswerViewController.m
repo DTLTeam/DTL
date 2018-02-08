@@ -10,14 +10,43 @@
 #import "FollowTableViewCell.h"
 
 @interface MyAnswerViewController () <UITableViewDelegate,UITableViewDataSource>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+@property (nonatomic,assign) NSInteger  currentPage;
 @end
+ 
 
 @implementation MyAnswerViewController
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _currentPage = 0;
+    
+    
+    __weak MyAnswerViewController *weakSelf = self;
+    // 上拉加载
+    MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
+        weakSelf.currentPage ++;
+        
+      
+        [weakSelf performSelector:@selector(end) withObject:nil afterDelay:5];
+        
+    }];
+    [footer setUpGifImage:@"上拉刷新"];
+    self.tableView.mj_footer = footer;
+    
+    MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
+        weakSelf.currentPage = 1;
+        [self.tableView.mj_header endRefreshing];
+    }];
+    [header setUpGifImage:@"下拉加载"];
+    self.tableView.mj_header = header;
+}
+
+- (void)end{
+    
+    //没有更多了了
+    [self.tableView.mj_footer endRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
