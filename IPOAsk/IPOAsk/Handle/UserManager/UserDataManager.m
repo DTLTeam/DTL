@@ -80,8 +80,12 @@ static UserDataManager *manager; //单例对象
     _userModel = model;
 }
 
-- (void )getAskWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
+- (void )getAskWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block
 {
+    if (!_userModel) {
+        block(nil);
+        return;
+    }
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyAskLists",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
         if ([response[@"status"] intValue] == 1) {
             NSMutableArray *dataArr = [NSMutableArray array];
@@ -105,8 +109,12 @@ static UserDataManager *manager; //单例对象
     } requestHead:nil faile:nil];
 }
 
-- (void )getFollowWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
+- (void )getFollowWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block
 {
+    if (!_userModel) {
+        block(nil);
+        return;
+    }
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"myFollowAsk",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
         if ([response[@"status"] intValue] == 1) {
             NSMutableArray *dataArr = [NSMutableArray array];
@@ -132,8 +140,12 @@ static UserDataManager *manager; //单例对象
     } requestHead:nil faile:nil];
 }
 
-- (void )getLikeWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
+- (void )getLikeWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block
 {
+    if (!_userModel) {
+        block(nil);
+        return;
+    }
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyAchievement",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
         if ([response[@"status"] intValue] == 1) {
             NSMutableArray *dataArr = [NSMutableArray array];
@@ -153,8 +165,12 @@ static UserDataManager *manager; //单例对象
     } requestHead:nil faile:nil];
 }
 
-- (void )getAnswerWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
+- (void )getAnswerWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block
 {
+    if (!_userModel) {
+        block(nil);
+        return;
+    }
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyAnswerLists",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
         if ([response[@"status"] intValue] == 1) {
             NSMutableArray *dataArr = [NSMutableArray array];

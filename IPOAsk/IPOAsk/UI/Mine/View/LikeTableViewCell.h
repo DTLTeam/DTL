@@ -8,9 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+#import "UserDataManager.h"
+
 @interface LikeTableViewCell : UITableViewCell
 
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
+
+
+- (void)updateCell:(LikeDataModel *)model;
 
 @end

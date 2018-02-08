@@ -9,9 +9,11 @@
 #import "MyAskViewController.h"
 #import "FollowTableViewCell.h"
 
+#import "UserDataManager.h"
+
 @interface MyAskViewController () <UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
+@property (nonatomic,strong) NSMutableArray *askArr;
 @property (nonatomic,assign) NSInteger  currentPage;
 
 @end
@@ -20,8 +22,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _currentPage = 0;
-    
+    _currentPage = 1;
+    _askArr = [NSMutableArray array];
     
     __weak MyAskViewController *weakSelf = self;
     // 上拉加载
@@ -36,10 +38,34 @@
     
     MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
         weakSelf.currentPage = 1;
-        [self.tableView.mj_header endRefreshing];
+        [weakSelf.askArr removeAllObjects];
+        [weakSelf.tableView.mj_header endRefreshing];
     }];
     [header setUpGifImage:@"下拉加载"];
     self.tableView.mj_header = header;
+    
+    [self getAskList];
+}
+
+
+- (void)getAskList
+{
+    __weak MyAskViewController *weakSelf = self;
+    [[UserDataManager shareInstance] getAskWithpage:[NSString stringWithFormat:@"%d",(int)_currentPage] finish:^(NSArray *dataArr) {
+        GCD_MAIN(^{
+            if (dataArr.count > 0) {
+                [weakSelf.askArr addObjectsFromArray:dataArr];
+                [weakSelf.tableView reloadData];
+            }
+            if (dataArr.count == 0 && weakSelf.askArr.count > 0) {
+                [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
+            }else
+            {
+                [weakSelf end];
+            }
+            
+        });
+    }];
 }
 
 - (void)end{
@@ -81,7 +107,7 @@
 #pragma mark - tableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return _askArr.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -115,7 +141,8 @@
     if (cell == nil) {
         cell = [[FollowTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
     }
-    
+    AskDataModel *model = _askArr[indexPath.section];
+    [cell updateAskCell:model];
     return cell;
 }
 
