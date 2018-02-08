@@ -115,6 +115,38 @@
     
 }
 
++ (void)AskShowGifImageReloadInView:(UIView *)view Title:(NSString *)title viewtag:(int)tag
+{
+ 
+    MBProgressHUD *defhud = [AskProgressHUD haveView:view Tag:tag];
+    if (defhud) {
+        defhud.contentColor = textColor; //文字颜色
+        defhud.bezelView.backgroundColor = bgcolor;//加载框背景色
+        defhud.label.text = title;
+        
+        [defhud showAnimated:YES];
+        return;
+    }
+    
+    MBProgressHUD *hud =[MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.mode = MBProgressHUDModeCustomView;
+    
+    
+    NSString *path = [[NSBundle mainBundle]pathForResource:@"页面加载_1" ofType:@"gif"];
+    NSData *data = [NSData dataWithContentsOfFile:path];
+    
+    
+    FLAnimatedImageView *animaImgView = [[FLAnimatedImageView alloc] init];
+    FLAnimatedImage *animatedImage = [FLAnimatedImage animatedImageWithGIFData:data];
+    animaImgView.animatedImage = animatedImage;
+   
+     
+    hud.customView = animaImgView;
+    hud.label.text = title;
+    hud.removeFromSuperViewOnHide = YES;
+    [defhud showAnimated:YES];
+}
+
 
 #pragma mark - 隐藏
 +(void)AskHideAnimatedInView:(UIView *)view viewtag:(int)tag AfterDelay:(CGFloat)afterDelay{

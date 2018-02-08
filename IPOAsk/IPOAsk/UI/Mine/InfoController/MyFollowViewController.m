@@ -30,6 +30,7 @@
     MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
         weakSelf.currentPage ++;
         
+        [AskProgressHUD AskShowGifImageReloadInView:weakSelf.view Title:@"正在加载..." viewtag:100];
         [weakSelf performSelector:@selector(end) withObject:nil afterDelay:5];
         
     }];
@@ -38,6 +39,7 @@
     
     MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
         weakSelf.currentPage = 1;
+        
         [self.tableView.mj_header endRefreshing];
     }];
     [header setUpGifImage:@"下拉加载"];
@@ -46,6 +48,7 @@
 
 - (void)end{
     
+    [AskProgressHUD AskHideAnimatedInView:self.view viewtag:100 AfterDelay:0.1];
     //没有更多了了
     [self.tableView.mj_footer endRefreshing];
 }
