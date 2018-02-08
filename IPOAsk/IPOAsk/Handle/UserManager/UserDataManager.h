@@ -35,15 +35,15 @@
 @property (strong, nonatomic) NSString *askId;
 @property (nonatomic, strong) NSString *nickName;
 @property (strong, nonatomic) NSString *headIcon;
+@property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *content;
 @property (strong, nonatomic) NSString *addTime;
 @property (assign, nonatomic) int view;
-@property (assign, nonatomic) int like;
+@property (assign, nonatomic) int follow;
 @property (assign, nonatomic) int answer;
-@property (assign, nonatomic) int isAnswerer;
+@property (assign, nonatomic) int isAnonymous;
 @property (assign, nonatomic) int isCompany;
 @property (assign, nonatomic) int isFollow;
-@property (nonatomic, assign) int isLike;
 
 @end
 
@@ -57,13 +57,13 @@
 @property (strong, nonatomic) NSString *headIcon;
 @property (strong, nonatomic) NSString *content;
 @property (strong, nonatomic) NSString *addTime;
+@property (strong, nonatomic) NSString *title;
 @property (assign, nonatomic) int view;
-@property (assign, nonatomic) int like;
 @property (assign, nonatomic) int answer;
-@property (assign, nonatomic) int isAnswerer;
+@property (assign, nonatomic) int isAnonymous;
 @property (assign, nonatomic) int isCompany;
 @property (assign, nonatomic) int isFollow;
-@property (nonatomic, assign) int isLike;
+@property (nonatomic, assign) int follow;
 
 @end
 
@@ -73,17 +73,28 @@
 @interface LikeDataModel : NSObject
 
 @property (strong, nonatomic) NSString *askId;
-@property (nonatomic, strong) NSString *nickName;
+@property (nonatomic, strong) NSString *realName;
 @property (strong, nonatomic) NSString *headIcon;
+@property (strong, nonatomic) NSString *title;
+@property (strong, nonatomic) NSString *addTime;
+@property (strong, nonatomic) NSString *likeTime;
+@end
+
+/**
+ 问题数据模型
+ */
+@interface AskDataModel : NSObject
+
+@property (strong, nonatomic) NSString *askId;
+@property (nonatomic, strong) NSString *title;
 @property (strong, nonatomic) NSString *content;
 @property (strong, nonatomic) NSString *addTime;
 @property (assign, nonatomic) int view;
-@property (assign, nonatomic) int like;
+@property (assign, nonatomic) int createUID;
 @property (assign, nonatomic) int answer;
-@property (assign, nonatomic) int isAnswerer;
+@property (assign, nonatomic) int isAnonymous;
 @property (assign, nonatomic) int isCompany;
-@property (assign, nonatomic) int isFollow;
-@property (nonatomic, assign) int isLike;
+@property (assign, nonatomic) int follow;
 
 @end
 

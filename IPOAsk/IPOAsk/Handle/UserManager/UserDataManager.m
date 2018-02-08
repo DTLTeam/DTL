@@ -15,6 +15,12 @@
 
 @end
 
+/**
+ 问题数据类型
+ */
+@implementation AskDataModel
+
+@end
 
 @interface UserDataManager ()
 
@@ -51,14 +57,105 @@ static UserDataManager *manager; //单例对象
     _userModel = model;
 }
 
-- (void )getAskWithpage:(NSInteger)page finish:(void(^)(NSArray *dataArr))block;
+- (void )getAskWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
 {
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyAskLists",@"userID":@"9093a3325caeb5b33eb08f172fe59e7c",@"pageSize":@"30",@"page":@"1"} backData:NetSessionResponseTypeJSON success:^(id response) {
-        
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyAskLists",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
+        if ([response[@"status"] intValue] == 1) {
+            NSMutableArray *dataArr = [NSMutableArray array];
+            NSArray *jsonArr = response[@"data"];
+            for (NSDictionary *dic in jsonArr) {
+                AskDataModel *model = [[AskDataModel alloc] init];
+                model.askId = dic[@"id"];
+                model.title = dic[@"title"];
+                model.content = dic[@"content"];
+                model.view = [dic[@"view"] intValue];
+                model.addTime = dic[@"addTime"];
+                model.createUID = [dic[@"createUID"] intValue];
+                model.isAnonymous = [dic[@"isAnonymous"] intValue];
+                model.isCompany = [dic[@"isCompany"] intValue];
+                model.follow = [dic[@"follow"] intValue];
+                model.answer = [dic[@"answer"] intValue];
+                [dataArr addObject:model];
+            }
+            block(dataArr);
+        }
     } requestHead:nil faile:nil];
 }
 
+- (void )getFollowWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
+{
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"myFollowAsk",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
+        if ([response[@"status"] intValue] == 1) {
+            NSMutableArray *dataArr = [NSMutableArray array];
+            NSArray *jsonArr = response[@"data"];
+            for (NSDictionary *dic in jsonArr) {
+                FollowDataModel *model = [[FollowDataModel alloc] init];
+                model.askId = dic[@"id"];
+                model.nickName = dic[@"nickName"];
+                model.content = dic[@"content"];
+                model.headIcon = dic[@"headIcon"];
+                model.view = [dic[@"view"] intValue];
+                model.addTime = dic[@"addTime"];
+                model.title = dic[@"title"];
+                model.isAnonymous = [dic[@"isAnonymous"] intValue];
+                model.isCompany = [dic[@"isCompany"] intValue];
+                model.isFollow = [dic[@"isFollow"] intValue];
+                model.follow = [dic[@"follow"] intValue];
+                model.answer = [dic[@"answer"] intValue];
+                [dataArr addObject:model];
+            }
+            block(dataArr);
+        }
+    } requestHead:nil faile:nil];
+}
 
+- (void )getAnswerWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
+{
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyAnswerLists",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
+        if ([response[@"status"] intValue] == 1) {
+            NSMutableArray *dataArr = [NSMutableArray array];
+            NSArray *jsonArr = response[@"data"];
+            for (NSDictionary *dic in jsonArr) {
+                AnswerDataModel *model = [[AnswerDataModel alloc] init];
+                model.askId = dic[@"id"];
+                model.nickName = dic[@"nickName"];
+                model.content = dic[@"content"];
+                model.headIcon = dic[@"headIcon"];
+                model.view = [dic[@"view"] intValue];
+                model.addTime = dic[@"addTime"];
+                model.title = dic[@"title"];
+                model.isAnonymous = [dic[@"isAnonymous"] intValue];
+                model.isCompany = [dic[@"isCompany"] intValue];
+                model.isFollow = [dic[@"isFollow"] intValue];
+                model.follow = [dic[@"follow"] intValue];
+                model.answer = [dic[@"answer"] intValue];
+                [dataArr addObject:model];
+            }
+            block(dataArr);
+        }
+    } requestHead:nil faile:nil];
+}
+
+- (void )getLikeWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
+{
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyAchievement",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
+        if ([response[@"status"] intValue] == 1) {
+            NSMutableArray *dataArr = [NSMutableArray array];
+            NSArray *jsonArr = response[@"data"];
+            for (NSDictionary *dic in jsonArr) {
+                LikeDataModel *model = [[LikeDataModel alloc] init];
+                model.askId = dic[@"qID"];
+                model.realName = dic[@"realName"];
+                model.headIcon = dic[@"headIcon"];
+                model.likeTime = dic[@"likeTime"];
+                model.addTime = dic[@"addTime"];
+                model.title = dic[@"title"];
+                [dataArr addObject:model];
+            }
+            block(dataArr);
+        }
+    } requestHead:nil faile:nil];
+}
 
 
 
