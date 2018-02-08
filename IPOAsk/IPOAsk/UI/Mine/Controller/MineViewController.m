@@ -99,10 +99,14 @@
 {
     self.view.backgroundColor = MineTopColor;
     
-    CGFloat height = 160 + 64 + dataArr.count * 50.5 + 10;
-    if (height + TABBAR_HEIGHT >= SCREEN_HEIGHT) {
-        height = SCREEN_HEIGHT;
+    CGFloat height = 160 + 72 + dataArr.count * 50.5 + 10;
+//    if (height + TABBAR_HEIGHT >= SCREEN_HEIGHT) {
+//        height = SCREEN_HEIGHT;
+//    }
+    if (SCREEN_HEIGHT < 667) {
+        height = 140 + 60 + dataArr.count * 50.5 + 10;
     }
+    
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, height) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -148,7 +152,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        return 160 + 64;
+        return SCREEN_HEIGHT >= 667 ? 160 + 72 : 140 + 60;
     }
     return 51;
 }

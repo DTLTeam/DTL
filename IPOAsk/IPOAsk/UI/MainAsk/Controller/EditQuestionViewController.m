@@ -25,6 +25,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *Title2;
 @property (weak, nonatomic) IBOutlet UIView *Title2Line;
 @property (weak, nonatomic) IBOutlet UIButton *anonymousBtn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *Title1Width;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *Title2Width;
 
 @property (weak, nonatomic) IBOutlet UITextField *question;
 @property (weak, nonatomic) IBOutlet UITextView *QuestionContent;
@@ -52,7 +54,14 @@
     [NOTIFICATIONCENTER addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
     [NOTIFICATIONCENTER addObserver:self selector:@selector(KeyboardDidHideNotification:) name:UIKeyboardWillHideNotification object:nil];
   
-    
+    if (SCREEN_HEIGHT < 667) {
+        _Title1.font = [UIFont systemFontOfSize:11];
+        _Title2.titleLabel.font = [UIFont systemFontOfSize:11];
+        _anonymousBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+        
+        _Title1Width.constant -= 21;
+        _Title2Width.constant -= 10;
+    }
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -249,7 +258,8 @@
     }else{
         //发布接口
         
-        [self back];
+        //发布成功
+        [self.navigationController popViewControllerAnimated:YES];
     }
     
 }
