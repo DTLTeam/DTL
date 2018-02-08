@@ -22,6 +22,29 @@
 
 @end
 
+/**
+ 关注数据类型
+ */
+@implementation FollowDataModel
+
+@end
+
+/**
+ 点赞数据类型
+ */
+@implementation LikeDataModel
+
+@end
+
+/**
+ 回答数据类型
+ */
+@implementation AnswerDataModel
+
+@end
+
+
+
 @interface UserDataManager ()
 
 @end
@@ -109,6 +132,27 @@ static UserDataManager *manager; //单例对象
     } requestHead:nil faile:nil];
 }
 
+- (void )getLikeWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
+{
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyAchievement",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
+        if ([response[@"status"] intValue] == 1) {
+            NSMutableArray *dataArr = [NSMutableArray array];
+            NSArray *jsonArr = response[@"data"];
+            for (NSDictionary *dic in jsonArr) {
+                LikeDataModel *model = [[LikeDataModel alloc] init];
+                model.askId = dic[@"qID"];
+                model.realName = dic[@"realName"];
+                model.headIcon = dic[@"headIcon"];
+                model.likeTime = dic[@"likeTime"];
+                model.addTime = dic[@"addTime"];
+                model.title = dic[@"title"];
+                [dataArr addObject:model];
+            }
+            block(dataArr);
+        }
+    } requestHead:nil faile:nil];
+}
+
 - (void )getAnswerWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
 {
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyAnswerLists",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
@@ -135,29 +179,6 @@ static UserDataManager *manager; //单例对象
         }
     } requestHead:nil faile:nil];
 }
-
-- (void )getLikeWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
-{
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyAchievement",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
-        if ([response[@"status"] intValue] == 1) {
-            NSMutableArray *dataArr = [NSMutableArray array];
-            NSArray *jsonArr = response[@"data"];
-            for (NSDictionary *dic in jsonArr) {
-                LikeDataModel *model = [[LikeDataModel alloc] init];
-                model.askId = dic[@"qID"];
-                model.realName = dic[@"realName"];
-                model.headIcon = dic[@"headIcon"];
-                model.likeTime = dic[@"likeTime"];
-                model.addTime = dic[@"addTime"];
-                model.title = dic[@"title"];
-                [dataArr addObject:model];
-            }
-            block(dataArr);
-        }
-    } requestHead:nil faile:nil];
-}
-
-
 
 
 @end
