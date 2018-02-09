@@ -12,14 +12,12 @@
 @property (nonatomic, readonly) BOOL isAnonymous;   //是否匿名
 @property (nonatomic, readonly) BOOL isLike;        //是否已经点赞
 
-@property (strong, nonatomic, readonly) NSString *questionID;   //问题ID
 @property (strong, nonatomic, readonly) NSString *answerID;     //答案ID
 
 @property (strong, nonatomic, readonly) NSString *headImgUrlStr; //用户头像图片加载路径
 @property (strong, nonatomic, readonly) NSString *userName;      //用户名
 @property (strong, nonatomic, readonly) NSString *dateStr;       //创建时间
 
-@property (strong, nonatomic, readonly) NSString *title;    //标题
 @property (strong, nonatomic, readonly) NSString *content;  //内容
 
 @property (nonatomic, readonly) NSInteger lookNum;  //查看数量
@@ -35,8 +33,9 @@
 /**
  更改点赞状态
  
- @param status 点赞状态
+ @param status  点赞状态
+ @param count   点赞数量
  */
-- (void)changeLikeStatus:(BOOL)status;
+- (void)changeLikeStatus:(BOOL)status count:(NSInteger)count;;
 
 @end

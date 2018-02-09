@@ -17,6 +17,8 @@ typedef enum : NSUInteger {
 
 @interface EditQuestionViewController : UIViewController
 
+@property (strong, nonatomic) NSString *questionID;
+
 /**
  编辑
  **/

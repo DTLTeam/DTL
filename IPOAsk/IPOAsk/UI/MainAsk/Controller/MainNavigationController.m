@@ -42,6 +42,8 @@
     
     [self changeShowStatus:YES];
     
+    [_searchTextField addTarget:self action:@selector(searchTextChangeAction:)  forControlEvents:UIControlEventAllEditingEvents];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -92,7 +94,9 @@
     _searchTextField = [[UITextField alloc] init];
     NSAttributedString *placeholderString = [[NSAttributedString alloc] initWithString:@"输入关键字搜索感兴趣的问题" attributes:@{NSForegroundColorAttributeName:HEX_RGBA_COLOR(0x959A9F, 1), NSFontAttributeName:[UIFont systemFontOfSize:13]}];
     _searchTextField.attributedPlaceholder = placeholderString;
-    _searchTextField.tintColor = HEX_RGBA_COLOR(0x999999, 1);
+//    _searchTextField.tintColor = HEX_RGBA_COLOR(0x999999, 1);
+    _searchTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _searchTextField.returnKeyType = UIReturnKeyDone;
     _searchTextField.font = [UIFont systemFontOfSize:13];
     _searchTextField.delegate = self;
     [_searchBGView addSubview:_searchTextField];
@@ -159,9 +163,8 @@
     
     if (self.viewControllers.count > 1) {
         
-        if (_searchTextField.isEditing || _searchTextField.text.length > 0) {
+        if (_searchTextField.text.length > 0) {
             _searchTextField.text = @"";
-            [self.view endEditing:YES];
         }
         
         [self popViewControllerAnimated:YES];
@@ -177,6 +180,16 @@
     [editQuestionVC UserType:AnswerType_AskQuestionPerson NavTitle:@"提问"];
  
     [self pushViewController:editQuestionVC animated:YES];
+    
+}
+
+#pragma mark 搜索框输入内容改变
+- (void)searchTextChangeAction:(id)sender {
+    
+    if (_searchDelegate && [_searchDelegate respondsToSelector:@selector(searchTextChange:)]) {
+        UITextField *textField = (UITextField *)sender;
+        [_searchDelegate searchTextChange:textField.text];
+    }
     
 }
 
@@ -417,9 +430,25 @@
         
     } else {
         
+        if (_searchDelegate && [_searchDelegate respondsToSelector:@selector(searchTextChange:)]) {
+            [_searchDelegate searchTextChange:_searchTextField.text];
+        }
+        
         return YES;
         
     }
+    
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    
+    [textField resignFirstResponder];
+    
+    if (_searchDelegate && [_searchDelegate respondsToSelector:@selector(beginSearch)]) {
+        [_searchDelegate beginSearch];
+    }
+    
+    return NO;
     
 }
 
@@ -427,6 +456,10 @@
 #pragma mark - UINavigationControllerDelegate
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    
+    if (_searchTextField.isEditing) {
+        [self.view endEditing:YES];
+    }
     
     [self changeShowStatus:animated];
     

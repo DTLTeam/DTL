@@ -16,14 +16,12 @@
         _isAnonymous = NO;
         _isLike = NO;
         
-        _questionID = @"";
         _answerID = @"";
         
         _headImgUrlStr = @"";
         _userName = @"";
         _dateStr = @"";
         
-        _title = @"";
         _content = @"";
         
         _lookNum = 0;
@@ -56,10 +54,9 @@
     
     content = infoDic[@"id"];
     if (content && ![content isKindOfClass:[NSNull class]]) {
-        _questionID = content;
-    }
-    content = infoDic[@"answerUID"];
-    if (content && ![content isKindOfClass:[NSNull class]]) {
+        if ([content isKindOfClass:[NSNumber class]]) {
+            content = [content stringValue];
+        }
         _answerID = content;
     }
     
@@ -80,11 +77,7 @@
         _dateStr = [formatter stringFromDate:date];
     }
     
-    content = infoDic[@"title"];
-    if (content && ![content isKindOfClass:[NSNull class]]) {
-        _title = content;
-    }
-    content = infoDic[@"content"];
+    content = infoDic[@"answer"];
     if (content && ![content isKindOfClass:[NSNull class]]) {
         _content = content;
     }
@@ -101,19 +94,10 @@
 }
 
 #pragma mark 更改点赞状态
-- (void)changeLikeStatus:(BOOL)status {
+- (void)changeLikeStatus:(BOOL)status count:(NSInteger)count {
     
-    if (_isLike != status) {
-        
-        if (status) {
-            _likeNum++;
-        } else {
-            _likeNum--;
-        }
-        
-        _isLike = status;
-        
-    }
+    _isLike = status;
+    _likeNum = count;
     
 }
 
