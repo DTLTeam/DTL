@@ -23,6 +23,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    
+    //无数据背景
+    [self setUpBgViewWithTitle:@"暂无成就哦!" Image:@"没有提问" Action:@selector(getLikeList)];
+    
+    
     _currentPage = 1;
     _likeArr = [NSMutableArray array];
     
@@ -67,7 +73,10 @@
 }
 
 - (void)end{
-    
+    if (_likeArr.count == 0) {
+        _tableView.hidden = YES;
+        self.bgImageView.hidden = NO;
+    }
     //没有更多了了
     [self.tableView.mj_footer endRefreshing];
 }

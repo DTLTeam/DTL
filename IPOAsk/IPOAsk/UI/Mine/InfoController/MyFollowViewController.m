@@ -22,6 +22,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    //无数据背景
+    [self setUpBgViewWithTitle:@"暂无关注哦!" Image:@"没有提问" Action:@selector(getFollowList)];
+    
     _currentPage = 1;
     _followArr = [NSMutableArray array];
     
@@ -47,6 +51,8 @@
     [self getFollowList];
 }
 
+
+#pragma mark - 刷新
 - (void)getFollowList
 {
      __weak MyFollowViewController *weakSelf = self;
@@ -67,6 +73,10 @@
 }
 
 - (void)end{
+    if (_followArr.count == 0) {
+        _tableView.hidden = YES;
+        self.bgImageView.hidden = NO;
+    }
     
     //没有更多了了
     [self.tableView.mj_footer endRefreshing];
