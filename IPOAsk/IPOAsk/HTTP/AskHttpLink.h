@@ -52,4 +52,6 @@ typedef NS_ENUM(NSUInteger,NetSessionResponseType){
  
 //
 
+- (NSURLRequest *)POSTImage:(NSString *)URLString data:(NSData *)imageData name:(NSString*)name finish:(SuccessBlock)finish;
+
 @end

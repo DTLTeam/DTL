@@ -399,4 +399,34 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)editInfo
+{
+    __weak InfoViewController *WeakSelf = self;
+    //昵称长度要在2到10个字内
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"updateUserInfo",@"userID":@"9093a3325caeb5b33eb08f172fe59e7c",@"nickName":@"c2c",@"email":@"398819874@qq.com",@"details":@"c2c",@"company":@"1",@"realName":@"A"} backData:NetSessionResponseTypeJSON success:^(id response) {
+        GCD_MAIN(^{
+            if ([response[@"status"] intValue] == 1) {
+                
+            }else
+            {
+                NSString *msg = response[@"msg"];
+                [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
+                [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:msg viewtag:2 AfterDelay:3];
+            }
+        });
+    } requestHead:nil faile:^(NSError *error) {
+        GCD_MAIN(^{
+            [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
+            [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"修改失败" viewtag:2 AfterDelay:3];
+        });
+    }];
+}
+
+- (void)editHead
+{
+    [[AskHttpLink shareInstance] POSTImage:@"" data:nil name:@"" finish:^(id response) {
+        
+    }];
+}
+
 @end
