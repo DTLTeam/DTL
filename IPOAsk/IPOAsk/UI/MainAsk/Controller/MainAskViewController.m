@@ -24,6 +24,7 @@
 
 @property (strong, nonatomic) NSMutableArray *contentArr;
 @property (assign, nonatomic) NSInteger currentPage;
+@property (nonatomic) NSInteger startQuestionID;
 
 @end
 
@@ -77,6 +78,7 @@
 
 - (void)setupInterface {
     
+    _startQuestionID = 0;
     _currentPage = -1;
     _contentArr = [NSMutableArray array];
     
@@ -93,8 +95,8 @@
     
     // 上拉加载
     MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
-        if (_currentPage < 0) {
-            _currentPage = 0;
+        if (weakSelf.currentPage < 0) {
+            weakSelf.currentPage = 0;
         }
         [weakSelf requestContent:weakSelf.currentPage];
         
@@ -104,6 +106,7 @@
     
     MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
         weakSelf.currentPage = 0;
+        weakSelf.startQuestionID = 0;
         [weakSelf requestContent:weakSelf.currentPage];
     }];
     [header setUpGifImage:@"下拉加载"];
@@ -157,11 +160,13 @@
     NSDictionary *infoDic = @{@"cmd":@"getQuestionIndex",
                               @"userID":@"90b333b92b630b472467b9b4ccbe42a4",
                               @"pageSize":@20,
-                              @"page":@(page)};
+                              @"page":@(page),
+                              @"maxQID":@(_startQuestionID)
+                              };
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
         
         GCD_MAIN((^{
-            
+        
 //            /* test */
 //            for (int i = 0; i < 15; i++) {
 //
@@ -239,9 +244,12 @@
             if (response && ([response[@"status"] intValue] == 1)) {
 
                 if (page == 0) {
-                    weakSelf.currentPage = 0;
                     [weakSelf.contentArr removeAllObjects];
+                    QuestionModel *mod = [[QuestionModel alloc] init];
+                    [mod refreshModel:[response[@"data"][@"data"] firstObject]];
+                    weakSelf.startQuestionID = [mod.questionID integerValue];
                 }
+                weakSelf.currentPage = page;
                 weakSelf.currentPage++;
                 
                 for (NSDictionary *dic in response[@"data"][@"data"]) {
@@ -259,11 +267,14 @@
             if (weakSelf.contentTableView.mj_header.isRefreshing) {
                 [weakSelf.contentTableView.mj_header endRefreshing];
             }
-            if (weakSelf.contentTableView.mj_footer.isRefreshing) {
+            if (response && ([response[@"data"][@"current_page"] integerValue] == [response[@"data"][@"last_page"] integerValue])) {
+                [weakSelf.contentTableView.mj_footer endRefreshingWithNoMoreData];
+            } else if (weakSelf.contentTableView.mj_footer.isRefreshing) {
                 [weakSelf.contentTableView.mj_footer endRefreshing];
             }
+            
         }));
-        
+     
     } requestHead:^(id response) {
 
     } faile:^(NSError *error) {

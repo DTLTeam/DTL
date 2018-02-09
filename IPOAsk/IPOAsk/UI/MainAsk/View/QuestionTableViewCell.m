@@ -315,8 +315,42 @@ typedef enum : NSUInteger {
     }
     _dateLabel.text = model.dateStr;
     
-    _titleLabel.text = model.title;
-    _contentLabel.text = model.content;
+    if (_searchContent && _searchContent.length > 0) { //搜索结果
+        
+        //标题
+        NSMutableAttributedString *titleStr = [[NSMutableAttributedString alloc] initWithString:model.title];
+        NSRange nowRange = NSMakeRange(0, model.title.length);
+        while (true) {
+            NSRange range = [model.title rangeOfString:_searchContent options:NSCaseInsensitiveSearch range:nowRange];
+            if (range.location == NSNotFound) {
+                break;
+            } else {
+                nowRange = NSMakeRange(range.location + range.length, model.title.length - range.location - range.length);
+                [titleStr addAttribute:NSForegroundColorAttributeName value:HEX_RGBA_COLOR(0xFF902E, 1) range:range];
+            }
+        }
+        _titleLabel.attributedText = titleStr;
+        
+        //内容
+        NSMutableAttributedString *contentStr = [[NSMutableAttributedString alloc] initWithString:model.content];
+        nowRange = NSMakeRange(0, model.content.length);
+        while (true) {
+            NSRange range = [model.content rangeOfString:_searchContent options:NSCaseInsensitiveSearch range:nowRange];
+            if (range.location == NSNotFound) {
+                break;
+            } else {
+                nowRange = NSMakeRange(range.location + range.length, model.content.length - range.location - range.length);
+                [contentStr addAttribute:NSForegroundColorAttributeName value:HEX_RGBA_COLOR(0xFF902E, 1) range:range];
+            }
+        }
+        _contentLabel.attributedText = contentStr;
+        
+    } else { //普通展示
+        
+        _titleLabel.text = model.title;
+        _contentLabel.text = model.content;
+        
+    }
     
     NSString *numStr = model.lookNum <= 0 ? @"" : [NSString stringWithFormat:@"%lu", model.lookNum];
     [_lookNumBtn setTitle:numStr forState:UIControlStateNormal];

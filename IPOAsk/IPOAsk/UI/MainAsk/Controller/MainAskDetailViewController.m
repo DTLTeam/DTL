@@ -27,6 +27,7 @@
 
 @property (strong, nonatomic) NSMutableArray *CommArr;
 @property (assign, nonatomic) NSInteger currentPage;
+@property (assign, nonatomic) NSInteger startQuestionID;
 @property (assign, nonatomic) BOOL all;
 
 @end
@@ -44,7 +45,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    self.tabBarController.tabBar.hidden = YES;
+    self.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBar.hidden = NO;
     if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
         [(MainNavigationController *)self.navigationController showSearchNavBar:YES];
@@ -104,7 +105,8 @@
                               @"userID":@"90b333b92b630b472467b9b4ccbe42a4",
                               @"qID":_model.questionID,
                               @"pageSize":@20,
-                              @"page":@(page)
+                              @"page":@(page),
+                              @"maxQID":@(_startQuestionID)
                               };
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
         
@@ -183,9 +185,12 @@
             if (response && ([response[@"status"] intValue] == 1)) {
 
                 if (page == 0) {
-                    weakSelf.currentPage = 0;
                     [weakSelf.CommArr removeAllObjects];
+                    QuestionModel *mod = [[QuestionModel alloc] init];
+                    [mod refreshModel:[response[@"data"][@"question"][@"data"] firstObject]];
+                    weakSelf.startQuestionID = [mod.questionID integerValue];
                 }
+                weakSelf.currentPage = page;
                 weakSelf.currentPage++;
 
                 if (response[@"data"][@"question"]) {
@@ -205,7 +210,9 @@
             if (weakSelf.contentTableView.mj_header.isRefreshing) {
                 [weakSelf.contentTableView.mj_header endRefreshing];
             }
-            if (weakSelf.contentTableView.mj_footer.isRefreshing) {
+            if (response && ([response[@"data"][@"answer"][@"current_page"] integerValue] == [response[@"data"][@"answer"][@"last_page"] integerValue])) {
+                [weakSelf.contentTableView.mj_footer endRefreshingWithNoMoreData];
+            } else if (weakSelf.contentTableView.mj_footer.isRefreshing) {
                 [weakSelf.contentTableView.mj_footer endRefreshing];
             }
             

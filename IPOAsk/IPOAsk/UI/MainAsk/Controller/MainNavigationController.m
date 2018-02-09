@@ -444,6 +444,10 @@
     
     [textField resignFirstResponder];
     
+    NSString *str = _searchTextField.text;
+    str = [str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    _searchTextField.text = str;
+    
     if (_searchDelegate && [_searchDelegate respondsToSelector:@selector(beginSearch)]) {
         [_searchDelegate beginSearch];
     }

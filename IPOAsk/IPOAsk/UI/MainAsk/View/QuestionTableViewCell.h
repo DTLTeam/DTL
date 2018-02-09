@@ -22,8 +22,9 @@
 
 @interface QuestionTableViewCell : UITableViewCell
 
--(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier Main:(BOOL)main;
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier Main:(BOOL)main;
 
+@property (strong, nonatomic) NSString *searchContent;
 
 @property (weak, nonatomic) id<QuestionTableViewCellDelegate> delegate;
 
