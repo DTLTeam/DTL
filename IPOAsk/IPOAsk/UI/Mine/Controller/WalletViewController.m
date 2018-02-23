@@ -31,7 +31,9 @@
     self.navigationController.tabBarController.tabBar.hidden = YES;
     self.title = @"我的钱包";
     
-    [self setUpNavBgColor:MineTopColor];
+    [self setUpNavBgColor:MineTopColor RightBtn:^(UIButton *btn) {
+        
+    }];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

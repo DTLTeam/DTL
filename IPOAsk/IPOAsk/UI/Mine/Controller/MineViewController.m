@@ -8,6 +8,7 @@
 
 #import "MineViewController.h"
 #import "DraftsViewController.h"
+#import "SignInViewController.h"
 
 #import "HeadViewTableViewCell.h"
 
@@ -18,6 +19,7 @@
 @interface MineViewController () <UITableViewDelegate,UITableViewDataSource>
 @property (strong, nonatomic) UITableView *tableView;
 @property (nonatomic,strong) UserDataManager *userManager;
+@property (nonatomic,assign) BOOL pushChangeUser;
 @end
 
 @implementation MineViewController
@@ -46,40 +48,47 @@
     self.navigationController.tabBarController.tabBar.hidden = NO;
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 
+    if (_pushChangeUser) {
+        [_tableView reloadData];
+        _pushChangeUser = NO;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    self.navigationController.navigationBar.translucent = YES;
     [self setNeedsNavigationBackground:0.0];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    self.navigationController.navigationBar.translucent = NO;
     [self setNeedsNavigationBackground:1.0];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 }
 
 - (void)setNeedsNavigationBackground:(CGFloat)alpha {
-    // 导航栏背景透明度设置
-    UIView *barBackgroundView = [[self.navigationController.navigationBar subviews] objectAtIndex:0];// _UIBarBackground
-    UIImageView *backgroundImageView = [[barBackgroundView subviews] objectAtIndex:0];// UIImageView
-    if (self.navigationController.navigationBar.isTranslucent) {
-        if (backgroundImageView != nil && backgroundImageView.image != nil) {
-            barBackgroundView.alpha = alpha;
-        } else if([barBackgroundView subviews].count > 1){
-            UIView *backgroundEffectView = [[barBackgroundView subviews] objectAtIndex:1];// UIVisualEffectView
-            if (backgroundEffectView != nil) {
-                backgroundEffectView.alpha = alpha;
-            }
-        }
-    } else {
-        barBackgroundView.alpha = alpha;
-    }
-    self.navigationController.navigationBar.clipsToBounds = alpha == 0.0;
+    [self.navigationController.navigationBar setBackgroundImage:[UtilsCommon createImageWithColor:[UIColor clearColor]] forBarMetrics:UIBarMetricsDefault];
+    
+    [self.navigationController.navigationBar setShadowImage:[UtilsCommon createImageWithColor:[UIColor clearColor]]];
+    self.navigationController.navigationBar.shadowImage = [UtilsCommon createImageWithColor:[UIColor clearColor]];
+    
+//    // 导航栏背景透明度设置
+//    UIView *barBackgroundView = [[self.navigationController.navigationBar subviews] objectAtIndex:0];// _UIBarBackground
+//    UIImageView *backgroundImageView = [[barBackgroundView subviews] objectAtIndex:0];// UIImageView
+//    if (self.navigationController.navigationBar.isTranslucent) {
+//        if (backgroundImageView != nil && backgroundImageView.image != nil) {
+//            barBackgroundView.alpha = alpha;
+//        } else if([barBackgroundView subviews].count > 1){
+//            UIView *backgroundEffectView = [[barBackgroundView subviews] objectAtIndex:1];// UIVisualEffectView
+//            if (backgroundEffectView != nil) {
+//                backgroundEffectView.alpha = alpha;
+//            }
+//        }
+//    } else {
+//        barBackgroundView.alpha = alpha;
+//    }
+//    self.navigationController.navigationBar.clipsToBounds = alpha == 0.0;
 }
 
 - (void)setupView
@@ -199,20 +208,24 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         if (_userManager.userModel) {
+            
+            __weak HeadViewTableViewCell *weakCell = cell;
             [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyReflection",@"userID":_userManager.userModel.userID} backData:NetSessionResponseTypeJSON success:^(id response) {
                 GCD_MAIN(^{
-                    if ([response[@"status"] intValue] == 1) {
-                        NSDictionary *dic = response[@"data"];
+                    if ([[response valueForKey:@"status"] intValue] == 1) {
+                        NSDictionary *dic = [(NSArray *)response[@"data"]firstObject];
                         NSInteger questionCount = [dic[@"questionCount"] integerValue];
                         NSInteger answerCount = [dic[@"answerCount"] integerValue];
                         NSInteger followCount = [dic[@"followCount"] integerValue];
                         NSInteger achievementCount = [dic[@"achievementCount"] integerValue];
                         
-                        [cell updateAskInfo:questionCount answer:answerCount follow:followCount like:achievementCount];
+                        [weakCell updateAskInfo:questionCount answer:answerCount follow:followCount like:achievementCount];
                     }
                 });
             } requestHead:nil faile:nil];
         }
+        [cell updateInfo:_userManager.userModel.headIcon name:_userManager.userModel.nickName phone:_userManager.userModel.phone];
+        
         
         return cell;
     }else
@@ -242,6 +255,16 @@
     self.navigationController.tabBarController.tabBar.hidden = YES;
     switch (indexPath.section) {
         case 0:
+            _pushChangeUser = YES;
+            
+            if (![UserDataManager shareInstance].userModel) {
+                UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                
+                SignInViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"SignInView"];
+                UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:VC];
+                [self.navigationController presentViewController:nav animated:YES completion:nil];
+                return;
+            }
             [self performSegueWithIdentifier:@"pushInfo" sender:nil];
             break;
         case 1:

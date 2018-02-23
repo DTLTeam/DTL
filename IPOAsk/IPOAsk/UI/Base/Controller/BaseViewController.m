@@ -30,7 +30,7 @@
 }
 
 
-- (void)setUpNavBgColor:(UIColor *)color{
+- (void)setUpNavBgColor:(UIColor *)color RightBtn:(void (^)(UIButton *))rightbtn{
     
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBarHidden = NO;
@@ -49,15 +49,18 @@
     
     //占位 防止左边按钮偏移
     UIButton *rbtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIBarButtonItem *rightBtn = [UIBarButtonItem returnTabBarItemWithBtn:rbtn image:@"" bgimage:nil  Title:@"占" SelectedTitle:@""  titleFont:1 itemtype:Itemtype_rigth SystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
+    UIBarButtonItem *rightBtn = [UIBarButtonItem returnTabBarItemWithBtn:rbtn image:@"" bgimage:nil  Title:@"占" SelectedTitle:@""  titleFont:1 itemtype:Itemtype_rigth SystemItem:UIBarButtonSystemItemFixedSpace target:self action:@selector(RightClick)];
     self.navigationItem.rightBarButtonItems = @[fixedButton, rightBtn];
     [rbtn setTitleColor:[UIColor clearColor] forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItems = @[fixedButton, rightBtn];
+    rbtn.tag = 2002;
     
     [self.navigationController.navigationBar setShadowImage:[UtilsCommon createImageWithColor:HEX_RGB_COLOR(0xE9E9E9)]];
     self.navigationController.navigationBar.shadowImage = [UtilsCommon createImageWithColor:HEX_RGB_COLOR(0xE9E9E9)];
     self.navigationController.view.backgroundColor = color;
     self.view.backgroundColor = color;
+    
+    rightbtn(rbtn);
 }
 
 - (void)hiddenNav{
@@ -71,6 +74,9 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)RightClick{
+    
+}
 
 - (void)setUpBgViewWithTitle:(NSString *)title Image:(NSString *)Img Action:(SEL)action{
     

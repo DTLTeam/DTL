@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+
 static NSString * phoneNum = @"15012345678";
 
 #define MineTopColor    [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1]
@@ -17,7 +18,9 @@ static NSString * phoneNum = @"15012345678";
 typedef enum : NSUInteger {
     loginType_Person,
     loginType_Enterprise,
+    loginType_NoLogin,
 } loginType;
+
 
 @interface UtilsCommon : NSObject
 

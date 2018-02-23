@@ -14,12 +14,15 @@
 @interface InfoViewController () <UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (strong, nonatomic)UIActionSheet *sheet;
 @property (strong, nonatomic)UIButton *HeadImageBtn;
+@property (strong, nonatomic)NSArray *UserInfoArr;
 
 @property (strong, nonatomic) UITableView *tableView;
 @property (assign, nonatomic) InfoCellType Select;
 @property (assign, nonatomic) CGFloat tableViewHeight;
 @property (assign, nonatomic) CGFloat keyboardHeight;
 
+
+@property (strong, nonatomic)UserDataModel *ChangeUserModel;
 @end
 
 @implementation InfoViewController
@@ -40,7 +43,9 @@
 
 - (void)setupView
 {
-    
+    _ChangeUserModel = [[UserDataModel alloc]init];
+    _ChangeUserModel = [[UserDataManager shareInstance]userModel];
+    _UserInfoArr = @[_ChangeUserModel.headIcon,_ChangeUserModel.nickName,_ChangeUserModel.realName,_ChangeUserModel.email,_ChangeUserModel.company,_ChangeUserModel.details];
     self.view.backgroundColor = MineTopColor;
     
     _tableViewHeight = 150 + 7 * 60 + 10;
@@ -51,7 +56,7 @@
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    [self.view addSubview:_tableView];
+    [self.view addSubview:_tableView]; 
 }
 
 
@@ -64,7 +69,13 @@
 {
     [super viewWillAppear:animated];
     self.title = @"个人资料";
-    [self setUpNavBgColor:MineTopColor];
+    
+    __weak InfoViewController *WeakSelf = self;
+    [self setUpNavBgColor:MineTopColor RightBtn:^(UIButton *btn) {
+        [btn setTitle:@"完成" forState:UIControlStateNormal];
+        btn.titleLabel.font = [UIFont systemFontOfSize:13];
+        [btn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    }];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -171,6 +182,7 @@
             textView.font = [UIFont systemFontOfSize:15];
             textView.textColor = HEX_RGB_COLOR(0x969ca1);
             textView.tag = indexPath.row;
+            textView.text = [_UserInfoArr objectAtIndex:InfoCellType_introduction];
             [cell addSubview:textView];
             
             [textView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -193,6 +205,7 @@
             textfield.textColor = HEX_RGB_COLOR(0x969ca1);
             textfield.textAlignment = NSTextAlignmentRight;
             textfield.tag = indexPath.row;
+            textfield.text = [_UserInfoArr objectAtIndex:indexPath.row];
             [cell addSubview:textfield];
             
             [textfield mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -324,8 +337,8 @@
     
     if((authStatus == PHAuthorizationStatusRestricted || authStatus == PHAuthorizationStatusDenied) && photoType == 0){
         
-        [AskProgressHUD AskShowDetailsAndTitleInView:self.view Title:@"您禁用了拍照功能" Detail:@"请前往系统设置打开拍照功能!" viewtag:100];
-        [AskProgressHUD AskHideAnimatedInView:self.view viewtag:100 AfterDelay:3];
+        [AskProgressHUD AskShowDetailsAndTitleInView:self.view Title:@"您禁用了拍照功能" Detail:@"请前往系统设置打开拍照功能!" viewtag:InfoCellType_HudTag];
+        [AskProgressHUD AskHideAnimatedInView:self.view viewtag:InfoCellType_HudTag AfterDelay:3];
         
         return;
     }
@@ -399,25 +412,72 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
+-(void)RightClick{
+    [self editInfo];
+}
+
 - (void)editInfo
 {
     __weak InfoViewController *WeakSelf = self;
+    __weak UserDataModel *UserModel = [UserDataManager shareInstance].userModel;
+    __weak UserDataModel *WeakChangeUserModel = _ChangeUserModel;
+    
+    
+    WeakChangeUserModel.nickName = ((UITextField *)[_tableView viewWithTag:InfoCellType_Nick]).text;
+    WeakChangeUserModel.realName = ((UITextField *)[_tableView viewWithTag:InfoCellType_Name]).text;
+    WeakChangeUserModel.email = ((UITextField *)[_tableView viewWithTag:InfoCellType_Email]).text;
+    WeakChangeUserModel.company = ((UITextField *)[_tableView viewWithTag:InfoCellType_CorporateName]).text;
+    WeakChangeUserModel.details = ((UITextField *)[_tableView viewWithTag:InfoCellType_introduction]).text;
+    
+    
+    if (WeakChangeUserModel.nickName.length == 0) {
+        
+        [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"请填写昵称！" viewtag:InfoCellType_HudTag AfterDelay:3];
+        return;
+    }else if (WeakChangeUserModel.nickName.length < 2 || WeakChangeUserModel.realName.length > 10) {
+        
+        [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"昵称长度要在2到10个字内～" viewtag:InfoCellType_HudTag AfterDelay:3];
+        return;
+    }else if (WeakChangeUserModel.realName.length == 0) {
+        
+        [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"请填写姓名！" viewtag:InfoCellType_HudTag AfterDelay:3];
+        return;
+    }else  if (WeakChangeUserModel.email.length == 0) {
+        
+        [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"请填写邮箱！" viewtag:InfoCellType_HudTag AfterDelay:3];
+        return;
+    }else  if (WeakChangeUserModel.company.length == 0) {
+        
+        [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"请填写公司名称！" viewtag:InfoCellType_HudTag AfterDelay:3];
+        return;
+    }else  if (WeakChangeUserModel.details.length == 0) {
+        
+        [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"请填写简介！" viewtag:InfoCellType_HudTag AfterDelay:3];
+        return;
+    }
+    
+    
     //昵称长度要在2到10个字内
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"updateUserInfo",@"userID":@"9093a3325caeb5b33eb08f172fe59e7c",@"nickName":@"c2c",@"email":@"398819874@qq.com",@"details":@"c2c",@"company":@"1",@"realName":@"A"} backData:NetSessionResponseTypeJSON success:^(id response) {
-        GCD_MAIN(^{
-            if ([response[@"status"] intValue] == 1) {
-                
-            }else
-            {
-                NSString *msg = response[@"msg"];
-                [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
-                [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:msg viewtag:2 AfterDelay:3];
-            }
-        });
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"updateUserInfo",@"userID":UserModel.userID,@"nickName":WeakChangeUserModel.nickName,@"email":WeakChangeUserModel.email,@"details":WeakChangeUserModel.details,@"company":WeakChangeUserModel.company,@"realName":WeakChangeUserModel.realName} backData:NetSessionResponseTypeJSON success:^(id response) {
+                    GCD_MAIN(^{
+       
+                        if ([response[@"status"] intValue] == 1) {
+                            //保存本地数据
+                            [[UserDataManager shareInstance] loginSetUpModel:UserModel];
+                            [WeakSelf.navigationController popViewControllerAnimated:YES];
+                            
+                        }else{
+                            NSString *msg = response[@"msg"];
+                            [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:InfoCellType_HudTag AfterDelay:0];
+                            [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:msg viewtag:InfoCellType_HudTag AfterDelay:3];
+                        }
+                     
+                    });
+   
     } requestHead:nil faile:^(NSError *error) {
         GCD_MAIN(^{
-            [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
-            [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"修改失败" viewtag:2 AfterDelay:3];
+            [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:InfoCellType_HudTag AfterDelay:0];
+            [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"修改失败" viewtag:InfoCellType_HudTag AfterDelay:3];
         });
     }];
 }

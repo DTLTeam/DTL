@@ -13,6 +13,7 @@ typedef enum : NSUInteger {
     InfoCellType_Email,
     InfoCellType_CorporateName,
     InfoCellType_introduction,
+    InfoCellType_HudTag,
 } InfoCellType;
 
 #import "BaseViewController.h"

@@ -92,7 +92,9 @@
     self.navigationController.navigationBarHidden = NO;
     self.navigationController.tabBarController.tabBar.hidden = YES;
     self.title = @"我的成就";
-    [self setUpNavBgColor:MineTopColor];
+    [self setUpNavBgColor:MineTopColor RightBtn:^(UIButton *btn) {
+        
+    }];
 }
 
 

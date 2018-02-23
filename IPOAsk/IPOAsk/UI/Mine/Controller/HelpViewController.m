@@ -30,7 +30,9 @@
     self.navigationController.navigationBarHidden = NO;
     self.navigationController.tabBarController.tabBar.hidden = YES;
     self.title = @"帮助中心";
-    [self setUpNavBgColor:MineTopColor];
+    [self setUpNavBgColor:MineTopColor RightBtn:^(UIButton *btn) {
+        
+    }];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

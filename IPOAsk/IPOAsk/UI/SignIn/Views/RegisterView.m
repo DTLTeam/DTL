@@ -206,16 +206,42 @@
     
     
     if (sender.tag == RegisterbtnType_Code) {
-        //获取验证码
-        _count = 60;
         
-        if (!_countDownTimer) {
-            _countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod:) userInfo:sender repeats:YES];
-        }
-        //验证码倒数计时
-        [sender setTitle:[NSString stringWithFormat:@"%i秒", _count] forState:UIControlStateDisabled];
-        [sender setTitleColor:HEX_RGB_COLOR(0x969ca1) forState:UIControlStateNormal];
-        sender.enabled = NO;
+        __weak RegisterView *WeakSelf = self;
+        __weak UIButton *weakBtn = sender;
+        
+        [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getVerificationCode",@"phone":_PhoneView.text} backData:NetSessionResponseTypeJSON success:^(id response) {
+            
+            GCD_MAIN((^{
+                if ([response[@"status"] integerValue] == 0) {
+                    NSString *msg = response[@"msg"];
+                    [AskProgressHUD AskHideAnimatedInView:WeakSelf viewtag:1 AfterDelay:0];
+                    [AskProgressHUD AskShowOnlyTitleInView:WeakSelf Title:msg viewtag:2 AfterDelay:3];
+                    return ;
+                }
+                
+                //获取验证码成功
+                WeakSelf.count = 60;
+                
+                if (!_countDownTimer) {
+                    _countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod:) userInfo:sender repeats:YES];
+                }
+                //验证码倒数计时
+                [weakBtn setTitle:[NSString stringWithFormat:@"%i秒", WeakSelf.count] forState:UIControlStateDisabled];
+                [weakBtn setTitleColor:HEX_RGB_COLOR(0x969ca1) forState:UIControlStateNormal];
+                weakBtn.enabled = NO;
+            }));
+            
+            
+          
+            
+            
+        } requestHead:nil faile:^(NSError *error) {
+            GCD_MAIN(^{
+                [AskProgressHUD AskHideAnimatedInView:WeakSelf viewtag:1 AfterDelay:0];
+                [AskProgressHUD AskShowOnlyTitleInView:WeakSelf Title:@"获取验证码失败" viewtag:2 AfterDelay:3];
+            });
+        }]; 
         
     } else if (sender.tag == RegisterbtnType_Security){
         [_PasswordView changeSecureTextEntry:sender.selected];
@@ -230,6 +256,7 @@
             });
             return;
         }
+
     }
     
     _ClickBlock(sender.tag,[_PhoneView text],[_PasswordView text],[_CodeView text]);

@@ -63,6 +63,9 @@
 {
     [super viewWillAppear:animated];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
+    //test 
+//    [self goLogin:@"15013627361" pwd:@"a371453500"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -266,17 +269,24 @@
                 model.isAnswerer = [dataDic[@"isAnswerer"] intValue];
                 model.userType = [dataDic[@"userType"] intValue];
                 [manager loginSetUpModel:model];
+                 
                 
                 [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
-                [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"登录成功" viewtag:2 AfterDelay:3];
+                [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"登录成功" viewtag:1 AfterDelay:3];
                 [WeakSelf dismiss];
+            });
+        }else{
+          
+            GCD_MAIN(^{
+                [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
+                [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"登录失败" viewtag:1 AfterDelay:3];
             });
         }
     } requestHead:nil faile:^(NSError *error) {
         
         GCD_MAIN(^{
             [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
-            [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"登录失败" viewtag:2 AfterDelay:3];
+            [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"登录失败" viewtag:1 AfterDelay:3];
         });
     }];
 }
@@ -301,6 +311,11 @@
 #pragma mark - 注册
 - (void)registerAciton:(NSString *)phone pwd:(NSString *)pwd phoneCode:(NSString *)code
 {
+    if (![self returnTruePassword:pwd]) {
+        
+        [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"密码格式不正确！" viewtag:1 AfterDelay:3];
+        return;
+    }
     __weak SignInViewController *WeakSelf = self;
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"register",@"phone":phone,@"password":pwd,@"verificationCode":code,@"userType":@"1"} backData:NetSessionResponseTypeJSON success:^(id response) {
         
@@ -318,14 +333,14 @@
             }
 
             [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
-            [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:msg viewtag:2 AfterDelay:3];
+            [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:msg viewtag:1 AfterDelay:3];
             
         });
         
     } requestHead:nil faile:^(NSError *error) {
         GCD_MAIN(^{
             [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
-            [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"注册失败" viewtag:2 AfterDelay:3];
+            [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"注册失败" viewtag:1 AfterDelay:3];
         });
     }];
 }
@@ -392,6 +407,35 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (BOOL)returnTruePassword:(NSString *)password{
+    
+    
+    //包含条件
+    NSRegularExpression *number = [[NSRegularExpression alloc]
+                                              initWithPattern:@"[0-9]"
+                                              options:NSRegularExpressionCaseInsensitive
+                                              error:nil];
+    if ( [number numberOfMatchesInString:password
+                                            options:NSMatchingReportProgress
+                                              range:NSMakeRange(0, password.length)] > 0 && password.length >= 8 && password.length <= 20) {
+        
+        //包含字母
+        NSRegularExpression *Expression = [[NSRegularExpression alloc]
+                                                  initWithPattern:@"[A-Za-z]"
+                                                  options:NSRegularExpressionCaseInsensitive
+                                                  error:nil];;
+        
+        if ( [Expression numberOfMatchesInString:password
+                                                options:NSMatchingReportProgress
+                                                  range:NSMakeRange(0, password.length)] > 0) {
+            
+            return YES;
+        }
+        
+        
+        return NO;
+    }return NO;
+}
 /*
 #pragma mark - Navigation
 

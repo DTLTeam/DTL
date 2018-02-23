@@ -31,10 +31,11 @@
 #import "MineViewController.h"
 
 
-#import "Macro.h"
 #import "UtilsCommon.h"
 #import "AskHttpLink.h"
 #import "FMDBManager.h"
+#import "UserDataManager.h"
+#import "Macro.h"
 
 
 #import "UIBarButtonItem+myBarButtonItem.h"

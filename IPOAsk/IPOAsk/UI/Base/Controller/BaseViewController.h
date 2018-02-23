@@ -14,11 +14,13 @@
 
 - (void)setUpBgViewWithTitle:(NSString *)title Image:(NSString *)Img Action:(SEL)action;
 
-- (void)setUpNavBgColor:(UIColor *)color;
+- (void)setUpNavBgColor:(UIColor *)color RightBtn:(void(^)(UIButton *btn))rightbtn;
 
 
 - (void)hiddenNav;
 
 - (void)back;
+
+- (void)RightClick;
 
 @end

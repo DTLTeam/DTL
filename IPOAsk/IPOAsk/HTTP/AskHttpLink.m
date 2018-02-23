@@ -173,7 +173,7 @@ static id _instance;
             NSLog(@"网络请求失败");
         }
         
-        if (response) {
+        if (response && headfiles) {
             headfiles(allheadsFiles);
         }
         

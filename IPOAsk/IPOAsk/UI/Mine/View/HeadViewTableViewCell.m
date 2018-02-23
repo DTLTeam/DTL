@@ -19,6 +19,8 @@ typedef void(^ActionBlock)(NSInteger tag);
 
 @property (nonatomic,strong) UILabel *phoneLabel;
 
+@property (nonatomic,strong) UILabel *NologinLabel;
+
 @property (nonatomic,strong) UIButton *askButton;
 
 @property (nonatomic,strong) UIButton *answerButton;
@@ -89,15 +91,31 @@ typedef void(^ActionBlock)(NSInteger tag);
         
         _phoneLabel = [[UILabel alloc] init];
         _phoneLabel.font = [UIFont systemFontOfSize:13];
-        _phoneLabel.text = @"123*******11";
+        _phoneLabel.text = @"";
         _phoneLabel.textColor = [UIColor whiteColor];
         _phoneLabel.textAlignment = NSTextAlignmentLeft;
+        _phoneLabel.alpha = 0.7;
         [self addSubview:_phoneLabel];
         [_phoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(_nameLabel.mas_bottom).offset(5);
             make.left.mas_equalTo(_nameLabel.mas_left);
             make.size.mas_equalTo(CGSizeMake(120, 20));
         }];
+        
+        if (![UserDataManager shareInstance].userModel) {
+            _NologinLabel = [[UILabel alloc]init];
+            [self addSubview:_NologinLabel];
+            _NologinLabel.text = @"未登录";
+            _NologinLabel.textColor = [UIColor whiteColor];
+            _nameLabel.hidden = YES;
+            _phoneLabel.hidden = YES;
+            
+            [_NologinLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                
+                make.left.mas_equalTo(_headView.mas_right).offset(12);
+                make.centerY.mas_equalTo(_headView.mas_centerY);
+            }];
+        }
         
         _askButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _askButton.titleLabel.font = [UIFont systemFontOfSize:14];
@@ -156,9 +174,16 @@ typedef void(^ActionBlock)(NSInteger tag);
 
 - (void)updateInfo:(NSString *)headUrl name:(NSString *)name phone:(NSString *)phone
 {
+    if (![UserDataManager shareInstance].userModel ) {
+        return;
+    }
+    _NologinLabel.hidden = YES;
+    _nameLabel.hidden = NO;
+    _phoneLabel.hidden = NO;
+    
     [_headView sd_setImageWithURL:[NSURL URLWithString:headUrl] placeholderImage:[UIImage imageNamed:@"默认头像"]];
     _nameLabel.text = name;
-    _phoneLabel.text = phone;
+    _phoneLabel.text = [phone stringByReplacingOccurrencesOfString:[phone substringWithRange:NSMakeRange(3, 5)] withString:@"*****"];
 }
 
 - (void)updateAskInfo:(NSInteger)askNum answer:(NSInteger)ansNum follow:(NSInteger)foNum like:(NSInteger)likeNum
