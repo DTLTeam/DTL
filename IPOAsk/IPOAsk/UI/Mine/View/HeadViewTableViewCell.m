@@ -175,6 +175,9 @@ typedef void(^ActionBlock)(NSInteger tag);
 - (void)updateInfo:(NSString *)headUrl name:(NSString *)name phone:(NSString *)phone
 {
     if (![UserDataManager shareInstance].userModel ) {
+        _NologinLabel.hidden = NO;
+        _nameLabel.hidden = YES;
+        _phoneLabel.hidden = YES;
         return;
     }
     _NologinLabel.hidden = YES;

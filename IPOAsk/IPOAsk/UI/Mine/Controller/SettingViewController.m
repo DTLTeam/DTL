@@ -22,7 +22,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    dataArr = @[@"消息通知",@"给APP评分",@"用户协议",@"联系我们"];
+   
+    dataArr = @[@"消息通知",@"给APP评分",@"用户协议",@"联系我们",@"退出当前帐号"];
+    
     [self setupView];
 }
 
@@ -90,6 +92,24 @@
     return 50;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (section == dataArr.count - 2) {
+        return 10;
+    }
+    return 0.5;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (section == dataArr.count - 2) {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10)];
+        view.backgroundColor = MineTopColor;
+        return view;
+    }
+    return [[UIView alloc]init];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
@@ -98,11 +118,21 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
     }
-    cell.textLabel.text = dataArr[indexPath.section];
-    if (indexPath.section == 0) {
-        UISwitch *sw = [[UISwitch alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 70, 5, 60, 40)];
-        [cell addSubview:sw];
+    if (indexPath.section < dataArr.count - 1) {
+        cell.textLabel.text = dataArr[indexPath.section];
+        if (indexPath.section == 0) {
+            UISwitch *sw = [[UISwitch alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 70, 5, 60, 40)];
+            [cell addSubview:sw];
+        }
+    }else{
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [btn setTitle:[dataArr lastObject] forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        btn.frame = CGRectMake(0, 0, SCREEN_WIDTH, 50);
+        [btn addTarget:self action:@selector(loginOut) forControlEvents:UIControlEventTouchUpInside];
+        [cell addSubview:btn];
     }
+   
     return cell;
 }
 
@@ -110,6 +140,13 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+}
+
+
+- (void)loginOut{
+    [[UserDataManager shareInstance] loginSetUpModel:nil];
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

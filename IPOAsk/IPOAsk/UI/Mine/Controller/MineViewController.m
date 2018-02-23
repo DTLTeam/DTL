@@ -174,10 +174,17 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
+        __weak MineViewController *WeakSelf = self;
         static NSString *identifier = @"headCell";
         HeadViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (cell == nil) {
             cell = [[HeadViewTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier action:^(NSInteger tag) {
+                if (![UserDataManager shareInstance].userModel) {
+                    [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:200 AfterDelay:0];
+                    [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"请先登录!" viewtag:200 AfterDelay:3];
+                    return ;
+                }
+                
                 switch (tag) {
                     case 0:
                     {
@@ -251,6 +258,12 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (![UserDataManager shareInstance].userModel && indexPath.section != 0) {
+        
+        [AskProgressHUD AskHideAnimatedInView:self.view viewtag:200 AfterDelay:0];
+        [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"请先登录!" viewtag:200 AfterDelay:3];
+        return;
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.navigationController.tabBarController.tabBar.hidden = YES;
     switch (indexPath.section) {
@@ -340,6 +353,7 @@
             break;
         case 6:
         {
+            _pushChangeUser = YES;
             [self performSegueWithIdentifier:@"PushSetting" sender:nil];
         }
             break;
