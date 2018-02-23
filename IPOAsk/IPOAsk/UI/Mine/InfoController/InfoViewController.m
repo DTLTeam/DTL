@@ -44,7 +44,20 @@
 - (void)setupView
 {
     _ChangeUserModel = [[UserDataModel alloc]init];
-    _ChangeUserModel = [[UserDataManager shareInstance]userModel];
+    UserDataModel *UserModel = [UserDataManager shareInstance].userModel;
+    
+    _ChangeUserModel.nickName = UserModel.nickName;
+    _ChangeUserModel.realName = UserModel.realName;
+    _ChangeUserModel.email = UserModel.email;
+    _ChangeUserModel.company = UserModel.company;
+    _ChangeUserModel.details = UserModel.details;
+    _ChangeUserModel.userID = UserModel.userID;
+    _ChangeUserModel.phone = UserModel.phone;
+    _ChangeUserModel.headIcon = UserModel.headIcon;
+    _ChangeUserModel.userType = UserModel.userType;
+    _ChangeUserModel.forbidden = UserModel.forbidden;
+    _ChangeUserModel.isAnswerer = UserModel.isAnswerer;
+    
     _UserInfoArr = @[_ChangeUserModel.headIcon,_ChangeUserModel.nickName,_ChangeUserModel.realName,_ChangeUserModel.email,_ChangeUserModel.company,_ChangeUserModel.details];
     self.view.backgroundColor = MineTopColor;
     
@@ -419,8 +432,8 @@
 - (void)editInfo
 {
     __weak InfoViewController *WeakSelf = self;
-    __weak UserDataModel *UserModel = [UserDataManager shareInstance].userModel;
     __weak UserDataModel *WeakChangeUserModel = _ChangeUserModel;
+    __weak UserDataModel *UserModel = [UserDataManager shareInstance].userModel;
     
     
     WeakChangeUserModel.nickName = ((UITextField *)[_tableView viewWithTag:InfoCellType_Nick]).text;
@@ -435,7 +448,7 @@
         [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"请填写昵称！" viewtag:InfoCellType_HudTag AfterDelay:3];
         return;
     }else if (WeakChangeUserModel.nickName.length < 2 || WeakChangeUserModel.realName.length > 10) {
-        
+        //昵称长度要在2到10个字内
         [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"昵称长度要在2到10个字内～" viewtag:InfoCellType_HudTag AfterDelay:3];
         return;
     }else if (WeakChangeUserModel.realName.length == 0) {
@@ -456,14 +469,23 @@
         return;
     }
     
+    if ([WeakChangeUserModel.nickName isEqualToString:UserModel.nickName] &&
+        [WeakChangeUserModel.realName isEqualToString:UserModel.realName] &&
+        [WeakChangeUserModel.email isEqualToString:UserModel.email] &&
+        [WeakChangeUserModel.company isEqualToString:UserModel.company] &&
+        [WeakChangeUserModel.details isEqualToString:UserModel.details] ) {
+        //没有修改
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
     
-    //昵称长度要在2到10个字内
+    
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"updateUserInfo",@"userID":UserModel.userID,@"nickName":WeakChangeUserModel.nickName,@"email":WeakChangeUserModel.email,@"details":WeakChangeUserModel.details,@"company":WeakChangeUserModel.company,@"realName":WeakChangeUserModel.realName} backData:NetSessionResponseTypeJSON success:^(id response) {
                     GCD_MAIN(^{
        
                         if ([response[@"status"] intValue] == 1) {
                             //保存本地数据
-                            [[UserDataManager shareInstance] loginSetUpModel:UserModel];
+                            [[UserDataManager shareInstance] loginSetUpModel:WeakChangeUserModel];
                             [WeakSelf.navigationController popViewControllerAnimated:YES];
                             
                         }else{
