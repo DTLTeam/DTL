@@ -206,7 +206,7 @@
     [self.view endEditing:YES];
     
     
-    [self.view layoutIfNeeded];
+//    [self.view layoutIfNeeded];
     
     [UIView animateWithDuration:0.38 animations:^{
         
@@ -383,6 +383,13 @@
         
         _TopH.constant = -20;
         [self.view layoutIfNeeded];
+        
+        if (_MainLoginType == loginType_Enterprise) {
+            
+            _ChooseLine.center = CGPointMake(_EnterpriseView.center.x, _ChooseLine.center.y);
+        }else{
+            _ChooseLine.center = CGPointMake(_PersonView.center.x, _ChooseLine.center.y);
+        }
     }];
     
 }
@@ -398,6 +405,13 @@
         
         _TopH.constant = -20 - CGRectGetHeight(_keyboardFrame) / 2;
         [self.view layoutIfNeeded];
+        
+        if (_MainLoginType == loginType_Enterprise) {
+            
+            _ChooseLine.center = CGPointMake(_EnterpriseView.center.x, _ChooseLine.center.y);
+        }else{
+            _ChooseLine.center = CGPointMake(_PersonView.center.x, _ChooseLine.center.y);
+        }
     }];
     
 }
