@@ -294,6 +294,7 @@
 
 -(void)login{
     
+    
     UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     SignInViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"SignInView"]; 
@@ -306,6 +307,9 @@
 #pragma mark - QuestionTableViewCellDelegate
 
 - (void)attentionWithCell:(QuestionTableViewCell *)cell {
+    if ([UtilsCommon ShowLoginHud:self.view Tag:200]) {
+        return;
+    }
     
     NSIndexPath *indexPath = [_contentTableView indexPathForCell:cell];
     QuestionModel *mod = _contentArr[indexPath.section];
@@ -362,6 +366,9 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ([UtilsCommon ShowLoginHud:self.view Tag:200]) {
+        return;
+    }
     
     QuestionModel *model = _contentArr[indexPath.section];
     

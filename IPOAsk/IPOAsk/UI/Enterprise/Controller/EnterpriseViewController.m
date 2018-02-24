@@ -156,6 +156,11 @@ static NSString * CellIdentifier = @"EnterpriseCell";
 
 #pragma mark - 马上咨询专家
 - (void)Consultation{
+    //未登录
+    if ([UtilsCommon ShowLoginHud:self.view Tag:200]) {
+        return;
+    }
+    
     EditQuestionViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:self options:nil][0];
     [VC UserType:AnswerType_AskQuestionEnterprise NavTitle:@"企业+"];
    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {

@@ -134,4 +134,16 @@
     return [emailTest evaluateWithObject:email];
 }
 
+
++(BOOL)ShowLoginHud:(UIView *)view Tag:(int)tag{
+    if (![UserDataManager shareInstance].userModel ) { 
+        
+        [AskProgressHUD AskHideAnimatedInView:view viewtag:tag AfterDelay:0];
+        [AskProgressHUD AskShowOnlyTitleInView:view Title:@"请先登录!" viewtag:tag AfterDelay:3];
+        return YES;
+    }
+    
+    return NO;
+}
+
 @end

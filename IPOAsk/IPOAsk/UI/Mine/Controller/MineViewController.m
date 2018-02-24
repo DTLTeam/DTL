@@ -179,9 +179,8 @@
         HeadViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (cell == nil) {
             cell = [[HeadViewTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier action:^(NSInteger tag) {
-                if (![UserDataManager shareInstance].userModel) {
-                    [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:200 AfterDelay:0];
-                    [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"请先登录!" viewtag:200 AfterDelay:3];
+                
+                if ([UtilsCommon ShowLoginHud:WeakSelf.view Tag:200]) {
                     return ;
                 }
                 
@@ -258,11 +257,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (![UserDataManager shareInstance].userModel && indexPath.section != 0) {
-        
-        [AskProgressHUD AskHideAnimatedInView:self.view viewtag:200 AfterDelay:0];
-        [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"请先登录!" viewtag:200 AfterDelay:3];
-        return;
+    if ( indexPath.section != 0) {
+        if ([UtilsCommon ShowLoginHud:self.view Tag:200]) { 
+            return;
+        }
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.navigationController.tabBarController.tabBar.hidden = YES;

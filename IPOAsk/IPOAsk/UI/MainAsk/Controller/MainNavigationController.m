@@ -175,6 +175,9 @@
 
 #pragma mark 发布问题
 - (void)putQuestionAction:(id)sender {
+    if ([UtilsCommon ShowLoginHud:self.view Tag:200]) {
+        return;
+    }
     
     EditQuestionViewController *editQuestionVC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:nil options:nil].firstObject;
     [editQuestionVC UserType:AnswerType_AskQuestionPerson NavTitle:@"提问"];
@@ -419,6 +422,10 @@
 #pragma mark - UITextFieldDelegate
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+  
+    if ([UtilsCommon ShowLoginHud:self.view Tag:200]) {
+        return NO;
+    }
     
     id vc = self.viewControllers.lastObject;
     if (![vc isKindOfClass:[SearchViewController class]]) {

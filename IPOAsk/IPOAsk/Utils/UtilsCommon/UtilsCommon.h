@@ -59,4 +59,6 @@ typedef enum : NSUInteger {
 + (BOOL)isValidateEmail:(NSString *)email;
 
 
++(BOOL)ShowLoginHud:(UIView *)view Tag:(int)tag;
+
 @end
