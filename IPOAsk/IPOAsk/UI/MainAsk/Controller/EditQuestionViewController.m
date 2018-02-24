@@ -266,12 +266,13 @@
     
     __weak typeof(self) weakSelf = self;
     
+    UserDataModel *userMod = [UserDataManager shareInstance].userModel;
     NSDictionary *infoDic;
     switch (_MainAnswerType) {
         case AnswerType_Answer:
         {
             infoDic = @{@"cmd":@"askComment",
-                        @"userID":@"90b333b92b630b472467b9b4ccbe42a4",
+                        @"userID":(userMod ? userMod.userID : @""),
                         @"qID":(_questionID ? _questionID : _IsChangeModel.Id),
                         @"isAnonymous":@(_anonymousBtn.selected),
                         @"content":_QuestionContent.text
@@ -281,7 +282,7 @@
         case AnswerType_AskQuestionPerson:
         {
             infoDic = @{@"cmd":@"addQuestion",
-                        @"userID":@"90b333b92b630b472467b9b4ccbe42a4",
+                        @"userID":(userMod ? userMod.userID : @""),
                         @"isAnonymous":@(_anonymousBtn.selected),
                         @"title":_question.text,
                         @"content":_QuestionContent.text

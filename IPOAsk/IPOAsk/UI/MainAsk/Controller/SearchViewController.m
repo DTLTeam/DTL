@@ -23,6 +23,7 @@
 @property (strong, nonatomic) UITableView   *historyTableView;
 @property (strong, nonatomic) UITableView   *searchNetworkTableView;
 @property (strong, nonatomic) UIView        *searchFailView;
+@property (strong, nonatomic) UIView        *networkErrorView;
 
 @property (strong, nonatomic) NSMutableArray *historyItems;
 @property (strong, nonatomic) NSMutableArray *searchNetworkItems;
@@ -100,6 +101,7 @@
     _historyTableView.hidden = NO;
     _searchNetworkTableView.hidden = YES;
     _searchFailView.hidden = YES;
+    _networkErrorView.hidden = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -148,7 +150,14 @@
         _historyTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
     _historyTableView.separatorInset = UIEdgeInsetsMake(0, 15, 0, 0);
-    _historyTableView.tableHeaderView = [[UIView alloc] init];
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
+    headerView.backgroundColor = [UIColor whiteColor];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 100, CGRectGetHeight(headerView.frame))];
+    titleLabel.font = [UIFont boldSystemFontOfSize:17];
+    titleLabel.textColor = HEX_RGBA_COLOR(0x333333, 1);
+    titleLabel.text = @"搜索历史";
+    [headerView addSubview:titleLabel];
+    _historyTableView.tableHeaderView = headerView;
     _historyTableView.tableFooterView = [[UIView alloc] init];
     [_searchContentView addSubview:_historyTableView];
     
@@ -209,6 +218,31 @@
     [_searchFailView addSubview:putQuestionBtn];
     
     
+    _networkErrorView = [[UIView alloc] init];
+    _networkErrorView.backgroundColor = _searchContentView.backgroundColor;
+    [_searchContentView addSubview:_networkErrorView];
+    
+    UIImageView *errorImgView = [[UIImageView alloc] init];
+    errorImgView.image = [UIImage imageNamed:@"找不到内容.png"];
+    errorImgView.contentMode = UIViewContentModeScaleAspectFit;
+    [_networkErrorView addSubview:errorImgView];
+    
+    UILabel *errorTextLabel = [[UILabel alloc] init];
+    errorTextLabel.textAlignment = NSTextAlignmentCenter;
+    errorTextLabel.font = [UIFont systemFontOfSize:13];
+    errorTextLabel.textColor = HEX_RGBA_COLOR(0x666666, 1);
+    errorTextLabel.text = @"啊噢，网络好像出问题了...";
+    [_networkErrorView addSubview:errorTextLabel];
+    
+    UIButton *searchAgainBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    searchAgainBtn.titleLabel.font = [UIFont systemFontOfSize:17];
+    [searchAgainBtn setTitleColor:HEX_RGBA_COLOR(0x0A98F2, 1) forState:UIControlStateNormal];
+    [searchAgainBtn setTitleColor:HEX_RGBA_COLOR(0x0A98F2, 1) forState:UIControlStateHighlighted];
+    [searchAgainBtn setTitle:@"重试" forState:UIControlStateNormal];
+    [searchAgainBtn addTarget:self action:@selector(searchAgainAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_networkErrorView addSubview:searchAgainBtn];
+    
+    
     [_searchContentView mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(iOS 11.0, *)) {
             make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
@@ -258,6 +292,33 @@
     }];
     
     [putQuestionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(failTextLabel.mas_bottom).offset(10);
+        make.centerX.equalTo(_searchFailView.mas_centerX);
+        make.width.offset(206);
+        make.height.offset(44);
+    }];
+    
+    [_networkErrorView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_searchContentView.mas_top);
+        make.left.equalTo(_searchContentView.mas_left);
+        make.right.equalTo(_searchContentView.mas_right);
+        make.bottom.equalTo(_searchContentView.mas_bottom);
+    }];
+    
+    [errorImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(_networkErrorView.mas_centerX);
+        make.centerY.equalTo(_networkErrorView.mas_centerY).offset(-90);
+        make.width.offset(140);
+        make.height.offset(110);
+    }];
+    
+    [errorTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(failImgView.mas_bottom).offset(10);
+        make.left.equalTo(_networkErrorView.mas_left).offset(20);
+        make.right.equalTo(_networkErrorView.mas_right).offset(-20);
+    }];
+    
+    [searchAgainBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(failTextLabel.mas_bottom).offset(10);
         make.centerX.equalTo(_searchFailView.mas_centerX);
         make.width.offset(206);
@@ -318,6 +379,13 @@
     
 }
 
+#pragma mark 重试
+- (void)searchAgainAction:(id)sender {
+    
+    [self beginSearch];
+    
+}
+
 
 #pragma mark - 功能
 
@@ -326,8 +394,9 @@
     
     __weak typeof(self) weakSelf = self;
     
+    UserDataModel *userMod = [UserDataManager shareInstance].userModel;
     NSDictionary *infoDic = @{@"cmd":@"getQuestionIndex",
-                              @"userID":@"90b333b92b630b472467b9b4ccbe42a4",
+                              @"userID":(userMod ? userMod.userID : @""),
                               @"pageSize":@20,
                               @"page":@(page),
                               @"keyword":questionTitle,
@@ -364,10 +433,12 @@
                 weakSelf.historyTableView.hidden = YES;
                 weakSelf.searchNetworkTableView.hidden = NO;
                 weakSelf.searchFailView.hidden = YES;
+                weakSelf.networkErrorView.hidden = YES;
             } else {
                 weakSelf.historyTableView.hidden = YES;
                 weakSelf.searchNetworkTableView.hidden = YES;
                 weakSelf.searchFailView.hidden = NO;
+                weakSelf.networkErrorView.hidden = YES;
             }
             
         });
@@ -385,9 +456,16 @@
     } faile:^(NSError *error) {
         
         GCD_MAIN(^{
+            
+            weakSelf.historyTableView.hidden = YES;
+            weakSelf.searchNetworkTableView.hidden = YES;
+            weakSelf.searchFailView.hidden = YES;
+            weakSelf.networkErrorView.hidden = NO;
+            
             if (weakSelf.searchNetworkTableView.mj_footer.isRefreshing) {
                 [weakSelf.searchNetworkTableView.mj_footer endRefreshing];
             }
+            
         });
         
     }];
@@ -408,6 +486,7 @@
         _historyTableView.hidden = NO;
         _searchNetworkTableView.hidden = YES;
         _searchFailView.hidden = YES;
+        _networkErrorView.hidden = YES;
         
     }
     
@@ -461,8 +540,9 @@
     
     __weak typeof(self) weakSelf = self;
     
+    UserDataModel *userMod = [UserDataManager shareInstance].userModel;
     NSDictionary *infoDic = @{@"cmd":@"addFollow",
-                              @"userID":@"90b333b92b630b472467b9b4ccbe42a4",
+                              @"userID":(userMod ? userMod.userID : @""),
                               @"qID":mod.questionID,
                               };
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
@@ -517,30 +597,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
     if (tableView == _historyTableView) {
-        return 50;
+        return 0;
     } else {
         return 10;
-    }
-    
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    
-    if (tableView == _historyTableView) {
-        
-        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(tableView.frame), 50)];
-        headerView.backgroundColor = [UIColor whiteColor];
-        
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 100, CGRectGetHeight(headerView.frame))];
-        titleLabel.font = [UIFont boldSystemFontOfSize:17];
-        titleLabel.textColor = HEX_RGBA_COLOR(0x333333, 1);
-        titleLabel.text = @"搜索历史";
-        [headerView addSubview:titleLabel];
-        
-        return headerView;
-        
-    } else {
-        return [[UIView alloc] init];
     }
     
 }

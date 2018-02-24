@@ -75,10 +75,12 @@
 
 - (void)likeAction:(id)sender {
     
+    UserDataModel *userMod = [UserDataManager shareInstance].userModel;
+    
     __weak typeof(self) weakSelf = self;
     
     NSDictionary *infoDic = @{@"cmd":@"addLike",
-                              @"userID":@"90b333b92b630b472467b9b4ccbe42a4",
+                              @"userID":(userMod ? userMod.userID : @""),
                               @"qID":_answerMod.answerID,
                               };
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
