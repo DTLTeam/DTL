@@ -151,6 +151,8 @@
     [defaults setObject:nil forKey:@"UserInfo_only"];
     [defaults synchronize];
     
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"LoginOut" object:nil];
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
