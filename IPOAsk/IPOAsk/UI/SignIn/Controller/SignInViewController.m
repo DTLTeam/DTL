@@ -65,7 +65,7 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
     //test 
-//    [self goLogin:@"15013627361" pwd:@"a371453500"];
+//    [self goLogin:@"18611111111" pwd:@"aa123456"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -253,7 +253,7 @@
         int result = [dic[@"status"] intValue];
         NSDictionary *dataDic = dic[@"data"];
         if (result == 1 && dataDic) {
-            GCD_MAIN(^{
+            GCD_MAIN((^{
                 //缓存登录数据
                 UserDataManager *manager = [UserDataManager shareInstance];
                 UserDataModel *model = [[UserDataModel alloc] init];
@@ -268,18 +268,25 @@
                 model.forbidden = [dataDic[@"forbidden"] intValue];
                 model.isAnswerer = [dataDic[@"isAnswerer"] intValue];
                 model.userType = [dataDic[@"userType"] intValue];
+                model.Password = pwd;
                 [manager loginSetUpModel:model];
-                 
+                
+                NSDictionary *User = @{@"User":dataDic,@"Pwd":model.Password};
+                
+                
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                [defaults setObject:User forKey:@"UserInfo_only"];
+                [defaults synchronize];
                 
                 [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
                 [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"登录成功" viewtag:1 AfterDelay:3];
                 [WeakSelf dismiss];
-            });
+            }));
         }else{
           
             GCD_MAIN(^{
                 [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
-                [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"登录失败" viewtag:1 AfterDelay:3];
+                [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:[dic valueForKey:@"msg"] viewtag:1 AfterDelay:3];
             });
         }
     } requestHead:nil faile:^(NSError *error) {

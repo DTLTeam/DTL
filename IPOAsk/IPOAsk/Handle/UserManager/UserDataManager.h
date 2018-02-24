@@ -23,6 +23,7 @@
 @property (assign, nonatomic) int isAnswerer;
 @property (strong, nonatomic) NSString *details;
 @property (strong, nonatomic) NSString *email;
+@property (strong, nonatomic) NSString *Password;
 @property (nonatomic, assign) int forbidden;
 
 @end

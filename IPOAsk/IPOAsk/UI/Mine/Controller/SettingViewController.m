@@ -142,9 +142,14 @@
     
 }
 
-
+#pragma mark - 退出登录
 - (void)loginOut{
+    
     [[UserDataManager shareInstance] loginSetUpModel:nil];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:nil forKey:@"UserInfo_only"];
+    [defaults synchronize];
     
     [self.navigationController popViewControllerAnimated:YES];
 }

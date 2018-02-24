@@ -294,13 +294,19 @@
 
 -(void)login{
     
+   
+    __weak MainAskViewController *WeakSelf = self;
     
-    UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    
-    SignInViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"SignInView"]; 
-    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:VC];
-    [self.navigationController presentViewController:nav animated:YES completion:nil];
-    
+    //自动登录
+    [self AutomaticLoginSuccess:^(BOOL success) {
+        if (!success) {
+            UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            
+            SignInViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"SignInView"];
+            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:VC];
+            [WeakSelf.navigationController presentViewController:nav animated:YES completion:nil];
+        }
+    }];
 }
 
 
@@ -392,6 +398,92 @@
     
     return cell;
     
+}
+
+#pragma mark - 自动登录
+- (void)AutomaticLoginSuccess:(void(^)(BOOL success))Success{
+    
+    NSDictionary *User = [[NSUserDefaults standardUserDefaults] objectForKey:@"UserInfo_only"];
+    NSDictionary *dataDic = [User valueForKey:@"User"];
+    
+    
+    if (dataDic) {
+        
+        //判断类型是否变化
+        __weak MainAskViewController *WeakSelf = self;
+        [AskProgressHUD AskShowInView:self.view viewtag:1];
+        
+        [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"login",@"phone":dataDic[@"phone"],@"password":[User valueForKey:@"Pwd"]} backData:NetSessionResponseTypeJSON success:^(id response) {
+            NSDictionary *dic = (NSDictionary *)response;
+            int result = [dic[@"status"] intValue];
+            NSDictionary *dataDic = dic[@"data"];
+            if (result == 1 && dataDic) {
+                GCD_MAIN((^{
+                    //缓存登录数据
+                    UserDataManager *manager = [UserDataManager shareInstance];
+                    UserDataModel *model = [[UserDataModel alloc] init];
+                    model.userID = dataDic[@"userID"];
+                    model.headIcon = dataDic[@"headIcon"];
+                    model.phone = dataDic[@"phone"];
+                    model.realName = dataDic[@"realName"];
+                    model.nickName = dataDic[@"nickName"];
+                    model.company = dataDic[@"company"];
+                    model.details = dataDic[@"details"];
+                    model.email = dataDic[@"email"];
+                    model.forbidden = [dataDic[@"forbidden"] intValue];
+                    model.isAnswerer = [dataDic[@"isAnswerer"] intValue];
+                    model.userType = [dataDic[@"userType"] intValue];
+                    [manager loginSetUpModel:model];
+                    
+                    
+                    if (1) {
+                        [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"自动登录成功！" viewtag:1 AfterDelay:3];
+                        
+                        NSDictionary *UserDefaults = @{@"User":dataDic,@"Pwd":[User valueForKey:@"Pwd"]};
+                        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                        [defaults setObject:UserDefaults forKey:@"UserInfo_only"];
+                        [defaults synchronize];
+                        Success(YES);
+                        
+                    }else{
+                        //类型发生变化
+                        
+                        
+                        
+                        
+                        Success(NO);
+                    }
+                }));
+            }else{
+                
+                GCD_MAIN(^{
+                    //登录失败
+                    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                    [defaults setObject:nil forKey:@"UserInfo_only"];
+                    [defaults synchronize];
+                    
+                    [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
+                    [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:[dic valueForKey:@"msg"] viewtag:1 AfterDelay:3];
+                    Success(NO);
+                });
+            }
+        } requestHead:nil faile:^(NSError *error) {
+            
+            GCD_MAIN(^{
+                //登录失败
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                [defaults setObject:nil forKey:@"UserInfo_only"];
+                [defaults synchronize];
+                
+                [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
+                [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"登录失败" viewtag:1 AfterDelay:3];
+                Success(NO);
+            });
+        }];
+        
+    }else Success(NO);
+    
+  
 }
 
 @end

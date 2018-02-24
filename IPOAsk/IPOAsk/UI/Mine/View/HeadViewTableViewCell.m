@@ -174,7 +174,22 @@ typedef void(^ActionBlock)(NSInteger tag);
 
 - (void)updateInfo:(NSString *)headUrl name:(NSString *)name phone:(NSString *)phone
 {
+    //登录状态
     if (![UserDataManager shareInstance].userModel ) {
+        
+        if (!_NologinLabel) {
+            _NologinLabel = [[UILabel alloc]init];
+            [self addSubview:_NologinLabel];
+            _NologinLabel.text = @"未登录";
+            _NologinLabel.textColor = [UIColor whiteColor];
+            
+            [_NologinLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                
+                make.left.mas_equalTo(_headView.mas_right).offset(12);
+                make.centerY.mas_equalTo(_headView.mas_centerY);
+            }];
+        }
+        
         _NologinLabel.hidden = NO;
         _nameLabel.hidden = YES;
         _phoneLabel.hidden = YES;
@@ -184,6 +199,8 @@ typedef void(^ActionBlock)(NSInteger tag);
     _nameLabel.hidden = NO;
     _phoneLabel.hidden = NO;
     
+    
+    //赋值
     [_headView sd_setImageWithURL:[NSURL URLWithString:headUrl] placeholderImage:[UIImage imageNamed:@"默认头像"]];
     _nameLabel.text = name;
     _phoneLabel.text = [phone stringByReplacingOccurrencesOfString:[phone substringWithRange:NSMakeRange(3, 5)] withString:@"*****"];
