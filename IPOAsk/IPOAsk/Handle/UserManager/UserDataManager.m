@@ -20,6 +20,74 @@
  */
 @implementation AskDataModel
 
+#pragma mark - 功能
+
+- (void)refreshModel:(NSDictionary *)infoDic {
+    
+    if (!infoDic) {
+        return;
+    }
+    
+    id content;
+    
+    content = infoDic[@"isAnonymous"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _isAnonymous = [content boolValue];
+    }
+//    content = infoDic[@"isFollow"];
+//    if (content && ![content isKindOfClass:[NSNull class]]) {
+//        _isAttention = [content boolValue];
+//    }
+    
+    content = infoDic[@"id"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        if ([content isKindOfClass:[NSNumber class]]) {
+            content = [content stringValue];
+        }
+        _askId = content;
+    }
+    
+//    content = infoDic[@"headIcon"];
+//    if (content && ![content isKindOfClass:[NSNull class]]) {
+//        _headImgUrlStr = [content];
+//    }
+//    content = infoDic[@"nickName"];
+//    if (content && ![content isKindOfClass:[NSNull class]]) {
+//        _userName = content;
+//    }
+    
+    content = infoDic[@"addTime"];
+    if (content && [content isKindOfClass:[NSNull class]]) {
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:[content integerValue]];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        _addTime = [formatter stringFromDate:date];
+    }
+    
+    content = infoDic[@"title"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _title = content;
+    }
+    content = infoDic[@"content"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _content = content;
+    }
+    
+    content = infoDic[@"view"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _View = [content intValue];
+    }
+    content = infoDic[@"answer"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _Answer = [content intValue];
+    }
+    content = infoDic[@"follow"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _Follow = [content intValue];
+    }
+    
+}
+
 @end
 
 /**

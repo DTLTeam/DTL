@@ -6,11 +6,19 @@
 //  Copyright © 2018年 law. All rights reserved.
 //
 
+typedef enum : NSUInteger {
+    PushType_Main,
+    PushType_MyAnswer,
+} PushType;
+
 #import "BaseViewController.h"
 #import "QuestionModel.h"
 
 @interface MainAskDetailViewController : BaseViewController
 
-@property (nonatomic, strong) QuestionModel *model;
+
+@property (nonatomic, strong) id model;
+
+@property (nonatomic,assign)  PushType Type;
 
 @end

@@ -183,6 +183,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="AnswerBtn" destination="mg6-vb-v26" id="ZDT-fI-pow"/>
                 <outlet property="BottomH" destination="jdn-YM-EZ2" id="FKa-Qz-Kh3"/>
                 <outlet property="CommNum" destination="CUP-Im-KvI" id="dCj-11-7NO"/>
                 <outlet property="ContentLabel" destination="2JR-kL-BdB" id="1rT-yu-bCV"/>

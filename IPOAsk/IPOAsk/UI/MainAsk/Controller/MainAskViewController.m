@@ -312,6 +312,7 @@
     //传问题模型
     MainAskDetailViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil].firstObject;
     VC.model = model;
+    VC.Type = PushType_Main;
     [self.navigationController pushViewController:VC animated:YES];
     
 }

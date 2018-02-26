@@ -90,12 +90,17 @@
 @property (nonatomic, strong) NSString *title;
 @property (strong, nonatomic) NSString *content;
 @property (strong, nonatomic) NSString *addTime;
-@property (assign, nonatomic) int view;
+@property (assign, nonatomic) int View;
 @property (assign, nonatomic) int createUID;
-@property (assign, nonatomic) int answer;
+@property (assign, nonatomic) int Answer;
 @property (assign, nonatomic) int isAnonymous;
 @property (assign, nonatomic) int isCompany;
-@property (assign, nonatomic) int follow;
+@property (assign, nonatomic) int Follow;
+
+
+#pragma mark - 功能
+
+- (void)refreshModel:(NSDictionary *)infoDic;
 
 @end
 

@@ -102,12 +102,21 @@
 #pragma mark 请求列表内容
 - (void)requestContent:(NSInteger)page {
    
+    NSString *Id = @"";
+    if (_Type == PushType_Main) {
+        _model = (QuestionModel *)_model;
+        Id = [_model questionID];
+    }else if (_Type == PushType_MyAnswer){
+        _model = (AskDataModel *)_model;
+        Id = [_model askId];
+    }
+    
     __weak typeof(self) weakSelf = self;
     
     UserDataModel *userMod = [UserDataManager shareInstance].userModel;
     NSDictionary *infoDic = @{@"cmd":@"getQuestionByQID",
                               @"userID":(userMod ? userMod.userID : @""),
-                              @"qID":_model.questionID,
+                              @"qID":Id,
                               @"pageSize":@20,
                               @"page":@(page),
                               @"maxQID":@(_startQuestionID)
@@ -115,7 +124,7 @@
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
         
         GCD_MAIN((^{
-            
+        
             if (response && ([response[@"status"] intValue] == 1)) {
 
                 if (page == 0) {
@@ -128,6 +137,11 @@
                 weakSelf.currentPage++;
 
                 if (response[@"data"][@"question"]) {
+                    if (weakSelf.Type == PushType_Main) {
+                        weakSelf.model = (QuestionModel*)weakSelf.model;
+                    }else if (weakSelf.Type == PushType_MyAnswer){
+                        weakSelf.model = (AskDataModel *)weakSelf.model;
+                    }
                     [weakSelf.model refreshModel:response[@"data"][@"question"]];
                 }
 
@@ -151,7 +165,7 @@
             }
             
         }));
-        
+     
     } requestHead:^(id response) {
         
     } faile:^(NSError *error) {
@@ -255,7 +269,7 @@
             AnswerModel *model = _CommArr[indexPath.section - 1];
             
             MainAskCommViewController *VC = [[[NSBundle mainBundle] loadNibNamed:@"MainAskCommViewController" owner:self options:nil] firstObject];
-            VC.questionTitle = _model.title;
+            VC.questionTitle = [_model title];
             VC.answerMod = model;
             [self.navigationController pushViewController:VC animated:YES];
             
@@ -275,12 +289,21 @@
         __weak UITableView *WeakTableView = tableView;
         __weak QuestionModel *WeakModel = _model;
         
+        __weak NSString *Id = @"";
+        if (_Type == PushType_Main) {
+            _model = (QuestionModel *)_model;
+            Id = [_model questionID];
+        }else if (_Type == PushType_MyAnswer){
+            _model = (AskDataModel *)_model;
+            Id = [_model askId];
+        }
+        
         [head UpdateContent:_model WithFollowClick:^(UIButton *btn) {
             
             UserDataModel *userMod = [UserDataManager shareInstance].userModel;
             NSDictionary *infoDic = @{@"cmd":@"addFollow",
                                       @"userID":(userMod ? userMod.userID : @""),
-                                      @"qID":WeakSelf.model.questionID
+                                      @"qID":Id
                                       };
             [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
                 
@@ -312,7 +335,7 @@
                 WeakSelf.navigationController.navigationBarHidden = NO;
                 
                 EditQuestionViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:self options:nil][0];
-                VC.questionID = WeakSelf.model.questionID;
+                VC.questionID = Id;
                 [VC UserType:AnswerType_Answer NavTitle:WeakModel.title];
                 [WeakSelf.navigationController pushViewController:VC animated:YES];
             } else {

@@ -78,9 +78,9 @@
 - (void)updateAskCell:(AskDataModel *)model
 {
     _txtLabel.text = model.title;
-    _viewLabel.text = [NSString stringWithFormat:@"%d",model.view];
-    _answerLabel.text = [NSString stringWithFormat:@"%d",model.answer];
-    _followLabel.text = [NSString stringWithFormat:@"%d",model.follow];
+    _viewLabel.text = [NSString stringWithFormat:@"%d",model.View];
+    _answerLabel.text = [NSString stringWithFormat:@"%d",model.Answer];
+    _followLabel.text = [NSString stringWithFormat:@"%d",model.Follow];
     _dateLabel.text = model.addTime;
 }
 
