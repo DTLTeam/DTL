@@ -28,6 +28,7 @@ static NSString * CellIdentifier = @"AOrLikeCell";
     self.title = @"消息";
     
     self.myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.bgImageView.backgroundColor = HEX_RGB_COLOR(0xF2F2F2);
   
     self.haveRefresh = YES;
     [self setUpData];
@@ -81,7 +82,7 @@ static NSString * CellIdentifier = @"AOrLikeCell";
 
 - (void)setUpData{
     
-    if (1) {
+    if (0) {
         
         // test******************  测试数据
         NSArray *Arr = @[@{@"question":@"这是问题是回答哈哈哈哈哈这是回答哈哈哈哈哈这是回答哈哈哈",

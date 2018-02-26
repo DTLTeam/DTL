@@ -250,6 +250,7 @@
         cell.textLabel.font = [UIFont systemFontOfSize:16];
         cell.imageView.image = [UIImage imageNamed:dataArr[indexPath.section - 1]];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     return nil;

@@ -111,6 +111,10 @@ static NSString * CellIdentifier = @"EnterpriseCell";
 #endif
     
     [self.myTableView registerNib:[UINib nibWithNibName:@"EnterpriseTableViewCell" bundle:nil] forCellReuseIdentifier:CellIdentifier];
+    
+    UIView *line = [[UIView alloc]initWithFrame:CGRectMake(0, 1, SCREEN_WIDTH, 0.5)];
+    line.backgroundColor = [UIColor lightGrayColor];
+    [self.view addSubview:line];
 }
 
 
