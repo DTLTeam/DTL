@@ -145,8 +145,10 @@ static id _instance;
         NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         
         if (result.length == 0) {
+            if (fail) {
+                fail(error);
+            }
             
-            fail(error);
             NSLog(@"数据异常");
             return ;
         }

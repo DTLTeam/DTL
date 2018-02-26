@@ -94,7 +94,7 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     
-    [self hiddenNav];
+//    [self hiddenNav];
 }
 
 /*

@@ -89,14 +89,15 @@ static UserDataManager *manager; //单例对象
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyAskLists",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
         if ([response[@"status"] intValue] == 1) {
             NSMutableArray *dataArr = [NSMutableArray array];
-            NSArray *jsonArr = response[@"data"];
+//            NSArray *jsonArr = response[@"data"];
+            NSArray *jsonArr = response[@"data"][@"data"];
             for (NSDictionary *dic in jsonArr) {
                 AskDataModel *model = [[AskDataModel alloc] init];
-                model.askId = dic[@"id"];
+                model.askId = [NSString stringWithFormat:@"%@",dic[@"id"]]; 
                 model.title = dic[@"title"];
                 model.content = dic[@"content"];
                 model.view = [dic[@"view"] intValue];
-                model.addTime = dic[@"addTime"];
+                model.addTime = [NSString stringWithFormat:@"%@",dic[@"addTime"]];
                 model.createUID = [dic[@"createUID"] intValue];
                 model.isAnonymous = [dic[@"isAnonymous"] intValue];
                 model.isCompany = [dic[@"isCompany"] intValue];
@@ -105,8 +106,10 @@ static UserDataManager *manager; //单例对象
                 [dataArr addObject:model];
             }
             block(dataArr);
-        }
-    } requestHead:nil faile:nil];
+        }else   block(nil);
+    }  requestHead:nil faile:^(NSError *error) {
+        block(nil);
+    }];
 }
 
 - (void )getFollowWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block
@@ -136,8 +139,11 @@ static UserDataManager *manager; //单例对象
                 [dataArr addObject:model];
             }
             block(dataArr);
-        }
-    } requestHead:nil faile:nil];
+        }else   block(nil);
+        
+    } requestHead:nil faile:^(NSError *error) {
+        block(nil);
+    }];
 }
 
 - (void )getLikeWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block
@@ -149,7 +155,8 @@ static UserDataManager *manager; //单例对象
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyAchievement",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
         if ([response[@"status"] intValue] == 1) {
             NSMutableArray *dataArr = [NSMutableArray array];
-            NSArray *jsonArr = response[@"data"];
+//            NSArray *jsonArr = response[@"data"];
+            NSArray *jsonArr = response[@"data"][@"data"];
             for (NSDictionary *dic in jsonArr) {
                 LikeDataModel *model = [[LikeDataModel alloc] init];
                 model.askId = dic[@"qID"];
@@ -161,8 +168,10 @@ static UserDataManager *manager; //单例对象
                 [dataArr addObject:model];
             }
             block(dataArr);
-        }
-    } requestHead:nil faile:nil];
+        }else  block(nil);
+    }  requestHead:nil faile:^(NSError *error) {
+        block(nil);
+    }];
 }
 
 - (void )getAnswerWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block
@@ -192,8 +201,10 @@ static UserDataManager *manager; //单例对象
                 [dataArr addObject:model];
             }
             block(dataArr);
-        }
-    } requestHead:nil faile:nil];
+        }else   block(nil);
+    }  requestHead:nil faile:^(NSError *error) {
+        block(nil);
+    }];
 }
 
 

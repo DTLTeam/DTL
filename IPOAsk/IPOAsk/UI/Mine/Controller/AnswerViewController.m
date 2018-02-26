@@ -49,8 +49,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = NO;
-    self.navigationController.tabBarController.tabBar.hidden = YES;
     self.title = @"申请成为答主";
     [self setUpNavBgColor:MineTopColor RightBtn:^(UIButton *btn) {
         
@@ -60,7 +58,7 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     
-    [self hiddenNav];
+    //[self hiddenNav];
 }
 
 /*

@@ -50,6 +50,8 @@
     }];
     [header setUpGifImage:@"下拉加载"];
     self.tableView.mj_header = header;
+    
+    [self getLikeList];
 }
 
 - (void)getLikeList
@@ -88,9 +90,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = NO;
-    self.navigationController.tabBarController.tabBar.hidden = YES;
+    [super viewWillAppear:animated]; 
     self.title = @"我的成就";
     [self setUpNavBgColor:MineTopColor RightBtn:^(UIButton *btn) {
         
@@ -101,7 +101,7 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     
-    [self hiddenNav];
+    //[self hiddenNav];
 }
 
 /*

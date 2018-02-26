@@ -44,10 +44,13 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.navigationController.tabBarController.tabBar.hidden = NO;
+    [super viewWillAppear:animated]; 
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.tabBarController.tabBar.hidden = NO;
+    
     if (_pushChangeUser) {
         [_tableView reloadData];
         _pushChangeUser = NO;
@@ -184,6 +187,9 @@
                     return ;
                 }
                 
+                self.navigationController.navigationBarHidden = NO;
+                self.navigationController.tabBarController.tabBar.hidden = YES;
+                
                 switch (tag) {
                     case 0:
                     {
@@ -192,6 +198,7 @@
                         break;
                     case 1:
                     {
+                        
                         [self performSegueWithIdentifier:@"pushMyAnswer" sender:nil];
                     }
                         break;
@@ -265,6 +272,7 @@
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.navigationController.tabBarController.tabBar.hidden = YES;
+    self.navigationController.navigationBarHidden = NO;
     switch (indexPath.section) {
         case 0:
             _pushChangeUser = YES;
