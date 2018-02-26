@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *UserImage;
 @property (weak, nonatomic) IBOutlet UILabel *UserName;
 @property (weak, nonatomic) IBOutlet UILabel *QuestionLabel;
+@property (weak, nonatomic) IBOutlet UIButton *AnswerBtn;
 @property (weak, nonatomic) IBOutlet UIButton *SeeNum;
 @property (weak, nonatomic) IBOutlet UIButton *CommNum;
 @property (weak, nonatomic) IBOutlet UIButton *FollowNum;
@@ -100,21 +101,39 @@
 
 
 #pragma mark - 更新数据
--(void)UpdateContent:(QuestionModel *)model WithFollowClick:(void (^)(UIButton *))FollowClick WithAnswerClick:(void (^)(UIButton *))AnswerClick WithAllClick:(void (^)(BOOL))AllClick{
+-(void)UpdateContent:(id)model WithFollowClick:(void (^)(UIButton *))FollowClick WithAnswerClick:(void (^)(UIButton *))AnswerClick WithAllClick:(void (^)(BOOL))AllClick{
     
     _followClick = FollowClick;
     _answerClick = AnswerClick;
     _allClick = AllClick;
     
-    _UserName.text = model.userName;
-    _QuestionLabel.text = model.title;
-    _ContentLabel.text = model.content;
     
-    [_SeeNum setTitle:[NSString stringWithFormat:@"%ld",model.lookNum] forState:UIControlStateNormal];
-    [_CommNum setTitle:[NSString stringWithFormat:@"%ld",model.replyNum] forState:UIControlStateNormal];
-    [_FollowNum setTitle:[NSString stringWithFormat:@"%ld",model.attentionNum] forState:UIControlStateNormal];
+    _QuestionLabel.text = [model title];
+    _ContentLabel.text = [model content];
     
-    _FollowBtn.selected = model.isAttention;
+    if ([model isKindOfClass:[QuestionModel class]]) {
+        _UserName.text = [model userName];
+        
+        [_SeeNum setTitle:[NSString stringWithFormat:@"%ld",[model lookNum]] forState:UIControlStateNormal];
+        [_CommNum setTitle:[NSString stringWithFormat:@"%ld",[model replyNum]] forState:UIControlStateNormal];
+        [_FollowNum setTitle:[NSString stringWithFormat:@"%ld",[model attentionNum]] forState:UIControlStateNormal];
+        
+        _FollowBtn.selected = [model isAttention];
+    }else if ([model isKindOfClass:[AskDataModel class]]){
+        _UserName.text = [UserDataManager shareInstance].userModel.nickName;
+        _AnswerBtn.hidden = YES;
+        
+        [_SeeNum setTitle:[NSString stringWithFormat:@"%d",[model View]] forState:UIControlStateNormal];
+        [_CommNum setTitle:[NSString stringWithFormat:@"%d",[model Answer]] forState:UIControlStateNormal];
+        [_FollowNum setTitle:[NSString stringWithFormat:@"%d",[model Follow]] forState:UIControlStateNormal];
+        
+        _FollowBtn.selected = YES; //后续需要提问时后台处理自己关注自己问题
+    }
+    
+    
+    
+  
+    
     
     if (_ContentLabel.numberOfLines == 0) {
         _ShowAll.hidden = YES;

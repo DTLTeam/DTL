@@ -95,6 +95,10 @@
     [self setUpNavBgColor:MineTopColor RightBtn:^(UIButton *btn) {
         
     }];
+    
+    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
+        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -157,6 +161,15 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    AskDataModel *model = _askArr[indexPath.section];
+ 
+    //传问题模型
+    MainAskDetailViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil].firstObject;
+    VC.model = model;
+    VC.Type = PushType_MyAnswer;
+    [self.navigationController pushViewController:VC animated:YES];
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 }
