@@ -38,7 +38,7 @@ static NSString * CellIdentifier = @"AOrLikeCell";
         
         [weakSlef endHeaderRefresh:RefreshType_all];
         NSLog(@"点击背景图刷新消息");
-    };
+    };//收到推送后刷新
     
  
     [self setUpViews];

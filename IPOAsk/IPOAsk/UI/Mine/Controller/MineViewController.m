@@ -219,7 +219,7 @@
             [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyReflection",@"userID":_userManager.userModel.userID} backData:NetSessionResponseTypeJSON success:^(id response) {
                 GCD_MAIN(^{
                     if ([[response valueForKey:@"status"] intValue] == 1) {
-                        NSDictionary *dic = [(NSArray *)response[@"data"]firstObject];
+                        NSDictionary *dic = response[@"data"];
                         NSInteger questionCount = [dic[@"questionCount"] integerValue];
                         NSInteger answerCount = [dic[@"answerCount"] integerValue];
                         NSInteger followCount = [dic[@"followCount"] integerValue];

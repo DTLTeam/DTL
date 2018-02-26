@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIView *TopViews;
 @property (weak, nonatomic) IBOutlet UIImageView *UserHead;
 
+@property (nonatomic,assign)CGFloat  defaultTopH;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *TopH;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *TopHeight;
 @property (nonatomic,assign)CGRect keyboardFrame;
@@ -56,6 +57,8 @@
         _TopHeight.constant += 24;
     }
     self.navigationController.navigationBar.hidden = YES;
+    
+    _defaultTopH = _TopH.constant;
     
 }
 
@@ -388,7 +391,8 @@
     [self.view layoutIfNeeded];
     [UIView animateWithDuration:0.38 animations:^{
         
-        _TopH.constant = -20;
+        _TopH.constant = _defaultTopH;
+        
         [self.view layoutIfNeeded];
         
         if (_MainLoginType == loginType_Enterprise) {
@@ -410,7 +414,7 @@
     [self.view layoutIfNeeded];
     [UIView animateWithDuration:0.38 animations:^{
         
-        _TopH.constant = -20 - CGRectGetHeight(_keyboardFrame) / 2;
+        _TopH.constant = _defaultTopH - CGRectGetHeight(_keyboardFrame) / 2;
         [self.view layoutIfNeeded];
         
         if (_MainLoginType == loginType_Enterprise) {
