@@ -8,6 +8,9 @@
 
 #import "UtilsCommon.h"
 
+//Controller
+#import "SignInViewController.h"
+
 @implementation UtilsCommon
 
 
@@ -136,10 +139,15 @@
 
 
 +(BOOL)ShowLoginHud:(UIView *)view Tag:(int)tag{
-    if (![UserDataManager shareInstance].userModel ) { 
+    if (![UserDataManager shareInstance].userModel ) {
+        
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+        SignInViewController *signInVC = [sb instantiateViewControllerWithIdentifier:@"SignInView"];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:signInVC animated:YES completion:nil];
         
         [AskProgressHUD AskHideAnimatedInView:view viewtag:tag AfterDelay:0];
-        [AskProgressHUD AskShowOnlyTitleInView:view Title:@"请先登录!" viewtag:tag AfterDelay:3];
+        [AskProgressHUD AskShowOnlyTitleInView:[UIApplication sharedApplication].keyWindow Title:@"请先登录!" viewtag:tag AfterDelay:3];
+        
         return YES;
     }
     

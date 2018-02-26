@@ -405,7 +405,7 @@
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
         
         GCD_MAIN(^{
-            
+        
             if (response && ([response[@"status"] integerValue] == 1)) {
                 
                 if (page == 0) {
@@ -482,13 +482,14 @@
     [_searchNetworkTableView reloadData];
     
     if (_searchContent.length == 0) {
-        
         _historyTableView.hidden = NO;
-        _searchNetworkTableView.hidden = YES;
-        _searchFailView.hidden = YES;
-        _networkErrorView.hidden = YES;
-        
+    } else {
+        _historyTableView.hidden = YES;
     }
+    
+    _searchNetworkTableView.hidden = YES;
+    _searchFailView.hidden = YES;
+    _networkErrorView.hidden = YES;
     
 }
 
@@ -604,8 +605,8 @@
     
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0.5;
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return [[UIView alloc] init];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
