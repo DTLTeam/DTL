@@ -38,6 +38,8 @@
     [self.navigationController.tabBarItem setSelectedImage:img];
     [self.navigationController.tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:HEX_RGB_COLOR(0x0b98f2),NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
     
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginOut) name:@"LoginOut" object:nil];
+    
     [self login];
     [self setupInterface];
     
@@ -413,6 +415,13 @@
     }else Success(NO);
     
   
+}
+
+#pragma mark - 退出登录
+- (void)loginOut{
+    
+    //刷新页面
+    NSLog(@"退出");
 }
 
 @end
