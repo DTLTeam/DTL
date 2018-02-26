@@ -72,7 +72,7 @@
     
     _customNavBar = [[UIView alloc] init];
     _customNavBar.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:_customNavBar];
+    [self.navigationBar addSubview:_customNavBar];
     
     _backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [_backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
@@ -112,7 +112,7 @@
     
     
     [_customNavBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top);
+        make.top.equalTo(self.navigationBar.mas_top);
         make.bottom.equalTo(self.navigationBar.mas_bottom);
         make.left.equalTo(self.navigationBar.mas_left);
         make.right.equalTo(self.navigationBar.mas_right);
