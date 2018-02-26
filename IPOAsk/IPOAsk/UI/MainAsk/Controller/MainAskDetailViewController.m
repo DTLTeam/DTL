@@ -328,7 +328,8 @@
                     
                 } rightblock:^(UIButton *btn) {
                     
-                    AnswerViewController *answerVC = [[AnswerViewController alloc] init];
+                    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                    AnswerViewController *answerVC = [sb instantiateViewControllerWithIdentifier:@"AnswerView"];
                     [WeakSelf.navigationController pushViewController:answerVC animated:YES];
                     
                     [UIView animateWithDuration:0.38 delay:0 options:UIViewAnimationOptionTransitionFlipFromRight animations:^{
