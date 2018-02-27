@@ -55,6 +55,10 @@
         [_tableView reloadData];
         _pushChangeUser = NO;
     }
+    
+    //***** test ***** //个人用户、企业用户切换
+    [_tableView reloadData];
+     //***** test ***** //个人用户、企业用户切换
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -219,6 +223,9 @@
                 }];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        loginType type = arc4random() % 3;
+        
+        [cell refreshViews:type];
         
         if (_userManager.userModel) {
             

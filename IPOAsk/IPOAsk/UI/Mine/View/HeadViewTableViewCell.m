@@ -172,6 +172,42 @@ typedef void(^ActionBlock)(NSInteger tag);
     return self;
 }
 
+- (void)refreshViews:(loginType)type{
+
+    if (type == loginType_Enterprise) { //企业用户
+        _answerButton.hidden = YES;
+        _followButton.hidden = YES;
+        
+        [_askButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self).offset(0);
+            make.bottom.mas_equalTo(self).offset(-12);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH/2, 50));
+        }];
+        
+        [_likeButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(_askButton.mas_right);
+            make.bottom.mas_equalTo(self).offset(-12);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH/2, 50));
+        }];
+    }else{
+        _answerButton.hidden = NO;
+        _followButton.hidden = NO;
+        
+        [_askButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self).offset(0);
+            make.bottom.mas_equalTo(self).offset(-12);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH/4, 50));
+        }];
+        
+        [_likeButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(_followButton).offset(SCREEN_WIDTH/4);
+            make.bottom.mas_equalTo(_followButton.mas_bottom);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH/4, 50));
+        }];
+    }
+    
+}
+
 - (void)updateInfo:(NSString *)headUrl name:(NSString *)name phone:(NSString *)phone
 {
     //登录状态

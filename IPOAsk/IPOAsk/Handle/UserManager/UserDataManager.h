@@ -94,6 +94,7 @@
 @property (assign, nonatomic) int createUID;
 @property (assign, nonatomic) int Answer;
 @property (assign, nonatomic) int isAnonymous;
+@property (assign, nonatomic) int IsAttention;
 @property (assign, nonatomic) int isCompany;
 @property (assign, nonatomic) int Follow;
 
@@ -101,6 +102,8 @@
 #pragma mark - 功能
 
 - (void)refreshModel:(NSDictionary *)infoDic;
+
+- (void)changeAttentionStatus:(BOOL)status count:(NSInteger)count;
 
 @end
 

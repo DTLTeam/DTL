@@ -16,4 +16,7 @@
 - (void)updateInfo:(NSString *)headUrl name:(NSString *)name phone:(NSString *)phone;
 - (void)updateAskInfo:(NSInteger)askNum answer:(NSInteger)ansNum follow:(NSInteger)foNum like:(NSInteger)likeNum;
 
+
+- (void)refreshViews:(loginType)type;
+
 @end
