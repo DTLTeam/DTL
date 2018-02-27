@@ -34,10 +34,10 @@
     if (content && ![content isKindOfClass:[NSNull class]]) {
         _isAnonymous = [content boolValue];
     }
-//    content = infoDic[@"isFollow"];
-//    if (content && ![content isKindOfClass:[NSNull class]]) {
-//        _isAttention = [content boolValue];
-//    }
+    content = infoDic[@"isFollow"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _IsAttention = [content boolValue];
+    }
     
     content = infoDic[@"id"];
     if (content && ![content isKindOfClass:[NSNull class]]) {
@@ -85,6 +85,13 @@
     if (content && ![content isKindOfClass:[NSNull class]]) {
         _Follow = [content intValue];
     }
+    
+}
+
+- (void)changeAttentionStatus:(BOOL)status count:(NSInteger)count {
+    
+    _IsAttention = status;
+    _Follow = count;
     
 }
 

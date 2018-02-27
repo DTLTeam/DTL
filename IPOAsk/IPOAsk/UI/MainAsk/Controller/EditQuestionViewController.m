@@ -11,7 +11,7 @@
 //Controller
 #import "MainNavigationController.h"
 
-@interface EditQuestionViewController ()<UITextFieldDelegate>
+@interface EditQuestionViewController ()<UITextFieldDelegate,UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *BottomH;
 
@@ -383,6 +383,19 @@
         return  NO;
     }
     
+    return YES;
+}
+
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    
+    // 不让输入表情
+    if ([textView isFirstResponder]) {
+        if ([[[textView textInputMode] primaryLanguage] isEqualToString:@"emoji"] || ![[textView textInputMode] primaryLanguage]) {
+            
+            return NO;
+        }
+    }
     return YES;
 }
 

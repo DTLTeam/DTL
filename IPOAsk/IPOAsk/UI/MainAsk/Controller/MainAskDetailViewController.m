@@ -308,10 +308,16 @@
             [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
                 
                 GCD_MAIN(^{
-                    
+                
                     if (response && ([response[@"status"] intValue] == 1)) {
                         
                         NSDictionary *dic = response[@"data"];
+                        
+                        if (WeakSelf.Type == PushType_Main) {
+                            WeakSelf.model = (QuestionModel*)WeakSelf.model;
+                        }else if (WeakSelf.Type == PushType_MyAnswer){
+                            WeakSelf.model = (AskDataModel *)WeakSelf.model;
+                        }
                         
                         //点击事件请求成功
                         [WeakSelf.model changeAttentionStatus:[dic[@"isFollow"] boolValue] count:[dic[@"followCount"] integerValue]];
@@ -320,7 +326,7 @@
                     }
                     
                 });
-                
+             
             } requestHead:^(id response) {
                 
             } faile:^(NSError *error) {

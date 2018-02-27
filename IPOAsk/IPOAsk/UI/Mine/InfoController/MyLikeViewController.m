@@ -95,6 +95,10 @@
     [self setUpNavBgColor:MineTopColor RightBtn:^(UIButton *btn) {
         
     }];
+    
+    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
+        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
+    }
 }
 
 

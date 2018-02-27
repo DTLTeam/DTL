@@ -127,7 +127,7 @@
         [_CommNum setTitle:[NSString stringWithFormat:@"%d",[model Answer]] forState:UIControlStateNormal];
         [_FollowNum setTitle:[NSString stringWithFormat:@"%d",[model Follow]] forState:UIControlStateNormal];
         
-        _FollowBtn.selected = YES; //后续需要提问时后台处理自己关注自己问题
+        _FollowBtn.selected = [model IsAttention]; //后续需要提问时后台处理自己关注自己问题
     }
     
     
