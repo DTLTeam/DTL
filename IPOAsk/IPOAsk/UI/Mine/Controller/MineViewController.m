@@ -55,7 +55,9 @@
         [_tableView reloadData];
         _pushChangeUser = NO;
     }
-    
+    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
+        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
+    }
     //***** test ***** //个人用户、企业用户切换
     [_tableView reloadData];
      //***** test ***** //个人用户、企业用户切换
@@ -280,6 +282,8 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.navigationController.tabBarController.tabBar.hidden = YES;
     self.navigationController.navigationBarHidden = NO;
+    
+    
     switch (indexPath.section) {
         case 0:
             _pushChangeUser = YES;

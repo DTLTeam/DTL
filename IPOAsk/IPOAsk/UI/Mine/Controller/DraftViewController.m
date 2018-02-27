@@ -33,6 +33,10 @@
     self.navigationController.navigationBarHidden = NO;
     self.navigationController.tabBarController.tabBar.hidden = YES;
     self.title = @"草稿箱";
+    
+    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
+        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
+    }
 }
 /*
 #pragma mark - Navigation

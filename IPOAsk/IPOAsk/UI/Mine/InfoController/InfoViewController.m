@@ -83,12 +83,12 @@
     [super viewWillAppear:animated];
     self.title = @"个人资料";
     
-    __weak InfoViewController *WeakSelf = self;
     [self setUpNavBgColor:MineTopColor RightBtn:^(UIButton *btn) {
         [btn setTitle:@"完成" forState:UIControlStateNormal];
         btn.titleLabel.font = [UIFont systemFontOfSize:13];
         [btn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     }];
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

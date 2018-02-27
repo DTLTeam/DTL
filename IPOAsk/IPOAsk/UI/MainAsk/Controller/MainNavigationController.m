@@ -14,7 +14,7 @@
 
 #define AnimatedTime 0.3
 
-@interface MainNavigationController () <UINavigationControllerDelegate>
+@interface MainNavigationController () <UINavigationControllerDelegate,UITextViewDelegate>
 
 //参数
 @property (nonatomic) BOOL isShowSearchBar; //是否显示搜索栏
@@ -42,6 +42,7 @@
     
     [self changeShowStatus:YES];
     
+    _searchTextField.delegate = self;
     [_searchTextField addTarget:self action:@selector(searchTextChangeAction:)  forControlEvents:UIControlEventAllEditingEvents];
     
 }
@@ -196,6 +197,16 @@
     
 }
 
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    // 不让输入表情
+    if ([textField isFirstResponder]) {
+        if ([[[textField textInputMode] primaryLanguage] isEqualToString:@"emoji"] || ![[textField textInputMode] primaryLanguage]) {
+            
+            return NO;
+        }
+    }
+    return YES;
+}
 
 #pragma mark - 功能
 
