@@ -161,6 +161,16 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    
+    AnswerDataModel *model = _answerArr[indexPath.section];
+    
+   
+    //传问题模型
+    MainAskDetailViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil].firstObject;
+    VC.model = model;
+    VC.Type = PushType_MyAnswer;
+    [self.navigationController pushViewController:VC animated:YES];
 }
+
 
 @end

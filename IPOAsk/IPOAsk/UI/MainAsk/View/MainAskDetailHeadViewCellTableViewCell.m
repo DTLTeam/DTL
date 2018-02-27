@@ -128,6 +128,14 @@
         [_FollowNum setTitle:[NSString stringWithFormat:@"%d",[model Follow]] forState:UIControlStateNormal];
         
         _FollowBtn.selected = [model IsAttention]; //后续需要提问时后台处理自己关注自己问题
+    }else if ([model isKindOfClass:[AnswerDataModel class]]){
+        _UserName.text = [model nickName];
+        
+        [_SeeNum setTitle:[NSString stringWithFormat:@"%d",[model LookNum]] forState:UIControlStateNormal];
+        [_CommNum setTitle:[NSString stringWithFormat:@"%d",[model Answer]] forState:UIControlStateNormal];
+        [_FollowNum setTitle:[NSString stringWithFormat:@"%d",[model Follow]] forState:UIControlStateNormal];
+        
+        _FollowBtn.selected = [model IsFollow];
     }
     
     

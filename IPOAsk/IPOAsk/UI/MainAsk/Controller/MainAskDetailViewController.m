@@ -104,11 +104,11 @@
    
     NSString *Id = @"";
     if (_Type == PushType_Main) {
-        _model = (QuestionModel *)_model;
         Id = [_model questionID];
-    }else if (_Type == PushType_MyAnswer){
-        _model = (AskDataModel *)_model;
+    }else if (_Type == PushType_MyAsk){
         Id = [_model askId];
+    }else if (_Type == PushType_MyAnswer){
+        Id = [_model askId];         //问题ID
     }
     
     __weak typeof(self) weakSelf = self;
@@ -130,22 +130,22 @@
                 if (page == 0) {
                     [weakSelf.CommArr removeAllObjects];
                     QuestionModel *mod = [[QuestionModel alloc] init];
-                    [mod refreshModel:[response[@"data"][@"question"][@"data"] firstObject]];
+//                    [mod refreshModel:[response[@"data"][@"question"][@"data"] firstObject]];
+                    [mod refreshModel:[[response valueForKey:@"data"]valueForKey:@"question"]];
                     weakSelf.startQuestionID = [mod.questionID integerValue];
                 }
                 weakSelf.currentPage = page;
                 weakSelf.currentPage++;
 
-                if (response[@"data"][@"question"]) {
-                    if (weakSelf.Type == PushType_Main) {
-                        weakSelf.model = (QuestionModel*)weakSelf.model;
-                    }else if (weakSelf.Type == PushType_MyAnswer){
-                        weakSelf.model = (AskDataModel *)weakSelf.model;
-                    }
-                    [weakSelf.model refreshModel:response[@"data"][@"question"]];
+                if ([[response valueForKey:@"data"]valueForKey:@"question"]) {
+                    
+                    [weakSelf.model refreshModel:[[response valueForKey:@"data"]valueForKey:@"question"]];
+                    
                 }
+                
+               
 
-                for (NSDictionary *dic in response[@"data"][@"answer"][@"data"]) {
+                for (NSDictionary *dic in [[[response valueForKey:@"data"]valueForKey:@"answer"] valueForKey:@"data"]) {
                     AnswerModel *model = [[AnswerModel alloc] init];
                     [model refreshModel:dic];
                     [weakSelf.CommArr addObject:model];
@@ -291,11 +291,11 @@
         
         __weak NSString *Id = @"";
         if (_Type == PushType_Main) {
-            _model = (QuestionModel *)_model;
             Id = [_model questionID];
-        }else if (_Type == PushType_MyAnswer){
-            _model = (AskDataModel *)_model;
+        }else if (_Type == PushType_MyAsk){
             Id = [_model askId];
+        }else if (_Type == PushType_MyAnswer){
+            Id = [_model askId];         //问题ID
         }
         
         [head UpdateContent:_model WithFollowClick:^(UIButton *btn) {
@@ -311,13 +311,7 @@
                 
                     if (response && ([response[@"status"] intValue] == 1)) {
                         
-                        NSDictionary *dic = response[@"data"];
-                        
-                        if (WeakSelf.Type == PushType_Main) {
-                            WeakSelf.model = (QuestionModel*)WeakSelf.model;
-                        }else if (WeakSelf.Type == PushType_MyAnswer){
-                            WeakSelf.model = (AskDataModel *)WeakSelf.model;
-                        }
+                        NSDictionary *dic = response[@"data"]; 
                         
                         //点击事件请求成功
                         [WeakSelf.model changeAttentionStatus:[dic[@"isFollow"] boolValue] count:[dic[@"followCount"] integerValue]];

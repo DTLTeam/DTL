@@ -696,6 +696,7 @@
         
         MainAskDetailViewController *mainAskDetailVC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:nil options:nil].firstObject;
         mainAskDetailVC.model = mod;
+        mainAskDetailVC.Type = PushType_Main;
         [self.navigationController pushViewController:mainAskDetailVC animated:YES];
         
     }

@@ -59,12 +59,19 @@
 @property (strong, nonatomic) NSString *content;
 @property (strong, nonatomic) NSString *addTime;
 @property (strong, nonatomic) NSString *title;
-@property (assign, nonatomic) int view;
-@property (assign, nonatomic) int answer;
-@property (assign, nonatomic) int isAnonymous;
-@property (assign, nonatomic) int isCompany;
-@property (assign, nonatomic) int isFollow;
-@property (nonatomic, assign) int follow;
+@property (assign, nonatomic) int LookNum;
+@property (assign, nonatomic) int Answer;
+@property (assign, nonatomic) int IsAnonymous;
+@property (assign, nonatomic) int IsCompany;
+@property (assign, nonatomic) int IsFollow;
+@property (nonatomic, assign) int Follow;
+ 
+
+#pragma mark - 功能
+- (void)refreshModel:(NSDictionary *)infoDic;
+
+
+- (void)changeAttentionStatus:(BOOL)status count:(NSInteger)count;
 
 @end
 

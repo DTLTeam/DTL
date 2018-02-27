@@ -8,6 +8,7 @@
 
 typedef enum : NSUInteger {
     PushType_Main,
+    PushType_MyAsk,
     PushType_MyAnswer,
 } PushType;
 

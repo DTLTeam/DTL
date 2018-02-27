@@ -116,6 +116,34 @@
  */
 @implementation AnswerDataModel
 
+#pragma mark - 功能
+- (void)refreshModel:(NSDictionary *)infoDic{
+    
+    if (!infoDic) {
+        return;
+    }
+    
+    
+    id content;
+    
+    content = infoDic[@"isAnonymous"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _IsAnonymous = [content boolValue];
+    }
+    content = infoDic[@"isFollow"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _IsFollow = [content boolValue];
+    }
+    
+}
+
+- (void)changeAttentionStatus:(BOOL)status count:(NSInteger)count {
+    
+    _IsFollow = status;
+    _Follow = count;
+    
+}
+
 @end
 
 
@@ -165,19 +193,19 @@ static UserDataManager *manager; //单例对象
         if ([response[@"status"] intValue] == 1) {
             NSMutableArray *dataArr = [NSMutableArray array];
 //            NSArray *jsonArr = response[@"data"];
-            NSArray *jsonArr = response[@"data"][@"data"];
+            NSArray *jsonArr = [[response valueForKey:@"data"] valueForKey:@"data"];
             for (NSDictionary *dic in jsonArr) {
                 AskDataModel *model = [[AskDataModel alloc] init];
                 model.askId = [NSString stringWithFormat:@"%@",dic[@"id"]]; 
                 model.title = dic[@"title"];
                 model.content = dic[@"content"];
-                model.view = [dic[@"view"] intValue];
+                model.View = [dic[@"view"] intValue];
                 model.addTime = [NSString stringWithFormat:@"%@",dic[@"addTime"]];
                 model.createUID = [dic[@"createUID"] intValue];
                 model.isAnonymous = [dic[@"isAnonymous"] intValue];
                 model.isCompany = [dic[@"isCompany"] intValue];
-                model.follow = [dic[@"follow"] intValue];
-                model.answer = [dic[@"answer"] intValue];
+                model.Follow = [dic[@"follow"] intValue];
+                model.Answer = [dic[@"answer"] intValue];
                 [dataArr addObject:model];
             }
             block(dataArr);
@@ -196,15 +224,15 @@ static UserDataManager *manager; //单例对象
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"myFollowAsk",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
         if ([response[@"status"] intValue] == 1) {
             NSMutableArray *dataArr = [NSMutableArray array];
-            NSArray *jsonArr = response[@"data"];
+            NSArray *jsonArr = [[response valueForKey:@"data"]valueForKey:@"data"];
             for (NSDictionary *dic in jsonArr) {
                 FollowDataModel *model = [[FollowDataModel alloc] init];
                 model.askId = dic[@"id"];
                 model.nickName = dic[@"nickName"];
                 model.content = dic[@"content"];
-                model.headIcon = dic[@"headIcon"];
+                model.headIcon = [NSString stringWithFormat:@"%@",[dic valueForKey:@"headIcon"]];
                 model.view = [dic[@"view"] intValue];
-                model.addTime = dic[@"addTime"];
+                model.addTime = [NSString stringWithFormat:@"%@",[dic valueForKey:@"addTime"]] ;
                 model.title = dic[@"title"];
                 model.isAnonymous = [dic[@"isAnonymous"] intValue];
                 model.isCompany = [dic[@"isCompany"] intValue];
@@ -231,14 +259,14 @@ static UserDataManager *manager; //单例对象
         if ([response[@"status"] intValue] == 1) {
             NSMutableArray *dataArr = [NSMutableArray array];
 //            NSArray *jsonArr = response[@"data"];
-            NSArray *jsonArr = response[@"data"][@"data"];
+            NSArray *jsonArr = [[response valueForKey:@"data"]valueForKey:@"data"];
             for (NSDictionary *dic in jsonArr) {
                 LikeDataModel *model = [[LikeDataModel alloc] init];
                 model.askId = dic[@"qID"];
                 model.realName = dic[@"realName"];
-                model.headIcon = dic[@"headIcon"];
-                model.likeTime = dic[@"likeTime"];
-                model.addTime = dic[@"addTime"];
+                model.headIcon = [NSString stringWithFormat:@"%@",[dic valueForKey:@"headIcon"]];
+                model.likeTime = [NSString stringWithFormat:@"%@",[dic valueForKey:@"likeTime"]] ;
+                model.addTime = [NSString stringWithFormat:@"%@",[dic valueForKey:@"addTime"]] ;
                 model.title = dic[@"title"];
                 [dataArr addObject:model];
             }
@@ -258,21 +286,22 @@ static UserDataManager *manager; //单例对象
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyAnswerLists",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
         if ([response[@"status"] intValue] == 1) {
             NSMutableArray *dataArr = [NSMutableArray array];
-            NSArray *jsonArr = response[@"data"];
+//            NSArray *jsonArr = response[@"data"];
+            NSArray *jsonArr = [[response valueForKey:@"data"]valueForKey:@"data"];
             for (NSDictionary *dic in jsonArr) {
                 AnswerDataModel *model = [[AnswerDataModel alloc] init];
                 model.askId = dic[@"id"];
                 model.nickName = dic[@"nickName"];
                 model.content = dic[@"content"];
-                model.headIcon = dic[@"headIcon"];
-                model.view = [dic[@"view"] intValue];
-                model.addTime = dic[@"addTime"];
+                model.headIcon = [NSString stringWithFormat:@"%@",[dic valueForKey:@"headIcon"]];
+                model.LookNum = [dic[@"view"] intValue];
+                model.addTime = [NSString stringWithFormat:@"%@",[dic valueForKey:@"addTime"]];
                 model.title = dic[@"title"];
-                model.isAnonymous = [dic[@"isAnonymous"] intValue];
-                model.isCompany = [dic[@"isCompany"] intValue];
-                model.isFollow = [dic[@"isFollow"] intValue];
-                model.follow = [dic[@"follow"] intValue];
-                model.answer = [dic[@"answer"] intValue];
+                model.IsAnonymous = [dic[@"isAnonymous"] intValue];
+                model.IsCompany = [dic[@"isCompany"] intValue];
+                model.IsFollow = [dic[@"isFollow"] intValue];
+                model.Follow = [dic[@"follow"] intValue];
+                model.Answer = [dic[@"answer"] intValue];
                 [dataArr addObject:model];
             }
             block(dataArr);
