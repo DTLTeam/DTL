@@ -250,14 +250,19 @@ static id _instance;
     NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString]];
     [request setHTTPMethod:@"POST"];
     [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
-    [request setTimeoutInterval:20];
+    [request setTimeoutInterval:30];
     NSString* headerString = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@",UploadImageBoundary];
     [request setValue:headerString forHTTPHeaderField:@"Content-Type"];
     
     NSMutableData* requestMutableData = [NSMutableData data];
     NSMutableString* myString = [NSMutableString stringWithFormat:@"--%@\r\n",UploadImageBoundary];
-    [myString appendString:@"Content-Disposition: form-data; name=\"appid\"\r\n\r\n"];/*这里要打两个回车*/
-    [myString appendString:@"100118"];
+    [myString appendString:@"Content-Disposition: form-data; name=\"cmd\"\r\n\r\n"];/*这里要打两个回车*/
+    [myString appendString:@"uploadHeadicon"];
+    [myString appendString:[NSString stringWithFormat:@"\r\n--%@\r\n",UploadImageBoundary]];
+    [myString appendString:@"Content-Disposition: form-data; name=\"userID\"\r\n\r\n"];
+    
+    UserDataManager *userManagser = [UserDataManager shareInstance];
+    [myString appendString:userManagser.userModel.userID];
     [myString appendString:[NSString stringWithFormat:@"\r\n--%@\r\n",UploadImageBoundary]];
     [myString appendString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n",name]];
     [myString appendString:@"Content-Type: image/jpeg\r\n\r\n"];
@@ -273,7 +278,7 @@ static id _instance;
     
     /*开始上传*/
     NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
-    sessionConfig.timeoutIntervalForRequest = 20;
+    sessionConfig.timeoutIntervalForRequest = 30;
     NSURLSession* session  = [NSURLSession sessionWithConfiguration:sessionConfig
                                                            delegate:self
                                                       delegateQueue:nil];
