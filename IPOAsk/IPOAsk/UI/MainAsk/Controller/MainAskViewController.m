@@ -217,7 +217,7 @@
                 [weakSelf.contentTableView.mj_footer endRefreshing];
             }
         });
-
+        
     }];
     
 }
@@ -413,9 +413,9 @@
             });
         }];
         
-    }else Success(NO);
+    } else
+        Success(NO);
     
-  
 }
 
 #pragma mark - 退出登录

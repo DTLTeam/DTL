@@ -10,12 +10,15 @@
 
 @interface EnterpriseModel : NSObject
 
+/**
+ 问题ID
+ */
+@property (nonatomic,strong)NSString *Exper_questionID;
 
 /**
  问题
  */
 @property (nonatomic,strong)NSString *Exper_questionTitle;
-
 
 /**
  专家昵称
@@ -26,6 +29,11 @@
  专家头像
  */
 @property (nonatomic,strong)NSString *Exper_expertHead;
+
+/**
+ 回复ID
+ */
+@property (nonatomic,strong)NSString *Exper_AnswerID;
 
 /**
  专家回复

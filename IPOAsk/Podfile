@@ -9,6 +9,7 @@ target 'IPOAsk' do
 	pod 'MJRefresh'
 	pod 'Bugly'
     pod 'FMDB'
+    pod 'QQ_XGPush'
 end
 
 

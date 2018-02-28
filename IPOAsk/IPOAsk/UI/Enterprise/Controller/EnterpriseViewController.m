@@ -6,29 +6,29 @@
 //  Copyright © 2018年 law. All rights reserved.
 //
 
-#import "EnterpriseViewController.h" 
+#import "EnterpriseViewController.h"
+
+#import "UserDataManager.h"
+
+//Controller
 #import "ApplicationEnterpriseViewController.h"
 #import "EditQuestionViewController.h"
 
+//View
 #import "NotEnterpriseView.h"
 #import "EnterpriseNotQuestionView.h"
-
 #import "EnterpriseTableViewCell.h"
-
-
-@interface EnterpriseViewController ()
-
-@end
 
 static NSString * CellIdentifier = @"EnterpriseCell";
 
+@interface EnterpriseViewController ()
+
+@property (strong, nonatomic) EnterpriseNotQuestionView *notQusetionView;
+@property (strong, nonatomic) NotEnterpriseView *notEnterpriseView;
+
+@end
 
 @implementation EnterpriseViewController
-
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.navigationController.tabBarController.tabBar.hidden = NO;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -64,102 +64,80 @@ static NSString * CellIdentifier = @"EnterpriseCell";
     
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
-- (void)setUpViews{
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
-    __weak EnterpriseViewController *WeakSelf = self;
+    self.navigationController.tabBarController.tabBar.hidden = NO;
     
-#if 1 //是否是专家
-//    [self setUpdata];
-    
-    // ****************** 已经是专家
-    if (!self.haveData) {
+    UserDataModel *userMod = [[UserDataManager shareInstance] userModel];
+    if (userMod && (userMod.userType == loginType_Enterprise)) { //企业用户
         
-        EnterpriseNotQuestionView *view  = [[NSBundle mainBundle] loadNibNamed:@"EnterpriseNotQuestionView" owner:self options:nil][0];
-        [self.bgImageView addSubview:view];
+        if (self.haveData) { //有提问数据
+            _notEnterpriseView.hidden = YES;
+            _notQusetionView.hidden = YES;
+            self.myTableView.hidden = NO;
+        } else { //无提问数据
+            _notEnterpriseView.hidden = YES;
+            _notQusetionView.hidden = NO;
+            self.myTableView.hidden = YES;
+        }
         
-        [view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.and.top.and.right.and.bottom.mas_equalTo(self.bgImageView);
-        }];
+    } else { //非企业用户
+        
+        _notEnterpriseView.hidden = NO;
+        _notQusetionView.hidden = YES;
         self.myTableView.hidden = YES;
         
-        
-        //点击发布问题
-        view.addQuestionClickBlock = ^(UIButton *sender) {
-            [WeakSelf Consultation];
-        };
-        
-    }else{
-        //有数据
     }
-    // ****************** 已经是专家
     
-#else
+}
+
+
+#pragma mark - 界面
+
+- (void)setUpViews {
     
-    // ****************** 个人用户
+    __weak typeof(self) WeakSelf = self;
     
-    NotEnterpriseView *view  = [[NSBundle mainBundle] loadNibNamed:@"NotEnterpriseView" owner:self options:nil][0];
-    [self.bgImageView addSubview:view];
+    _notQusetionView  = [[NSBundle mainBundle] loadNibNamed:@"EnterpriseNotQuestionView" owner:self options:nil][0];
+    [self.bgImageView addSubview:_notQusetionView];
     
-    [view mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_notQusetionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.and.top.and.right.and.bottom.mas_equalTo(self.bgImageView);
     }];
-    self.myTableView.hidden = YES;
     
-    // ****************** 个人用户
+    //点击发布问题
+    _notQusetionView.addQuestionClickBlock = ^(UIButton *sender) {
+        [WeakSelf Consultation];
+    };
     
-#endif
+    
+    _notEnterpriseView = [[NSBundle mainBundle] loadNibNamed:@"NotEnterpriseView" owner:self options:nil][0];
+    [self.bgImageView addSubview:_notEnterpriseView];
+    
+    [_notEnterpriseView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.and.top.and.right.and.bottom.mas_equalTo(self.bgImageView);
+    }];
+    
     
     [self.myTableView registerNib:[UINib nibWithNibName:@"EnterpriseTableViewCell" bundle:nil] forCellReuseIdentifier:CellIdentifier];
     
     UIView *line = [[UIView alloc]initWithFrame:CGRectMake(0, 1, SCREEN_WIDTH, 0.5)];
     line.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:line];
-}
-
-
-#pragma mark -  UITableViewDataSource
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 10;
-}
- 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.sourceData.count;
     
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    EnterpriseTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (indexPath.row < self.sourceData.count) {
-        
-        EnterpriseModel *model = self.sourceData[indexPath.row];
-        
-        __weak EnterpriseTableViewCell *weakCell = cell;
-        
-        [cell updateWithModel:model WithLikeClick:^(BOOL like) {
-      
-            // test**********点赞请求成功
-            if (1) {
-                [weakCell likeClickSuccess];
-                
-                model.Exper_haveLike = !model.Exper_haveLike;
-                
-            }else{
-                NSLog(@"点赞失败");
-            }
-            
-        }];
-    }
-    
-    
-    return cell;
-}
 
-#pragma mark - 马上咨询专家
-- (void)Consultation{
+#pragma mark - 事件响应
+
+#pragma mark 马上咨询专家
+- (void)Consultation {
     //未登录
     if ([UtilsCommon ShowLoginHud:self.view Tag:200]) {
         return;
@@ -167,19 +145,15 @@ static NSString * CellIdentifier = @"EnterpriseCell";
     
     EditQuestionViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:self options:nil][0];
     [VC UserType:AnswerType_AskQuestionEnterprise NavTitle:@"企业+"];
-   if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
+    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
         [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
     }
     [self.navigationController pushViewController:VC animated:YES];
     
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 
-
+#pragma mark - 功能
 
 - (void)setUpdata{
     
@@ -231,7 +205,63 @@ static NSString * CellIdentifier = @"EnterpriseCell";
     
     self.haveData = self.sourceData.count > 0 ? YES : NO;
 }
+
+
+#pragma mark - UITableViewDelegate & UITableViewDataSource
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 10;
+}
  
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.sourceData.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    EnterpriseTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (indexPath.row < self.sourceData.count) {
+        
+        __weak EnterpriseTableViewCell *weakCell = cell;
+        EnterpriseModel *model = self.sourceData[indexPath.row];
+        
+        [cell updateWithModel:model WithLikeClick:^(BOOL like) {
+            
+            UserDataModel *userMod = [UserDataManager shareInstance].userModel;
+            NSDictionary *infoDic = @{@"cmd":@"addFollow",
+                                      @"userID":(userMod ? userMod.userID : @""),
+                                      @"qID":model.Exper_AnswerID
+                                      };
+            [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+                
+                GCD_MAIN(^{
+                    
+                    if (response && ([response[@"status"] intValue] == 1)) {
+                        
+                        NSDictionary *dic = response[@"data"];
+                        
+//                        if (dic[@""]) {
+//                            model.Exper_haveLike = !model.Exper_haveLike;
+//                            [weakCell likeClickSuccess];
+//                        }
+                        
+                    }
+                    
+                });
+                
+            } requestHead:^(id response) {
+                
+            } faile:^(NSError *error) {
+                
+            }];
+            
+        }];
+    }
+    
+    
+    return cell;
+}
 
 @end
 

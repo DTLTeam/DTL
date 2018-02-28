@@ -8,7 +8,9 @@
 
 #import "AppDelegate.h"
 
-@interface AppDelegate ()
+#import <XGPush.h>
+
+@interface AppDelegate () <XGPushDelegate>
 
 @end
 
@@ -21,20 +23,8 @@
     
     [[FMDBManager sharedInstance]creatTableWithName:@"Drafts" path:@[@"title",@"content",@"Type",@"anonymous"]];
     
-
-    //test*******
-#if 0
-    for (NSInteger i = 0 ; i < 1000 ; i ++) {
-        DraftsModel *model = [[DraftsModel alloc]init];
-        model.title = [NSString stringWithFormat:@"标题%ld",i];
-        model.content = [NSString stringWithFormat:@"标题标题标题标题标题标题标题标题标题标题%ld",i];
-        model.Type = 2;
-        model.anonymous = @"0";
-        [[FMDBManager sharedInstance]insertToDB:model];
-    }
-#endif
-    //test*******
- 
+    [[XGPush defaultManager] startXGWithAppID:2200277581 appKey:@"I5194W3DNBUS" delegate:self];
+    
     return YES;
 }
 
@@ -65,5 +55,15 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+
+#pragma mark - XGPushDelegate
+
+- (void)xgPushDidFinishStart:(BOOL)isSuccess error:(NSError *)error {
+    DLog(@"信鸽推送服务启动操作结果 : %@%@", isSuccess ? @"YES" : @"NO", (error ? [NSString stringWithFormat:@" | 启动错误内容 : %@", error] : @""));
+}
+
+- (void)xgPushDidFinishStop:(BOOL)isSuccess error:(NSError *)error {
+    DLog(@"信鸽推送服务终止操作结果 : %@%@", isSuccess ? @"YES" : @"NO", (error ? [NSString stringWithFormat:@" | 终止错误内容 : %@", error] : @""));
+}
 
 @end
