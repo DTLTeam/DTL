@@ -38,7 +38,7 @@
 
 @property (nonatomic,strong) DraftsModel    *IsChangeModel;
 
-@property (nonatomic,strong)void (^(ChangeClick))(BOOL Change);
+@property (nonatomic,strong)void (^(ChangeClick))(BOOL Change); 
 
 @end
 
@@ -93,6 +93,8 @@
         _Title1.hidden = YES;
         _Title2.hidden = YES;
         _anonymousBtn.hidden = YES;
+        _BottomH.constant = _BottomH.constant - 32;
+        _defBottomH = _BottomH.constant;
         
     }else if (_MainAnswerType == AnswerType_AskQuestionPerson){
         //个人提问
@@ -160,16 +162,26 @@
     
 }
 
+#pragma mark - 渐变蒙版
 - (void)setUpGradient{
  
+    UIView *yourGradientView = [[UIView alloc]initWithFrame:CGRectMake(0, -20, SCREEN_WIDTH - 24, 20)];
+    // 渐变图层
     CAGradientLayer *gradientLayer = [CAGradientLayer layer];
-    gradientLayer.frame = _BottomView.bounds;
-    gradientLayer.colors = @[(__bridge id)[UIColor colorWithWhite:0 alpha:0.8].CGColor,(__bridge id)[UIColor colorWithWhite:0 alpha:1].CGColor];
-    gradientLayer.startPoint = CGPointMake(0, 0);
-    gradientLayer.endPoint = CGPointMake(1, 1);
-    [_BottomView.layer setMask:gradientLayer];
+    gradientLayer.frame = yourGradientView.bounds;
     
+    // 设置颜色
+    gradientLayer.locations = @[[NSNumber numberWithFloat:0.0f],
+                                [NSNumber numberWithFloat:1.0f]];
+
+    gradientLayer.colors = @[ (id)[[UIColor whiteColor] colorWithAlphaComponent:0.0f].CGColor,
+                              (id)[[UIColor whiteColor] colorWithAlphaComponent:1.0f].CGColor];
     
+    // 添加渐变图层
+    [yourGradientView.layer addSublayer:gradientLayer];
+    [_BottomView addSubview:yourGradientView];
+    
+    _BottomView.clipsToBounds = NO;
     
 }
 

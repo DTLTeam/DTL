@@ -192,6 +192,9 @@
 - (void)likeWithCell:(AnswerTableViewCell *)cell {
     
     NSIndexPath *indexPath = [_contentTableView indexPathForCell:cell];
+    if (!indexPath) {
+        return;
+    }
     AnswerModel *mod = [_CommArr objectAtIndex:(indexPath.section - 1)];
     
     __weak typeof(self) weakSelf = self;
