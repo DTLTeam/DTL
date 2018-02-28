@@ -11,6 +11,9 @@
 @interface SettingViewController () <UITableViewDelegate,UITableViewDataSource>
 
 @property (strong, nonatomic) UITableView *tableView;
+
+@property (nonatomic,strong)  UISwitch *Switch;
+
 @end
 
 @implementation SettingViewController
@@ -123,8 +126,14 @@
     if (indexPath.section < dataArr.count - 1) {
         cell.textLabel.text = dataArr[indexPath.section];
         if (indexPath.section == 0) {
-            UISwitch *sw = [[UISwitch alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 70, 5, 60, 40)];
-            [cell addSubview:sw];
+            if (!_Switch) {
+                _Switch = [[UISwitch alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 70, 5, 60, 40)];
+                [_Switch addTarget:self action:@selector(changeNotificationOpen:) forControlEvents:UIControlEventTouchUpInside];
+            }
+            
+            [cell addSubview:_Switch];
+            
+            [self refreshSwitch:_Switch Change:NO];
         }
     }else{
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -141,7 +150,51 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+  
     
+}
+
+- (void)changeNotificationOpen:(UISwitch *)sender{
+    
+    [self refreshSwitch:_Switch Change:YES];
+}
+
+#pragma mark - 通知状态刷新
+- (void)refreshSwitch:(UISwitch *)Switch Change:(BOOL)change{
+    NSDictionary *openInfo = [[NSUserDefaults standardUserDefaults]objectForKey:@"User_OpenNotification"];
+    
+    static NSString *Open = @"1";
+    
+    if (![openInfo valueForKey:@"Open"]) {
+        //默认打开
+        Switch.on = YES;
+    
+    }else{
+        if ([[openInfo valueForKey:@"Open"]isEqualToString:@"1"]) {
+            Switch.on = YES;
+        }else if ([[openInfo valueForKey:@"Open"]isEqualToString:@"0"]){
+            Switch.on = NO;
+        }
+    }
+    
+    if (change) {
+        if ([[openInfo valueForKey:@"Open"]isEqualToString:@"1"]) {
+            [[UIApplication sharedApplication] registerForRemoteNotifications];
+            Open = @"0";
+            
+        }else if ([[openInfo valueForKey:@"Open"]isEqualToString:@"0"]){
+            [[UIApplication sharedApplication] unregisterForRemoteNotifications];
+            Open = @"1";
+            
+        }
+        
+        NSDictionary *UserDefaults = @{@"Open":Open};
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:UserDefaults forKey:@"User_OpenNotification"];
+        [defaults synchronize];
+        
+        [_tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+    }
 }
 
 #pragma mark - 退出登录
