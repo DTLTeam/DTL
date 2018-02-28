@@ -11,7 +11,7 @@
 //Controller
 #import "MainNavigationController.h"
 
-@interface EditQuestionViewController ()<UITextFieldDelegate,UITextViewDelegate>
+@interface EditQuestionViewController () <UITextFieldDelegate, UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *BottomH;
 
@@ -63,6 +63,22 @@
         _Title2Width.constant -= 10;
     }
 }
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
+
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
@@ -108,6 +124,13 @@
         _TextH.constant = _TextH.constant - CGRectGetMaxY(_line.frame) + 18 + 10;
         _question.hidden = YES;
         _line.hidden = YES;
+        [_QuestionContent mas_makeConstraints:^(MASConstraintMaker *make) {
+            if (@available(iOS 11.0, *)) {
+                make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(10);
+            } else {
+                make.top.equalTo(self.view.mas_top).offset(10);
+            }
+        }];
     }
     
     _Title2Line.hidden = _Title2.hidden;
@@ -342,43 +365,11 @@
     [self.view endEditing:YES];
 }
 
-#pragma mark - 键盘状态改变通知
 
-#pragma mark -键盘隐藏时隐藏评论工具栏
-- (void)KeyboardDidHideNotification:(NSNotification *)notification
-{
-    [self.view layoutIfNeeded];
-    [UIView animateWithDuration:0.38 animations:^{
-        
-        _BottomH.constant = _defBottomH;
-        [self.view layoutIfNeeded];
-    }];
-    
-}
-
-#pragma mark -键盘显示时弹出评论工具栏
-- (void)keyboardWillChangeFrame:(NSNotification *)notification
-{
-    NSDictionary *userInfo = notification.userInfo;
-    _keyboardFrame = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    
-    [self.view layoutIfNeeded];
-    [UIView animateWithDuration:0.38 animations:^{
-        
-        if (!IS_IPHONE_X) {
-            
-            _BottomH.constant = CGRectGetHeight(_keyboardFrame) + _defBottomH ;
-        }else{
-            
-            _BottomH.constant = CGRectGetHeight(_keyboardFrame) + _defBottomH - 24;
-        }
-        
-        [self.view layoutIfNeeded];
-    }];
-}
+#pragma mark - UITextFieldDelegate
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-   
+    
     _question.text =  [_question.text stringByReplacingOccurrencesOfString:@" " withString:@""];
     
     
@@ -399,6 +390,21 @@
 }
 
 
+#pragma mark - UITextViewDelegate
+
+- (void)textViewDidChange:(UITextView *)textView {
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = 10;// 字体的行间距
+    
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15],
+                                 NSParagraphStyleAttributeName:paragraphStyle
+                                 };
+    
+    textView.attributedText = [[NSAttributedString alloc] initWithString:textView.text attributes:attributes];
+    
+}
+
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     
     // 不让输入表情
@@ -411,19 +417,40 @@
     return YES;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+#pragma mark - 键盘状态改变通知
+
+#pragma mark 键盘隐藏时隐藏评论工具栏
+- (void)KeyboardDidHideNotification:(NSNotification *)notification
+{
+    [self.view layoutIfNeeded];
+    [UIView animateWithDuration:0.38 animations:^{
+        
+        _BottomH.constant = _defBottomH;
+        [self.view layoutIfNeeded];
+    }];
+    
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark 键盘显示时弹出评论工具栏
+- (void)keyboardWillChangeFrame:(NSNotification *)notification
+{
+    NSDictionary *userInfo = notification.userInfo;
+    _keyboardFrame = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    
+    [self.view layoutIfNeeded];
+    [UIView animateWithDuration:0.38 animations:^{
+        
+        if (!IS_IPHONE_X) {
+            
+            _BottomH.constant = CGRectGetHeight(_keyboardFrame) + _defBottomH ;
+        }else{
+            
+            _BottomH.constant = CGRectGetHeight(_keyboardFrame) + _defBottomH - 24;
+        }
+        
+        [self.view layoutIfNeeded];
+    }];
 }
-*/
 
 @end
