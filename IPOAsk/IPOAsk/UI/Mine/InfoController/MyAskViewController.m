@@ -36,7 +36,7 @@
     MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
         weakSelf.currentPage ++;
         
-        [weakSelf performSelector:@selector(end) withObject:nil afterDelay:5];
+        [weakSelf getAskList];
         
     }];
     [footer setUpGifImage:@"上拉刷新"];
@@ -44,8 +44,8 @@
     
     MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
         weakSelf.currentPage = 1;
-        [weakSelf.askArr removeAllObjects];
-        [weakSelf.tableView.mj_header endRefreshing];
+        
+        [weakSelf getAskList];
     }];
     [header setUpGifImage:@"下拉加载"];
     self.tableView.mj_header = header;
@@ -60,6 +60,9 @@
     [[UserDataManager shareInstance] getAskWithpage:[NSString stringWithFormat:@"%d",(int)_currentPage] finish:^(NSArray *dataArr) {
         GCD_MAIN(^{
             if (dataArr.count > 0) {
+                if (weakSelf.currentPage == 1) {
+                    [weakSelf.askArr removeAllObjects];
+                }
                 [weakSelf.askArr addObjectsFromArray:dataArr];
                 [weakSelf.tableView reloadData];
             }
@@ -81,6 +84,7 @@
     }
     //没有更多了了
     [self.tableView.mj_footer endRefreshing];
+    [self.tableView.mj_header endRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -99,6 +103,8 @@
     if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
         [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
     }
+    
+    [self getAskList];//刷新数据
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -161,17 +167,17 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    AskDataModel *model = _askArr[indexPath.section];
- 
-    //传问题模型
-    MainAskDetailViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil].firstObject;
-    VC.model = model;
-    VC.Type = PushType_MyAsk;
-    [self.navigationController pushViewController:VC animated:YES];
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+    if (indexPath.section < _askArr.count) {//崩溃
+        AskDataModel *model = _askArr[indexPath.section];
+        
+        //传问题模型
+        MainAskDetailViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil].firstObject;
+        VC.model = model;
+        VC.Type = PushType_MyAsk;
+        [self.navigationController pushViewController:VC animated:YES];
+        
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
 }
 
 @end

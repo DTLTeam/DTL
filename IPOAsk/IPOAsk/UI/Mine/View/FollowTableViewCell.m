@@ -54,7 +54,8 @@
             [self addSubview:label];
             if (i == 0) {
                 _viewLabel = label;
-            }else if (i == 2)
+//            }else if (i == 2)
+            }else if (i == 1)
             {
                 _answerLabel = label;
             }else

@@ -33,8 +33,8 @@
     // 上拉加载
     MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
         weakSelf.currentPage ++;
+        [weakSelf getFollowList];
         
-        [weakSelf performSelector:@selector(end) withObject:nil afterDelay:5];
         
     }];
     [footer setUpGifImage:@"上拉刷新"];
@@ -42,8 +42,7 @@
     
     MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
         weakSelf.currentPage = 1;
-        [weakSelf.followArr removeAllObjects];
-        [weakSelf.tableView.mj_header endRefreshing];
+        [weakSelf getFollowList];
     }];
     [header setUpGifImage:@"下拉加载"];
     self.tableView.mj_header = header;
@@ -59,6 +58,10 @@
     [[UserDataManager shareInstance] getFollowWithpage:[NSString stringWithFormat:@"%d",(int)_currentPage] finish:^(NSArray *dataArr) {
         GCD_MAIN(^{
             if (dataArr.count > 0) {
+                if (weakSelf.currentPage == 1) {
+                    [weakSelf.followArr removeAllObjects];
+                }
+                
                 [weakSelf.followArr addObjectsFromArray:dataArr];
                 [weakSelf.tableView reloadData];
             }
@@ -80,6 +83,7 @@
     
     //没有更多了了
     [self.tableView.mj_footer endRefreshing];
+    [self.tableView.mj_header endRefreshing];
 }
 
 
@@ -99,6 +103,8 @@
     if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
         [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
     }
+    
+    [self getFollowList];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

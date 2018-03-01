@@ -34,8 +34,7 @@
     MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
         weakSelf.currentPage ++;
         
-      
-        [weakSelf performSelector:@selector(end) withObject:nil afterDelay:5];
+        [weakSelf getAnswerList];
         
     }];
     [footer setUpGifImage:@"上拉刷新"];
@@ -43,8 +42,7 @@
     
     MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
         weakSelf.currentPage = 1;
-        [weakSelf.answerArr removeAllObjects];
-        [weakSelf.tableView.mj_header endRefreshing];
+        [weakSelf getAnswerList];
     }];
     [header setUpGifImage:@"下拉加载"];
     self.tableView.mj_header = header;
@@ -58,6 +56,9 @@
     [[UserDataManager shareInstance] getAnswerWithpage:[NSString stringWithFormat:@"%d",(int)_currentPage] finish:^(NSArray *dataArr) {
         GCD_MAIN(^{
             if (dataArr.count > 0) {
+                if (weakSelf.currentPage == 1) {
+                    [weakSelf.answerArr removeAllObjects];
+                }
                 [weakSelf.answerArr addObjectsFromArray:dataArr];
                 [weakSelf.tableView reloadData];
             }
@@ -79,6 +80,7 @@
     }
     //没有更多了了
     [self.tableView.mj_footer endRefreshing];
+    [self.tableView.mj_header endRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -97,6 +99,8 @@
     if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
         [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
     }
+    
+    [self getAnswerList];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
