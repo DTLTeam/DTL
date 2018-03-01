@@ -119,6 +119,9 @@
             
             if (dataArr.count > 0) { //有数据
                 
+                if (weakSelf.currentPage == 1) {
+                    [weakSelf.likeArr removeAllObjects];
+                }
                 [weakSelf.likeArr addObjectsFromArray:dataArr];
                 [weakSelf.tableView reloadData];
                 

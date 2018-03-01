@@ -110,7 +110,10 @@
         if (dataArr) { //请求成功
             
             if (dataArr.count > 0) { //有数据
-                
+
+                if (weakSelf.currentPage == 1) {
+                    [weakSelf.followArr removeAllObjects];
+                }
                 [weakSelf.followArr addObjectsFromArray:dataArr];
                 [weakSelf.tableView reloadData];
                 
@@ -171,10 +174,50 @@
     }
     //没有更多了
     [self.tableView.mj_footer endRefreshing];
+    [self.tableView.mj_header endRefreshing];
 }
 
 
+<<<<<<< HEAD
 #pragma mark - UITableViewDelegate & UITableViewDataSource
+=======
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated]; 
+    self.title = @"我的关注";
+    [self setUpNavBgColor:MineTopColor RightBtn:^(UIButton *btn) {
+        
+    }];
+    
+    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
+        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
+    }
+    
+    [self getFollowList];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    //[self hiddenNav];
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+>>>>>>> c4da43281944432f5a80f5266df14626e798fef6
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

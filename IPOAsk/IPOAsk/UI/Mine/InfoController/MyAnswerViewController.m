@@ -110,6 +110,9 @@
             
             if (dataArr.count > 0) { //有数据
                 
+                if (weakSelf.currentPage == 1) {
+                    [weakSelf.answerArr removeAllObjects];
+                }
                 [weakSelf.answerArr addObjectsFromArray:dataArr];
                 [weakSelf.tableView reloadData];
                 
@@ -170,6 +173,7 @@
     }
     //没有更多了
     [self.tableView.mj_footer endRefreshing];
+    [self.tableView.mj_header endRefreshing];
 }
 
 

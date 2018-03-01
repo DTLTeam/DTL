@@ -13,8 +13,10 @@
 //View
 #import "QuestionTableViewCell.h"
 
+
 //Controller
 #import "SignInViewController.h"
+#import "QJCheckVersionUpdate.h"
 
 @interface MainAskViewController () <UITableViewDelegate, UITableViewDataSource, QuestionTableViewCellDelegate>
 
@@ -43,6 +45,7 @@
     [self login];
     [self setupInterface];
     
+    [self checkVerionUpdate];
 }
 
 /*
@@ -327,6 +330,16 @@
     return cell;
     
 }
+
+/**
+ *  检查版本更新
+ */
+- (void)checkVerionUpdate
+{
+    QJCheckVersionUpdate *update = [[QJCheckVersionUpdate alloc] init];
+    [update showAlertView];
+}
+
 
 #pragma mark - 自动登录
 - (void)AutomaticLoginSuccess:(void(^)(BOOL success))Success{

@@ -112,6 +112,9 @@
             
             if (dataArr.count > 0) { //有数据
                 
+                if (weakSelf.currentPage == 1) {
+                    [weakSelf.askArr removeAllObjects];
+                }
                 [weakSelf.askArr addObjectsFromArray:dataArr];
                 [weakSelf.tableView reloadData];
                 
@@ -173,6 +176,7 @@
     }
     //没有更多了
     [self.tableView.mj_footer endRefreshing];
+    [self.tableView.mj_header endRefreshing];
 }
 
 
@@ -202,16 +206,17 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    AskDataModel *model = _askArr[indexPath.section];
- 
-    //传问题模型
-    MainAskDetailViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil].firstObject;
-    VC.model = model;
-    VC.Type = PushType_MyAsk;
-    [self.navigationController pushViewController:VC animated:YES];
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+    if (indexPath.section < _askArr.count) { //崩溃
+        AskDataModel *model = _askArr[indexPath.section];
+        
+        //传问题模型
+        MainAskDetailViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil].firstObject;
+        VC.model = model;
+        VC.Type = PushType_MyAsk;
+        [self.navigationController pushViewController:VC animated:YES];
+        
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
 }
 
 @end

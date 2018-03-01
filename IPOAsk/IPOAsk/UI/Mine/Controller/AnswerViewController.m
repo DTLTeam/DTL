@@ -92,13 +92,22 @@
                     [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:msg viewtag:2 AfterDelay:3];
                     [USER_DEFAULT setBool:YES forKey:manager.userModel.userID];
                     [USER_DEFAULT synchronize];
-                    [WeakSelf.navigationController popViewControllerAnimated:YES];
+                    
+                    [WeakSelf performSelector:@selector(popController) withObject:nil afterDelay:3.0]; 
                 }else
                 {
                     msg = response[@"msg"];
                     [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
                     [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:msg viewtag:2 AfterDelay:3];
+                    
+                    if ([msg containsString:@"申请中"]) {
+                        [USER_DEFAULT setBool:YES forKey:manager.userModel.userID];
+                        [USER_DEFAULT synchronize];
+                        
+                        [WeakSelf performSelector:@selector(popController) withObject:nil afterDelay:3.0];
+                    }
                 }
+                
             });
         } requestHead:nil faile:^(NSError *error) {
             GCD_MAIN(^{
@@ -109,7 +118,10 @@
     }
 }
 
-
+- (void)popController{
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView{
     
