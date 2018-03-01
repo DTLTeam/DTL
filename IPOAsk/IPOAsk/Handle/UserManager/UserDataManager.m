@@ -183,16 +183,20 @@ static UserDataManager *manager; //单例对象
     _userModel = model;
 }
 
-- (void )getAskWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block
+- (void )getAskWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr, BOOL isEnd))finishBlock fail:(void (^)(NSError *error))failBlock
 {
     if (!_userModel) {
-        block(nil);
+        if (finishBlock) {
+            finishBlock(nil, NO);
+        }
         return;
     }
+    
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyAskLists",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
+        
         if ([response[@"status"] intValue] == 1) {
+            
             NSMutableArray *dataArr = [NSMutableArray array];
-//            NSArray *jsonArr = response[@"data"];
             NSArray *jsonArr = [[response valueForKey:@"data"] valueForKey:@"data"];
             for (NSDictionary *dic in jsonArr) {
                 AskDataModel *model = [[AskDataModel alloc] init];
@@ -200,31 +204,66 @@ static UserDataManager *manager; //单例对象
                 model.title = dic[@"title"];
                 model.content = dic[@"content"];
                 model.View = [dic[@"view"] intValue];
-                model.addTime = [NSString stringWithFormat:@"%@",dic[@"addTime"]];
                 model.createUID = [dic[@"createUID"] intValue];
                 model.isAnonymous = [dic[@"isAnonymous"] intValue];
                 model.isCompany = [dic[@"isCompany"] intValue];
                 model.Follow = [dic[@"follow"] intValue];
                 model.Answer = [dic[@"answer"] intValue];
+                
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                [formatter setDateFormat:@"yyyy-MM-dd"];
+                model.addTime = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:[dic[@"addTime"] intValue]]];
+                
                 [dataArr addObject:model];
             }
-            block(dataArr);
-        }else   block(nil);
-    }  requestHead:nil faile:^(NSError *error) {
-        block(nil);
+            
+            BOOL isEnd = NO;
+            if ([response[@"data"][@"current_page"] integerValue] == [response[@"data"][@"last_page"] integerValue]) {
+                isEnd = YES;
+            }
+            
+            GCD_MAIN(^{
+                if (finishBlock) {
+                    finishBlock(dataArr, isEnd);
+                }
+            });
+            
+        } else {
+            
+            GCD_MAIN(^{
+                if (finishBlock) {
+                    finishBlock(nil, NO);
+                }
+            });
+            
+        }
+        
+    } requestHead:nil faile:^(NSError *error) {
+        
+        GCD_MAIN(^{
+            if (failBlock) {
+                failBlock(error);
+            }
+        });
+        
     }];
 }
 
-- (void )getFollowWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block
+- (void )getFollowWithpage:(NSString *)page finish:(void (^)(NSArray *, BOOL))finishBlock fail:(void (^)(NSError *))failBlock
 {
     if (!_userModel) {
-        block(nil);
+        if (finishBlock) {
+            finishBlock(nil, NO);
+        }
         return;
     }
+    
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"myFollowAsk",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
+        
         if ([response[@"status"] intValue] == 1) {
+            
             NSMutableArray *dataArr = [NSMutableArray array];
-            NSArray *jsonArr = [[response valueForKey:@"data"]valueForKey:@"data"];
+            NSArray *jsonArr = [[response valueForKey:@"data"] valueForKey:@"data"];
             for (NSDictionary *dic in jsonArr) {
                 FollowDataModel *model = [[FollowDataModel alloc] init];
                 model.askId = dic[@"id"];
@@ -232,62 +271,125 @@ static UserDataManager *manager; //单例对象
                 model.content = dic[@"content"];
                 model.headIcon = [NSString stringWithFormat:@"%@",[dic valueForKey:@"headIcon"]];
                 model.view = [dic[@"view"] intValue];
-                model.addTime = [NSString stringWithFormat:@"%@",[dic valueForKey:@"addTime"]] ;
                 model.title = dic[@"title"];
                 model.isAnonymous = [dic[@"isAnonymous"] intValue];
                 model.isCompany = [dic[@"isCompany"] intValue];
                 model.isFollow = [dic[@"isFollow"] intValue];
                 model.follow = [dic[@"follow"] intValue];
                 model.answer = [dic[@"answer"] intValue];
+                
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                [formatter setDateFormat:@"yyyy-MM-dd"];
+                model.addTime = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:[dic[@"addTime"] intValue]]];
+                
                 [dataArr addObject:model];
             }
-            block(dataArr);
-        }else   block(nil);
+            
+            BOOL isEnd = NO;
+            if ([response[@"data"][@"current_page"] integerValue] == [response[@"data"][@"last_page"] integerValue]) {
+                isEnd = YES;
+            }
+            
+            GCD_MAIN(^{
+                if (finishBlock) {
+                    finishBlock(dataArr, isEnd);
+                }
+            });
+            
+        } else {
+            
+            GCD_MAIN(^{
+                if (finishBlock) {
+                    finishBlock(nil, NO);
+                }
+            });
+            
+        }
         
     } requestHead:nil faile:^(NSError *error) {
-        block(nil);
+        
+        if (failBlock) {
+            failBlock(error);
+        }
+        
     }];
 }
 
-- (void )getLikeWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block
+- (void )getLikeWithpage:(NSString *)page finish:(void (^)(NSArray *, BOOL))finishBlock fail:(void (^)(NSError *))failBlock
 {
     if (!_userModel) {
-        block(nil);
+        if (finishBlock) {
+            finishBlock(nil, NO);
+        }
         return;
     }
+    
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyAchievement",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
+        
         if ([response[@"status"] intValue] == 1) {
+            
             NSMutableArray *dataArr = [NSMutableArray array];
-//            NSArray *jsonArr = response[@"data"];
-            NSArray *jsonArr = [[response valueForKey:@"data"]valueForKey:@"data"];
+            NSArray *jsonArr = [[response valueForKey:@"data"] valueForKey:@"data"];
             for (NSDictionary *dic in jsonArr) {
                 LikeDataModel *model = [[LikeDataModel alloc] init];
                 model.askId = dic[@"qID"];
                 model.realName = dic[@"realName"];
                 model.headIcon = [NSString stringWithFormat:@"%@",[dic valueForKey:@"headIcon"]];
                 model.likeTime = [NSString stringWithFormat:@"%@",[dic valueForKey:@"likeTime"]] ;
-                model.addTime = [NSString stringWithFormat:@"%@",[dic valueForKey:@"addTime"]] ;
                 model.title = dic[@"title"];
+                
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                [formatter setDateFormat:@"yyyy-MM-dd"];
+                model.addTime = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:[dic[@"addTime"] intValue]]];
+                
                 [dataArr addObject:model];
             }
-            block(dataArr);
-        }else  block(nil);
+            
+            BOOL isEnd = NO;
+            if ([response[@"data"][@"current_page"] integerValue] == [response[@"data"][@"last_page"] integerValue]) {
+                isEnd = YES;
+            }
+            
+            GCD_MAIN(^{
+                if (finishBlock) {
+                    finishBlock(dataArr, isEnd);
+                }
+            });
+            
+        } else {
+            
+            GCD_MAIN(^{
+                if (finishBlock) {
+                    finishBlock(nil, NO);
+                }
+            });
+            
+        }
+        
     }  requestHead:nil faile:^(NSError *error) {
-        block(nil);
+        
+        if (failBlock) {
+            failBlock(error);
+        }
+        
     }];
 }
 
-- (void )getAnswerWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block
+- (void )getAnswerWithpage:(NSString *)page finish:(void (^)(NSArray *, BOOL))finishBlock fail:(void (^)(NSError *))failBlock
 {
     if (!_userModel) {
-        block(nil);
+        if (finishBlock) {
+            finishBlock(nil, NO);
+        }
         return;
     }
+    
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyAnswerLists",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
+        
         if ([response[@"status"] intValue] == 1) {
+            
             NSMutableArray *dataArr = [NSMutableArray array];
-//            NSArray *jsonArr = response[@"data"];
-            NSArray *jsonArr = [[response valueForKey:@"data"]valueForKey:@"data"];
+            NSArray *jsonArr = [[response valueForKey:@"data"] valueForKey:@"data"];
             for (NSDictionary *dic in jsonArr) {
                 AnswerDataModel *model = [[AnswerDataModel alloc] init];
                 model.askId = dic[@"id"];
@@ -295,19 +397,47 @@ static UserDataManager *manager; //单例对象
                 model.content = dic[@"content"];
                 model.headIcon = [NSString stringWithFormat:@"%@",[dic valueForKey:@"headIcon"]];
                 model.LookNum = [dic[@"view"] intValue];
-                model.addTime = [NSString stringWithFormat:@"%@",[dic valueForKey:@"addTime"]];
                 model.title = dic[@"title"];
                 model.IsAnonymous = [dic[@"isAnonymous"] intValue];
                 model.IsCompany = [dic[@"isCompany"] intValue];
                 model.IsFollow = [dic[@"isFollow"] intValue];
                 model.Follow = [dic[@"follow"] intValue];
                 model.Answer = [dic[@"answer"] intValue];
+                
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                [formatter setDateFormat:@"yyyy-MM-dd"];
+                model.addTime = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:[dic[@"addTime"] intValue]]];
+                
                 [dataArr addObject:model];
             }
-            block(dataArr);
-        }else   block(nil);
+            
+            BOOL isEnd = NO;
+            if ([response[@"data"][@"current_page"] integerValue] == [response[@"data"][@"last_page"] integerValue]) {
+                isEnd = YES;
+            }
+            
+            GCD_MAIN(^{
+                if (finishBlock) {
+                    finishBlock(dataArr, isEnd);
+                }
+            });
+            
+        } else {
+            
+            GCD_MAIN(^{
+                if (finishBlock) {
+                    finishBlock(nil, NO);
+                }
+            });
+            
+        }
+        
     }  requestHead:nil faile:^(NSError *error) {
-        block(nil);
+        
+        if (failBlock) {
+            failBlock(error);
+        }
+        
     }];
 }
 

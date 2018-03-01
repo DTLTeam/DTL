@@ -45,19 +45,14 @@
     
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
     self.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBar.hidden = NO;
     if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
         [(MainNavigationController *)self.navigationController showSearchNavBar:YES];
     }
-}
-
-- (void)viewDidAppear:(BOOL)animated{
-    
-    [super viewDidAppear:animated];
     
     if (_currentPage < 0) { //未刷新过
         [_contentTableView.mj_header beginRefreshing];
@@ -84,14 +79,12 @@
         }
         [weakSelf requestContent:weakSelf.currentPage];
     }];
-    [footer setUpGifImage:@"上拉刷新"];
     self.contentTableView.mj_footer = footer;
     
     MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
         weakSelf.currentPage = 0;
         [weakSelf requestContent:weakSelf.currentPage];
     }];
-    [header setUpGifImage:@"下拉加载"];
     self.contentTableView.mj_header = header;
     
 }

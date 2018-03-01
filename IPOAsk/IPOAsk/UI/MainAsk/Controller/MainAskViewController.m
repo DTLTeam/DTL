@@ -55,19 +55,14 @@
  }
  */
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
     self.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBar.hidden = NO;
     if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
         [(MainNavigationController *)self.navigationController showSearchNavBar:YES];
     }
-}
-
-- (void)viewDidAppear:(BOOL)animated{
-    
-    [super viewDidAppear:animated];
     
     if (_currentPage < 0) { //未刷新过
         [_contentTableView.mj_header beginRefreshing];
@@ -95,7 +90,7 @@
     
     __weak typeof(self) weakSelf = self;
     
-    // 上拉加载
+    //上拉加载
     MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
         if (weakSelf.currentPage < 0) {
             weakSelf.currentPage = 0;
@@ -103,15 +98,14 @@
         [weakSelf requestContent:weakSelf.currentPage];
         
     }];
-    [footer setUpGifImage:@"上拉刷新"];
     self.contentTableView.mj_footer = footer;
     
+    //下拉刷新
     MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
         weakSelf.currentPage = 0;
         weakSelf.startQuestionID = 0;
         [weakSelf requestContent:weakSelf.currentPage];
     }];
-    [header setUpGifImage:@"下拉加载"];
     self.contentTableView.mj_header = header;
     
     
@@ -197,10 +191,12 @@
             if (weakSelf.contentTableView.mj_header.isRefreshing) {
                 [weakSelf.contentTableView.mj_header endRefreshing];
             }
-            if (response && ([response[@"data"][@"current_page"] integerValue] == [response[@"data"][@"last_page"] integerValue])) {
-                [weakSelf.contentTableView.mj_footer endRefreshingWithNoMoreData];
-            } else if (weakSelf.contentTableView.mj_footer.isRefreshing) {
-                [weakSelf.contentTableView.mj_footer endRefreshing];
+            if (weakSelf.contentTableView.mj_footer.isRefreshing) {
+                if (response && ([response[@"data"][@"current_page"] integerValue] == [response[@"data"][@"last_page"] integerValue])) {
+                    [weakSelf.contentTableView.mj_footer endRefreshingWithNoMoreData];
+                } else if (weakSelf.contentTableView.mj_footer.isRefreshing) {
+                    [weakSelf.contentTableView.mj_footer endRefreshing];
+                }
             }
             
         }));

@@ -9,6 +9,8 @@
 #import "AskProgressHUD.h"
 #import "MBProgressHUD.h"
 
+#import "FLAnimatedImage.h"
+
 #define bgcolor HEX_RGB_COLOR(0xe3e3e3)
 
 #define textColor [UIColor grayColor]

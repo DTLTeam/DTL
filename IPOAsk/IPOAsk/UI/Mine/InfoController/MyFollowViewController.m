@@ -23,88 +23,15 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    //无数据背景
-    [self setUpBgViewWithTitle:@"暂无关注哦!" Image:@"没有提问" Action:@selector(getFollowList)];
+    self.title = @"我的关注";
     
-    _currentPage = 1;
-    _followArr = [NSMutableArray array];
+    [self initInterface];
     
-    __weak MyFollowViewController *weakSelf = self;
-    // 上拉加载
-    MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
-        weakSelf.currentPage ++;
-        
-        [weakSelf performSelector:@selector(end) withObject:nil afterDelay:5];
-        
-    }];
-    [footer setUpGifImage:@"上拉刷新"];
-    self.tableView.mj_footer = footer;
-    
-    MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
-        weakSelf.currentPage = 1;
-        [weakSelf.followArr removeAllObjects];
-        [weakSelf.tableView.mj_header endRefreshing];
-    }];
-    [header setUpGifImage:@"下拉加载"];
-    self.tableView.mj_header = header;
-    
-    [self getFollowList];
 }
-
-
-#pragma mark - 刷新
-- (void)getFollowList
-{
-     __weak MyFollowViewController *weakSelf = self;
-    [[UserDataManager shareInstance] getFollowWithpage:[NSString stringWithFormat:@"%d",(int)_currentPage] finish:^(NSArray *dataArr) {
-        GCD_MAIN(^{
-            if (dataArr.count > 0) {
-                [weakSelf.followArr addObjectsFromArray:dataArr];
-                [weakSelf.tableView reloadData];
-            }
-            if (dataArr.count == 0 && weakSelf.followArr.count > 0) {
-                [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
-            }else
-            {
-                [weakSelf end];
-            }
-        });
-    }];
-}
-
-- (void)end{
-    if (_followArr.count == 0) {
-        _tableView.hidden = YES;
-        self.bgImageView.hidden = NO;
-    }
-    
-    //没有更多了了
-    [self.tableView.mj_footer endRefreshing];
-}
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated]; 
-    self.title = @"我的关注";
-    [self setUpNavBgColor:MineTopColor RightBtn:^(UIButton *btn) {
-        
-    }];
-    
-    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
-        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
-    }
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    
-    //[self hiddenNav];
 }
 
 /*
@@ -117,8 +44,138 @@
 }
 */
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self setUpNavBgColor:MineTopColor RightBtn:^(UIButton *btn) {
+        
+    }];
+}
 
-#pragma mark - tableViewDelegate
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
+        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
+    }
+    
+    [_tableView.mj_header beginRefreshing];
+    
+}
+
+
+#pragma mark - 界面
+
+- (void)initInterface {
+    
+    _currentPage = 0;
+    _followArr = [NSMutableArray array];
+    
+    //无数据背景
+    [self setUpBgViewWithTitle:@"暂无关注哦!" Image:@"没有提问" Action:@selector(getFollowList)];
+    
+    __weak typeof(self) weakSelf = self;
+    
+    //上拉加载
+    MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
+        weakSelf.currentPage++;
+        [weakSelf getFollowList];
+    }];
+    _tableView.mj_footer = footer;
+    
+    //下拉刷新
+    MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
+        [weakSelf.followArr removeAllObjects];
+        [weakSelf.tableView reloadData];
+        weakSelf.currentPage = 1;
+        [weakSelf getFollowList];
+    }];
+    _tableView.mj_header = header;
+    
+    _tableView.tableFooterView = [[UIView alloc] init];
+    _tableView.estimatedRowHeight = 999;
+    
+}
+
+
+#pragma mark - 功能
+
+- (void)getFollowList
+{
+    __weak typeof(self) weakSelf = self;
+    
+    [[UserDataManager shareInstance] getFollowWithpage:[NSString stringWithFormat:@"%d",(int)_currentPage] finish:^(NSArray *dataArr, BOOL isEnd) {
+        
+        if (dataArr) { //请求成功
+            
+            if (dataArr.count > 0) { //有数据
+                
+                [weakSelf.followArr addObjectsFromArray:dataArr];
+                [weakSelf.tableView reloadData];
+                
+            } else { //无数据
+                
+                if (weakSelf.followArr.count == 0) { //之前也无数据
+                    [weakSelf end];
+                }
+                
+            }
+            
+            if (weakSelf.tableView.mj_header.isRefreshing) {
+                [weakSelf.tableView.mj_header endRefreshing];
+            }
+            if (weakSelf.tableView.mj_footer.isRefreshing) {
+                if (isEnd) {
+                    [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
+                } else {
+                    [weakSelf.tableView.mj_footer endRefreshing];
+                }
+            }
+            
+        } else { //请求失败
+            
+            weakSelf.currentPage--;
+            
+            [AskProgressHUD AskShowOnlyTitleInView:self.view.window Title:@"网络请求失败" viewtag:0 AfterDelay:1.5];
+            
+            if (weakSelf.tableView.mj_header.isRefreshing) {
+                [weakSelf.tableView.mj_header endRefreshing];
+            }
+            if (weakSelf.tableView.mj_footer.isRefreshing) {
+                [weakSelf.tableView.mj_footer endRefreshing];
+            }
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+        weakSelf.currentPage--;
+        
+        [AskProgressHUD AskShowOnlyTitleInView:self.view.window Title:@"网络连接错误" viewtag:0 AfterDelay:1.5];
+        
+        if (weakSelf.tableView.mj_header.isRefreshing) {
+            [weakSelf.tableView.mj_header endRefreshing];
+        }
+        if (weakSelf.tableView.mj_footer.isRefreshing) {
+            [weakSelf.tableView.mj_footer endRefreshing];
+        }
+        
+    }];
+}
+
+- (void)end {
+    if (_followArr.count == 0) {
+        _tableView.hidden = YES;
+        self.bgImageView.hidden = NO;
+    }
+    //没有更多了
+    [self.tableView.mj_footer endRefreshing];
+}
+
+
+#pragma mark - UITableViewDelegate & UITableViewDataSource
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return _followArr.count;
