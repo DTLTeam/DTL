@@ -42,7 +42,6 @@
         _txtLabel.font = [UIFont systemFontOfSize:15];
         [self addSubview:_txtLabel];
         
-<<<<<<< HEAD
         //查看数量
         _lookNumBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _lookNumBtn.titleLabel.font = [UIFont systemFontOfSize:13];
@@ -84,29 +83,6 @@
         insets.left = insets.left + 5;
         _followNumBtn.titleEdgeInsets = insets;
         [self addSubview:_followNumBtn];
-=======
-        for (int i = 0; i < 3; i++) {
-            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(15+i*50, 50, 15, 15)];
-            imgView.image = [UIImage imageNamed:i==0?@"查看":i==1?@"回答":@"关注"];
-            [self addSubview:imgView];
-            
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(32+i*50, 50, 20, 15)];
-            label.text = @"0";
-            label.textAlignment = NSTextAlignmentLeft;
-            label.font = [UIFont systemFontOfSize:13];
-            [self addSubview:label];
-            if (i == 0) {
-                _viewLabel = label;
-//            }else if (i == 2)
-            }else if (i == 1)
-            {
-                _answerLabel = label;
-            }else
-            {
-                _followLabel = label;
-            }
-        }
->>>>>>> c4da43281944432f5a80f5266df14626e798fef6
         
         //日期
         _dateLabel = [[UILabel alloc] init];
