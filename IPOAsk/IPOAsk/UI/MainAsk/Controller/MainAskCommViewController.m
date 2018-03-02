@@ -293,10 +293,8 @@
     cell.textLabel.numberOfLines = 0;
     
     if (_answerMod) {
-        NSMutableString *s = [NSMutableString string];
-        for (int i = 0; i < 5; i++) {
-            [s appendString:_answerMod.content];
-        }
+        NSMutableString *s = [NSMutableString string]; 
+        [s appendString:_answerMod.content];
         
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:s];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
