@@ -79,7 +79,7 @@
 - (void)setUpData{
     [self.sourceData removeAllObjects];
     
-    self.sourceData = [NSMutableArray arrayWithArray:[[FMDBManager sharedInstance]ArrWithSqlDB:[DraftsModel class]Where:@"" orderBy:@"order by id desc" offset:0]]; 
+    self.sourceData = [NSMutableArray arrayWithArray:[[FMDBManager sharedInstance]ArrWithSqlDB:[DraftsModel class]Where:[NSString stringWithFormat:@"UserId = '%@'",[UserDataManager shareInstance].userModel.userID] orderBy:@"order by id desc" offset:0]];
     self.BgTitle = @"暂无草稿哦";
     self.BgImage = @"没有提问";
     

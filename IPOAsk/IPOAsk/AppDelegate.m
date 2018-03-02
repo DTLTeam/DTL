@@ -21,7 +21,13 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     
-    [[FMDBManager sharedInstance]creatTableWithName:@"Drafts" path:@[@"title",@"content",@"Type",@"anonymous"]];
+    [[FMDBManager sharedInstance]creatTableWithName:@"Drafts" path:@[@"title",@"content",@"Type",@"anonymous",@"UserId"]];
+ 
+    NSLog(@"%@",[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]);
+    
+    
+    //插入字段－－用户ID
+    [[FMDBManager sharedInstance] insertCOLUMNdocumentPathStringByAppendingPathComponent:@"" DBName:@"Drafts.sqlite" columnExists:@"UserId" Type:@"text" InClass:[DraftsModel class] WithClassName:@"Drafts"];
     
     [[XGPush defaultManager] startXGWithAppID:2200277581 appKey:@"I5194W3DNBUS" delegate:self];
     

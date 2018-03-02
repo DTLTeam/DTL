@@ -222,6 +222,7 @@
             model.content = [model.content stringByReplacingOccurrencesOfString:@" " withString:@""];
             model.Type = WeakSelf.MainAnswerType;
             model.anonymous =  @"0";
+            model.UserId = [UserDataManager shareInstance].userModel.userID;
             
             if (WeakSelf.MainAnswerType != AnswerType_AskQuestionEnterprise) {//回答页面用户是否匿名
                 model.anonymous = WeakSelf.anonymousBtn.selected ? @"1" : @"0";

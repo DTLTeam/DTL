@@ -329,6 +329,7 @@
             UserDataModel *userMod = [[UserDataManager shareInstance] userModel];
             if (userMod.isAnswerer > 0) {
                 WeakSelf.navigationController.navigationBarHidden = NO;
+                WeakSelf.navigationController.tabBarController.tabBar.hidden = YES;
                 
                 EditQuestionViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:self options:nil][0];
                 VC.questionID = Id;
