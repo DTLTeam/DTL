@@ -52,6 +52,7 @@
 
 #pragma mark - 重置密码
 - (IBAction)ResetPassword:(UIButton *)sender {
+   
     
     if ([_password1 text].length == 0 && [_password2 text].length == 0) {
         [self.view endEditing:YES];
@@ -65,6 +66,13 @@
         [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"两次密码不一致!" viewtag:100 AfterDelay:3];
         
     }else{
+        
+        if (![self returnTruePassword:[_password1 text]] ) {
+            
+            [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"字母和数字组合，8-20位之间！" viewtag:1 AfterDelay:3];
+            return;
+        }
+        
         //上传接口 成功 返回
         __weak ResetPasswordViewController *WeakSelf = self;
         [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"resetPassword",@"phone":WeakSelf.phone,@"password":[UtilsCommon md5WithString:_password1.text]} backData:NetSessionResponseTypeJSON success:^(id response) {
@@ -110,6 +118,38 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self.view endEditing:YES];
+}
+
+
+
+- (BOOL)returnTruePassword:(NSString *)password{
+    
+    
+    //包含条件
+    NSRegularExpression *number = [[NSRegularExpression alloc]
+                                   initWithPattern:@"[0-9]"
+                                   options:NSRegularExpressionCaseInsensitive
+                                   error:nil];
+    if ( [number numberOfMatchesInString:password
+                                 options:NSMatchingReportProgress
+                                   range:NSMakeRange(0, password.length)] > 0 && password.length >= 8 && password.length <= 20) {
+        
+        //包含字母
+        NSRegularExpression *Expression = [[NSRegularExpression alloc]
+                                           initWithPattern:@"[A-Za-z]"
+                                           options:NSRegularExpressionCaseInsensitive
+                                           error:nil];;
+        
+        if ( [Expression numberOfMatchesInString:password
+                                         options:NSMatchingReportProgress
+                                           range:NSMakeRange(0, password.length)] > 0) {
+            
+            return YES;
+        }
+        
+        
+        return NO;
+    }return NO;
 }
 
 

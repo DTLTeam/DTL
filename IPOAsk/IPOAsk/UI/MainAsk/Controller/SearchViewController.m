@@ -331,6 +331,7 @@
 #pragma mark 发布问题
 - (void)putQuestionAction:(id)sender {
     
+    self.tabBarController.tabBar.hidden = YES;
     EditQuestionViewController *editQuestionVC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:nil options:nil].firstObject;
     [editQuestionVC UserType:AnswerType_AskQuestionPerson NavTitle:@"提问"];
     if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {

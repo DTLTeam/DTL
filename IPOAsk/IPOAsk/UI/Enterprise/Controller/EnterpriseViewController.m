@@ -143,6 +143,7 @@ static NSString * CellIdentifier = @"EnterpriseCell";
         return;
     }
     
+    self.tabBarController.tabBar.hidden = YES;
     EditQuestionViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:self options:nil][0];
     [VC UserType:AnswerType_AskQuestionEnterprise NavTitle:@"企业+"];
     if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {

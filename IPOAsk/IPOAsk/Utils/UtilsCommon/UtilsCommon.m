@@ -162,9 +162,11 @@
 +(BOOL)ShowLoginHud:(UIView *)view Tag:(int)tag{
     if (![UserDataManager shareInstance].userModel ) {
         
+        
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
         SignInViewController *signInVC = [sb instantiateViewControllerWithIdentifier:@"SignInView"];
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:signInVC animated:YES completion:nil];
+        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:signInVC];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:nav animated:YES completion:nil];
         
         [AskProgressHUD AskHideAnimatedInView:view viewtag:tag AfterDelay:0];
         [AskProgressHUD AskShowOnlyTitleInView:[UIApplication sharedApplication].keyWindow Title:@"请先登录!" viewtag:tag AfterDelay:3];

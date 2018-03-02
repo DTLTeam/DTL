@@ -114,6 +114,7 @@
     if (indexPath.row < self.sourceData.count) {
         DraftsModel *model = self.sourceData[indexPath.row];
         
+        self.tabBarController.tabBar.hidden = YES;
         __weak DraftsViewController *WeakSelf = self;
         EditQuestionViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:self options:nil][0];
        if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
