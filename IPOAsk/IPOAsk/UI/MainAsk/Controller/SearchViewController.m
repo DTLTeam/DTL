@@ -65,6 +65,21 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    _historyItems = [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:@"history_search_items"]];
+    [_historyTableView reloadData];
+    [_searchNetworkItems removeAllObjects];
+    [_historyTableView reloadData];
+    [_searchNetworkTableView reloadData];
+    
+    _historyTableView.hidden = NO;
+    _searchNetworkTableView.hidden = YES;
+    _searchFailView.hidden = YES;
+    _networkErrorView.hidden = YES;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
     //限制同时只存在一个搜索类页面
     NSInteger count = 0;
     for (id vc in self.navigationController.viewControllers) {
@@ -92,21 +107,6 @@
         [(MainNavigationController *)self.navigationController showSearchNavBar:YES];
     }
     
-    _historyItems = [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:@"history_search_items"]];
-    [_historyTableView reloadData];
-    [_searchNetworkItems removeAllObjects];
-    [_historyTableView reloadData];
-    [_searchNetworkTableView reloadData];
-    
-    _historyTableView.hidden = NO;
-    _searchNetworkTableView.hidden = YES;
-    _searchFailView.hidden = YES;
-    _networkErrorView.hidden = YES;
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
     if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
         
         MainNavigationController *mainNav = (MainNavigationController *)self.navigationController;
@@ -114,7 +114,6 @@
         [mainNav.searchTextField becomeFirstResponder];
         
     }
-    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -182,7 +181,6 @@
         }
         [self requestSearchInfo:_searchContent page:_curSearchPage];
     }];
-    [footer setUpGifImage:@"上拉刷新"];
     _searchNetworkTableView.mj_footer = footer;
     
     _searchFailView = [[UIView alloc] init];

@@ -7,11 +7,8 @@
 //
 
 #import "MJRefreshStateHeader.h"
-#import "FLAnimatedImage.h"
 
-@interface MyRefreshAutoGifHeader : MJRefreshStateHeader
-
-- (void)setUpGifImage:(NSString *)gif;
+@interface MyRefreshAutoGifHeader : MJRefreshGifHeader
 
 @end
 

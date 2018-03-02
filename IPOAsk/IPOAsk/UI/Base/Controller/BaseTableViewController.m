@@ -63,7 +63,7 @@
     
     //实现刷新方法
     if (_haveRefresh) {
-        // 上拉加载
+        //上拉加载
         MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
             weakSelf.currentPage ++;
             
@@ -72,16 +72,15 @@
             }
             
         }];
-        [footer setUpGifImage:@"上拉刷新"];
         self.myTableView.mj_footer = footer;
-         
+        
+        //下拉刷新
         MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
             weakSelf.currentPage = 1;
             if (weakSelf.headerRefresh) {
                 weakSelf.headerRefresh(YES);
             }
         }];
-        [header setUpGifImage:@"下拉加载"];
         self.myTableView.mj_header = header;
          
     }else{

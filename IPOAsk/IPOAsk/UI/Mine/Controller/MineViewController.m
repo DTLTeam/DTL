@@ -224,10 +224,8 @@
                 
                 }];
         }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        loginType type = arc4random() % 3;
-        
-        [cell refreshViews:type];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone; 
+        [cell refreshViews:_userManager.userModel.userType];
         
         if (_userManager.userModel) {
             

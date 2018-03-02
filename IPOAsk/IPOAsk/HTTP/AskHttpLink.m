@@ -149,7 +149,7 @@ static id _instance;
                 fail(error);
             }
             
-            NSLog(@"数据异常");
+            DLog(@"数据异常");
             return ;
         }
         
@@ -172,7 +172,7 @@ static id _instance;
             
         }else{
             fail(error);
-            NSLog(@"网络请求失败");
+            DLog(@"网络请求失败");
         }
         
         if (response && headfiles) {

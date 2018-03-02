@@ -226,6 +226,7 @@ typedef void(^ActionBlock)(NSInteger tag);
             }];
         }
         
+        _headView.image = [UIImage imageNamed:@"默认头像"];
         _NologinLabel.hidden = NO;
         _nameLabel.hidden = YES;
         _phoneLabel.hidden = YES;

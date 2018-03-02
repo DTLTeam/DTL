@@ -79,8 +79,8 @@
  }
  */
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
     self.tabBarController.tabBar.hidden = YES;
     self.navigationController.navigationBar.hidden = NO;
@@ -90,15 +90,6 @@
     
     [self setUpNav];
   
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-   
-}
-
--(void)dealloc{
-    NSLog(@"销毁");
 }
 
 -(void)UserType:(AnswerType)type NavTitle:(NSString *)title{

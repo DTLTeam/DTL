@@ -19,98 +19,20 @@
 @end
 
 @implementation MyAskViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.title = @"我的提问";
     
-    //无数据背景
-    [self setUpBgViewWithTitle:@"暂无提问哦!" Image:@"没有提问" Action:@selector(getAskList)];
+    [self initInterface];
     
-    
-    _currentPage = 1;
-    _askArr = [NSMutableArray array];
-    
-    __weak MyAskViewController *weakSelf = self;
-    // 上拉加载
-    MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
-        weakSelf.currentPage ++;
-        
-        [weakSelf getAskList];
-        
-    }];
-    [footer setUpGifImage:@"上拉刷新"];
-    self.tableView.mj_footer = footer;
-    
-    MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
-        weakSelf.currentPage = 1;
-        
-        [weakSelf getAskList];
-    }];
-    [header setUpGifImage:@"下拉加载"];
-    self.tableView.mj_header = header;
-    
-    [self getAskList];
-}
-
-
-- (void)getAskList
-{
-    __weak MyAskViewController *weakSelf = self;
-    [[UserDataManager shareInstance] getAskWithpage:[NSString stringWithFormat:@"%d",(int)_currentPage] finish:^(NSArray *dataArr) {
-        GCD_MAIN(^{
-            if (dataArr.count > 0) {
-                if (weakSelf.currentPage == 1) {
-                    [weakSelf.askArr removeAllObjects];
-                }
-                [weakSelf.askArr addObjectsFromArray:dataArr];
-                [weakSelf.tableView reloadData];
-            }
-            if (dataArr.count == 0 && weakSelf.askArr.count > 0) {
-                [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
-            }else
-            {
-                [weakSelf end];
-            }
-            
-        });
-    }];
-}
-
-- (void)end{
-    if (_askArr.count == 0) {
-        _tableView.hidden = YES;
-        self.bgImageView.hidden = NO;
-    }
-    //没有更多了了
-    [self.tableView.mj_footer endRefreshing];
-    [self.tableView.mj_header endRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated]; 
-    self.title = @"我的提问";
-    [self setUpNavBgColor:MineTopColor RightBtn:^(UIButton *btn) {
-        
-    }];
-    
-    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
-        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
-    }
-    
-    [self getAskList];//刷新数据
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    
-    //[self hiddenNav];
 }
 
 /*
@@ -123,7 +45,143 @@
  }
  */
 
-#pragma mark - tableViewDelegate
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self setUpNavBgColor:MineTopColor RightBtn:^(UIButton *btn) {
+        
+    }];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
+        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
+    }
+    
+    [_tableView.mj_header beginRefreshing];
+    
+}
+
+
+#pragma mark - 界面
+
+- (void)initInterface {
+    
+    _currentPage = 0;
+    _askArr = [NSMutableArray array];
+    
+    //无数据背景
+    [self setUpBgViewWithTitle:@"暂无提问哦!" Image:@"没有提问" Action:@selector(getAskList)];
+    
+    __weak typeof(self) weakSelf = self;
+    
+    //上拉加载
+    MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
+        weakSelf.currentPage++;
+        [weakSelf getAskList];
+    }];
+    _tableView.mj_footer = footer;
+    
+    //下拉刷新
+    MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
+        [weakSelf.askArr removeAllObjects];
+        [weakSelf.tableView reloadData];
+        weakSelf.currentPage = 1;
+        [weakSelf getAskList];
+    }];
+    _tableView.mj_header = header;
+    
+    _tableView.tableFooterView = [[UIView alloc] init];
+    _tableView.estimatedRowHeight = 999;
+    
+}
+
+
+#pragma mark - 功能
+
+- (void)getAskList
+{
+    __weak typeof(self) weakSelf = self;
+    
+    [[UserDataManager shareInstance] getAskWithpage:[NSString stringWithFormat:@"%d",(int)_currentPage] finish:^(NSArray *dataArr, BOOL isEnd) {
+            
+        if (dataArr) { //请求成功
+            
+            if (dataArr.count > 0) { //有数据
+                
+                if (weakSelf.currentPage == 1) {
+                    [weakSelf.askArr removeAllObjects];
+                }
+                [weakSelf.askArr addObjectsFromArray:dataArr];
+                [weakSelf.tableView reloadData];
+                
+            } else { //无数据
+                
+                if (weakSelf.askArr.count == 0) { //之前也无数据
+                    [weakSelf end];
+                }
+                
+            }
+            
+            if (weakSelf.tableView.mj_header.isRefreshing) {
+                [weakSelf.tableView.mj_header endRefreshing];
+            }
+            if (weakSelf.tableView.mj_footer.isRefreshing) {
+                if (isEnd) {
+                    [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
+                } else {
+                    [weakSelf.tableView.mj_footer endRefreshing];
+                }
+            }
+            
+        } else { //请求失败
+            
+            weakSelf.currentPage--;
+            
+            [AskProgressHUD AskShowOnlyTitleInView:self.view.window Title:@"网络请求失败" viewtag:0 AfterDelay:1.5];
+            
+            if (weakSelf.tableView.mj_header.isRefreshing) {
+                [weakSelf.tableView.mj_header endRefreshing];
+            }
+            if (weakSelf.tableView.mj_footer.isRefreshing) {
+                [weakSelf.tableView.mj_footer endRefreshing];
+            }
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+        weakSelf.currentPage--;
+        
+        [AskProgressHUD AskShowOnlyTitleInView:self.view.window Title:@"网络连接错误" viewtag:0 AfterDelay:1.5];
+        
+        if (weakSelf.tableView.mj_header.isRefreshing) {
+            [weakSelf.tableView.mj_header endRefreshing];
+        }
+        if (weakSelf.tableView.mj_footer.isRefreshing) {
+            [weakSelf.tableView.mj_footer endRefreshing];
+        }
+        
+    }];
+    
+}
+
+- (void)end {
+    if (_askArr.count == 0) {
+        _tableView.hidden = YES;
+        self.bgImageView.hidden = NO;
+    }
+    //没有更多了
+    [self.tableView.mj_footer endRefreshing];
+    [self.tableView.mj_header endRefreshing];
+}
+
+
+#pragma mark - UITableViewDelegate & UITableViewDataSource
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return _askArr.count;
@@ -132,25 +190,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 1;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 80;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 1;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1)];
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, 0, SCREEN_WIDTH - 15, 0.5)];
-    line.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.8];
-    [view addSubview:line];
-    return view;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -167,7 +206,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section < _askArr.count) {//崩溃
+    if (indexPath.section < _askArr.count) { //崩溃
         AskDataModel *model = _askArr[indexPath.section];
         
         //传问题模型

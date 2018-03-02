@@ -133,9 +133,40 @@
 
 - (void)loginSetUpModel:(UserDataModel *)model;
 
-- (void )getAskWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
-- (void )getFollowWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
-- (void )getLikeWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
-- (void )getAnswerWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr))block;
+/**
+ 获取我的提问列表
+
+ @param page 当前要获取的页数
+ @param finishBlock 获取结果回调
+ @param failBlock 网络错误回调
+ */
+- (void )getAskWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr, BOOL isEnd))finishBlock fail:(void (^)(NSError *error))failBlock;
+
+/**
+ 获取我的关注列表
+ 
+ @param page 当前要获取的页数
+ @param finishBlock 获取结果回调
+ @param failBlock 网络错误回调
+ */
+- (void )getFollowWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr, BOOL isEnd))finishBlock fail:(void (^)(NSError *error))failBlock;
+
+/**
+ 获取我的成就列表
+ 
+ @param page 当前要获取的页数
+ @param finishBlock 获取结果回调
+ @param failBlock 网络错误回调
+ */
+- (void )getLikeWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr, BOOL isEnd))finishBlock fail:(void (^)(NSError *error))failBlock;
+
+/**
+ 获取我的回答列表
+ 
+ @param page 当前要获取的页数
+ @param finishBlock 获取结果回调
+ @param failBlock 网络错误回调
+ */
+- (void )getAnswerWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr, BOOL isEnd))finishBlock fail:(void (^)(NSError *error))failBlock;
 
 @end

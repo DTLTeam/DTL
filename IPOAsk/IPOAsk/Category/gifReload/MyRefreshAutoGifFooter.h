@@ -7,13 +7,7 @@
 //
 
 #import "MJRefreshAutoStateFooter.h"
-#import "FLAnimatedImage.h"
 
-@interface MyRefreshAutoGifFooter : MJRefreshAutoStateFooter
-
-
-
-- (void)setUpGifImage:(NSString *)gif;
-
+@interface MyRefreshAutoGifFooter : MJRefreshBackGifFooter
 
 @end
