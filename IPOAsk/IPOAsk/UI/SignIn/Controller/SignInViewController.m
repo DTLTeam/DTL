@@ -330,7 +330,7 @@
         return;
     }
     __weak SignInViewController *WeakSelf = self;
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"register",@"phone":phone,@"password":pwd,@"verificationCode":code,@"userType":@"1"} backData:NetSessionResponseTypeJSON success:^(id response) {
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"register",@"phone":phone,@"password":[UtilsCommon md5WithString:pwd],@"verificationCode":code,@"userType":@"1"} backData:NetSessionResponseTypeJSON success:^(id response) {
         
         GCD_MAIN(^{
             NSString *msg = @"注册失败";
