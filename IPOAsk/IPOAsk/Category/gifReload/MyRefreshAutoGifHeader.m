@@ -20,7 +20,7 @@
     if (header) {
         
         NSMutableArray *imgItems = [NSMutableArray array];
-        for (NSInteger i = 0; i <= 6; i++) {
+        for (NSInteger i = 0; i <= 12; i++) {
             UIImage *img = [UIImage imageNamed:[NSString stringWithFormat:@"下拉刷新_%lu.png", i]];
             [imgItems addObject:img];
         }
