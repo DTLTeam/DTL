@@ -8,9 +8,13 @@
 
 #import "AppDelegate.h"
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+#import <UserNotifications/UserNotifications.h>
+#endif
+
 #import <XGPush.h>
 
-@interface AppDelegate () <XGPushDelegate>
+@interface AppDelegate () <XGPushDelegate, XGPushTokenManagerDelegate>
 
 @end
 
@@ -29,11 +33,12 @@
     //插入字段－－用户ID
     [[FMDBManager sharedInstance] insertCOLUMNdocumentPathStringByAppendingPathComponent:@"" DBName:@"Drafts.sqlite" columnExists:@"UserId" Type:@"text" InClass:[DraftsModel class] WithClassName:@"Drafts"];
     
-    [[XGPush defaultManager] startXGWithAppID:2200277581 appKey:@"I5194W3DNBUS" delegate:self];
+    XGPush *push = [XGPush defaultManager];
+    [push startXGWithAppID:2200277581 appKey:@"I5194W3DNBUS" delegate:self];
+    [push reportXGNotificationInfo:launchOptions]; //统计信鸽推送消息抵达的情况
     
     return YES;
 }
-
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -62,14 +67,77 @@
 }
 
 
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    //注册推送设备token，使服务端识别设备
+    XGPushTokenManager *tokenManager = [XGPushTokenManager defaultTokenManager];
+    [tokenManager registerDeviceToken:deviceToken];
+    
+    //注册成功，可将该token和用户ID一起上传给服务器，让服务器进行指定推送
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:tokenManager.deviceTokenString forKey:@"push_device_token"];
+    [userDefaults synchronize];
+    
+    UserDataModel *userMod = [[UserDataManager shareInstance] userModel];
+    if (userMod) {
+        
+        NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"push_device_token"];
+        
+        NSDictionary *infoDic = @{@"cmd":@"setToken",
+                                  @"userID":(userMod ? userMod.userID : @""),
+                                  @"token":(token ? token : @"")
+                                  };
+        [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+            
+            NSDictionary *dic = response[@"data"];
+            
+            if ([dic[@"status"] intValue] == 1) {
+                
+            }
+            
+        } requestHead:nil faile:^(NSError *error) {
+            
+        }];
+        
+    }
+    
+}
+
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_10_0
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    //统计信鸽推送消息被点击的数据 (iOS 10.0之前的版本)
+    [[XGPush defaultManager] reportXGNotificationInfo:userInfo];
+    [[XGPush defaultManager] setXgApplicationBadgeNumber:0];
+}
+
+#endif
+
+
 #pragma mark - XGPushDelegate
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+
+- (void)xgPushUserNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+    //统计信鸽推送消息被点击的数据 (iOS 10.0及以后的版本)
+    [[XGPush defaultManager] reportXGNotificationInfo:response.notification.request.content.userInfo];
+    [[XGPush defaultManager] setXgApplicationBadgeNumber:0];
+    completionHandler();
+}
+
+- (void)xgPushUserNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler { //App在前台弹通知需要调用这个接口
+    [[XGPush defaultManager] reportXGNotificationInfo:notification.request.content.userInfo];
+    completionHandler(UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert);
+}
+
+#endif
+
 - (void)xgPushDidFinishStart:(BOOL)isSuccess error:(NSError *)error {
-    DLog(@"信鸽推送服务启动操作结果 : %@%@", isSuccess ? @"YES" : @"NO", (error ? [NSString stringWithFormat:@" | 启动错误内容 : %@", error] : @""));
+    DLog(@"----- 信鸽推送服务启动操作结果 : %@%@", isSuccess ? @"YES" : @"NO", (error ? [NSString stringWithFormat:@" | 启动错误内容 : %@", error] : @""));
 }
 
 - (void)xgPushDidFinishStop:(BOOL)isSuccess error:(NSError *)error {
-    DLog(@"信鸽推送服务终止操作结果 : %@%@", isSuccess ? @"YES" : @"NO", (error ? [NSString stringWithFormat:@" | 终止错误内容 : %@", error] : @""));
+    DLog(@"----- 信鸽推送服务终止操作结果 : %@%@", isSuccess ? @"YES" : @"NO", (error ? [NSString stringWithFormat:@" | 终止错误内容 : %@", error] : @""));
 }
 
 @end
