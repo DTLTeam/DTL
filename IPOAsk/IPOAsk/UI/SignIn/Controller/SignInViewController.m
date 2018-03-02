@@ -253,7 +253,8 @@
 {
     __weak SignInViewController *WeakSelf = self;
     [AskProgressHUD AskShowInView:self.view viewtag:1];
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"login",@"phone":phone,@"password":_MainLoginType == loginType_Enterprise ? [UtilsCommon md5WithString:pwd] : pwd} backData:NetSessionResponseTypeJSON success:^(id response) {
+    
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"login",@"phone":phone,@"password":[UtilsCommon md5WithString:pwd]} backData:NetSessionResponseTypeJSON success:^(id response) {
         NSDictionary *dic = (NSDictionary *)response;
         int result = [dic[@"status"] intValue];
         NSDictionary *dataDic = dic[@"data"];
