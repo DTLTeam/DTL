@@ -78,11 +78,14 @@
  // Pass the selected object to the new view controller.
  }
  */
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    self.tabBarController.tabBar.hidden = YES;
+}
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    self.tabBarController.tabBar.hidden = YES;
     self.navigationController.navigationBar.hidden = NO;
     if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
         [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
