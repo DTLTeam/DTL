@@ -9,8 +9,6 @@
 #import "AskProgressHUD.h"
 #import "MBProgressHUD.h"
 
-#import "FLAnimatedImage.h"
-
 #define bgcolor HEX_RGB_COLOR(0xe3e3e3)
 
 #define textColor [UIColor grayColor]
@@ -133,20 +131,20 @@
     MBProgressHUD *hud =[MBProgressHUD showHUDAddedTo:view animated:YES];
     hud.mode = MBProgressHUDModeCustomView;
     
+    UIImageView *animationImgView = [[UIImageView alloc] init];
+    animationImgView.contentMode = UIViewContentModeScaleAspectFit;
+    NSMutableArray *imgItems = [NSMutableArray array];
+    for (NSInteger i = 0; i <= 12; i++) {
+        UIImage *img = [UIImage imageNamed:[NSString stringWithFormat:@"下拉刷新_%lu.png", i]];
+        [imgItems addObject:img];
+    }
+    animationImgView.animationImages = imgItems;
+    animationImgView.animationDuration = 0.1 * imgItems.count;
     
-    NSString *path = [[NSBundle mainBundle]pathForResource:@"页面加载_1" ofType:@"gif"];
-    NSData *data = [NSData dataWithContentsOfFile:path];
-    
-    
-    FLAnimatedImageView *animaImgView = [[FLAnimatedImageView alloc] init];
-    FLAnimatedImage *animatedImage = [FLAnimatedImage animatedImageWithGIFData:data];
-    animaImgView.animatedImage = animatedImage;
-   
-    
-    [animaImgView mas_updateConstraints:^(MASConstraintMaker *make) {
+    [animationImgView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(50, 50));
     }];
-    hud.customView = animaImgView;
+    hud.customView = animationImgView;
     hud.label.text = title;
     hud.removeFromSuperViewOnHide = YES;
     [defhud showAnimated:YES];
