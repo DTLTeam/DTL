@@ -144,6 +144,7 @@
     [animationImgView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(50, 50));
     }];
+    [animationImgView startAnimating];
     hud.customView = animationImgView;
     hud.label.text = title;
     hud.removeFromSuperViewOnHide = YES;
