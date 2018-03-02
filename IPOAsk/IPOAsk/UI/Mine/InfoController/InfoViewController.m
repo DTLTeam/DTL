@@ -177,7 +177,7 @@
             cell.textLabel.text = dataArr[indexPath.section][indexPath.row];
             _HeadImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
             _HeadImageBtn.frame = CGRectMake(SCREEN_WIDTH - 60, 10, 40, 40);
-            [_HeadImageBtn setImage:[UIImage imageNamed:@"默认头像"] forState:UIControlStateNormal];
+            [_HeadImageBtn sd_setImageWithURL:[NSURL URLWithString:_ChangeUserModel.headIcon] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"默认头像"]];
             [_HeadImageBtn addTarget:self action:@selector(changeHead:) forControlEvents:UIControlEventTouchUpInside];
             _HeadImageBtn.layer.cornerRadius = 20;
             _HeadImageBtn.layer.masksToBounds = YES;
