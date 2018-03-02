@@ -327,10 +327,9 @@
         } WithAnswerClick:^(UIButton *btn) {
             
             UserDataModel *userMod = [[UserDataManager shareInstance] userModel];
-            if (userMod.isAnswerer > 0) {
-                WeakSelf.navigationController.navigationBarHidden = NO;
-                WeakSelf.navigationController.tabBarController.tabBar.hidden = YES;
-                
+            if (userMod.isAnswerer == 1) { //只有个人可以回答
+                 
+                WeakSelf.tabBarController.tabBar.hidden = YES;
                 EditQuestionViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:self options:nil][0];
                 VC.questionID = Id;
                 [VC UserType:AnswerType_Answer NavTitle:WeakModel.title];

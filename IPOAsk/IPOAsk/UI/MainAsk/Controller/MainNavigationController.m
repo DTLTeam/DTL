@@ -180,6 +180,7 @@
         return;
     }
     
+    self.tabBarController.tabBar.hidden = YES;
     EditQuestionViewController *editQuestionVC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:nil options:nil].firstObject;
     [editQuestionVC UserType:AnswerType_AskQuestionPerson NavTitle:@"提问"];
  

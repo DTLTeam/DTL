@@ -226,10 +226,12 @@ typedef void(^ActionBlock)(NSInteger tag);
             }];
         }
         
+        [self updateAskInfo:0 answer:0 follow:0 like:0];
         _headView.image = [UIImage imageNamed:@"默认头像"];
         _NologinLabel.hidden = NO;
         _nameLabel.hidden = YES;
         _phoneLabel.hidden = YES;
+        
         return;
     }
     _NologinLabel.hidden = YES;

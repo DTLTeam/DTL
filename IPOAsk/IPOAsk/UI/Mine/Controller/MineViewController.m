@@ -224,7 +224,9 @@
                 
                 }];
         }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone; 
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        
         [cell refreshViews:_userManager.userModel.userType];
         
         if (_userManager.userModel) {
