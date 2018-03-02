@@ -45,6 +45,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    _MainLoginType = loginType_Person;  //弹出默认个人登录
+    
     _UserHead.layer.cornerRadius = CGRectGetHeight(_UserHead.frame) / 2;
     _UserHead.layer.masksToBounds = YES;
     
@@ -104,12 +106,12 @@
                     });
                     return;
                 }
-                if (![UtilsCommon isValidateEmail:userName] && WeakSelf.MainLoginType == loginType_Enterprise) {
-                    GCD_MAIN(^{
-                        [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"请输入正确的邮箱号" viewtag:1 AfterDelay:3];
-                    });
-                    return;
-                }
+//                if (![UtilsCommon isValidateEmail:userName] && WeakSelf.MainLoginType == loginType_Enterprise) {
+//                    GCD_MAIN(^{
+//                        [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"请输入正确的邮箱号" viewtag:1 AfterDelay:3];
+//                    });
+//                    return;
+//                }
                 [WeakSelf goLogin:userName pwd:Password];
                 break;
               
@@ -251,7 +253,7 @@
 {
     __weak SignInViewController *WeakSelf = self;
     [AskProgressHUD AskShowInView:self.view viewtag:1];
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"login",@"phone":phone,@"password":pwd} backData:NetSessionResponseTypeJSON success:^(id response) {
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"login",@"phone":phone,@"password":_MainLoginType == loginType_Enterprise ? [UtilsCommon md5WithString:pwd] : pwd} backData:NetSessionResponseTypeJSON success:^(id response) {
         NSDictionary *dic = (NSDictionary *)response;
         int result = [dic[@"status"] intValue];
         NSDictionary *dataDic = dic[@"data"];

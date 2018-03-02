@@ -52,6 +52,9 @@ typedef enum : NSUInteger {
 + (NSString *)validPhoneNum:(NSString *)phone;
 
 
+#pragma mark md5
++ (NSString*)md5WithString:(NSString*)str;
+
 #pragma mark - 联系企业
 + (void)CallPhone;
 
