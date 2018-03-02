@@ -251,6 +251,7 @@ static id _instance;
     [request setHTTPMethod:@"POST"];
     [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
     [request setTimeoutInterval:30];
+    
     NSString* headerString = [NSString stringWithFormat:@"multipart/form-data; charset=utf-8; boundary=%@",UploadImageBoundary];
     [request setValue:headerString forHTTPHeaderField:@"Content-Type"];
     
@@ -264,7 +265,7 @@ static id _instance;
     UserDataManager *userManagser = [UserDataManager shareInstance];
     [myString appendString:userManagser.userModel.userID];
     [myString appendString:[NSString stringWithFormat:@"\r\n--%@\r\n",UploadImageBoundary]];
-    [myString appendString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n",name]];
+    [myString appendString:[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"headPic\"; filename=\"%@\"\r\n",name]];
     [myString appendString:@"Content-Type: image/jpeg\r\n\r\n"];
     /*转化为二进制数据*/
     [requestMutableData appendData:[myString dataUsingEncoding:NSUTF8StringEncoding]];
@@ -284,7 +285,8 @@ static id _instance;
                                                       delegateQueue:nil];
     
     NSURLSessionDataTask * uploadtask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        id dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+        
+        id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
         if (finish) {
             finish(dictionary);
         }

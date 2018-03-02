@@ -10,6 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <Photos/Photos.h>
 #import "InfoViewController.h"
+#import <UIButton+WebCache.h>
 
 @interface InfoViewController () <UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (strong, nonatomic)UIActionSheet *sheet;
@@ -400,8 +401,7 @@
     if (original_image) {
         NSData *imgData = UIImageJPEGRepresentation(original_image, 0.5);
         img = [UIImage imageWithData:imgData];
-     
-        [_HeadImageBtn setImage:img forState:UIControlStateNormal];
+        [self editHead:@"http://int.answer.updrv.com/api/v1" img:imgData imgName:@"head.jpg"];
     }
     
     __block NSURL *imageAssetUrl = [info objectForKey:UIImagePickerControllerReferenceURL];
@@ -504,10 +504,13 @@
     }];
 }
 
-- (void)editHead
+- (void)editHead:(NSString *)url img:(NSData *)imgData imgName:(NSString *)name
 {
-    [[AskHttpLink shareInstance] POSTImage:@"" data:nil name:@"" finish:^(id response) {
-        
+    [[AskHttpLink shareInstance] POSTImage:url data:imgData name:name finish:^(id response) {
+        if ([response[@"status"] intValue] == 1) {
+            NSString *imgurl = response[@"data"];
+            [_HeadImageBtn sd_setImageWithURL:[NSURL URLWithString:imgurl] forState:UIControlStateNormal];
+        }
     }];
 }
 

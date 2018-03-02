@@ -140,12 +140,11 @@
         //重置密码
         [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"checkCode",@"phone":_PhoneView.text,@"verificationCode":_CodeView.text} backData:NetSessionResponseTypeJSON success:^(id response) {
             if ([response[@"status"] intValue] == 1) {
-            
                 GCD_MAIN(^{
                     UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                     ResetPasswordViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"ResetPasswordView"];
-                    VC.phone = WeakSelf.PhoneView.text;
-                    [self.navigationController pushViewController:VC animated:YES];
+                    VC.phone = self.PhoneView.text;
+                    [WeakSelf.navigationController pushViewController:VC animated:YES];
                 });
             }
         } requestHead:nil faile:^(NSError *error) {
