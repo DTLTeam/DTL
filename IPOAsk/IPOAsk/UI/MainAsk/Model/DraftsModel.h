@@ -16,4 +16,6 @@
 @property(nonatomic,strong)   NSString *Id;
 @property(nonatomic,strong)   NSString *anonymous; //匿名
 
+@property(nonatomic,strong)   NSString *UserId;     //
+
 @end

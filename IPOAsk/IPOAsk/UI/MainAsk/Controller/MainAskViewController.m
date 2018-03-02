@@ -354,7 +354,7 @@
         __weak MainAskViewController *WeakSelf = self;
         [AskProgressHUD AskShowInView:self.view viewtag:1];
         
-        [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"login",@"phone":dataDic[@"phone"],@"password":[User valueForKey:@"Pwd"]} backData:NetSessionResponseTypeJSON success:^(id response) {
+        [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"login",@"phone":dataDic[@"phone"],@"password":[UtilsCommon md5WithString:[User valueForKey:@"Pwd"]]} backData:NetSessionResponseTypeJSON success:^(id response) {
             NSDictionary *dic = (NSDictionary *)response;
             int result = [dic[@"status"] intValue];
             NSDictionary *dataDic = dic[@"data"];

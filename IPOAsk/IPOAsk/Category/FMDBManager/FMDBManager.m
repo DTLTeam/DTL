@@ -96,7 +96,7 @@ static FMDBManager *MyManager = nil;
         
         if ([self openOrCreateDB]) {
             //不存在数据库中，执行插入操作
-            BOOL result = [self.DataBase executeUpdateWithFormat:@"insert into Drafts(title,content,Type,anonymous) values(%@,%@,%ld,%@)",modal.title,modal.content,modal.Type,modal.anonymous];
+            BOOL result = [self.DataBase executeUpdateWithFormat:@"insert into Drafts(title,content,Type,anonymous,UserId) values(%@,%@,%ld,%@,%@)",modal.title,modal.content,modal.Type,modal.anonymous,modal.UserId];
             
             return result;
         }
@@ -113,7 +113,7 @@ static FMDBManager *MyManager = nil;
         if ([model isKindOfClass:[DraftsModel class]]) {
             DraftsModel *modal = model;
             
-            NSString* updateString = [NSString stringWithFormat:@"update Drafts set title = '%@',content = '%@',Type = '%ld',anonymous = '%@' %@",modal.title,modal.content,modal.Type,modal.anonymous,where];
+            NSString* updateString = [NSString stringWithFormat:@"update Drafts set title = '%@',content = '%@',Type = '%ld',anonymous = '%@',UserId = '%@' %@",modal.title,modal.content,modal.Type,modal.anonymous,modal.UserId,where];
             BOOL res = [self.DataBase executeUpdate:updateString];
             
             if (!res) {
@@ -174,7 +174,7 @@ static FMDBManager *MyManager = nil;
         NSLog(@"打开数据库成功");
         
         
-        NSMutableString* st = [NSMutableString stringWithFormat:@"select rowid,* from %@ %@",[model getTableName],orderBy];
+        NSMutableString* st = [NSMutableString stringWithFormat:@"select rowid,* from %@ where %@ %@",[model getTableName],where,orderBy];
         
         FMResultSet *resulut = [self.DataBase executeQuery:st];
         NSMutableArray *Arr = [NSMutableArray array];
