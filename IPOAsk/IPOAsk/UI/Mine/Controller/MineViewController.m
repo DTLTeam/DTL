@@ -304,7 +304,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ( indexPath.section != 0) {
-        if ([UtilsCommon ShowLoginHud:self.view Tag:200]) { 
+        if ([UtilsCommon ShowLoginHud:self.view Tag:200]) {
+            _pushChangeUser = YES;
             return;
         }
     }

@@ -106,9 +106,9 @@
                     });
                     return;
                 }
-                if (![UtilsCommon isValidateEmail:userName] && WeakSelf.MainLoginType == loginType_Enterprise) {
+                if (![UtilsCommon isValidateEmail:userName] && [[UtilsCommon validPhoneNum:userName] isEqualToString:@""] && WeakSelf.MainLoginType == loginType_Enterprise) {
                     GCD_MAIN(^{
-                        [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"请输入正确的邮箱号" viewtag:1 AfterDelay:3];
+                        [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"请输入正确的邮箱号或手机号" viewtag:1 AfterDelay:3];
                     });
                     return;
                 }
