@@ -8,6 +8,8 @@
 
 #import "UserDataManager.h"
 
+#import <XGPush.h>
+
 /**
  用户数据类型
  */
@@ -148,7 +150,7 @@
 
 
 
-@interface UserDataManager ()
+@interface UserDataManager () <XGPushTokenManagerDelegate>
 
 @end
 
@@ -183,6 +185,141 @@ static UserDataManager *manager; //单例对象
     _userModel = model;
 }
 
+#pragma mark 登录
+- (void)signInWithAccount:(NSString *)account password:(NSString *)password complated:(void (^)(BOOL, NSString *))complatedBlock networkError:(void (^)(NSError *))networkErrorBlock {
+    
+    if (![NSThread currentThread].isMainThread) {
+        GCD_MAIN(^{
+            [self signInWithAccount:account password:password complated:complatedBlock networkError:networkErrorBlock];
+        });
+        return;
+    }
+    
+    XGPushTokenManager *tokenManger = [XGPushTokenManager defaultTokenManager];
+    [tokenManger unbindWithIdentifer:tokenManger.deviceTokenString type:XGPushTokenBindTypeNone];
+    
+    NSString *tempAccount = (account ? account : @"");
+    NSString *tempPassword = (password ? password : @"");
+    
+    NSDictionary *infoDic = @{@"cmd":@"login",
+                              @"phone":tempAccount,
+                              @"password":[UtilsCommon md5WithString:tempPassword]};
+    
+    __weak typeof(self) weakSelf = self;
+    
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+        
+        GCD_MAIN((^{
+        
+            NSDictionary *dic = (NSDictionary *)response;
+            int result = [dic[@"status"] intValue];
+            NSDictionary *dataDic = dic[@"data"];
+            
+            BOOL isSuccess = NO;
+            if (result == 1 && dataDic) {
+                
+                //缓存登录数据
+                UserDataModel *model = [[UserDataModel alloc] init];
+                model.userID = dataDic[@"userID"];
+                model.headIcon = dataDic[@"headIcon"];
+                model.phone = dataDic[@"phone"];
+                model.realName = dataDic[@"realName"];
+                model.nickName = dataDic[@"nickName"];
+                model.company = dataDic[@"company"];
+                model.details = dataDic[@"details"];
+                model.email = dataDic[@"email"];
+                model.forbidden = [dataDic[@"forbidden"] intValue];
+                model.isAnswerer = [dataDic[@"isAnswerer"] intValue];
+                model.userType = [dataDic[@"userType"] intValue];
+                model.Password = tempPassword;
+                [weakSelf loginSetUpModel:model];
+                
+                NSDictionary *userDic = @{@"User":dataDic,
+                                          @"Pwd":model.Password};
+                
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                [defaults setObject:userDic forKey:@"UserInfo_only"];
+                [defaults synchronize];
+                
+                [weakSelf bindPushToken];
+                
+                isSuccess = YES;
+                
+            } else {
+                
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                [defaults setObject:nil forKey:@"UserInfo_only"];
+                [defaults synchronize];
+                
+                isSuccess = NO;
+                
+            }
+            
+            if (complatedBlock) {
+                complatedBlock(isSuccess, (dic[@"msg"] ? dic[@"msg"] : @""));
+            }
+            
+        }));
+            
+    } requestHead:nil faile:^(NSError *error) {
+        
+        GCD_MAIN(^{
+            
+            if (networkErrorBlock) {
+                networkErrorBlock(error);
+            }
+            
+        });
+        
+    }];
+    
+}
+
+#pragma mark 绑定推送token
+- (void)bindPushToken {
+    
+    XGPushTokenManager *tokenManger = [XGPushTokenManager defaultTokenManager];
+    NSString *token = tokenManger.deviceTokenString;
+    
+    __weak typeof(self) weakSelf = self;
+    
+    NSDictionary *infoDic = @{@"cmd":@"setToken",
+                              @"userID":(_userModel ? _userModel.userID : @""),
+                              @"token":(token ? token : @"")
+                              };
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+        
+        GCD_MAIN(^{
+            
+            NSDictionary *dic = response;
+            
+            if ([dic[@"status"] intValue] == 1) {
+                
+                DLog(@"------  绑定信鸽用户指定推送成功  userID : %@ | token : %@", (_userModel ? _userModel.userID : @""), (token ? token : @""));
+                
+                tokenManger.delegatge = weakSelf;
+                [tokenManger bindWithIdentifier:tokenManger.deviceTokenString type:XGPushTokenBindTypeNone];
+            }
+            
+        });
+        
+    } requestHead:nil faile:^(NSError *error) {
+        
+//        [weakSelf bindPushToken];
+        
+    }];
+    
+}
+
+#pragma mark 退出登录
+- (void)signOut {
+    
+    XGPushTokenManager *tokenManger = [XGPushTokenManager defaultTokenManager];
+    [tokenManger unbindWithIdentifer:tokenManger.deviceTokenString type:XGPushTokenBindTypeNone];
+    
+}
+
+#pragma mark 获取我的提问列表
 - (void )getAskWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr, BOOL isEnd))finishBlock fail:(void (^)(NSError *error))failBlock
 {
     if (!_userModel) {
@@ -249,132 +386,7 @@ static UserDataManager *manager; //单例对象
     }];
 }
 
-- (void )getFollowWithpage:(NSString *)page finish:(void (^)(NSArray *, BOOL))finishBlock fail:(void (^)(NSError *))failBlock
-{
-    if (!_userModel) {
-        if (finishBlock) {
-            finishBlock(nil, NO);
-        }
-        return;
-    }
-    
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"myFollowAsk",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
-        
-        if ([response[@"status"] intValue] == 1) {
-            
-            NSMutableArray *dataArr = [NSMutableArray array];
-            NSArray *jsonArr = [[response valueForKey:@"data"] valueForKey:@"data"];
-            for (NSDictionary *dic in jsonArr) {
-                FollowDataModel *model = [[FollowDataModel alloc] init];
-                model.askId = dic[@"id"];
-                model.nickName = dic[@"nickName"];
-                model.content = dic[@"content"];
-                model.headIcon = [NSString stringWithFormat:@"%@",[dic valueForKey:@"headIcon"]];
-                model.view = [dic[@"view"] intValue];
-                model.title = dic[@"title"];
-                model.isAnonymous = [dic[@"isAnonymous"] intValue];
-                model.isCompany = [dic[@"isCompany"] intValue];
-                model.isFollow = [dic[@"isFollow"] intValue];
-                model.follow = [dic[@"follow"] intValue];
-                model.answer = [dic[@"answer"] intValue];
-                
-                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                [formatter setDateFormat:@"yyyy-MM-dd"];
-                model.addTime = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:[dic[@"addTime"] intValue]]];
-                
-                [dataArr addObject:model];
-            }
-            
-            BOOL isEnd = NO;
-            if ([response[@"data"][@"current_page"] integerValue] == [response[@"data"][@"last_page"] integerValue]) {
-                isEnd = YES;
-            }
-            
-            GCD_MAIN(^{
-                if (finishBlock) {
-                    finishBlock(dataArr, isEnd);
-                }
-            });
-            
-        } else {
-            
-            GCD_MAIN(^{
-                if (finishBlock) {
-                    finishBlock(nil, NO);
-                }
-            });
-            
-        }
-        
-    } requestHead:nil faile:^(NSError *error) {
-        
-        if (failBlock) {
-            failBlock(error);
-        }
-        
-    }];
-}
-
-- (void )getLikeWithpage:(NSString *)page finish:(void (^)(NSArray *, BOOL))finishBlock fail:(void (^)(NSError *))failBlock
-{
-    if (!_userModel) {
-        if (finishBlock) {
-            finishBlock(nil, NO);
-        }
-        return;
-    }
-    
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyAchievement",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
-        
-        if ([response[@"status"] intValue] == 1) {
-            
-            NSMutableArray *dataArr = [NSMutableArray array];
-            NSArray *jsonArr = [[response valueForKey:@"data"] valueForKey:@"data"];
-            for (NSDictionary *dic in jsonArr) {
-                LikeDataModel *model = [[LikeDataModel alloc] init];
-                model.askId = dic[@"qID"];
-                model.realName = dic[@"realName"];
-                model.headIcon = [NSString stringWithFormat:@"%@",[dic valueForKey:@"headIcon"]];
-                model.likeTime = [NSString stringWithFormat:@"%@",[dic valueForKey:@"likeTime"]] ;
-                model.title = dic[@"title"];
-                
-                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                [formatter setDateFormat:@"yyyy-MM-dd"];
-                model.addTime = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:[dic[@"addTime"] intValue]]];
-                
-                [dataArr addObject:model];
-            }
-            
-            BOOL isEnd = NO;
-            if ([response[@"data"][@"current_page"] integerValue] == [response[@"data"][@"last_page"] integerValue]) {
-                isEnd = YES;
-            }
-            
-            GCD_MAIN(^{
-                if (finishBlock) {
-                    finishBlock(dataArr, isEnd);
-                }
-            });
-            
-        } else {
-            
-            GCD_MAIN(^{
-                if (finishBlock) {
-                    finishBlock(nil, NO);
-                }
-            });
-            
-        }
-        
-    }  requestHead:nil faile:^(NSError *error) {
-        
-        if (failBlock) {
-            failBlock(error);
-        }
-        
-    }];
-}
-
+#pragma mark 获取我的回答列表
 - (void )getAnswerWithpage:(NSString *)page finish:(void (^)(NSArray *, BOOL))finishBlock fail:(void (^)(NSError *))failBlock
 {
     if (!_userModel) {
@@ -441,5 +453,141 @@ static UserDataManager *manager; //单例对象
     }];
 }
 
+#pragma mark 获取我的关注列表
+- (void )getFollowWithpage:(NSString *)page finish:(void (^)(NSArray *, BOOL))finishBlock fail:(void (^)(NSError *))failBlock
+{
+    if (!_userModel) {
+        if (finishBlock) {
+            finishBlock(nil, NO);
+        }
+        return;
+    }
+    
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"myFollowAsk",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
+        
+        if ([response[@"status"] intValue] == 1) {
+            
+            NSMutableArray *dataArr = [NSMutableArray array];
+            NSArray *jsonArr = [[response valueForKey:@"data"] valueForKey:@"data"];
+            for (NSDictionary *dic in jsonArr) {
+                FollowDataModel *model = [[FollowDataModel alloc] init];
+                model.askId = dic[@"id"];
+                model.nickName = dic[@"nickName"];
+                model.content = dic[@"content"];
+                model.headIcon = [NSString stringWithFormat:@"%@",[dic valueForKey:@"headIcon"]];
+                model.view = [dic[@"view"] intValue];
+                model.title = dic[@"title"];
+                model.isAnonymous = [dic[@"isAnonymous"] intValue];
+                model.isCompany = [dic[@"isCompany"] intValue];
+                model.isFollow = [dic[@"isFollow"] intValue];
+                model.follow = [dic[@"follow"] intValue];
+                model.answer = [dic[@"answer"] intValue];
+                
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                [formatter setDateFormat:@"yyyy-MM-dd"];
+                model.addTime = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:[dic[@"addTime"] intValue]]];
+                
+                [dataArr addObject:model];
+            }
+            
+            BOOL isEnd = NO;
+            if ([response[@"data"][@"current_page"] integerValue] == [response[@"data"][@"last_page"] integerValue]) {
+                isEnd = YES;
+            }
+            
+            GCD_MAIN(^{
+                if (finishBlock) {
+                    finishBlock(dataArr, isEnd);
+                }
+            });
+            
+        } else {
+            
+            GCD_MAIN(^{
+                if (finishBlock) {
+                    finishBlock(nil, NO);
+                }
+            });
+            
+        }
+        
+    } requestHead:nil faile:^(NSError *error) {
+        
+        if (failBlock) {
+            failBlock(error);
+        }
+        
+    }];
+}
+
+#pragma mark 获取我的成就列表
+- (void )getLikeWithpage:(NSString *)page finish:(void (^)(NSArray *, BOOL))finishBlock fail:(void (^)(NSError *))failBlock
+{
+    if (!_userModel) {
+        if (finishBlock) {
+            finishBlock(nil, NO);
+        }
+        return;
+    }
+    
+    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyAchievement",@"userID":_userModel.userID,@"pageSize":@"30",@"page":page} backData:NetSessionResponseTypeJSON success:^(id response) {
+        
+        if ([response[@"status"] intValue] == 1) {
+            
+            NSMutableArray *dataArr = [NSMutableArray array];
+            NSArray *jsonArr = [[response valueForKey:@"data"] valueForKey:@"data"];
+            for (NSDictionary *dic in jsonArr) {
+                LikeDataModel *model = [[LikeDataModel alloc] init];
+                model.askId = dic[@"qID"];
+                model.realName = dic[@"realName"];
+                model.headIcon = [NSString stringWithFormat:@"%@",[dic valueForKey:@"headIcon"]];
+                model.likeTime = [NSString stringWithFormat:@"%@",[dic valueForKey:@"likeTime"]] ;
+                model.title = dic[@"title"];
+                
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                [formatter setDateFormat:@"yyyy-MM-dd"];
+                model.addTime = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:[dic[@"addTime"] intValue]]];
+                
+                [dataArr addObject:model];
+            }
+            
+            BOOL isEnd = NO;
+            if ([response[@"data"][@"current_page"] integerValue] == [response[@"data"][@"last_page"] integerValue]) {
+                isEnd = YES;
+            }
+            
+            GCD_MAIN(^{
+                if (finishBlock) {
+                    finishBlock(dataArr, isEnd);
+                }
+            });
+            
+        } else {
+            
+            GCD_MAIN(^{
+                if (finishBlock) {
+                    finishBlock(nil, NO);
+                }
+            });
+            
+        }
+        
+    }  requestHead:nil faile:^(NSError *error) {
+        
+        if (failBlock) {
+            failBlock(error);
+        }
+        
+    }];
+}
+
+
+- (void)xgPushDidUnbindWithIdentifier:(NSString *)identifier type:(XGPushTokenBindType)type error:(NSError *)error {
+    DLog(@"-----  解绑  ID : %@ | error : %@", identifier, error);
+}
+
+- (void)xgPushDidBindWithIdentifier:(NSString *)identifier type:(XGPushTokenBindType)type error:(NSError *)error {
+    DLog(@"-----  绑定  ID : %@ | error : %@", identifier, error);
+}
 
 @end

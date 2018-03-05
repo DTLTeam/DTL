@@ -73,31 +73,9 @@
     [tokenManager registerDeviceToken:deviceToken];
     
     //注册成功，可将该token和用户ID一起上传给服务器，让服务器进行指定推送
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:tokenManager.deviceTokenString forKey:@"push_device_token"];
-    [userDefaults synchronize];
-    
     UserDataModel *userMod = [[UserDataManager shareInstance] userModel];
     if (userMod) {
-        
-        NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"push_device_token"];
-        
-        NSDictionary *infoDic = @{@"cmd":@"setToken",
-                                  @"userID":(userMod ? userMod.userID : @""),
-                                  @"token":(token ? token : @"")
-                                  };
-        [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
-            
-            NSDictionary *dic = response[@"data"];
-            
-            if ([dic[@"status"] intValue] == 1) {
-                
-            }
-            
-        } requestHead:nil faile:^(NSError *error) {
-            
-        }];
-        
+        [[UserDataManager shareInstance] bindPushToken];
     }
     
 }
