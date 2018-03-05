@@ -139,10 +139,6 @@
     }
     
     
-    
-  
-    
-    
     if (_ContentLabel.numberOfLines == 0) {
         _ShowAll.hidden = YES;
         _BottomH.constant -= 28;

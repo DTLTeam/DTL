@@ -48,12 +48,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    UIBarButtonItem *btnItem = [[UIBarButtonItem alloc] init];
+    self.navigationItem.leftBarButtonItem = btnItem;
     
     [self setUpGradient];
     
     [NOTIFICATIONCENTER addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
     [NOTIFICATIONCENTER addObserver:self selector:@selector(KeyboardDidHideNotification:) name:UIKeyboardWillHideNotification object:nil];
-  
+    
     if (SCREEN_HEIGHT < 667) {
         _Title1.font = [UIFont systemFontOfSize:11];
         _Title2.titleLabel.font = [UIFont systemFontOfSize:11];

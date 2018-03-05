@@ -6,21 +6,30 @@
 //  Copyright © 2018年 law. All rights reserved.
 //
 
+#import "InfoViewController.h"
+
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <AVFoundation/AVFoundation.h>
 #import <Photos/Photos.h>
-#import "InfoViewController.h"
 #import <UIButton+WebCache.h>
+#import "UserDataManager.h"
 
-@interface InfoViewController () <UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,UITextFieldDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
-@property (strong, nonatomic)UIActionSheet *sheet;
-@property (strong, nonatomic)UIButton *HeadImageBtn;
-@property (strong, nonatomic)NSArray *UserInfoArr;
+@interface InfoViewController () <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+
+@property (strong, nonatomic) UIActionSheet *sheet;
+@property (strong, nonatomic) UIButton *HeadImageBtn;
+@property (strong, nonatomic) NSArray *UserInfoArr;
+
+@property (strong, nonatomic) UITextField *nickTextField;
+@property (strong, nonatomic) UITextField *nameTextField;
+@property (strong, nonatomic) UITextField *emailTextField;
+@property (strong, nonatomic) UITextField *companyTextField;
+@property (strong, nonatomic) UITextView *introductionTextView;
 
 @property (strong, nonatomic) UITableView *tableView;
 @property (assign, nonatomic) InfoCellType Select;
 @property (assign, nonatomic) CGFloat tableViewHeight;
-@property (assign, nonatomic) CGFloat keyboardHeight;
+@property (assign, nonatomic) CGRect keyboardFrame;
 
 
 @property (strong, nonatomic)UserDataModel *ChangeUserModel;
@@ -62,13 +71,16 @@
     _UserInfoArr = @[_ChangeUserModel.headIcon,_ChangeUserModel.nickName,_ChangeUserModel.realName,_ChangeUserModel.email,_ChangeUserModel.company,_ChangeUserModel.details];
     self.view.backgroundColor = MineTopColor;
     
-    _tableViewHeight = 150 + 7 * 60 + 10;
-    
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAVBAR_HEIGHT) style:UITableViewStylePlain];
+    _tableViewHeight = SCREEN_HEIGHT - NAVBAR_HEIGHT;
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, _tableViewHeight) style:UITableViewStylePlain];
+    _tableView.backgroundColor = MineTopColor;
     _tableView.bounces = NO;
     _tableView.delegate = self;
     _tableView.dataSource = self;
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    if (@available(iOS 11.0, *)) {
+        _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
+    }
     
     [self.view addSubview:_tableView]; 
 }
@@ -116,11 +128,22 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return 6;
-    }else
-    {
-        return 2;
+    switch (section) {
+        case 0:
+        {
+            return 6;
+        }
+            break;
+        case 1:
+        {
+            return 2;
+        }
+            break;
+        default:
+        {
+            return 0;
+        }
+            break;
     }
 }
 
@@ -131,113 +154,191 @@
         return 150;
     }else
     {
-        return 60.5;
+        return 60;
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return 10;
-    }
-    return 0.5;
+    return 10;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 0) {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10)];
-        view.backgroundColor = MineTopColor;
-        return view;
-    }
-    return [[UIView alloc]init];
+    return [[UIView alloc] init];
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *identifier = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if (indexPath.row != InfoCellType_introduction || (indexPath.section == 1 && indexPath.row == 1)) {
-            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(15, 60, SCREEN_WIDTH, 0.5)];
-            view.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.8];
-            [cell addSubview:view];
-        }
-    }
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    
-    
-    if (indexPath.section == 0) {
-        if (indexPath.row == InfoCellType_Head) {
-       
+    switch (indexPath.section) {
+        case 0:
+        {
+            if (indexPath.row != InfoCellType_introduction) {
+                cell.textLabel.text = dataArr[indexPath.section][indexPath.row];
+            }
             
+            switch (indexPath.row) {
+                case InfoCellType_Head: //头像
+                {
+                    if (!_HeadImageBtn) {
+                        _HeadImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                        _HeadImageBtn.frame = CGRectMake(SCREEN_WIDTH - 60, 10, 40, 40);
+                        [_HeadImageBtn sd_setImageWithURL:[NSURL URLWithString:_ChangeUserModel.headIcon] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
+                        [_HeadImageBtn addTarget:self action:@selector(changeHead:) forControlEvents:UIControlEventTouchUpInside];
+                        _HeadImageBtn.layer.cornerRadius = 20;
+                        _HeadImageBtn.layer.masksToBounds = YES;
+                    }
+                    [cell addSubview:_HeadImageBtn];
+                }
+                    break;
+                case InfoCellType_Nick: //昵称
+                {
+                    if (!_nickTextField) {
+                        _nickTextField = [[UITextField alloc]init];
+                        _nickTextField.placeholder = dataArr[indexPath.section][indexPath.row];
+                        _nickTextField.keyboardType = UIKeyboardTypeDefault;
+                        _nickTextField.delegate = self;
+                        _nickTextField.font = [UIFont systemFontOfSize:15];
+                        _nickTextField.textColor = HEX_RGB_COLOR(0x969ca1);
+                        _nickTextField.textAlignment = NSTextAlignmentRight;
+                        _nickTextField.tag = indexPath.row;
+                        _nickTextField.text = [_UserInfoArr objectAtIndex:indexPath.row];
+                    }
+                    [cell addSubview:_nickTextField];
+                    
+                    [_nickTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.left.mas_equalTo(cell.mas_left).offset(27 + 60);
+                        make.right.mas_equalTo(cell.mas_right).offset(-20);
+                        make.centerY.mas_equalTo(cell.mas_centerY);
+                        make.height.equalTo(@20);
+                    }];
+                }
+                    break;
+                case InfoCellType_Name: //名字
+                {
+                    if (!_nameTextField) {
+                        _nameTextField = [[UITextField alloc]init];
+                        _nameTextField.placeholder = dataArr[indexPath.section][indexPath.row];
+                        _nameTextField.keyboardType = UIKeyboardTypeDefault;
+                        _nameTextField.delegate = self;
+                        _nameTextField.font = [UIFont systemFontOfSize:15];
+                        _nameTextField.textColor = HEX_RGB_COLOR(0x969ca1);
+                        _nameTextField.textAlignment = NSTextAlignmentRight;
+                        _nameTextField.tag = indexPath.row;
+                        _nameTextField.text = [_UserInfoArr objectAtIndex:indexPath.row];
+                    }
+                    [cell addSubview:_nameTextField];
+                    
+                    [_nameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.left.mas_equalTo(cell.mas_left).offset(27 + 60);
+                        make.right.mas_equalTo(cell.mas_right).offset(-20);
+                        make.centerY.mas_equalTo(cell.mas_centerY);
+                        make.height.equalTo(@20);
+                    }];
+                }
+                    break;
+                case InfoCellType_Email: //电子邮箱
+                {
+                    if (!_emailTextField) {
+                        _emailTextField = [[UITextField alloc]init];
+                        _emailTextField.placeholder = dataArr[indexPath.section][indexPath.row];
+                        _emailTextField.keyboardType = UIKeyboardTypeDefault;
+                        _emailTextField.delegate = self;
+                        _emailTextField.font = [UIFont systemFontOfSize:15];
+                        _emailTextField.textColor = HEX_RGB_COLOR(0x969ca1);
+                        _emailTextField.textAlignment = NSTextAlignmentRight;
+                        _emailTextField.tag = indexPath.row;
+                        _emailTextField.text = [_UserInfoArr objectAtIndex:indexPath.row];
+                    }
+                    [cell addSubview:_emailTextField];
+                    
+                    [_emailTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.left.mas_equalTo(cell.mas_left).offset(27 + 60);
+                        make.right.mas_equalTo(cell.mas_right).offset(-20);
+                        make.centerY.mas_equalTo(cell.mas_centerY);
+                        make.height.equalTo(@20);
+                    }];
+                }
+                    break;
+                case InfoCellType_CorporateName: //公司名称
+                {
+                    if (!_companyTextField) {
+                        _companyTextField = [[UITextField alloc]init];
+                        _companyTextField.placeholder = dataArr[indexPath.section][indexPath.row];
+                        _companyTextField.keyboardType = UIKeyboardTypeDefault;
+                        _companyTextField.delegate = self;
+                        _companyTextField.font = [UIFont systemFontOfSize:15];
+                        _companyTextField.textColor = HEX_RGB_COLOR(0x969ca1);
+                        _companyTextField.textAlignment = NSTextAlignmentRight;
+                        _companyTextField.tag = indexPath.row;
+                        _companyTextField.text = [_UserInfoArr objectAtIndex:indexPath.row];
+                    }
+                    [cell addSubview:_companyTextField];
+                    
+                    [_companyTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.left.mas_equalTo(cell.mas_left).offset(27 + 60);
+                        make.right.mas_equalTo(cell.mas_right).offset(-20);
+                        make.centerY.mas_equalTo(cell.mas_centerY);
+                        make.height.equalTo(@20);
+                    }];
+                }
+                    break;
+                case InfoCellType_introduction: //简介
+                {
+                    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 17, 40, 20)];
+                    label.textAlignment = NSTextAlignmentLeft;
+                    label.text = dataArr[indexPath.section][indexPath.row];
+                    [cell addSubview:label];
+                    
+                    if (!_introductionTextView) {
+                        _introductionTextView = [[UITextView alloc]init];
+                        _introductionTextView.delegate = self;
+                        _introductionTextView.font = [UIFont systemFontOfSize:15];
+                        _introductionTextView.textColor = HEX_RGB_COLOR(0x969ca1);
+                        _introductionTextView.tag = indexPath.row;
+                        _introductionTextView.text = [_UserInfoArr objectAtIndex:InfoCellType_introduction];
+                    }
+                    [cell addSubview:_introductionTextView];
+                    
+                    [_introductionTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.left.mas_equalTo(cell.mas_left).offset(80);
+                        make.right.mas_equalTo(cell.mas_right).offset(-20);
+                        make.top.mas_equalTo(cell.mas_top).offset(17);
+                        make.bottom.mas_equalTo(cell.mas_bottom).offset(-17);
+                    }];
+                }
+                    break;
+                default:
+                    break;
+            }
+        }
+            break;
+        case 1:
+        {
             cell.textLabel.text = dataArr[indexPath.section][indexPath.row];
-            _HeadImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            _HeadImageBtn.frame = CGRectMake(SCREEN_WIDTH - 60, 10, 40, 40);
-            [_HeadImageBtn sd_setImageWithURL:[NSURL URLWithString:_ChangeUserModel.headIcon] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"默认头像"]];
-            [_HeadImageBtn addTarget:self action:@selector(changeHead:) forControlEvents:UIControlEventTouchUpInside];
-            _HeadImageBtn.layer.cornerRadius = 20;
-            _HeadImageBtn.layer.masksToBounds = YES;
-            [cell addSubview:_HeadImageBtn];
             
-            
-        }else if (indexPath.row == InfoCellType_introduction)
-        {
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 17, 40, 20)];
-            label.text = dataArr[indexPath.section][indexPath.row];
-            [cell addSubview:label];
-            
-            UITextView * textView = [[UITextView alloc]init];
-//            textfield.placeholder = dataArr[indexPath.section][indexPath.row];
-            textView.delegate = self;
-            textView.font = [UIFont systemFontOfSize:15];
-            textView.textColor = HEX_RGB_COLOR(0x969ca1);
-            textView.tag = indexPath.row;
-            textView.text = [_UserInfoArr objectAtIndex:InfoCellType_introduction];
-            [cell addSubview:textView];
-            
-            [textView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.mas_equalTo(cell.mas_left).offset(27 + 60);
-                make.right.mas_equalTo(cell.mas_right).offset(-20);
-                make.top.mas_equalTo(cell.mas_top).offset(17);
-                make.bottom.mas_equalTo(cell.mas_bottom);
-            }];
-            
-        }else
-        {
-            cell.textLabel.text = dataArr[indexPath.section][indexPath.row];
-            
-            
-            UITextField *textfield = [[UITextField alloc]init];
-            textfield.placeholder = dataArr[indexPath.section][indexPath.row];
-            textfield.keyboardType = UIKeyboardTypeDefault;
-            textfield.delegate = self;
-            textfield.font = [UIFont systemFontOfSize:15];
-            textfield.textColor = HEX_RGB_COLOR(0x969ca1);
-            textfield.textAlignment = NSTextAlignmentRight;
-            textfield.tag = indexPath.row;
-            textfield.text = [_UserInfoArr objectAtIndex:indexPath.row];
-            [cell addSubview:textfield];
-            
-            [textfield mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.mas_equalTo(cell.mas_left).offset(27 + 60);
-                make.right.mas_equalTo(cell.mas_right).offset(-20);
-                make.centerY.mas_equalTo(cell.mas_centerY);
-                make.height.equalTo(@20);
-            }];
+            UserDataModel *userMod = [[UserDataManager shareInstance] userModel];
+            switch (indexPath.row) {
+                case 0:
+                {
+                    cell.detailTextLabel.text = userMod.userType == 1 ? @"个人用户" : @"企业用户";
+                }
+                    break;
+                case 1:
+                {
+                    cell.detailTextLabel.text = userMod.isAnswerer == 1 ? @"是" : @"否";
+                }
+                    break;
+                default:
+                    break;
+            }
         }
-    }
-    else if (indexPath.section == 1  && indexPath.section == 1) {
-        cell.textLabel.text = dataArr[indexPath.section][indexPath.row];
-        if (indexPath.row == 0) {
-            cell.detailTextLabel.text = @"个人用户";
-        }else
-        {
-            cell.detailTextLabel.text = @"否";
-        }
+            break;
+        default:
+            break;
     }
     
     return cell;
@@ -250,7 +351,6 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     [self.view endEditing:YES];
-    
 }
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView{
@@ -305,40 +405,39 @@
 #pragma mark -键盘隐藏时隐藏评论工具栏
 - (void)KeyboardDidHideNotification:(NSNotification *)notification
 {
-    
     [self keyboardShowChangeFrame:NO];
-    
 }
 
 #pragma mark -键盘显示时弹出评论工具栏
 - (void)keyboardWillChangeFrame:(NSNotification *)notification
 {
-    
     NSDictionary *userInfo = notification.userInfo;
-    _keyboardHeight = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;
+    _keyboardFrame = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     
     if (_Select == InfoCellType_introduction) {
-        
         [self keyboardShowChangeFrame:YES];
     }
 }
 
 - (void)keyboardShowChangeFrame:(BOOL)change{
-    [self.view layoutIfNeeded];
+//    [self.view layoutIfNeeded];
     
     [UIView animateWithDuration:0.38 animations:^{
         
         if (change) {
-            
-            _tableView.frame = CGRectMake(0, -_keyboardHeight, SCREEN_WIDTH, _tableViewHeight + _keyboardHeight);
-        }else{
-            _tableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, _tableViewHeight);
+            CGRect frame = _tableView.frame;
+            frame.size.height = _tableViewHeight - _keyboardFrame.size.height;
+            _tableView.frame = frame;
+        } else {
+            CGRect frame = _tableView.frame;
+            frame.size.height = _tableViewHeight;
+            _tableView.frame = frame;
         }
         
-        [self.view layoutIfNeeded];
+//        [self.view layoutIfNeeded];
+        
     }];
     
-  
 }
 
 

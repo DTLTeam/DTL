@@ -18,6 +18,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    UIBarButtonItem *btnItem = [[UIBarButtonItem alloc] init];
+    self.navigationItem.leftBarButtonItem = btnItem;
+    
     if (!IS_IOS11LATER) {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
