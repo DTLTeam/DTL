@@ -11,6 +11,7 @@
 #import "UserDataManager.h"
 
 //Controller
+#import "BaseTabBarViewController.h"
 #import "ApplicationEnterpriseViewController.h"
 #import "EditQuestionViewController.h"
 
@@ -95,6 +96,14 @@ static NSString * CellIdentifier = @"EnterpriseCell";
         
     }
     
+    if ([UtilsCommon ShowLoginHud:self.view Tag:200]) {
+        
+        GCD_MAIN(^{
+            BaseTabBarViewController *base = (BaseTabBarViewController *)self.tabBarController;
+            base.selectedIndex = base.lastSelectedIndex;
+        });
+    }
+    
 }
 
 
@@ -146,9 +155,6 @@ static NSString * CellIdentifier = @"EnterpriseCell";
     self.tabBarController.tabBar.hidden = YES;
     EditQuestionViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:self options:nil][0];
     [VC UserType:AnswerType_AskQuestionEnterprise NavTitle:@"企业+"];
-    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
-        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
-    }
     [self.navigationController pushViewController:VC animated:YES];
     
 }

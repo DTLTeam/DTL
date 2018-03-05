@@ -322,10 +322,10 @@
             </objects>
             <point key="canvasLocation" x="-2236.875" y="-183.80281690140845"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Base Tab Bar View Controller-->
         <scene sceneID="vHT-dK-Xwi">
             <objects>
-                <tabBarController id="atR-Dj-9wy" sceneMemberID="viewController">
+                <tabBarController id="atR-Dj-9wy" customClass="BaseTabBarViewController" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="kJn-gr-dhj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>

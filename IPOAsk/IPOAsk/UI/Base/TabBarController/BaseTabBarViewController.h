@@ -10,4 +10,7 @@
 
 @interface BaseTabBarViewController : UITabBarController
 
+@property(readonly, nonatomic) NSUInteger lastSelectedIndex;
+ 
+
 @end
