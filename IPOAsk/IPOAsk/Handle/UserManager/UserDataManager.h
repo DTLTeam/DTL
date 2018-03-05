@@ -130,8 +130,27 @@
  */
 + (instancetype)shareInstance;
 
-
 - (void)loginSetUpModel:(UserDataModel *)model;
+
+/**
+ 登录
+ 
+ @param account 账户
+ @param password 密码
+ @param complatedBlock 登录结果回调
+ @param networkErrorBlock 网络错误回调
+ */
+- (void)signInWithAccount:(NSString *)account password:(NSString *)password complated:(void (^)(BOOL isSignInSuccess, NSString *message))complatedBlock networkError:(void (^)(NSError *error))networkErrorBlock;
+
+/**
+ 绑定用户推送
+ */
+- (void)bindPushToken;
+
+/**
+ 退出登录
+ */
+- (void)signOut;
 
 /**
  获取我的提问列表
@@ -141,6 +160,15 @@
  @param failBlock 网络错误回调
  */
 - (void )getAskWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr, BOOL isEnd))finishBlock fail:(void (^)(NSError *error))failBlock;
+
+/**
+ 获取我的回答列表
+ 
+ @param page 当前要获取的页数
+ @param finishBlock 获取结果回调
+ @param failBlock 网络错误回调
+ */
+- (void )getAnswerWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr, BOOL isEnd))finishBlock fail:(void (^)(NSError *error))failBlock;
 
 /**
  获取我的关注列表
@@ -159,14 +187,5 @@
  @param failBlock 网络错误回调
  */
 - (void )getLikeWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr, BOOL isEnd))finishBlock fail:(void (^)(NSError *error))failBlock;
-
-/**
- 获取我的回答列表
- 
- @param page 当前要获取的页数
- @param finishBlock 获取结果回调
- @param failBlock 网络错误回调
- */
-- (void )getAnswerWithpage:(NSString *)page finish:(void(^)(NSArray *dataArr, BOOL isEnd))finishBlock fail:(void (^)(NSError *error))failBlock;
 
 @end

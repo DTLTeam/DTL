@@ -200,7 +200,9 @@
 #pragma mark - 退出登录
 - (void)loginOut{
     
-    [[UserDataManager shareInstance] loginSetUpModel:nil];
+    UserDataManager *userManager = [UserDataManager shareInstance];
+    [userManager loginSetUpModel:nil];
+    [userManager signOut];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:nil forKey:@"UserInfo_only"];

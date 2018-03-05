@@ -40,9 +40,9 @@
     [self.navigationController.tabBarItem setSelectedImage:img];
     [self.navigationController.tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:HEX_RGB_COLOR(0x0b98f2),NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
     
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginOut) name:@"LoginOut" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginOut) name:@"LoginOut" object:nil];
     
-    [self login];
+    [self automaticLogin];
     [self setupInterface];
     
     [self checkVerionUpdate];
@@ -221,21 +221,55 @@
     
 }
 
--(void)login{
+#pragma mark 自动登录
+- (void)automaticLogin {
     
-   
-    __weak MainAskViewController *WeakSelf = self;
+    NSDictionary *userDic = [[NSUserDefaults standardUserDefaults] objectForKey:@"UserInfo_only"];
+    NSDictionary *dataDic = [userDic valueForKey:@"User"];
     
-    //自动登录
-    [self AutomaticLoginSuccess:^(BOOL success) {
-        if (!success) {
-            UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    if (dataDic) { //存在可登录用户
+        
+        __weak typeof(self) weakSelf = self;
+        [AskProgressHUD AskShowInView:self.view viewtag:1];
+        
+        [[UserDataManager shareInstance] signInWithAccount:dataDic[@"phone"] password:userDic[@"Pwd"] complated:^(BOOL isSignInSuccess, NSString *message) {
             
-            SignInViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"SignInView"];
-            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:VC];
-            [WeakSelf.navigationController presentViewController:nav animated:YES completion:nil];
-        }
-    }];
+            if (isSignInSuccess) {
+                
+                [AskProgressHUD AskHideAnimatedInView:weakSelf.view viewtag:1 AfterDelay:0];
+                [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:@"自动登录成功!" viewtag:1 AfterDelay:3];
+                
+            } else {
+                
+                //登录失败
+                [AskProgressHUD AskHideAnimatedInView:weakSelf.view viewtag:1 AfterDelay:0];
+                [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:message viewtag:1 AfterDelay:3];
+                
+                UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                
+                SignInViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"SignInView"];
+                UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:VC];
+                [weakSelf.navigationController presentViewController:nav animated:YES completion:nil];
+                
+            }
+            
+        } networkError:^(NSError *error) {
+            
+            //网络错误
+            [AskProgressHUD AskHideAnimatedInView:weakSelf.view viewtag:1 AfterDelay:0];
+            [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:@"网络连接错误" viewtag:1 AfterDelay:3];
+            
+        }];
+        
+    }
+    
+}
+
+#pragma mark - 退出登录
+- (void)loginOut {
+    
+    //刷新页面
+    NSLog(@"退出");
 }
 
 
@@ -338,101 +372,6 @@
 {
     QJCheckVersionUpdate *update = [[QJCheckVersionUpdate alloc] init];
     [update showAlertView];
-}
-
-
-#pragma mark - 自动登录
-- (void)AutomaticLoginSuccess:(void(^)(BOOL success))Success{
-    
-    NSDictionary *User = [[NSUserDefaults standardUserDefaults] objectForKey:@"UserInfo_only"];
-    NSDictionary *dataDic = [User valueForKey:@"User"];
-    
-    
-    if (dataDic) {
-        
-        //判断类型是否变化
-        __weak MainAskViewController *WeakSelf = self;
-        [AskProgressHUD AskShowInView:self.view viewtag:1];
-        
-        [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"login",@"phone":dataDic[@"phone"],@"password":[UtilsCommon md5WithString:[User valueForKey:@"Pwd"]]} backData:NetSessionResponseTypeJSON success:^(id response) {
-            NSDictionary *dic = (NSDictionary *)response;
-            int result = [dic[@"status"] intValue];
-            NSDictionary *dataDic = dic[@"data"];
-            if (result == 1 && dataDic) {
-                GCD_MAIN((^{
-                    //缓存登录数据
-                    UserDataManager *manager = [UserDataManager shareInstance];
-                    UserDataModel *model = [[UserDataModel alloc] init];
-                    model.userID = dataDic[@"userID"];
-                    model.headIcon = dataDic[@"headIcon"];
-                    model.phone = dataDic[@"phone"];
-                    model.realName = dataDic[@"realName"];
-                    model.nickName = dataDic[@"nickName"];
-                    model.company = dataDic[@"company"];
-                    model.details = dataDic[@"details"];
-                    model.email = dataDic[@"email"];
-                    model.forbidden = [dataDic[@"forbidden"] intValue];
-                    model.isAnswerer = [dataDic[@"isAnswerer"] intValue];
-                    model.userType = [dataDic[@"userType"] intValue];
-                    [manager loginSetUpModel:model];
-                    
-                    
-                    if (1) {
-                        [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"自动登录成功！" viewtag:1 AfterDelay:3];
-                        
-                        NSDictionary *UserDefaults = @{@"User":dataDic,@"Pwd":[User valueForKey:@"Pwd"]};
-                        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                        [defaults setObject:UserDefaults forKey:@"UserInfo_only"];
-                        [defaults synchronize];
-                        Success(YES);
-                        
-                        [[NSNotificationCenter defaultCenter]postNotificationName:@"LoginSuccess" object:nil];
-                    }else{
-                        //类型发生变化
-                        
-                        
-                        
-                        
-                        Success(NO);
-                    }
-                }));
-            }else{
-                
-                GCD_MAIN(^{
-                    //登录失败
-                    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                    [defaults setObject:nil forKey:@"UserInfo_only"];
-                    [defaults synchronize];
-                    
-                    [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
-                    [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:[dic valueForKey:@"msg"] viewtag:1 AfterDelay:3];
-                    Success(NO);
-                });
-            }
-        } requestHead:nil faile:^(NSError *error) {
-            
-            GCD_MAIN(^{
-                //登录失败
-                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                [defaults setObject:nil forKey:@"UserInfo_only"];
-                [defaults synchronize];
-                
-                [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
-                [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"登录失败" viewtag:1 AfterDelay:3];
-                Success(NO);
-            });
-        }];
-        
-    } else
-        Success(NO);
-    
-}
-
-#pragma mark - 退出登录
-- (void)loginOut{
-    
-    //刷新页面
-    NSLog(@"退出");
 }
 
 @end
