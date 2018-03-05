@@ -50,14 +50,19 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    if (_currentPage < 0) { //未刷新过
+        [_contentTableView.mj_header beginRefreshing];
+    }
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
     self.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBar.hidden = NO;
     if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
         [(MainNavigationController *)self.navigationController showSearchNavBar:YES];
-    }
-    
-    if (_currentPage < 0) { //未刷新过
-        [_contentTableView.mj_header beginRefreshing];
     }
     
 }

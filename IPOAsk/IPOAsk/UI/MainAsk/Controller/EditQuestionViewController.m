@@ -68,7 +68,12 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [self setUpNav];
+    
+}
 /*
  #pragma mark - Navigation
  
@@ -86,7 +91,6 @@
         [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
     }
     
-    [self setUpNav];
   
 }
 

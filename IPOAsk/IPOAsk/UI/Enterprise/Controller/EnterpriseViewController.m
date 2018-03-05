@@ -146,9 +146,6 @@ static NSString * CellIdentifier = @"EnterpriseCell";
     self.tabBarController.tabBar.hidden = YES;
     EditQuestionViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:self options:nil][0];
     [VC UserType:AnswerType_AskQuestionEnterprise NavTitle:@"企业+"];
-    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
-        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
-    }
     [self.navigationController pushViewController:VC animated:YES];
     
 }
