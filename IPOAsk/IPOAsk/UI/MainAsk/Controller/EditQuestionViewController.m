@@ -258,7 +258,7 @@
 }
 
 #pragma mark - 发布
-- (void)SendOut{
+- (void)SendOut {
     
     if (_question.text.length == 0 && _MainAnswerType != AnswerType_Answer) {
         [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"请写标题!" viewtag:100 AfterDelay:3];
@@ -293,6 +293,7 @@
     
     UserDataModel *userMod = [UserDataManager shareInstance].userModel;
     NSDictionary *infoDic;
+    NSString *alertMessage;
     switch (_MainAnswerType) {
         case AnswerType_Answer:
         {
@@ -302,6 +303,8 @@
                         @"isAnonymous":@(_anonymousBtn.selected),
                         @"content":_QuestionContent.text
                         };
+            
+            alertMessage = @"正在提交回复...";
         }
             break;
         case AnswerType_AskQuestionPerson:
@@ -312,26 +315,41 @@
                         @"title":_question.text,
                         @"content":_QuestionContent.text
                         };
+            
+            alertMessage = @"正在提交问题...";
         }
             break;
         default:
             break;
     }
+    [AskProgressHUD AskShowTitleInView:self.view Title:alertMessage viewtag:1];
+    
     [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
         
+        DLog(@"-------   put question : %@", response);
+        
         GCD_MAIN((^{
-            
+         
+            [AskProgressHUD AskHideAnimatedInView:self.view viewtag:1 AfterDelay:0];
             if (response && ([response[@"status"] intValue] == 1)) {
                 
+                [AskProgressHUD AskShowOnlyTitleInView:self.view.window Title:@"提交成功" viewtag:1 AfterDelay:1.5];
                 [weakSelf.navigationController popViewControllerAnimated:YES];
+                
+            } else {
+                
+                [AskProgressHUD AskShowOnlyTitleInView:self.view.window Title:@"提交失败" viewtag:1 AfterDelay:1.5];
                 
             }
             
         }));
         
-    } requestHead:^(id response) {
+    } requestHead:nil faile:^(NSError *error) {
         
-    } faile:^(NSError *error) {
+        GCD_MAIN(^{
+            [AskProgressHUD AskHideAnimatedInView:self.view viewtag:1 AfterDelay:0];
+            [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"网络连接错误" viewtag:1 AfterDelay:1.5];
+        });
         
     }];
     

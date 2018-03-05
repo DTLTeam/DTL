@@ -254,7 +254,7 @@
     __weak typeof(self) weakSelf = self;
     [AskProgressHUD AskShowInView:self.view viewtag:1];
     
-    [[UserDataManager shareInstance] signInWithAccount:@"" password:@"" complated:^(BOOL isSignInSuccess, NSString *message) {
+    [[UserDataManager shareInstance] signInWithAccount:phone password:pwd complated:^(BOOL isSignInSuccess, NSString *message) {
         
         if (isSignInSuccess) {
             
