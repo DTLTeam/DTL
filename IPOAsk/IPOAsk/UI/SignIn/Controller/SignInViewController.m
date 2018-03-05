@@ -286,6 +286,9 @@
                 
                 [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
                 [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"登录成功" viewtag:1 AfterDelay:3];
+                
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"LoginSuccess" object:nil];
+                
                 [WeakSelf dismiss];
             }));
         }else{

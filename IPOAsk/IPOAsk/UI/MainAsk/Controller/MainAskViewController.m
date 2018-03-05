@@ -386,6 +386,7 @@
                         [defaults synchronize];
                         Success(YES);
                         
+                        [[NSNotificationCenter defaultCenter]postNotificationName:@"LoginSuccess" object:nil];
                     }else{
                         //类型发生变化
                         

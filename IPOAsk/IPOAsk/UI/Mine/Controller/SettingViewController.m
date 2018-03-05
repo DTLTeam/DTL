@@ -35,7 +35,7 @@
 {
     self.view.backgroundColor = MineTopColor;
     
-    CGFloat height = dataArr.count * 50;
+    CGFloat height = dataArr.count * 50 + 10;
     if (height + NAVBAR_HEIGHT >= SCREEN_HEIGHT) {
         height = SCREEN_HEIGHT;
     }

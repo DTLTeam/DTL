@@ -43,6 +43,8 @@
     
     [self setupInterface];
     
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginOut) name:@"LoginOut" object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -391,6 +393,10 @@
 
 - (void)back{
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)loginOut{
+    [self back];
 }
 
 - (void)didReceiveMemoryWarning {
