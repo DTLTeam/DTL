@@ -8,11 +8,18 @@
 
 #import "BaseTabBarViewController.h"
 
-@interface BaseTabBarViewController ()
+@interface BaseTabBarViewController ()<UITabBarDelegate>{
+    
+    //最近一次选择的Index
+    NSUInteger _lastSelectedIndex;
+}
 
 @end
 
 @implementation BaseTabBarViewController
+
+@synthesize lastSelectedIndex = _lastSelectedIndex;
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -23,6 +30,32 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+-(void)setSelectedIndex:(NSUInteger)selectedIndex
+
+{
+    //调用父类的setSelectedIndex
+    [super setSelectedIndex:selectedIndex];
+    _lastSelectedIndex = self.selectedIndex;
+    
+    if (selectedIndex == 1) {
+        self.selectedIndex = _lastSelectedIndex;
+    }
+}
+
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+
+{
+    //获得选中的item
+    NSUInteger tabIndex = [tabBar.items indexOfObject:item];
+
+    if (tabIndex != self.selectedIndex) {
+        _lastSelectedIndex = self.selectedIndex;
+    }
+    
+}
+ 
 
 /*
 #pragma mark - Navigation

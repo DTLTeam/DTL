@@ -11,6 +11,7 @@
 #import "UserDataManager.h"
 
 //Controller
+#import "BaseTabBarViewController.h"
 #import "ApplicationEnterpriseViewController.h"
 #import "EditQuestionViewController.h"
 
@@ -93,6 +94,14 @@ static NSString * CellIdentifier = @"EnterpriseCell";
         _notQusetionView.hidden = YES;
         self.myTableView.hidden = YES;
         
+    }
+    
+    if ([UtilsCommon ShowLoginHud:self.view Tag:200]) {
+        
+        GCD_MAIN(^{
+            BaseTabBarViewController *base = (BaseTabBarViewController *)self.tabBarController;
+            base.selectedIndex = base.lastSelectedIndex;
+        });
     }
     
 }
