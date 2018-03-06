@@ -8,8 +8,6 @@
 
 #import "AnswerTableViewCell.h"
 
-#import <SDWebImage/UIImageView+WebCache.h>
-
 @interface AnswerTableViewCell ()
 
 @property (strong, nonatomic) UIImageView *headImgView;

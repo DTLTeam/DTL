@@ -64,7 +64,7 @@
 
 - (void)updateCell:(LikeDataModel *)model
 {
-    [_headView sd_setImageWithURL:[NSURL URLWithString:model.headIcon]];
+    [_headView sd_setImageWithURL:[NSURL URLWithString:model.headIcon] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
     
     NSString *txt = [NSString stringWithFormat:@"%@ 赞了 %@ 下你的回复",model.realName,model.title];
     _likeTxtlabel.attributedText = [self getAttributedStringWithString:txt];

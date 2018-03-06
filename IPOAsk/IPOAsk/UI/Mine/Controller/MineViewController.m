@@ -261,7 +261,7 @@
         if (_userManager.userModel) {
             
             __weak HeadViewTableViewCell *weakCell = cell;
-            [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getMyReflection",@"userID":_userManager.userModel.userID} backData:NetSessionResponseTypeJSON success:^(id response) {
+            [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:@{@"cmd":@"getMyReflection",@"userID":_userManager.userModel.userID} backData:NetSessionResponseTypeJSON success:^(id response) {
                 GCD_MAIN(^{
                     if ([[response valueForKey:@"status"] intValue] == 1) {
                         NSDictionary *dic = response[@"data"];

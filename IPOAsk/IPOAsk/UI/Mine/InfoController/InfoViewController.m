@@ -500,7 +500,7 @@
     if (original_image) {
         NSData *imgData = UIImageJPEGRepresentation(original_image, 0.5);
         img = [UIImage imageWithData:imgData];
-        [self editHead:@"http://int.answer.updrv.com/api/v1" img:imgData imgName:@"head.jpg"];
+        [self editHead:SERVER_URL img:imgData imgName:@"head.jpg"];
     }
     
     __block NSURL *imageAssetUrl = [info objectForKey:UIImagePickerControllerReferenceURL];
@@ -579,7 +579,7 @@
     }
     
     
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"updateUserInfo",@"userID":UserModel.userID,@"nickName":WeakChangeUserModel.nickName,@"email":WeakChangeUserModel.email,@"details":WeakChangeUserModel.details,@"company":WeakChangeUserModel.company,@"realName":WeakChangeUserModel.realName} backData:NetSessionResponseTypeJSON success:^(id response) {
+    [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:@{@"cmd":@"updateUserInfo",@"userID":UserModel.userID,@"nickName":WeakChangeUserModel.nickName,@"email":WeakChangeUserModel.email,@"details":WeakChangeUserModel.details,@"company":WeakChangeUserModel.company,@"realName":WeakChangeUserModel.realName} backData:NetSessionResponseTypeJSON success:^(id response) {
                     GCD_MAIN(^{
        
                         if ([response[@"status"] intValue] == 1) {

@@ -8,8 +8,6 @@
 
 #import "QuestionTableViewCell.h"
 
-#import <SDWebImage/UIImageView+WebCache.h>
-
 typedef enum : NSUInteger {
     kButtonNormal,      //未选中
     kButtonSelected     //已选中

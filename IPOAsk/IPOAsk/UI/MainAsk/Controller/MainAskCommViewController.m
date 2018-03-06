@@ -58,6 +58,7 @@
     [_contentTableView reloadData];
 }
 
+
 #pragma mark - 界面
 
 - (void)setupInterface {
@@ -75,17 +76,20 @@
 
 - (void)likeAction:(id)sender {
     
-    UserDataModel *userMod = [UserDataManager shareInstance].userModel;
+    [AskProgressHUD AskShowTitleInView:self.view Title:@"加载中..." viewtag:1];
     
     __weak typeof(self) weakSelf = self;
+    UserDataModel *userMod = [UserDataManager shareInstance].userModel;
     
     NSDictionary *infoDic = @{@"cmd":@"addLike",
                               @"userID":(userMod ? userMod.userID : @""),
                               @"qID":_answerMod.answerID,
                               };
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+    [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
         
         GCD_MAIN((^{
+            
+            [AskProgressHUD AskHideAnimatedInView:weakSelf.view viewtag:1 AfterDelay:0];
             
             if (response && ([response[@"status"] intValue] == 1)) {
                 
@@ -102,13 +106,22 @@
                 [weakSelf.LikeBtn setImage:likeImg forState:UIControlStateNormal];
                 [weakSelf.LikeBtn setImage:likeImg forState:UIControlStateHighlighted];
                 
+            } else {
+                
+                [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:@"加载失败" viewtag:1 AfterDelay:1.5];
+                
             }
             
         }));
         
-    } requestHead:^(id response) {
+    } requestHead:nil faile:^(NSError *error) {
         
-    } faile:^(NSError *error) {
+        GCD_MAIN(^{
+            
+            [AskProgressHUD AskHideAnimatedInView:weakSelf.view viewtag:1 AfterDelay:0];
+            [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:@"网络连接错误" viewtag:1 AfterDelay:1.5];
+            
+        });
         
     }];
     

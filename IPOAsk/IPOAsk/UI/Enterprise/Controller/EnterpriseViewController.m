@@ -195,7 +195,7 @@ static NSString * CellIdentifier = @"EnterpriseCell";
                                       @"userID":(userMod ? userMod.userID : @""),
                                       @"qID":model.Exper_AnswerID
                                       };
-            [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+            [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
                 
                 GCD_MAIN(^{
                     

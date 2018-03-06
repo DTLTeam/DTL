@@ -259,20 +259,20 @@
         if (isSignInSuccess) {
             
             [AskProgressHUD AskHideAnimatedInView:weakSelf.view viewtag:1 AfterDelay:0];
-            [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:@"登录成功" viewtag:1 AfterDelay:3];
+            [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:@"登录成功" viewtag:1 AfterDelay:1.5];
             [weakSelf dismiss];
             
         } else {
             
             [AskProgressHUD AskHideAnimatedInView:weakSelf.view viewtag:1 AfterDelay:0];
-            [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:message viewtag:1 AfterDelay:3];
+            [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:message viewtag:1 AfterDelay:1.5];
             
         }
         
     } networkError:^(NSError *error) {
        
         [AskProgressHUD AskHideAnimatedInView:weakSelf.view viewtag:1 AfterDelay:0];
-        [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:@"登录失败" viewtag:1 AfterDelay:3];
+        [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:@"登录失败" viewtag:1 AfterDelay:1.5];
         
     }];
     
@@ -304,7 +304,7 @@
         return;
     }
     __weak SignInViewController *WeakSelf = self;
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"register",@"phone":phone,@"password":[UtilsCommon md5WithString:pwd],@"verificationCode":code,@"userType":@"1"} backData:NetSessionResponseTypeJSON success:^(id response) {
+    [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:@{@"cmd":@"register",@"phone":phone,@"password":[UtilsCommon md5WithString:pwd],@"verificationCode":code,@"userType":@"1"} backData:NetSessionResponseTypeJSON success:^(id response) {
         
         GCD_MAIN(^{
             NSString *msg = @"注册失败";

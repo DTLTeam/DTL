@@ -210,7 +210,7 @@
         __weak RegisterView *WeakSelf = self;
         __weak UIButton *weakBtn = sender;
         
-        [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getVerificationCode",@"phone":_PhoneView.text} backData:NetSessionResponseTypeJSON success:^(id response) {
+        [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:@{@"cmd":@"getVerificationCode",@"phone":_PhoneView.text} backData:NetSessionResponseTypeJSON success:^(id response) {
             
             GCD_MAIN((^{
                 if ([response[@"status"] integerValue] == 0) {

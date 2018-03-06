@@ -135,6 +135,7 @@
     
     _historyItems = [NSMutableArray array];
     _searchNetworkItems = [NSMutableArray array];
+    _curSearchPage = 0;
     _startQuestionID = 0;
     
     _searchContentView = [[UIView alloc] init];
@@ -175,11 +176,13 @@
     _searchNetworkTableView.rowHeight = UITableViewAutomaticDimension;
     _searchNetworkTableView.estimatedRowHeight = 9999;
     
+    __weak typeof(self) weakSelf = self;
     MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
-        if (_curSearchPage < 0) {
-            _curSearchPage = 0;
+        if (weakSelf.curSearchPage < 0) {
+            weakSelf.curSearchPage = 0;
         }
-        [self requestSearchInfo:_searchContent page:_curSearchPage];
+        weakSelf.curSearchPage++;
+        [weakSelf requestSearchInfo:_searchContent page:_curSearchPage];
     }];
     _searchNetworkTableView.mj_footer = footer;
     
@@ -401,20 +404,18 @@
                               @"keyword":questionTitle,
                               @"maxQID":@(_startQuestionID)
                               };
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+    [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
         
         GCD_MAIN(^{
         
             if (response && ([response[@"status"] integerValue] == 1)) {
                 
-                if (page == 0) {
+                if (page == 1) {
                     [weakSelf.searchNetworkItems removeAllObjects];
                     QuestionModel *mod = [[QuestionModel alloc] init];
                     [mod refreshModel:[response[@"data"][@"data"] firstObject]];
                     weakSelf.startQuestionID = [mod.questionID integerValue];
                 }
-                weakSelf.curSearchPage = page;
-                weakSelf.curSearchPage++;
                 
                 for (NSDictionary *dic in response[@"data"][@"data"]) {
                     QuestionModel *mod = [[QuestionModel alloc] init];
@@ -442,17 +443,13 @@
             
         });
         
-        if (weakSelf.searchNetworkTableView.mj_footer.isRefreshing) {
-            if ([response[@"data"][@"current_page"] integerValue] != [response[@"data"][@"last_page"] integerValue]) {
-                [weakSelf.searchNetworkTableView.mj_footer endRefreshing];
-            } else {
-                [weakSelf.searchNetworkTableView.mj_footer endRefreshingWithNoMoreData];
-            }
+        if (response && [response[@"data"][@"current_page"] integerValue] == [response[@"data"][@"last_page"] integerValue]) {
+            [weakSelf.searchNetworkTableView.mj_footer endRefreshingWithNoMoreData];
+        } else if (weakSelf.searchNetworkTableView.mj_footer.isRefreshing) {
+            [weakSelf.searchNetworkTableView.mj_footer endRefreshing];
         }
         
-    } requestHead:^(id response) {
-        
-    } faile:^(NSError *error) {
+    } requestHead:nil faile:^(NSError *error) {
         
         GCD_MAIN(^{
             
@@ -545,7 +542,7 @@
                               @"userID":(userMod ? userMod.userID : @""),
                               @"qID":mod.questionID,
                               };
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+    [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
         
         GCD_MAIN(^{
             

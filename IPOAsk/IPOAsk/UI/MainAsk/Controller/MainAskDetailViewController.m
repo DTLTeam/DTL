@@ -47,16 +47,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginOut) name:@"LoginOut" object:nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    if (_currentPage < 0) { //未刷新过
-        [_contentTableView.mj_header beginRefreshing];
-    }
-    
-}
-
--(void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
     self.tabBarController.tabBar.hidden = NO;
@@ -67,29 +58,39 @@
     
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if (_currentPage < 1) { //未刷新过
+        [_contentTableView.mj_header beginRefreshing];
+    }
+    
+}
+
 
 #pragma mark - 界面
 
 - (void)setupInterface {
     
-    _currentPage = -1;
+    _currentPage = 0;
+    _startQuestionID = 0;
     _CommArr = [NSMutableArray array];
     
     _contentTableView.rowHeight = UITableViewAutomaticDimension;
     _contentTableView.estimatedRowHeight = 9999;
     __weak typeof(self) weakSelf = self;
     
-    // 上拉加载
+    //上拉加载
     MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
-        if (weakSelf.currentPage <= 0) {
-            weakSelf.currentPage = 0;
-        }
+        weakSelf.currentPage++;
         [weakSelf requestContent:weakSelf.currentPage];
     }];
     self.contentTableView.mj_footer = footer;
     
+    //下拉刷新
     MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
-        weakSelf.currentPage = 0;
+        weakSelf.currentPage = 1;
+        weakSelf.startQuestionID = 0;
         [weakSelf requestContent:weakSelf.currentPage];
     }];
     self.contentTableView.mj_header = header;
@@ -121,39 +122,41 @@
                               @"page":@(page),
                               @"maxQID":@(_startQuestionID)
                               };
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+    [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
         
         GCD_MAIN((^{
         
             if (response && ([response[@"status"] intValue] == 1)) {
 
-                if (page == 0) {
+                if (page == 1) {
                     [weakSelf.CommArr removeAllObjects];
                     QuestionModel *mod = [[QuestionModel alloc] init];
-//                    [mod refreshModel:[response[@"data"][@"question"][@"data"] firstObject]];
-                    [mod refreshModel:[[response valueForKey:@"data"]valueForKey:@"question"]];
+                    [mod refreshModel:[[response valueForKey:@"data"] valueForKey:@"question"]];
                     weakSelf.startQuestionID = [mod.questionID integerValue];
                 }
-                weakSelf.currentPage = page;
-                weakSelf.currentPage++;
 
                 if ([[response valueForKey:@"data"]valueForKey:@"question"]) {
                     
                     [weakSelf.model refreshModel:[[response valueForKey:@"data"]valueForKey:@"question"]];
                     
                 }
-                
-               
 
                 for (NSDictionary *dic in [[[response valueForKey:@"data"]valueForKey:@"answer"] valueForKey:@"data"]) {
                     AnswerModel *model = [[AnswerModel alloc] init];
                     [model refreshModel:dic];
                     [weakSelf.CommArr addObject:model];
                 }
+                
+                [weakSelf.contentTableView reloadData];
 
+            } else {
+                
+                weakSelf.currentPage--;
+                
+                [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:@"加载失败" viewtag:1 AfterDelay:1.5];
+                
             }
             
-            [_contentTableView reloadData];
             
             if (weakSelf.contentTableView.mj_header.isRefreshing) {
                 [weakSelf.contentTableView.mj_header endRefreshing];
@@ -166,11 +169,13 @@
             
         }));
      
-    } requestHead:^(id response) {
-        
-    } faile:^(NSError *error) {
+    } requestHead:nil faile:^(NSError *error) {
         
         GCD_MAIN(^{
+            
+            weakSelf.currentPage--;
+            
+            [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:@"网络连接错误" viewtag:1 AfterDelay:1.5];
             
             if (weakSelf.contentTableView.mj_header.isRefreshing) {
                 [weakSelf.contentTableView.mj_header endRefreshing];
@@ -204,7 +209,7 @@
                               @"userID":(userMod ? userMod.userID : @""),
                               @"qID":mod.answerID,
                               };
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+    [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
         
         GCD_MAIN(^{
             
@@ -308,7 +313,7 @@
                                       @"userID":(userMod ? userMod.userID : @""),
                                       @"qID":Id
                                       };
-            [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+            [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
                 
                 GCD_MAIN(^{
                 

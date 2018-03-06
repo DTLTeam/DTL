@@ -84,7 +84,7 @@
     if (_nameTextField.text.length > 0 && _companyTextField.text.length > 0 && _jobTextField.text.length > 0 && _experienceTextView.text.length > 0) {
         
         __weak AnswerViewController *WeakSelf = self;
-        [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"applyAnswerer",@"userID":manager.userModel.userID,@"realName":_nameTextField.text,@"company":@"_companyTextField.text",@"jobTitle":_jobTextField.text,@"experience":_experienceTextView.text} backData:NetSessionResponseTypeJSON success:^(id response) {
+        [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:@{@"cmd":@"applyAnswerer",@"userID":manager.userModel.userID,@"realName":_nameTextField.text,@"company":@"_companyTextField.text",@"jobTitle":_jobTextField.text,@"experience":_experienceTextView.text} backData:NetSessionResponseTypeJSON success:^(id response) {
             GCD_MAIN(^{
                 NSString *msg = @"申请成功";
                 if ([response[@"status"] intValue] == 1) {

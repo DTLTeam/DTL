@@ -26,7 +26,7 @@
 
 @property (strong, nonatomic) NSMutableArray *contentArr;
 @property (assign, nonatomic) NSInteger currentPage;
-@property (nonatomic) NSInteger startQuestionID;
+@property (assign, nonatomic) NSInteger startQuestionID;
 
 @end
 
@@ -67,7 +67,7 @@
         [(MainNavigationController *)self.navigationController showSearchNavBar:YES];
     }
     
-    if (_currentPage < 0) { //未刷新过
+    if (_currentPage < 1) { //未刷新过
         [_contentTableView.mj_header beginRefreshing];
     }
     
@@ -79,7 +79,7 @@
 - (void)setupInterface {
     
     _startQuestionID = 0;
-    _currentPage = -1;
+    _currentPage = 0;
     _contentArr = [NSMutableArray array];
     
     if (@available(iOS 11.0, *)) {
@@ -95,17 +95,14 @@
     
     //上拉加载
     MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
-        if (weakSelf.currentPage < 0) {
-            weakSelf.currentPage = 0;
-        }
+        weakSelf.currentPage++;
         [weakSelf requestContent:weakSelf.currentPage];
-        
     }];
     self.contentTableView.mj_footer = footer;
     
     //下拉刷新
     MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
-        weakSelf.currentPage = 0;
+        weakSelf.currentPage = 1;
         weakSelf.startQuestionID = 0;
         [weakSelf requestContent:weakSelf.currentPage];
     }];
@@ -123,7 +120,7 @@
     __weak typeof(self) weakSelf = self;
     
     NSDictionary *infoDic = @{@"cmd":@"getBannderAD"};
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+    [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
        
         GCD_MAIN(^{
            
@@ -154,9 +151,8 @@
 #pragma mark 请求列表内容
 - (void)requestContent:(NSInteger)page {
     
-    UserDataModel *userMod = [UserDataManager shareInstance].userModel;
-    
     __weak typeof(self) weakSelf = self;
+    UserDataModel *userMod = [UserDataManager shareInstance].userModel;
     
     NSDictionary *infoDic = @{@"cmd":@"getQuestionIndex",
                               @"userID":(userMod ? userMod.userID : @""),
@@ -164,13 +160,13 @@
                               @"page":@(page),
                               @"maxQID":@(_startQuestionID)
                               };
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+    [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
         
         GCD_MAIN((^{
             
             if (response && ([response[@"status"] intValue] == 1)) {
 
-                if (page == 0) {
+                if (page == 1) {
                     [weakSelf.contentArr removeAllObjects];
                     QuestionModel *mod = [[QuestionModel alloc] init];
                     [mod refreshModel:[response[@"data"][@"data"] firstObject]];
@@ -186,20 +182,24 @@
                     [weakSelf.contentArr addObject:model];
 
                 }
+                
+                [weakSelf.contentTableView reloadData];
 
+            } else {
+                
+                weakSelf.currentPage--;
+                
+                [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:@"加载失败" viewtag:1 AfterDelay:1.5];
+                
             }
-            
-            [weakSelf.contentTableView reloadData];
             
             if (weakSelf.contentTableView.mj_header.isRefreshing) {
                 [weakSelf.contentTableView.mj_header endRefreshing];
             }
-            if (weakSelf.contentTableView.mj_footer.isRefreshing) {
-                if (response && ([response[@"data"][@"current_page"] integerValue] == [response[@"data"][@"last_page"] integerValue])) {
-                    [weakSelf.contentTableView.mj_footer endRefreshingWithNoMoreData];
-                } else if (weakSelf.contentTableView.mj_footer.isRefreshing) {
-                    [weakSelf.contentTableView.mj_footer endRefreshing];
-                }
+            if (response && ([response[@"data"][@"current_page"] integerValue] == [response[@"data"][@"last_page"] integerValue])) {
+                [weakSelf.contentTableView.mj_footer endRefreshingWithNoMoreData];
+            } else if (weakSelf.contentTableView.mj_footer.isRefreshing) {
+                [weakSelf.contentTableView.mj_footer endRefreshing];
             }
             
         }));
@@ -209,6 +209,8 @@
     } faile:^(NSError *error) {
 
         GCD_MAIN(^{
+            weakSelf.currentPage--;
+            
             if (weakSelf.contentTableView.mj_header.isRefreshing) {
                 [weakSelf.contentTableView.mj_header endRefreshing];
             }
@@ -230,20 +232,20 @@
     if (dataDic) { //存在可登录用户
         
         __weak typeof(self) weakSelf = self;
-        [AskProgressHUD AskShowInView:self.view viewtag:1];
+        [AskProgressHUD AskShowGifImageReloadInView:self.view Title:@"自动登录中" viewtag:2];
         
         [[UserDataManager shareInstance] signInWithAccount:dataDic[@"phone"] password:userDic[@"Pwd"] complated:^(BOOL isSignInSuccess, NSString *message) {
             
+            [AskProgressHUD AskHideAnimatedInView:weakSelf.view viewtag:2 AfterDelay:0];
+            
             if (isSignInSuccess) {
                 
-                [AskProgressHUD AskHideAnimatedInView:weakSelf.view viewtag:1 AfterDelay:0];
-                [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:@"自动登录成功!" viewtag:1 AfterDelay:3];
+                [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:@"自动登录成功!" viewtag:1 AfterDelay:1.5];
                 
             } else {
                 
                 //登录失败
-                [AskProgressHUD AskHideAnimatedInView:weakSelf.view viewtag:1 AfterDelay:0];
-                [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:message viewtag:1 AfterDelay:3];
+                [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:message viewtag:1 AfterDelay:1.5];
                 
                 UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                 
@@ -256,8 +258,8 @@
         } networkError:^(NSError *error) {
             
             //网络错误
-            [AskProgressHUD AskHideAnimatedInView:weakSelf.view viewtag:1 AfterDelay:0];
-            [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:@"网络连接错误" viewtag:1 AfterDelay:3];
+            [AskProgressHUD AskHideAnimatedInView:weakSelf.view viewtag:2 AfterDelay:0];
+            [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:@"网络连接错误" viewtag:1 AfterDelay:1.5];
             
         }];
         
@@ -290,7 +292,7 @@
                               @"userID":(userMod ? userMod.userID : @""),
                               @"qID":mod.questionID,
                               };
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+    [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
         
         GCD_MAIN(^{
             

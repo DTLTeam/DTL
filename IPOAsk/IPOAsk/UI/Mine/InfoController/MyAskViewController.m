@@ -80,6 +80,9 @@
     
     //上拉加载
     MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
+        if (weakSelf.currentPage < 0) {
+            weakSelf.currentPage = 0;
+        }
         weakSelf.currentPage++;
         [weakSelf getAskList];
     }];
@@ -106,7 +109,7 @@
 {
     __weak typeof(self) weakSelf = self;
     
-    [[UserDataManager shareInstance] getAskWithpage:[NSString stringWithFormat:@"%d",(int)_currentPage] finish:^(NSArray *dataArr, BOOL isEnd) {
+    [[UserDataManager shareInstance] getAskWithpage:_currentPage finish:^(NSArray *dataArr, BOOL isEnd) {
             
         if (dataArr) { //请求成功
             
@@ -129,12 +132,10 @@
             if (weakSelf.tableView.mj_header.isRefreshing) {
                 [weakSelf.tableView.mj_header endRefreshing];
             }
-            if (weakSelf.tableView.mj_footer.isRefreshing) {
-                if (isEnd) {
-                    [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
-                } else {
-                    [weakSelf.tableView.mj_footer endRefreshing];
-                }
+            if (isEnd) {
+                [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
+            } else if (weakSelf.tableView.mj_footer.isRefreshing) {
+                [weakSelf.tableView.mj_footer endRefreshing];
             }
             
         } else { //请求失败

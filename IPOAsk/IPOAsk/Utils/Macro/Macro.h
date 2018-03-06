@@ -12,6 +12,8 @@
 
 #endif /* Macro_h */
 
+#define SERVER_URL @"http://int.answer.updrv.com/api/v1"
+
 
 #pragma mark - 系统版本及设备型号
 #define IS_IPHONE_X     (SCREEN_WIDTH == 375 && SCREEN_HEIGHT == 812)

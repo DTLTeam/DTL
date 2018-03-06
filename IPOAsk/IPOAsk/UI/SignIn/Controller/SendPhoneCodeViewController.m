@@ -138,7 +138,7 @@
         }
         
         //重置密码
-        [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"checkCode",@"phone":_PhoneView.text,@"verificationCode":_CodeView.text} backData:NetSessionResponseTypeJSON success:^(id response) {
+        [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:@{@"cmd":@"checkCode",@"phone":_PhoneView.text,@"verificationCode":_CodeView.text} backData:NetSessionResponseTypeJSON success:^(id response) {
             if ([response[@"status"] intValue] == 1) {
                 GCD_MAIN(^{
                     UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -158,7 +158,7 @@
     }
     
     
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"getVerificationCode",@"phone":_PhoneView.text} backData:NetSessionResponseTypeJSON success:^(id response) {
+    [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:@{@"cmd":@"getVerificationCode",@"phone":_PhoneView.text} backData:NetSessionResponseTypeJSON success:^(id response) {
         
         GCD_MAIN((^{
             if ([response[@"status"] integerValue] == 0) {

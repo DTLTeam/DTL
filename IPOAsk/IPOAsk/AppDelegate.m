@@ -25,10 +25,7 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     
-    [[FMDBManager sharedInstance]creatTableWithName:@"Drafts" path:@[@"title",@"content",@"Type",@"anonymous",@"UserId"]];
- 
-    NSLog(@"%@",[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]);
-    
+    [[FMDBManager sharedInstance] creatTableWithName:@"Drafts" path:@[@"title",@"content",@"Type",@"anonymous",@"UserId"]];
     
     //插入字段－－用户ID
     [[FMDBManager sharedInstance] insertCOLUMNdocumentPathStringByAppendingPathComponent:@"" DBName:@"Drafts.sqlite" columnExists:@"UserId" Type:@"text" InClass:[DraftsModel class] WithClassName:@"Drafts"];
@@ -36,6 +33,17 @@
     XGPush *push = [XGPush defaultManager];
     [push startXGWithAppID:2200277581 appKey:@"I5194W3DNBUS" delegate:self];
     [push reportXGNotificationInfo:launchOptions]; //统计信鸽推送消息抵达的情况
+    
+    //去除角标消息数量
+    [application setApplicationIconBadgeNumber:0];
+    
+    NSDictionary *remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    for (NSString *tfStr in remoteNotification) {
+        if ([tfStr isEqualToString:@"careline"]) {
+            [self goToMessageView];
+            break;
+        }
+    }
     
     return YES;
 }
@@ -87,9 +95,32 @@
     //统计信鸽推送消息被点击的数据 (iOS 10.0之前的版本)
     [[XGPush defaultManager] reportXGNotificationInfo:userInfo];
     [[XGPush defaultManager] setXgApplicationBadgeNumber:0];
+    
+    [self goToMessageView];
+    
 }
 
 #endif
+
+
+#pragma mark - 功能
+
+#pragma mark 点击推送跳转消息页面
+- (void)goToMessageView {
+    
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+        //当APP在前台运行时，不做处理
+    } else if ([UIApplication sharedApplication].applicationState == UIApplicationStateInactive) {
+        //当APP在后台运行时，当有通知栏消息时，点击它，就会执行下面的方法跳转到相应的页面
+        
+        id vc = self.window.rootViewController;
+        if ([vc isKindOfClass:[UITabBarController class]]) {
+            [(UITabBarController *)vc setSelectedIndex:2];
+        }
+        
+    }
+    
+}
 
 
 #pragma mark - XGPushDelegate
@@ -97,6 +128,9 @@
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 
 - (void)xgPushUserNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+    
+    [self goToMessageView];
+    
     //统计信鸽推送消息被点击的数据 (iOS 10.0及以后的版本)
     [[XGPush defaultManager] reportXGNotificationInfo:response.notification.request.content.userInfo];
     [[XGPush defaultManager] setXgApplicationBadgeNumber:0];

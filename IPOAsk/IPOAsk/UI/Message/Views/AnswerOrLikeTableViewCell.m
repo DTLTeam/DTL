@@ -23,43 +23,65 @@
     // Initialization code
 }
 
--(void)updateWithModel:(AnswerOrLikeModel *)model{
-    
-    NSString *content = @"";
-    if (model.AorL_Type == ContentType_Like) {
-        //点赞
-        content = [NSString stringWithFormat:@"%@ %@ %@ %@",model.AorL_Nick,@"称赞了",model.AorL_questionTitle,@"下你的回复"];
-    }else if (model.AorL_Type == ContentType_Comm){
-        //回复
-        content = [NSString stringWithFormat:@"%@ %@ %@",model.AorL_Nick,@"回复了我的问题",model.AorL_questionTitle];
-    }else if (model.AorL_Type == ContentType_FollowComm){
-        //关注的问题回复
-        content = [NSString stringWithFormat:@"%@ %@ %@",@"我关注的问题",model.AorL_questionTitle,@"有了最新的回复"];
-    }
-    _DateLabel.text = [NSString stringWithFormat:@"%@：%@",@"回复时间",model.AorL_AnswerDate];
-    
-    
-    
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:content];
-    NSRange range = [content rangeOfString:model.AorL_questionTitle];
-    
-    [str addAttribute:NSForegroundColorAttributeName value:HEX_RGB_COLOR(0x333333) range:range];
-    [str addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16] range:range];
-    
-    if (model.AorL_Type == ContentType_Like || model.AorL_Type == ContentType_Comm) {
-        
-        range = [content rangeOfString:model.AorL_Nick];
-        [str addAttribute:NSForegroundColorAttributeName value:HEX_RGB_COLOR(0x333333) range:range];
-        [str addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16] range:range];
-    }
-    
-    _ContentLabel.attributedText = str;
-}
-
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+#pragma mark - 功能
+
+- (void)updateWithModel:(AnswerOrLikeModel *)model {
+    
+    [_HeadImageView sd_setImageWithURL:[NSURL URLWithString:model.headImgUrl] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
+    
+    NSString *content = @"";
+    switch (model.infoType) {
+        case ContentType_Like: //点赞
+        {
+            content = [NSString stringWithFormat:@"%@  %@  %@  %@", model.nick, @"赞了", model.questionTitle, @"下你的回复"];
+        }
+            break;
+        case ContentType_Comm: //回复
+        {
+            content = [NSString stringWithFormat:@"%@  %@  %@", model.nick, @"回复了你的问题", model.questionTitle];
+        }
+            break;
+        case ContentType_Follow: //关注
+        {
+            content = [NSString stringWithFormat:@"%@  %@  %@", model.nick, @"关注了你的问题", model.questionTitle];
+        }
+            break;
+        case ContentType_FollowComm: //关注的问题回复
+        {
+            content = [NSString stringWithFormat:@"%@  %@  %@", @"你关注的问题", model.questionTitle, @"有了最新的回复"];
+        }
+            break;
+        default:
+            break;
+    }
+    
+    NSMutableAttributedString *contentStr = [[NSMutableAttributedString alloc] initWithString:content];
+    NSRange range = NSMakeRange(0, contentStr.length);
+    [contentStr addAttribute:NSFontAttributeName value:HEX_RGBA_COLOR(0x333333, 1) range:range];
+    [contentStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:range];
+    
+    range = [content rangeOfString:model.questionTitle];
+    [contentStr addAttribute:NSForegroundColorAttributeName value:HEX_RGB_COLOR(0x000000) range:range];
+    [contentStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16] range:range];
+    
+    if ((model.infoType == ContentType_Like) || (model.infoType == ContentType_Comm)
+        || (model.infoType == ContentType_Follow)) {
+        
+        range = [content rangeOfString:model.nick];
+        [contentStr addAttribute:NSForegroundColorAttributeName value:HEX_RGB_COLOR(0x000000) range:range];
+        [contentStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16] range:range];
+        
+    }
+    
+    _ContentLabel.attributedText = contentStr;
+    _DateLabel.text = [NSString stringWithFormat:@"%@: %@", @"回复时间", model.messageDate];
+    
 }
 
 @end

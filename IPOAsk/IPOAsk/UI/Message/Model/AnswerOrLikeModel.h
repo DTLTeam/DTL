@@ -6,52 +6,31 @@
 //  Copyright © 2018年 law. All rights reserved.
 //
 
-typedef enum : NSUInteger {
-    ContentType_Comm,
-    ContentType_Like,
-    ContentType_FollowComm,
-} ContentType;
-
 #import <Foundation/Foundation.h>
+
+typedef enum : NSUInteger {
+    ContentType_Comm = 1,       //新回复
+    ContentType_Like,           //新点赞
+    ContentType_Follow,         //新关注
+    ContentType_FollowComm      //关注的问题有新回复
+} ContentType;
 
 @interface AnswerOrLikeModel : NSObject
 
-/**
- 问题
- */
-@property (nonatomic,strong)NSString *AorL_questionTitle;
+@property (strong, nonatomic) NSString *messageID;      //消息ID
+@property (assign, nonatomic) NSInteger messageTime;    //消息时间戳
+@property (strong, nonatomic) NSString *messageDate;    //消息日期
 
+@property (strong, nonatomic) NSString *headImgUrl;     //头像路径
+@property (strong, nonatomic) NSString *nick;           //昵称
 
-/**
- 回复人／点赞人 昵称
- */
-@property (nonatomic,strong)NSString *AorL_Nick;
+@property (strong, nonatomic) NSString *questionID;     //问题ID
+@property (strong, nonatomic) NSString *questionTitle;  //问题标题
 
-/**
- 回复人／点赞人 头像
- */
-@property (nonatomic,strong)NSString *AorL_Head;
+@property (strong, nonatomic) NSString *answerID;       //回复ID
 
-/**
- 回复人／点赞人 回复内容
- */
-@property (nonatomic,strong)NSString *AorL_AnswerContent;
+@property (assign, nonatomic) ContentType infoType;    //信息类型
 
-/**
- 回复日期
- */
-@property (nonatomic,strong)NSString *AorL_AnswerDate;
-
-/**
-  模型：回复／点赞
- */
-@property (nonatomic,assign)ContentType AorL_Type;
-
-
-/**
- 模型：个人／企业
- */
-@property (nonatomic,assign)BOOL AorL_isPerson;
-
+- (void)refreshModel:(NSDictionary *)dic;
 
 @end

@@ -330,7 +330,7 @@
     }
     [AskProgressHUD AskShowTitleInView:self.view Title:alertMessage viewtag:1];
     
-    [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+    [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
         
         DLog(@"-------   put question : %@", response);
         

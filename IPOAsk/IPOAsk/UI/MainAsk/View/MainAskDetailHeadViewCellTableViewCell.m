@@ -119,6 +119,9 @@
         [_FollowNum setTitle:[NSString stringWithFormat:@"%ld",[model attentionNum]] forState:UIControlStateNormal];
         
         _FollowBtn.selected = [model isAttention];
+        
+        [_UserImage sd_setImageWithURL:[NSURL URLWithString:[model headImgUrlStr]] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
+        
     }else if ([model isKindOfClass:[AskDataModel class]]){
         _UserName.text = [UserDataManager shareInstance].userModel.nickName;
         _AnswerBtn.hidden = YES;
@@ -129,6 +132,9 @@
         
         _FollowBtn.selected = [model IsAttention]; //后续需要提问时后台处理自己关注自己问题
     }else if ([model isKindOfClass:[AnswerDataModel class]]){
+        
+        [_UserImage sd_setImageWithURL:[NSURL URLWithString:[model headIcon]] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
+        
         _UserName.text = [model nickName];
         
         [_SeeNum setTitle:[NSString stringWithFormat:@"%d",[model LookNum]] forState:UIControlStateNormal];

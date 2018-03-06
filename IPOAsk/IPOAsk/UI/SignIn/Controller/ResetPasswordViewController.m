@@ -75,7 +75,7 @@
         
         //上传接口 成功 返回
         __weak ResetPasswordViewController *WeakSelf = self;
-        [[AskHttpLink shareInstance] post:@"http://int.answer.updrv.com/api/v1" bodyparam:@{@"cmd":@"resetPassword",@"phone":WeakSelf.phone,@"password":[UtilsCommon md5WithString:_password1.text]} backData:NetSessionResponseTypeJSON success:^(id response) {
+        [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:@{@"cmd":@"resetPassword",@"phone":WeakSelf.phone,@"password":[UtilsCommon md5WithString:_password1.text]} backData:NetSessionResponseTypeJSON success:^(id response) {
             GCD_MAIN(^{
                 NSString *msg = @"修改成功";
                 if ([response[@"status"] intValue] == 1) {
