@@ -52,7 +52,7 @@
 
 #pragma mark - 重置密码
 - (IBAction)ResetPassword:(UIButton *)sender {
-   
+    [self.view endEditing:YES];
     
     if ([_password1 text].length == 0 && [_password2 text].length == 0) {
         [self.view endEditing:YES];
@@ -79,39 +79,29 @@
             GCD_MAIN(^{
                 NSString *msg = @"修改成功";
                 if ([response[@"status"] intValue] == 1) {
-                    UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                    ResetPasswordViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"ResetPasswordView"];
-                    [WeakSelf.navigationController pushViewController:VC animated:YES];
+//                    UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//                    ResetPasswordViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"ResetPasswordView"];
+//                    [WeakSelf.navigationController pushViewController:VC animated:YES];
+                    
+                    [WeakSelf performSelector:@selector(returnBack) withObject:nil afterDelay:1.0];
+                    
                 }else
                 {
                     msg = @"修改失败";
                 }
+                
                 [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
-                [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:msg viewtag:2 AfterDelay:3];
+                [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:msg viewtag:2 AfterDelay:1.0];
+                
+                
             });
         } requestHead:nil faile:^(NSError *error) {
             GCD_MAIN(^{
                 [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
-                [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"修改失败" viewtag:2 AfterDelay:3];
+                [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"修改失败" viewtag:2 AfterDelay:1.0];
             });
         }];
-        
-        static BOOL haveController;
-        haveController = NO;
-        
-        for (UIViewController *controller in self.navigationController.viewControllers) {
-            if ([controller isKindOfClass:[SignInViewController class]]) {
-                haveController = YES;
-                
-                self.navigationController.navigationBar.hidden = YES;
-                self.navigationController.navigationBar.translucent = YES;
-                [self.navigationController popToViewController:controller animated:YES];
-            }
-        }
-        
-        if (!haveController) {
-            [self back];
-        }
+
     }
 }
 #pragma mark -触摸空白地方隐藏键盘
@@ -119,7 +109,6 @@
 {
     [self.view endEditing:YES];
 }
-
 
 
 - (BOOL)returnTruePassword:(NSString *)password{
@@ -152,6 +141,26 @@
     }return NO;
 }
 
+-(void)returnBack{
+    
+        static BOOL haveController;
+        haveController = NO;
+
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[SignInViewController class]]) {
+                haveController = YES;
+
+                self.navigationController.navigationBar.hidden = YES;
+                self.navigationController.navigationBar.translucent = YES;
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
+
+        if (!haveController) {
+            [self back];
+        }
+
+}
 
 #pragma mark - 返回
 - (void)back{

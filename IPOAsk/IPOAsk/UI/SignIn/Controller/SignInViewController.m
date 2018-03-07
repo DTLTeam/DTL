@@ -77,6 +77,8 @@
 {
     [super viewWillDisappear:animated];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    
+    [self.view endEditing:YES];
 }
 
  
