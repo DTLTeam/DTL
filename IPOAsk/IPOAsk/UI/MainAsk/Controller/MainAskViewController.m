@@ -108,7 +108,6 @@
     }];
     self.contentTableView.mj_header = header;
     
-    
 }
 
 
@@ -172,8 +171,6 @@
                     [mod refreshModel:[response[@"data"][@"data"] firstObject]];
                     weakSelf.startQuestionID = [mod.questionID integerValue];
                 }
-                weakSelf.currentPage = page;
-                weakSelf.currentPage++;
                 
                 for (NSDictionary *dic in response[@"data"][@"data"]) {
 
@@ -204,9 +201,7 @@
             
         }));
      
-    } requestHead:^(id response) {
-
-    } faile:^(NSError *error) {
+    } requestHead:nil faile:^(NSError *error) {
 
         GCD_MAIN(^{
             weakSelf.currentPage--;

@@ -89,6 +89,8 @@ static NSString * CellIdentifier = @"AOrLikeCell";
     }];
     self.myTableView.mj_header = header;
     
+    self.myTableView.rowHeight = UITableViewAutomaticDimension;
+    self.myTableView.estimatedRowHeight = 9999;
     [self.myTableView registerNib:[UINib nibWithNibName:@"AnswerOrLikeTableViewCell" bundle:nil] forCellReuseIdentifier:CellIdentifier];
     
 }

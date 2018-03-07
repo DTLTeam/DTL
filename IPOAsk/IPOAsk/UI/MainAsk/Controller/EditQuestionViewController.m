@@ -325,6 +325,18 @@
             alertMessage = @"正在提交问题...";
         }
             break;
+        case AnswerType_AskQuestionEnterprise:
+        {
+            infoDic = @{@"cmd":@"addQuestion",
+                        @"userID":(userMod ? userMod.userID : @""),
+                        @"isAnonymous":@(_anonymousBtn.selected),
+                        @"title":_question.text,
+                        @"content":_QuestionContent.text
+                        };
+            
+            alertMessage = @"正在提交问题...";
+        }
+            break;
         default:
             break;
     }

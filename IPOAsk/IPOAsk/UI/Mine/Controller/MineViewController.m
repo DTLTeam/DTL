@@ -131,25 +131,39 @@
 
 - (void)setupView
 {
-    self.view.backgroundColor = MineTopColor;
-    
-    CGFloat height = 160 + 72 + dataArr.count * 50.5 + 10;
-//    if (height + TABBAR_HEIGHT >= SCREEN_HEIGHT) {
-//        height = SCREEN_HEIGHT;
-//    }
-    if (SCREEN_HEIGHT < 667) {
-        height = 140 + 60 + dataArr.count * 50.5 + 10;
+    if (@available(iOS 11.0, *)) {
+    } else {
+        self.automaticallyAdjustsScrollViewInsets = NO;
     }
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, height) style:UITableViewStylePlain];
+    self.view.backgroundColor = MineTopColor;
+    
+    _tableView = [[UITableView alloc] init];
+    _tableView.backgroundColor = self.view.backgroundColor;
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.bounces = NO;
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;                                                                                                                                                                                                                                                                                                                                                                                                                                                  
-    [self.view addSubview:_tableView];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     if (@available(iOS 11.0, *)) {
         _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
+    _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 1)];
+    [self.view addSubview:_tableView];
+    
+    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (@available(iOS 11.0, *)) {
+            make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
+            make.left.equalTo(self.view.mas_safeAreaLayoutGuideLeft);
+            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight);
+            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
+        } else {
+            make.top.equalTo(self.view.mas_top);
+            make.left.equalTo(self.view.mas_left);
+            make.right.equalTo(self.view.mas_right);
+            make.bottom.equalTo(self.view.mas_bottom);
+        }
+    }];
+    
 }
 
 
@@ -201,11 +215,6 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 0) {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10)];
-        view.backgroundColor = MineTopColor;
-        return view;
-    }
     return [[UIView alloc]init];
 }
 

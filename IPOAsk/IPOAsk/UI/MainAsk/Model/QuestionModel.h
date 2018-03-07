@@ -11,12 +11,14 @@
 
 @property (nonatomic, readonly) BOOL isAttention;   //是否已经关注
 @property (nonatomic, readonly) BOOL isAnonymous;   //是否匿名
+@property (nonatomic, readonly) BOOL isFromMyself;  //是否自己的问题
 
 @property (strong, nonatomic, readonly) NSString *questionID;   //问题ID
 
-@property (strong, nonatomic, readonly) NSString *headImgUrlStr; //用户头像图片加载路径
-@property (strong, nonatomic, readonly) NSString *userName;      //用户名
-@property (strong, nonatomic, readonly) NSString *dateStr;       //创建时间
+@property (strong, nonatomic, readonly) NSString    *headImgUrlStr; //用户头像图片加载路径
+@property (strong, nonatomic, readonly) NSString    *userName;      //用户名
+@property (assign, nonatomic, readonly) NSInteger   dateTime;       //日期时间戳
+@property (strong, nonatomic, readonly) NSString    *dateStr;       //日期字符串
 
 @property (strong, nonatomic, readonly) NSString *title;    //标题
 @property (strong, nonatomic, readonly) NSString *content;  //内容

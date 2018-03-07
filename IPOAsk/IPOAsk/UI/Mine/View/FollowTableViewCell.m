@@ -48,12 +48,6 @@
         [_lookNumBtn setTitleColor:HEX_RGBA_COLOR(0x969CA1, 1) forState:UIControlStateNormal];
         [_lookNumBtn setImage:[UIImage imageNamed:@"查看.png"] forState:UIControlStateNormal];
         _lookNumBtn.userInteractionEnabled = NO;
-        UIEdgeInsets insets = _lookNumBtn.imageEdgeInsets;
-        insets.left = insets.left - 5;
-        _lookNumBtn.imageEdgeInsets = insets;
-        insets = _lookNumBtn.titleEdgeInsets;
-        insets.left = insets.left + 5;
-        _lookNumBtn.titleEdgeInsets = insets;
         [self addSubview:_lookNumBtn];
         
         //回复数量
@@ -62,12 +56,6 @@
         [_answerNumBtn setTitleColor:HEX_RGBA_COLOR(0x969CA1, 1) forState:UIControlStateNormal];
         [_answerNumBtn setImage:[UIImage imageNamed:@"回答.png"] forState:UIControlStateNormal];
         _answerNumBtn.userInteractionEnabled = NO;
-        insets = _answerNumBtn.imageEdgeInsets;
-        insets.left = insets.left - 5;
-        _answerNumBtn.imageEdgeInsets = insets;
-        insets = _answerNumBtn.titleEdgeInsets;
-        insets.left = insets.left + 5;
-        _answerNumBtn.titleEdgeInsets = insets;
         [self addSubview:_answerNumBtn];
         
         //关注数量
@@ -76,12 +64,6 @@
         [_followNumBtn setTitleColor:HEX_RGBA_COLOR(0x969CA1, 1) forState:UIControlStateNormal];
         [_followNumBtn setImage:[UIImage imageNamed:@"关注.png"] forState:UIControlStateNormal];
         _followNumBtn.userInteractionEnabled = NO;
-        insets = _followNumBtn.imageEdgeInsets;
-        insets.left = insets.left - 5;
-        _followNumBtn.imageEdgeInsets = insets;
-        insets = _followNumBtn.titleEdgeInsets;
-        insets.left = insets.left + 5;
-        _followNumBtn.titleEdgeInsets = insets;
         [self addSubview:_followNumBtn];
         
         //日期
@@ -143,7 +125,7 @@
                 make.right.equalTo(self.mas_safeAreaLayoutGuideRight).offset(-10);
                 make.bottom.equalTo(self.mas_safeAreaLayoutGuideBottom).offset(-15);
             } else {
-                make.top.equalTo(_txtLabel.mas_top).offset(15);
+                make.top.equalTo(_txtLabel.mas_bottom).offset(15);
                 make.left.greaterThanOrEqualTo(_followNumBtn.mas_right).offset(10);
                 make.right.equalTo(self.mas_right).offset(-10);
                 make.bottom.equalTo(self.mas_bottom).offset(-15);
@@ -159,27 +141,27 @@
 - (void)updateAskCell:(AskDataModel *)model
 {
     _txtLabel.text = model.title;
-    [_lookNumBtn setTitle:[NSString stringWithFormat:@"%d",model.View] forState:UIControlStateNormal];
-    [_answerNumBtn setTitle:[NSString stringWithFormat:@"%d",model.Answer] forState:UIControlStateNormal];
-    [_followNumBtn setTitle:[NSString stringWithFormat:@"%d",model.Follow] forState:UIControlStateNormal];
+    [_lookNumBtn setTitle:[NSString stringWithFormat:@" %d",model.View] forState:UIControlStateNormal];
+    [_answerNumBtn setTitle:[NSString stringWithFormat:@" %d",model.Answer] forState:UIControlStateNormal];
+    [_followNumBtn setTitle:[NSString stringWithFormat:@" %d",model.Follow] forState:UIControlStateNormal];
     _dateLabel.text = model.addTime;
 }
 
 - (void)updateAnswerCell:(AnswerDataModel *)model
 {
     _txtLabel.text = model.title;
-    [_lookNumBtn setTitle:[NSString stringWithFormat:@"%d",model.LookNum] forState:UIControlStateNormal];
-    [_answerNumBtn setTitle:[NSString stringWithFormat:@"%d",model.Answer] forState:UIControlStateNormal];
-    [_followNumBtn setTitle:[NSString stringWithFormat:@"%d",model.Follow] forState:UIControlStateNormal];
+    [_lookNumBtn setTitle:[NSString stringWithFormat:@" %d",model.LookNum] forState:UIControlStateNormal];
+    [_answerNumBtn setTitle:[NSString stringWithFormat:@" %d",model.Answer] forState:UIControlStateNormal];
+    [_followNumBtn setTitle:[NSString stringWithFormat:@" %d",model.Follow] forState:UIControlStateNormal];
     _dateLabel.text = model.addTime;
 }
 
 - (void)updateFollowCell:(FollowDataModel *)model
 {
     _txtLabel.text = model.title;
-    [_lookNumBtn setTitle:[NSString stringWithFormat:@"%d",model.view] forState:UIControlStateNormal];
-    [_answerNumBtn setTitle:[NSString stringWithFormat:@"%d",model.answer] forState:UIControlStateNormal];
-    [_followNumBtn setTitle:[NSString stringWithFormat:@"%d",model.follow] forState:UIControlStateNormal];
+    [_lookNumBtn setTitle:[NSString stringWithFormat:@" %d",model.view] forState:UIControlStateNormal];
+    [_answerNumBtn setTitle:[NSString stringWithFormat:@" %d",model.answer] forState:UIControlStateNormal];
+    [_followNumBtn setTitle:[NSString stringWithFormat:@" %d",model.follow] forState:UIControlStateNormal];
     _dateLabel.text = model.addTime;
 }
 

@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+
+//Model
 #import "EnterpriseModel.h"
 
 @interface EnterpriseTableViewCell : UITableViewCell
 
-- (void)updateWithModel:(EnterpriseModel *)model WithLikeClick:(void (^)(BOOL like))LikeClick;
+typedef void (^likeClick)(BOOL like, NSInteger index);
+- (void)updateWithModel:(EnterpriseModel *)model likeClick:(likeClick)likeClickBlock;
 
 - (void)likeClickSuccess;
-
 
 @end

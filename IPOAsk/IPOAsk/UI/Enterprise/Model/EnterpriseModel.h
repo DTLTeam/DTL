@@ -8,46 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+//Model
+#import "QuestionModel.h"
+#import "AnswerModel.h"
+
 @interface EnterpriseModel : NSObject
 
-/**
- 问题ID
- */
-@property (nonatomic,strong)NSString *Exper_questionID;
+@property (strong, nonatomic) NSString *enterpriseID;               
+@property (strong, nonatomic) QuestionModel *questionMod;           //问题信息模型
+@property (strong, nonatomic) NSArray<AnswerModel *> *answerItems;  //回复信息模型数组
 
-/**
- 问题
- */
-@property (nonatomic,strong)NSString *Exper_questionTitle;
-
-/**
- 专家昵称
- */
-@property (nonatomic,strong)NSString *Exper_expertNick;
-
-/**
- 专家头像
- */
-@property (nonatomic,strong)NSString *Exper_expertHead;
-
-/**
- 回复ID
- */
-@property (nonatomic,strong)NSString *Exper_AnswerID;
-
-/**
- 专家回复
- */
-@property (nonatomic,strong)NSString *Exper_AnswerContent;
-
-/**
- 回复时间
- */
-@property (nonatomic,strong)NSString *Exper_recoveryDate;
-
-/**
- 是否点赞
- */
-@property (nonatomic,assign)BOOL Exper_haveLike;
+- (void)refreshModel:(NSDictionary *)dic;
 
 @end

@@ -127,12 +127,6 @@ typedef enum : NSUInteger {
     [_lookNumBtn setTitleColor:HEX_RGBA_COLOR(0x969CA1, 1) forState:UIControlStateNormal];
     [_lookNumBtn setImage:[UIImage imageNamed:@"查看.png"] forState:UIControlStateNormal];
     _lookNumBtn.userInteractionEnabled = NO;
-    UIEdgeInsets insets = _lookNumBtn.imageEdgeInsets;
-    insets.left = insets.left - 5;
-    _lookNumBtn.imageEdgeInsets = insets;
-    insets = _lookNumBtn.titleEdgeInsets;
-    insets.left = insets.left + 5;
-    _lookNumBtn.titleEdgeInsets = insets;
     [self addSubview:_lookNumBtn];
     
     //回复数量
@@ -141,12 +135,6 @@ typedef enum : NSUInteger {
     [_replyNumBtn setTitleColor:HEX_RGBA_COLOR(0x969CA1, 1) forState:UIControlStateNormal];
     [_replyNumBtn setImage:[UIImage imageNamed:@"回答.png"] forState:UIControlStateNormal];
     _replyNumBtn.userInteractionEnabled = NO;
-    insets = _replyNumBtn.imageEdgeInsets;
-    insets.left = insets.left - 5;
-    _replyNumBtn.imageEdgeInsets = insets;
-    insets = _replyNumBtn.titleEdgeInsets;
-    insets.left = insets.left + 5;
-    _replyNumBtn.titleEdgeInsets = insets;
     [self addSubview:_replyNumBtn];
     
     //关注数量
@@ -155,12 +143,6 @@ typedef enum : NSUInteger {
     [_attentionNumBtn setTitleColor:HEX_RGBA_COLOR(0x969CA1, 1) forState:UIControlStateNormal];
     [_attentionNumBtn setImage:[UIImage imageNamed:@"关注.png"] forState:UIControlStateNormal];
     _attentionNumBtn.userInteractionEnabled = NO;
-    insets = _attentionNumBtn.imageEdgeInsets;
-    insets.left = insets.left - 5;
-    _attentionNumBtn.imageEdgeInsets = insets;
-    insets = _attentionNumBtn.titleEdgeInsets;
-    insets.left = insets.left + 5;
-    _attentionNumBtn.titleEdgeInsets = insets;
     [self addSubview:_attentionNumBtn];
     
     //关注按钮
@@ -170,15 +152,9 @@ typedef enum : NSUInteger {
     [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x0B98F2, 1) forState:UIControlStateHighlighted];
     [_attentionBtn setImage:[UIImage imageNamed:@"+关注.png"] forState:UIControlStateNormal];
     [_attentionBtn setImage:[UIImage imageNamed:@"+关注.png"] forState:UIControlStateHighlighted];
-    [_attentionBtn setTitle:@"关注问题" forState:UIControlStateNormal];
+    [_attentionBtn setTitle:@" 关注问题" forState:UIControlStateNormal];
     [_attentionBtn addTarget:self action:@selector(attentionAction:) forControlEvents:UIControlEventTouchUpInside];
     _attentionBtn.tag = kButtonNormal;
-    insets = _attentionBtn.imageEdgeInsets;
-    insets.left = insets.left - 5;
-    _attentionBtn.imageEdgeInsets = insets;
-    insets = _attentionBtn.titleEdgeInsets;
-    insets.left = insets.left + 5;
-    _attentionBtn.titleEdgeInsets = insets;
     [self addSubview:_attentionBtn];
     
     
@@ -350,24 +326,24 @@ typedef enum : NSUInteger {
         
     }
     
-    NSString *numStr = model.lookNum <= 0 ? @"" : [NSString stringWithFormat:@"%lu", model.lookNum];
+    NSString *numStr = model.lookNum <= 0 ? @"" : [NSString stringWithFormat:@" %lu", model.lookNum];
     [_lookNumBtn setTitle:numStr forState:UIControlStateNormal];
-    numStr = model.replyNum <= 0 ? @"" : [NSString stringWithFormat:@"%lu", model.replyNum];
+    numStr = model.replyNum <= 0 ? @"" : [NSString stringWithFormat:@" %lu", model.replyNum];
     [_replyNumBtn setTitle:numStr forState:UIControlStateNormal];
-    numStr = model.attentionNum <= 0 ? @"" : [NSString stringWithFormat:@"%lu", model.attentionNum];
+    numStr = model.attentionNum <= 0 ? @"" : [NSString stringWithFormat:@" %lu", model.attentionNum];
     [_attentionNumBtn setTitle:numStr forState:UIControlStateNormal];
     
     if (model.isAttention) {
         [_attentionBtn setImage:[UIImage imageNamed:@"已关注.png"] forState:UIControlStateNormal];
         [_attentionBtn setImage:[UIImage imageNamed:@"已关注.png"] forState:UIControlStateHighlighted];
-        [_attentionBtn setTitle:@"已关注问题" forState:UIControlStateNormal];
+        [_attentionBtn setTitle:@" 已关注问题" forState:UIControlStateNormal];
         [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x969CA1, 1) forState:UIControlStateNormal];
         [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x969CA1, 1) forState:UIControlStateHighlighted];
         _attentionBtn.tag = kButtonSelected;
     } else {
         [_attentionBtn setImage:[UIImage imageNamed:@"+关注.png"] forState:UIControlStateNormal];
-        [_attentionBtn setTitle:@"关注问题" forState:UIControlStateNormal];
-        [_attentionBtn setTitle:@"关注问题" forState:UIControlStateHighlighted];
+        [_attentionBtn setTitle:@" 关注问题" forState:UIControlStateNormal];
+        [_attentionBtn setTitle:@" 关注问题" forState:UIControlStateHighlighted];
         [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x0B98F2, 1) forState:UIControlStateNormal];
         [_attentionBtn setTitleColor:HEX_RGBA_COLOR(0x0B98F2, 1) forState:UIControlStateHighlighted];
         _attentionBtn.tag = kButtonNormal;

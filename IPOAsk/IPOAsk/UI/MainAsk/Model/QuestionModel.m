@@ -15,11 +15,13 @@
         
         _isAttention = NO;
         _isAnonymous = NO;
+        _isFromMyself = NO;
         
         _questionID = @"";
         
         _headImgUrlStr = @"";
         _userName = @"";
+        _dateTime = 0;
         _dateStr = @"";
         
         _title = @"";
@@ -52,13 +54,25 @@
     if (content && ![content isKindOfClass:[NSNull class]]) {
         _isAttention = [content boolValue];
     }
+    content = infoDic[@"isFromMySelf"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _isFromMyself = [content boolValue];
+    }
     
-    content = infoDic[@"id"];
+    content = infoDic[@"qid"];
     if (content && ![content isKindOfClass:[NSNull class]]) {
         if ([content isKindOfClass:[NSNumber class]]) {
             content = [content stringValue];
         }
         _questionID = content;
+    } else {
+        content = infoDic[@"id"];
+        if (content && ![content isKindOfClass:[NSNull class]]) {
+            if ([content isKindOfClass:[NSNumber class]]) {
+                content = [content stringValue];
+            }
+            _questionID = content;
+        }
     }
     
     content = infoDic[@"headIcon"];
@@ -72,10 +86,14 @@
     
     content = infoDic[@"addTime"];
     if (content && [content isKindOfClass:[NSNull class]]) {
-        NSDate *date = [NSDate dateWithTimeIntervalSince1970:[content integerValue]];
+        
+        _dateTime = [content integerValue];
+        
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:_dateTime];
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"yyyy-MM-dd"];
         _dateStr = [formatter stringFromDate:date];
+        
     }
     
     content = infoDic[@"title"];
@@ -92,7 +110,7 @@
         _lookNum = [content integerValue];
     }
     content = infoDic[@"answer"];
-    if (content && ![content isKindOfClass:[NSNull class]]) {
+    if (content && ![content isKindOfClass:[NSNull class]] && [content isKindOfClass:[NSNumber class]]) {
         _replyNum = [content integerValue];
     }
     content = infoDic[@"follow"];

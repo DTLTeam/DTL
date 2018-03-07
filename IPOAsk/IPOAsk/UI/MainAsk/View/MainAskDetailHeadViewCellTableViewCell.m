@@ -38,34 +38,6 @@
 -(void)awakeFromNib{
     [super awakeFromNib];
     
-    UIEdgeInsets insets = _SeeNum.imageEdgeInsets;
-    insets.left = insets.left - 5;
-    _SeeNum.imageEdgeInsets = insets;
-    insets = _SeeNum.titleEdgeInsets;
-    insets.left = insets.left + 5;
-    _SeeNum.titleEdgeInsets = insets;
-    
-    insets = _CommNum.imageEdgeInsets;
-    insets.left = insets.left - 5;
-    _CommNum.imageEdgeInsets = insets;
-    insets = _CommNum.titleEdgeInsets;
-    insets.left = insets.left + 5;
-    _CommNum.titleEdgeInsets = insets;
-    
-    insets = _FollowNum.imageEdgeInsets;
-    insets.left = insets.left - 5;
-    _FollowNum.imageEdgeInsets = insets;
-    insets = _FollowNum.titleEdgeInsets;
-    insets.left = insets.left + 5;
-    _FollowNum.titleEdgeInsets = insets;
-    
-    insets = _FollowBtn.imageEdgeInsets;
-    insets.left = insets.left - 5;
-    _FollowBtn.imageEdgeInsets = insets;
-    insets = _FollowBtn.titleEdgeInsets;
-    insets.left = insets.left + 5;
-    _FollowBtn.titleEdgeInsets = insets;
-    
     [_CommNum mas_updateConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_SeeNum.mas_centerY);
         if (@available(iOS 11.0, *)) {
@@ -114,9 +86,9 @@
     if ([model isKindOfClass:[QuestionModel class]]) {
         _UserName.text = [model userName];
         
-        [_SeeNum setTitle:[NSString stringWithFormat:@"%ld",[model lookNum]] forState:UIControlStateNormal];
-        [_CommNum setTitle:[NSString stringWithFormat:@"%ld",[model replyNum]] forState:UIControlStateNormal];
-        [_FollowNum setTitle:[NSString stringWithFormat:@"%ld",[model attentionNum]] forState:UIControlStateNormal];
+        [_SeeNum setTitle:[NSString stringWithFormat:@" %ld",[model lookNum]] forState:UIControlStateNormal];
+        [_CommNum setTitle:[NSString stringWithFormat:@" %ld",[model replyNum]] forState:UIControlStateNormal];
+        [_FollowNum setTitle:[NSString stringWithFormat:@" %ld",[model attentionNum]] forState:UIControlStateNormal];
         
         _FollowBtn.selected = [model isAttention];
         
@@ -126,9 +98,9 @@
         _UserName.text = [UserDataManager shareInstance].userModel.nickName;
         _AnswerBtn.hidden = YES;
         
-        [_SeeNum setTitle:[NSString stringWithFormat:@"%d",[model View]] forState:UIControlStateNormal];
-        [_CommNum setTitle:[NSString stringWithFormat:@"%d",[model Answer]] forState:UIControlStateNormal];
-        [_FollowNum setTitle:[NSString stringWithFormat:@"%d",[model Follow]] forState:UIControlStateNormal];
+        [_SeeNum setTitle:[NSString stringWithFormat:@" %d",[model View]] forState:UIControlStateNormal];
+        [_CommNum setTitle:[NSString stringWithFormat:@" %d",[model Answer]] forState:UIControlStateNormal];
+        [_FollowNum setTitle:[NSString stringWithFormat:@" %d",[model Follow]] forState:UIControlStateNormal];
         
         _FollowBtn.selected = [model IsAttention]; //后续需要提问时后台处理自己关注自己问题
     }else if ([model isKindOfClass:[AnswerDataModel class]]){
@@ -137,9 +109,9 @@
         
         _UserName.text = [model nickName];
         
-        [_SeeNum setTitle:[NSString stringWithFormat:@"%d",[model LookNum]] forState:UIControlStateNormal];
-        [_CommNum setTitle:[NSString stringWithFormat:@"%d",[model Answer]] forState:UIControlStateNormal];
-        [_FollowNum setTitle:[NSString stringWithFormat:@"%d",[model Follow]] forState:UIControlStateNormal];
+        [_SeeNum setTitle:[NSString stringWithFormat:@" %d",[model LookNum]] forState:UIControlStateNormal];
+        [_CommNum setTitle:[NSString stringWithFormat:@" %d",[model Answer]] forState:UIControlStateNormal];
+        [_FollowNum setTitle:[NSString stringWithFormat:@" %d",[model Follow]] forState:UIControlStateNormal];
         
         _FollowBtn.selected = [model IsFollow];
     }

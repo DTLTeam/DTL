@@ -98,12 +98,6 @@
     [_lookNumBtn setTitleColor:HEX_RGBA_COLOR(0x969CA1, 1) forState:UIControlStateNormal];
     [_lookNumBtn setImage:[UIImage imageNamed:@"查看.png"] forState:UIControlStateNormal];
     _lookNumBtn.userInteractionEnabled = NO;
-    UIEdgeInsets insets = _lookNumBtn.imageEdgeInsets;
-    insets.left = insets.left - 5;
-    _lookNumBtn.imageEdgeInsets = insets;
-    insets = _lookNumBtn.titleEdgeInsets;
-    insets.left = insets.left + 5;
-    _lookNumBtn.titleEdgeInsets = insets;
     [self addSubview:_lookNumBtn];
     
     //点赞数量
@@ -113,12 +107,6 @@
     [_likeNumBtn setImage:[UIImage imageNamed:@"点赞-回复.png"] forState:UIControlStateNormal];
     [_likeNumBtn setImage:[UIImage imageNamed:@"点赞-回复.png"] forState:UIControlStateHighlighted];
     [_likeNumBtn addTarget:self action:@selector(likeAction:) forControlEvents:UIControlEventTouchUpInside];
-    insets = _likeNumBtn.imageEdgeInsets;
-    insets.left = insets.left - 5;
-    _likeNumBtn.imageEdgeInsets = insets;
-    insets = _likeNumBtn.titleEdgeInsets;
-    insets.left = insets.left + 5;
-    _likeNumBtn.titleEdgeInsets = insets;
     [self addSubview:_likeNumBtn];
     
     //添加该临时按钮对点赞按钮的约束，不添加该临时按钮会导致点赞按钮无法在修改偏移量的情况下显示完整内容
@@ -145,7 +133,7 @@
             make.left.equalTo(_headImgView.mas_safeAreaLayoutGuideRight).offset(10);
             make.right.equalTo(_dateLabel.mas_safeAreaLayoutGuideLeft).offset(-50);
         } else {
-            make.top.equalTo(_headImgView.mas_top).offset(10);
+            make.top.equalTo(_headImgView.mas_top);
             make.left.equalTo(_headImgView.mas_right).offset(10);
             make.right.equalTo(_dateLabel.mas_left).offset(-50);
         }
@@ -157,7 +145,7 @@
             make.top.equalTo(_headImgView.mas_safeAreaLayoutGuideTop);
             make.right.equalTo(self.mas_safeAreaLayoutGuideRight).offset(-10);
         } else {
-            make.top.equalTo(_headImgView.mas_top).offset(10);
+            make.top.equalTo(_headImgView.mas_top);
             make.right.equalTo(self.mas_right).offset(-10);
         }
         make.height.equalTo(_headImgView.mas_height);
@@ -237,10 +225,10 @@
     
     _contentLabel.text = model.content;
     
-    NSString *numStr = model.lookNum <= 0 ? @"" : [NSString stringWithFormat:@"%lu", model.lookNum];
+    NSString *numStr = model.lookNum <= 0 ? @"" : [NSString stringWithFormat:@" %lu", model.lookNum];
     [_lookNumBtn setTitle:numStr forState:UIControlStateNormal];
     
-    numStr = model.likeNum <= 0 ? @"" : [NSString stringWithFormat:@"%lu", model.likeNum];
+    numStr = model.likeNum <= 0 ? @"" : [NSString stringWithFormat:@" %lu", model.likeNum];
     UIImage *likeImg = model.isLike ? [UIImage imageNamed:@"点赞-回复-按下"] : [UIImage imageNamed:@"点赞-回复"];
     UIColor *likeTextColor = model.isLike ? HEX_RGBA_COLOR(0x0B98F2, 1) : HEX_RGBA_COLOR(0x969CA1, 1);
     [_likeNumBtn setImage:likeImg forState:UIControlStateNormal];

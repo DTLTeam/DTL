@@ -170,8 +170,10 @@ static id _instance;
             }
             
             
-        }else{
-            fail(error);
+        } else {
+            if (fail) {
+                fail(error);
+            }
             DLog(@"网络请求失败");
         }
         
