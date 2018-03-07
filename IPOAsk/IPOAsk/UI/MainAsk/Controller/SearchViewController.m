@@ -75,6 +75,11 @@
     _searchNetworkTableView.hidden = YES;
     _searchFailView.hidden = YES;
     _networkErrorView.hidden = YES;
+
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
     //限制同时只存在一个搜索类页面
     NSInteger count = 0;
@@ -110,10 +115,6 @@
         [mainNav.searchTextField becomeFirstResponder];
         
     }
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

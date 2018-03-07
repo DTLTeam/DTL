@@ -43,7 +43,10 @@
     _tableView.bounces = NO;
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_tableView];
+    
+    [_tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -122,7 +125,11 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5)];
+        view.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.8];
+        [cell addSubview:view];
     }
+    
     if (indexPath.section < dataArr.count - 1) {
         cell.textLabel.text = dataArr[indexPath.section];
         if (indexPath.section == 0) {
@@ -143,7 +150,7 @@
         [btn addTarget:self action:@selector(loginOut) forControlEvents:UIControlEventTouchUpInside];
         [cell addSubview:btn];
     }
-   
+ 
     return cell;
 }
 
