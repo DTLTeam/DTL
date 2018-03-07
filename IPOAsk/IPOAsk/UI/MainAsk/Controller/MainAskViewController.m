@@ -258,6 +258,14 @@
             
         }];
         
+    }else{
+        //没有用户登录
+        UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        SignInViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"SignInView"];
+        UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:VC];
+        [self.navigationController presentViewController:nav animated:YES completion:nil];
+        
     }
     
 }

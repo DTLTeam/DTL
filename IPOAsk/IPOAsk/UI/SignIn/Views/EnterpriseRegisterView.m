@@ -9,14 +9,20 @@
 
 #import "EnterpriseRegisterView.h"
 
+@interface EnterpriseRegisterView()
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *IconH;
+
+@end
 
 @implementation EnterpriseRegisterView
 
 -(void)awakeFromNib{
     [super awakeFromNib];
     
-    
-    
+    if (SCREEN_HEIGHT < 667) {
+        _IconH.constant = 22;
+    }
 }
 - (IBAction)CallPhone:(UIButton *)sender {
     
