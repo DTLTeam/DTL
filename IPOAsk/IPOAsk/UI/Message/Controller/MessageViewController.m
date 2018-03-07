@@ -40,13 +40,12 @@ static NSString * CellIdentifier = @"AOrLikeCell";
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    if (self.tabBarController) {
-        self.tabBarController.tabBar.hidden = NO;
+    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
+        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
     }
     
     [self.myTableView.mj_header beginRefreshing];
 }
-
 
 #pragma mark - 界面
 
@@ -192,12 +191,55 @@ static NSString * CellIdentifier = @"AOrLikeCell";
     
     AnswerOrLikeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    AnswerOrLikeModel *model = self.sourceData[indexPath.row];
-    if (model) {
-        [cell updateWithModel:model];
+    if (indexPath.row < self.sourceData.count) {
+        AnswerOrLikeModel *model = self.sourceData[indexPath.row];
+        if (model) {
+            [cell updateWithModel:model];
+        }
+        
     }
-    
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    
+    if (indexPath.row < self.sourceData.count) {
+        AnswerOrLikeModel *model = self.sourceData[indexPath.row];
+        
+        AskDataModel *Askmodel = [[AskDataModel alloc]init];
+        Askmodel.askId = model.questionID;
+        Askmodel.title = model.questionTitle;
+        Askmodel.content = model.questionTitle;
+        Askmodel.addTime = [NSString stringWithFormat:@"%d",model.messageTime];
+         
+        
+        //传问题模型
+        MainAskDetailViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil].firstObject;
+        VC.model = Askmodel;
+        VC.Type = PushType_MyAsk;
+        [self.navigationController pushViewController:VC animated:YES];
+        
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        
+    }
+}
+
+
+
+/*
+ 
+ @property (strong, nonatomic) NSString *askId;
+ @property (nonatomic, strong) NSString *title;
+ @property (strong, nonatomic) NSString *content;
+ @property (strong, nonatomic) NSString *addTime;
+ @property (assign, nonatomic) int View;
+ @property (assign, nonatomic) int createUID;
+ @property (assign, nonatomic) int Answer;
+ @property (assign, nonatomic) int isAnonymous;
+ @property (assign, nonatomic) int IsAttention;
+ @property (assign, nonatomic) int isCompany;
+ @property (assign, nonatomic) int Follow;
+ 
+ */
 @end
