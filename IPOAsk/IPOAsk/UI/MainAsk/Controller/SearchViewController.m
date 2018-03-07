@@ -75,6 +75,7 @@
     _searchNetworkTableView.hidden = YES;
     _searchFailView.hidden = YES;
     _networkErrorView.hidden = YES;
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {

@@ -403,38 +403,38 @@
 
 - (void)applyAnswerer{
     
-//    if ( [UserDataManager shareInstance].userModel.forbidden == 1) {
-//        TipsViews *tips = [[TipsViews alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) HaveCancel:YES];
-//        [self.view.window addSubview:tips];
-//        
-//        __weak TipsViews *WeakTips = tips;
-//        [tips showWithContent:@"由于您违反了用户管理协议，平台拒绝了您的答主申请" tipsImage:@"申请失败" LeftTitle:@"我知道了" RightTitle:@"联系我们" block:^(UIButton *btn) {
-//            [WeakTips dissmiss];
-//            
-//        } rightblock:^(UIButton *btn) {
-//            
-//            [UtilsCommon CallPhone];
-//        }];
-//        
-//        return;
-//        
-//    }else if ([USER_DEFAULT boolForKey: [UserDataManager shareInstance].userModel.userID]) {
-//        //已经申请过
-//        TipsViews *tips = [[TipsViews alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) HaveCancel:NO];
-//        
-//        [self.view.window addSubview:tips];
-//    
-//        __weak TipsViews *WeakTips = tips;
-//        
-//        [tips showWithContent:@"您已申请过答主,审核正在进行中,请耐心等待" tipsImage:@"正在审核中" LeftTitle:@"我知道了" RightTitle:nil block:^(UIButton *btn) {
-//            [WeakTips dissmiss];
-//            
-//        } rightblock:^(UIButton *btn) {
-//            
-//        }];
-//        
-//        return;
-//    }
+    if ( [UserDataManager shareInstance].userModel.forbidden == 1) {
+        TipsViews *tips = [[TipsViews alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) HaveCancel:YES];
+        [self.view.window addSubview:tips];
+        
+        __weak TipsViews *WeakTips = tips;
+        [tips showWithContent:@"由于您违反了用户管理协议，平台拒绝了您的答主申请" tipsImage:@"申请失败" LeftTitle:@"我知道了" RightTitle:@"联系我们" block:^(UIButton *btn) {
+            [WeakTips dissmiss];
+            
+        } rightblock:^(UIButton *btn) {
+            
+            [UtilsCommon CallPhone];
+        }];
+        
+        return;
+        
+    }else if ([USER_DEFAULT boolForKey: [UserDataManager shareInstance].userModel.userID]) {
+        //已经申请过
+        TipsViews *tips = [[TipsViews alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) HaveCancel:NO];
+        
+        [self.view.window addSubview:tips];
+    
+        __weak TipsViews *WeakTips = tips;
+        
+        [tips showWithContent:@"您已申请过答主,审核正在进行中,请耐心等待" tipsImage:@"正在审核中" LeftTitle:@"我知道了" RightTitle:nil block:^(UIButton *btn) {
+            [WeakTips dissmiss];
+            
+        } rightblock:^(UIButton *btn) {
+            
+        }];
+        
+        return;
+    }
     
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
     AnswerViewController *answerVC = [sb instantiateViewControllerWithIdentifier:@"AnswerView"];
