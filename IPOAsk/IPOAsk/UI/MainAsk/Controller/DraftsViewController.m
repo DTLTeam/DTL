@@ -118,8 +118,8 @@
         __weak DraftsViewController *WeakSelf = self;
         EditQuestionViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:self options:nil][0];
         
-        if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
-            [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
+        if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
+            [(BaseNavigationController *)self.navigationController hideSearchNavBar:YES];
         }
         [VC EditModel:model WithHaveChangeClick:^(BOOL Change) {
             

@@ -1,14 +1,14 @@
 //
-//  MainNavigationController.h
+//  BaseNavigationController.h
 //  IPOAsk
 //
-//  Created by updrv on 2018/1/25.
+//  Created by updrv on 2018/3/8.
 //  Copyright © 2018年 law. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@protocol MainNavigationControllerDelegate <NSObject>
+@protocol BaseNavigationControllerDelegate <NSObject>
 
 @optional
 - (void)searchTextChange:(NSString *)text;
@@ -16,11 +16,11 @@
 
 @end
 
-@interface MainNavigationController : UINavigationController <UITextFieldDelegate>
+@interface BaseNavigationController : UINavigationController <UITextFieldDelegate>
 
 @property (strong, nonatomic, readonly) UITextField *searchTextField;
 
-@property (weak, nonatomic) id<MainNavigationControllerDelegate> searchDelegate;
+@property (weak, nonatomic) id<BaseNavigationControllerDelegate> searchDelegate;
 
 /**
  显示搜索导航栏

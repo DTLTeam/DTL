@@ -52,8 +52,8 @@
     
     self.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBar.hidden = NO;
-    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
-        [(MainNavigationController *)self.navigationController showSearchNavBar:YES];
+    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
+        [(BaseNavigationController *)self.navigationController showSearchNavBar:YES];
     }
     
 }

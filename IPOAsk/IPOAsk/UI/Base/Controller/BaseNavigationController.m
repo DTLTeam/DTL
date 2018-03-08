@@ -1,20 +1,21 @@
 //
-//  MainNavigationController.m
+//  BaseNavigationController.m
 //  IPOAsk
 //
-//  Created by updrv on 2018/1/25.
+//  Created by updrv on 2018/3/8.
 //  Copyright © 2018年 law. All rights reserved.
 //
 
-#import "MainNavigationController.h"
+#import "BaseNavigationController.h"
 
 //Controller
 #import "SearchViewController.h"
 #import "EditQuestionViewController.h"
+#import "ApplicationEnterpriseViewController.h"
 
 #define AnimatedTime 0.3
 
-@interface MainNavigationController () <UINavigationControllerDelegate,UITextViewDelegate>
+@interface BaseNavigationController () <UINavigationControllerDelegate,UITextViewDelegate>
 
 //参数
 @property (nonatomic) BOOL isShowSearchBar; //是否显示搜索栏
@@ -29,7 +30,7 @@
 
 @end
 
-@implementation MainNavigationController
+@implementation BaseNavigationController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -45,6 +46,8 @@
     _searchTextField.delegate = self;
     [_searchTextField addTarget:self action:@selector(searchTextChangeAction:)  forControlEvents:UIControlEventAllEditingEvents];
     
+    [self hideSearchNavBar:NO];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -53,14 +56,14 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 
 #pragma mark - 界面
@@ -95,7 +98,7 @@
     _searchTextField = [[UITextField alloc] init];
     NSAttributedString *placeholderString = [[NSAttributedString alloc] initWithString:@"输入关键字搜索感兴趣的问题" attributes:@{NSForegroundColorAttributeName:HEX_RGBA_COLOR(0x959A9F, 1), NSFontAttributeName:[UIFont systemFontOfSize:13]}];
     _searchTextField.attributedPlaceholder = placeholderString;
-//    _searchTextField.tintColor = HEX_RGBA_COLOR(0x999999, 1);
+    //    _searchTextField.tintColor = HEX_RGBA_COLOR(0x999999, 1);
     _searchTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     _searchTextField.returnKeyType = UIReturnKeyDone;
     _searchTextField.font = [UIFont systemFontOfSize:13];
@@ -183,7 +186,7 @@
     self.tabBarController.tabBar.hidden = YES;
     EditQuestionViewController *editQuestionVC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:nil options:nil].firstObject;
     [editQuestionVC UserType:AnswerType_AskQuestionPerson NavTitle:@"提问"];
- 
+    
     [self pushViewController:editQuestionVC animated:YES];
     
 }
@@ -434,7 +437,7 @@
 #pragma mark - UITextFieldDelegate
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-  
+    
     if ([UtilsCommon ShowLoginHud:self.view Tag:200]) {
         return NO;
     }

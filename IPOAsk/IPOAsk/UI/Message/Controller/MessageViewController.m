@@ -40,8 +40,8 @@ static NSString * CellIdentifier = @"AOrLikeCell";
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
-        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
+    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
+        [(BaseNavigationController *)self.navigationController hideSearchNavBar:YES];
     }
     
     [self.myTableView.mj_header beginRefreshing];

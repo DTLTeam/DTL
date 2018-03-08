@@ -18,12 +18,15 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self.navigationItem setHidesBackButton:YES];
+    if (self.navigationItem) {
+        [self.navigationItem setHidesBackButton:YES];
+    }
     
     if (!IS_IOS11LATER) {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
     self.view.backgroundColor = [UIColor whiteColor];
+    
 }
 
 - (void)didReceiveMemoryWarning {

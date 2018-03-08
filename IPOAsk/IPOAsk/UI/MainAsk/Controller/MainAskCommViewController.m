@@ -11,7 +11,7 @@
 #import <UIImageView+WebCache.h>
 
 //Controller
-#import "MainNavigationController.h"
+#import "BaseNavigationController.h"
 
 @interface MainAskCommViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -47,8 +47,8 @@
     
     self.tabBarController.tabBar.hidden = YES;
     self.navigationController.navigationBar.hidden = NO;
-    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) { //隐藏搜索导航栏
-        [(MainNavigationController *)self.navigationController showSearchNavBar:YES];
+    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) { //隐藏搜索导航栏
+        [(BaseNavigationController *)self.navigationController showSearchNavBar:YES];
     }
 }
 

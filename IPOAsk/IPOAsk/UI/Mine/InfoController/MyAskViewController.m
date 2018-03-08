@@ -57,8 +57,8 @@
 {
     [super viewDidAppear:animated];
     
-    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
-        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
+    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
+        [(BaseNavigationController *)self.navigationController hideSearchNavBar:YES];
     }
     
     [_tableView.mj_header beginRefreshing];

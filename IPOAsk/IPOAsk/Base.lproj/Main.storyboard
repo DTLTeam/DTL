@@ -87,10 +87,10 @@
             </objects>
             <point key="canvasLocation" x="-4460.625" y="1333.0985915492959"/>
         </scene>
-        <!--Enterprise View Controller-->
+        <!--企业-->
         <scene sceneID="Hss-IT-oJL">
             <objects>
-                <viewController id="gfw-f5-PQh" customClass="EnterpriseViewController" sceneMemberID="viewController">
+                <viewController title="企业" id="gfw-f5-PQh" customClass="EnterpriseViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="FHz-cn-3zN"/>
                         <viewControllerLayoutGuide type="bottom" id="Cg9-Vl-ShN"/>
@@ -98,18 +98,37 @@
                     <view key="view" contentMode="scaleToFill" id="fIj-WJ-3XS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="UgZ-bx-MDy">
+                                <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="gfw-f5-PQh" id="U0t-rA-Q6l"/>
+                                    <outlet property="delegate" destination="gfw-f5-PQh" id="GPs-zw-PTd"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="UgZ-bx-MDy" firstAttribute="top" secondItem="FHz-cn-3zN" secondAttribute="bottom" id="FIV-1w-wsW"/>
+                            <constraint firstAttribute="trailing" secondItem="UgZ-bx-MDy" secondAttribute="trailing" id="aGI-kj-YzY"/>
+                            <constraint firstItem="Cg9-Vl-ShN" firstAttribute="top" secondItem="UgZ-bx-MDy" secondAttribute="bottom" id="dCl-nZ-Jzt"/>
+                            <constraint firstItem="UgZ-bx-MDy" firstAttribute="leading" secondItem="fIj-WJ-3XS" secondAttribute="leading" id="dJB-Xv-a5o"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="U3X-OS-maa"/>
+                    <connections>
+                        <outlet property="contentTableView" destination="UgZ-bx-MDy" id="IqE-1M-yr3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RN3-wQ-nA0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1330" y="1325"/>
+            <point key="canvasLocation" x="-1331.25" y="1324.6478873239437"/>
         </scene>
         <!--首页-->
         <scene sceneID="K2V-dd-vQc">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xh2-uR-gkf" customClass="MainNavigationController" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xh2-uR-gkf" customClass="BaseNavigationController" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="首页" image="home_nor.png" id="qj0-PH-Ze4"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="BKf-q0-i2S">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
@@ -126,12 +145,15 @@
         <!--企业+-->
         <scene sceneID="nGw-pP-tVg">
             <objects>
-                <navigationController id="02P-ck-418" customClass="BaseNavViewController" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="02P-ck-418" customClass="BaseNavigationController" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="企业+" image="企业-nor.png" id="kVI-co-u5E"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="i9e-De-RbG">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="AlT-dH-Ayg">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="gfw-f5-PQh" kind="relationship" relationship="rootViewController" id="HO7-q8-6rY"/>
                     </connections>
@@ -890,10 +912,10 @@
             </objects>
             <point key="canvasLocation" x="3911" y="3583"/>
         </scene>
-        <!--Base Nav View Controller-->
+        <!--Base Navigation Controller-->
         <scene sceneID="7Xf-DI-ctW">
             <objects>
-                <navigationController id="l24-0q-2DT" customClass="BaseNavViewController" sceneMemberID="viewController">
+                <navigationController id="l24-0q-2DT" customClass="BaseNavigationController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Nkb-iR-X3e">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -909,7 +931,7 @@
         <!--消息-->
         <scene sceneID="IOV-ay-u1B">
             <objects>
-                <navigationController id="tEt-fU-fs4" customClass="BaseNavViewController" sceneMemberID="viewController">
+                <navigationController id="tEt-fU-fs4" customClass="BaseNavigationController" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="消息" image="消息-nor.png" id="5gd-UC-IqL"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="9GN-tG-Unk">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>
@@ -926,7 +948,7 @@
         <!--我的-->
         <scene sceneID="N0O-sv-Xqc">
             <objects>
-                <navigationController id="1aa-hu-prU" customClass="MainNavigationController" sceneMemberID="viewController">
+                <navigationController id="1aa-hu-prU" customClass="BaseNavigationController" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="我的" image="我的-nor.png" id="ehY-KT-213"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="KCa-bH-GIX">
                         <rect key="frame" x="0.0" y="20" width="320" height="44"/>

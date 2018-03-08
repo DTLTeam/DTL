@@ -9,14 +9,14 @@
 #import "SearchViewController.h"
 
 //Controller
-#import "MainNavigationController.h"
+#import "BaseNavigationController.h"
 #import "EditQuestionViewController.h"
 #import "MainAskDetailViewController.h"
 
 //View
 #import "QuestionTableViewCell.h"
 
-@interface SearchViewController () <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, MainNavigationControllerDelegate, QuestionTableViewCellDelegate>
+@interface SearchViewController () <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, BaseNavigationControllerDelegate, QuestionTableViewCellDelegate>
 
 //搜索内容
 @property (strong, nonatomic) UIView        *searchContentView;
@@ -104,13 +104,13 @@
     
     self.tabBarController.tabBar.hidden = YES;
     self.navigationController.navigationBar.hidden = NO;
-    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
-        [(MainNavigationController *)self.navigationController showSearchNavBar:YES];
+    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
+        [(BaseNavigationController *)self.navigationController showSearchNavBar:YES];
     }
     
-    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
+    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
         
-        MainNavigationController *mainNav = (MainNavigationController *)self.navigationController;
+        BaseNavigationController *mainNav = (BaseNavigationController *)self.navigationController;
         mainNav.searchDelegate = self;
         [mainNav.searchTextField becomeFirstResponder];
         
@@ -120,9 +120,9 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
+    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
         
-        MainNavigationController *mainNav = (MainNavigationController *)self.navigationController;
+        BaseNavigationController *mainNav = (BaseNavigationController *)self.navigationController;
         mainNav.searchDelegate = nil;
         [mainNav.searchTextField resignFirstResponder];
         
@@ -338,8 +338,8 @@
     self.tabBarController.tabBar.hidden = YES;
     EditQuestionViewController *editQuestionVC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:nil options:nil].firstObject;
     [editQuestionVC UserType:AnswerType_AskQuestionPerson NavTitle:@"提问"];
-    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
-        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
+    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
+        [(BaseNavigationController *)self.navigationController hideSearchNavBar:YES];
     }
     [self.navigationController pushViewController:editQuestionVC animated:YES];
     
@@ -348,9 +348,9 @@
 #pragma mark 隐藏键盘
 - (void)hideKeyboard:(id)sender {
     
-    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
+    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
         
-        UITextField *searchTextField = ((MainNavigationController *)self.navigationController).searchTextField;
+        UITextField *searchTextField = ((BaseNavigationController *)self.navigationController).searchTextField;
         if (searchTextField.isEditing) {
             [searchTextField resignFirstResponder];
         }
@@ -470,7 +470,7 @@
 }
 
 
-#pragma mark - MainNavigationControllerDelegate
+#pragma mark - BaseNavigationControllerDelegate
 
 - (void)searchTextChange:(NSString *)text {
     
@@ -668,8 +668,8 @@
         
         _curSearchPage = 0;
         _searchContent = question;
-        if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
-            MainNavigationController *mainNav = (MainNavigationController *)self.navigationController;
+        if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
+            BaseNavigationController *mainNav = (BaseNavigationController *)self.navigationController;
             _searchContent = question;
             mainNav.searchTextField.text = _searchContent;
         }

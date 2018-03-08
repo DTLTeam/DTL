@@ -13,7 +13,6 @@
 //View
 #import "QuestionTableViewCell.h"
 
-
 //Controller
 #import "SignInViewController.h"
 #import "QJCheckVersionUpdate.h"
@@ -63,8 +62,8 @@
     
     self.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBar.hidden = NO;
-    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
-        [(MainNavigationController *)self.navigationController showSearchNavBar:YES];
+    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
+        [(BaseNavigationController *)self.navigationController showSearchNavBar:YES];
     }
     
     if (_currentPage < 1) { //未刷新过

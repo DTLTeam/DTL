@@ -37,7 +37,7 @@
     
     
     //self.navigationController.navigationBarHidden = YES;
-    dataArr = @[@"",@"申请成为答主",@"草稿箱",@"帮助中心",@"关于我们",@"设置"];
+    dataArr = @[@"申请成为答主",@"草稿箱",@"帮助中心",@"关于我们",@"设置"];
     _userManager = [UserDataManager shareInstance];
     
     [self setupView];
@@ -48,61 +48,50 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginChange) name:@"LoginOut" object:nil];
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated]; 
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
+
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"PushSetting"]) {
+        UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:nil action:nil];
+        self.navigationItem.backBarButtonItem = backBtn;
+    }
+}
+
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
+    self.tabBarController.tabBar.hidden = NO;
     [self.navigationController setNavigationBarHidden:YES animated:YES];
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.tabBarController.tabBar.hidden = NO;
+    
+    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
+        [(BaseNavigationController *)self.navigationController hideSearchNavBar:YES];
+    }
     
     if (_pushChangeUser) {
         [_tableView reloadData];
         _pushChangeUser = NO;
     }
-    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
-        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
-    }
-    
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [self setNeedsNavigationBackground:0.0];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [self setNeedsNavigationBackground:1.0];
+    
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 }
-
-- (void)setNeedsNavigationBackground:(CGFloat)alpha {
-    [self.navigationController.navigationBar setBackgroundImage:[UtilsCommon createImageWithColor:[UIColor clearColor]] forBarMetrics:UIBarMetricsDefault];
-    
-    [self.navigationController.navigationBar setShadowImage:[UtilsCommon createImageWithColor:[UIColor clearColor]]];
-    self.navigationController.navigationBar.shadowImage = [UtilsCommon createImageWithColor:[UIColor clearColor]];
-    
-//    // 导航栏背景透明度设置
-//    UIView *barBackgroundView = [[self.navigationController.navigationBar subviews] objectAtIndex:0];// _UIBarBackground
-//    UIImageView *backgroundImageView = [[barBackgroundView subviews] objectAtIndex:0];// UIImageView
-//    if (self.navigationController.navigationBar.isTranslucent) {
-//        if (backgroundImageView != nil && backgroundImageView.image != nil) {
-//            barBackgroundView.alpha = alpha;
-//        } else if([barBackgroundView subviews].count > 1){
-//            UIView *backgroundEffectView = [[barBackgroundView subviews] objectAtIndex:1];// UIVisualEffectView
-//            if (backgroundEffectView != nil) {
-//                backgroundEffectView.alpha = alpha;
-//            }
-//        }
-//    } else {
-//        barBackgroundView.alpha = alpha;
-//    }
-//    self.navigationController.navigationBar.clipsToBounds = alpha == 0.0;
-}
-
 
 - (void)loginChange{
     
@@ -110,7 +99,7 @@
     
     if ([UserDataManager shareInstance].userModel.userType == loginType_Enterprise){
         
-        dataArr = @[@"",@"草稿箱",@"帮助中心",@"关于我们",@"设置"];
+        dataArr = @[@"草稿箱",@"帮助中心",@"关于我们",@"设置"];
         CGFloat height = 160 + 72 + (dataArr.count - 1) * 50.5 + 10;
         if (SCREEN_HEIGHT < 667) {
             height = 140 + 60 + (dataArr.count - 1) * 50.5 + 10;
@@ -118,7 +107,7 @@
         _tableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, height);
         
     }else{
-        dataArr = @[@"",@"申请成为答主",@"草稿箱",@"帮助中心",@"关于我们",@"设置"];
+        dataArr = @[@"申请成为答主",@"草稿箱",@"帮助中心",@"关于我们",@"设置"];
         CGFloat height = 160 + 72 + (dataArr.count - 1) * 50.5 + 10;
         if (SCREEN_HEIGHT < 667) {
             height = 140 + 60 + (dataArr.count - 1) * 50.5 + 10;
@@ -147,7 +136,6 @@
     if (@available(iOS 11.0, *)) {
         _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
-    _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 1)];
     [self.view addSubview:_tableView];
     
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -167,42 +155,53 @@
 }
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+#pragma mark - UITableViewDelegate & UITableViewDataSource
 
-
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    if ([segue.identifier isEqualToString:@"PushSetting"]) {
-        UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:nil action:nil];
-        self.navigationItem.backBarButtonItem = backBtn;
-    }
-}
-
-
-#pragma mark - tableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return dataArr.count;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    switch (section) {
+        case 0:
+        {
+            return 1;
+        }
+            break;
+        case 1:
+        {
+            return dataArr.count;
+        }
+            break;
+        default:
+        {
+            return 0;
+        }
+            break;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        return SCREEN_HEIGHT >= 667 ? 160 + 72 : 140 + 60;
+    switch (indexPath.section) {
+        case 0:
+        {
+            return SCREEN_HEIGHT >= 667 ? 160 + 72 : 140 + 60;;
+        }
+            break;
+        case 1:
+        {
+            return 50;
+        }
+            break;
+        default:
+        {
+            return 0;
+        }
+            break;
     }
-    return 51;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -210,12 +209,14 @@
     if (section == 0) {
         return 10;
     }
-    return 0;
+    return 1;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    return [[UIView alloc]init];
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 1)];
+    footer.backgroundColor = tableView.backgroundColor;
+    return footer;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -300,11 +301,13 @@
                 [cell addSubview:view];
             }
         }
-        cell.textLabel.text = dataArr[indexPath.section];
+        
+        cell.textLabel.text = dataArr[indexPath.row];
         cell.textLabel.font = [UIFont systemFontOfSize:16];
-        cell.imageView.image = [UIImage imageNamed:dataArr[indexPath.section]];
+        cell.imageView.image = [UIImage imageNamed:dataArr[indexPath.row]];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        
         return cell;
     }
     return nil;
@@ -312,93 +315,104 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ( indexPath.section != 0) {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.section != 0) {
         if ([UtilsCommon ShowLoginHud:self.view Tag:200]) {
             _pushChangeUser = YES;
             return;
         }
     }
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    self.navigationController.tabBarController.tabBar.hidden = YES;
-    self.navigationController.navigationBarHidden = NO;
+//    self.navigationController.tabBarController.tabBar.hidden = YES;
+//    self.navigationController.navigationBarHidden = NO;
     
-    NSString *title = dataArr[indexPath.section];
-    
-    if ([title isEqualToString:@""]) {
-        _pushChangeUser = YES;
-        
-        if (![UserDataManager shareInstance].userModel) {
-            UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    switch (indexPath.section) {
+        case 0:
+        {
+            _pushChangeUser = YES;
             
-            SignInViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"SignInView"];
-            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:VC];
-            [self.navigationController presentViewController:nav animated:YES completion:nil];
-            return;
-        }
-        [self performSegueWithIdentifier:@"pushInfo" sender:nil];
-        
-    }else if ([title isEqualToString:@"申请成为答主"]){
-        if (_userManager.userModel) {
-            self.navigationController.tabBarController.tabBar.hidden = NO;
-            if (_userManager.userModel.isAnswerer == 1) {
+            if (![UserDataManager shareInstance].userModel) {
+                UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                
+                SignInViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"SignInView"];
+                UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:VC];
+                [self.navigationController presentViewController:nav animated:YES completion:nil];
                 return;
             }
-            if (_userManager.userModel.forbidden == 1) {
-                TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:YES];
-                UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-                [window addSubview:tips];
-                
-                __weak TipsViews *WeakTips = tips;
-                [tips showWithContent:@"由于您违反了用户管理协议，平台拒绝了您的答主申请" tipsImage:@"申请失败" LeftTitle:@"我知道了" RightTitle:@"联系我们" block:^(UIButton *btn) {
-                    [WeakTips dissmiss];
-                    
-                } rightblock:^(UIButton *btn) {
-                    
-                    [UtilsCommon CallPhone];
-                }];
-                
-            }else if ([USER_DEFAULT boolForKey:_userManager.userModel.userID]) {
-                //已经申请过
-                TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:NO];
-                UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-                [window addSubview:tips];
-                
-                __weak TipsViews *WeakTips = tips;
-                
-                [tips showWithContent:@"您已申请过答主,审核正在进行中,请耐心等待" tipsImage:@"正在审核中" LeftTitle:@"我知道了" RightTitle:nil block:^(UIButton *btn) {
-                    [WeakTips dissmiss];
-                    
-                } rightblock:^(UIButton *btn) {
-                    
-                }];
-                
-            }else
-            {
-                [self performSegueWithIdentifier:@"pushAnswer" sender:nil];
-            }
-        }else
-        {
-            self.navigationController.tabBarController.tabBar.hidden = NO;
-            
-            //test******************
-            [self performSegueWithIdentifier:@"pushAnswer" sender:nil];
-            //test******************
+            [self performSegueWithIdentifier:@"pushInfo" sender:nil];
         }
-    
-    }else if ([title isEqualToString:@"草稿箱"]){
-        DraftsViewController *vc = [[DraftsViewController alloc]init];
-        [self.navigationController pushViewController:vc animated:YES];
-   
-    }else if ([title isEqualToString:@"帮助中心"]){
-        [self performSegueWithIdentifier:@"pushHelp" sender:nil];
-   
-    }else if ([title isEqualToString:@"关于我们"]){
-        [self performSegueWithIdentifier:@"pushAbout" sender:nil];
-        
-    }else if ([title isEqualToString:@"设置"]){
-        _pushChangeUser = YES;
-        [self performSegueWithIdentifier:@"PushSetting" sender:nil];
-        
+            break;
+        case 1:
+        {
+            NSString *title = dataArr[indexPath.row];
+            
+            if ([title isEqualToString:@"申请成为答主"]){
+                if (_userManager.userModel) {
+                    self.navigationController.tabBarController.tabBar.hidden = NO;
+                    if (_userManager.userModel.isAnswerer == 1) {
+                        return;
+                    }
+                    if (_userManager.userModel.forbidden == 1) {
+                        TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:YES];
+                        UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+                        [window addSubview:tips];
+                        
+                        __weak TipsViews *WeakTips = tips;
+                        [tips showWithContent:@"由于您违反了用户管理协议，平台拒绝了您的答主申请" tipsImage:@"申请失败" LeftTitle:@"我知道了" RightTitle:@"联系我们" block:^(UIButton *btn) {
+                            [WeakTips dissmiss];
+                            
+                        } rightblock:^(UIButton *btn) {
+                            
+                            [UtilsCommon CallPhone];
+                        }];
+                        
+                    }else if ([USER_DEFAULT boolForKey:_userManager.userModel.userID]) {
+                        //已经申请过
+                        TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:NO];
+                        UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+                        [window addSubview:tips];
+                        
+                        __weak TipsViews *WeakTips = tips;
+                        
+                        [tips showWithContent:@"您已申请过答主,审核正在进行中,请耐心等待" tipsImage:@"正在审核中" LeftTitle:@"我知道了" RightTitle:nil block:^(UIButton *btn) {
+                            [WeakTips dissmiss];
+                            
+                        } rightblock:^(UIButton *btn) {
+                            
+                        }];
+                        
+                    }else
+                    {
+                        [self performSegueWithIdentifier:@"pushAnswer" sender:nil];
+                    }
+                }else
+                {
+                    self.navigationController.tabBarController.tabBar.hidden = NO;
+                    
+                    //test******************
+                    [self performSegueWithIdentifier:@"pushAnswer" sender:nil];
+                    //test******************
+                }
+                
+            }else if ([title isEqualToString:@"草稿箱"]){
+                DraftsViewController *vc = [[DraftsViewController alloc]init];
+                [self.navigationController pushViewController:vc animated:YES];
+                
+            }else if ([title isEqualToString:@"帮助中心"]){
+                [self performSegueWithIdentifier:@"pushHelp" sender:nil];
+                
+            }else if ([title isEqualToString:@"关于我们"]){
+                [self performSegueWithIdentifier:@"pushAbout" sender:nil];
+                
+            }else if ([title isEqualToString:@"设置"]){
+                _pushChangeUser = YES;
+                [self performSegueWithIdentifier:@"PushSetting" sender:nil];
+                
+            }
+        }
+            break;
+        default:
+            break;
     }
     
 }

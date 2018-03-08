@@ -6,10 +6,9 @@
 //  Copyright © 2018年 law. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface EnterpriseViewController : BaseTableViewController
+@interface EnterpriseViewController : BaseViewController
 
 @end
 

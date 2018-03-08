@@ -10,7 +10,7 @@
 
 @interface BaseViewController : UIViewController
 
-@property (nonatomic,strong)UIImageView *bgImageView;
+@property (nonatomic,strong) UIImageView *bgImageView;
 
 - (void)setUpBgViewWithTitle:(NSString *)title Image:(NSString *)Img Action:(SEL)action;
 

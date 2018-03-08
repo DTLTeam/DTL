@@ -9,7 +9,7 @@
 #import "EditQuestionViewController.h"
 
 //Controller
-#import "MainNavigationController.h"
+#import "BaseNavigationController.h"
 
 @interface EditQuestionViewController () <UITextFieldDelegate, UITextViewDelegate>
 
@@ -89,8 +89,8 @@
     [super viewDidAppear:animated];
     
     self.navigationController.navigationBar.hidden = NO;
-    if ([self.navigationController isKindOfClass:[MainNavigationController class]]) {
-        [(MainNavigationController *)self.navigationController hideSearchNavBar:YES];
+    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
+        [(BaseNavigationController *)self.navigationController hideSearchNavBar:YES];
     }
     
   
