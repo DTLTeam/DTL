@@ -428,7 +428,7 @@
             
             [weakSelf.searchNetworkTableView reloadData];
             
-            if (page == 0 && weakSelf.searchNetworkItems.count > 0
+            if (page > 0 && weakSelf.searchNetworkItems.count > 0
                 && questionTitle.length > 0
                 && weakSelf.searchContent.length > 0) {
                 weakSelf.historyTableView.hidden = YES;

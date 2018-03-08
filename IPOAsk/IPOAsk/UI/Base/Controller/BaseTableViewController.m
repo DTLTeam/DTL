@@ -15,10 +15,10 @@
     // Do any additional setup after loading the view.
     
     self.navigationController.navigationBar.translucent = NO;
-    [self.navigationController.navigationBar setBackgroundImage:[UtilsCommon createImageWithColor:[UIColor whiteColor]] forBarMetrics:UIBarMetricsDefault];
+//    [self.navigationController.navigationBar setBackgroundImage:[UtilsCommon createImageWithColor:[UIColor whiteColor]] forBarMetrics:UIBarMetricsDefault];
     
-    [self.navigationController.navigationBar setShadowImage:[UtilsCommon createImageWithColor:[UIColor whiteColor]]];
-    self.navigationController.navigationBar.shadowImage = [UtilsCommon createImageWithColor:[UIColor whiteColor]];
+//    [self.navigationController.navigationBar setShadowImage:[UtilsCommon createImageWithColor:[UIColor whiteColor]]];
+//    self.navigationController.navigationBar.shadowImage = [UtilsCommon createImageWithColor:[UIColor whiteColor]];
     
     
     //无数据背景图
