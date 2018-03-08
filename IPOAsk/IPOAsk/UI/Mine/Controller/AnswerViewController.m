@@ -32,9 +32,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.title = @"申请成为答主";
+    
     self.view.backgroundColor = MineTopColor;
     _answerBtn.layer.cornerRadius = 3;
     _tableViewHeight = SCREEN_HEIGHT;
+    
+    [self setUpNavBgColor:nil RightBtn:nil];
     
     [NOTIFICATIONCENTER addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
     [NOTIFICATIONCENTER addObserver:self selector:@selector(KeyboardDidHideNotification:) name:UIKeyboardWillHideNotification object:nil];
@@ -46,23 +50,15 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
-    self.title = @"申请成为答主";
-    [self setUpNavBgColor:MineTopColor RightBtn:^(UIButton *btn) {
-        
-    }];
+    [super viewDidAppear:animated];
     
+    self.navigationController.tabBarController.tabBar.hidden = YES;
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
     if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
         [(BaseNavigationController *)self.navigationController hideSearchNavBar:YES];
     }
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    
-    //[self hiddenNav];
 }
 
 /*
@@ -74,6 +70,12 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (void)dealloc {
+    [NOTIFICATIONCENTER removeObserver:self];
+}
+
+
 - (IBAction)ansterAction:(id)sender {
     
     UserDataManager *manager = [UserDataManager shareInstance];

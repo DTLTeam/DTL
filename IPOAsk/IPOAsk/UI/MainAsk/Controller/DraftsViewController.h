@@ -6,8 +6,8 @@
 //  Copyright © 2018年 law. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "BaseViewController.h"
 
-@interface DraftsViewController : BaseTableViewController
+@interface DraftsViewController : BaseViewController
 
 @end

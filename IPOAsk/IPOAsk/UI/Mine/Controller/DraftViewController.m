@@ -20,6 +20,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.title = @"草稿箱";
+    
+    [self setUpNavBgColor:nil RightBtn:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -27,13 +31,12 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = NO;
-    self.navigationController.tabBarController.tabBar.hidden = YES;
-    self.title = @"草稿箱";
     
+    self.navigationController.tabBarController.tabBar.hidden = YES;
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
     if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
         [(BaseNavigationController *)self.navigationController hideSearchNavBar:YES];
     }

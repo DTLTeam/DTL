@@ -37,12 +37,6 @@
 
 - (void)setUpNavBgColor:(UIColor *)color RightBtn:(void (^)(UIButton *))rightbtn{
     
-    self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBarHidden = NO;
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    self.navigationController.tabBarController.tabBar.hidden = YES;
-    
-    
     UIButton *lbtn = [UIButton buttonWithType:UIButtonTypeCustom];
     UIBarButtonItem *leftBtn = [UIBarButtonItem returnTabBarItemWithBtn:lbtn image:@"back" bgimage:nil  Title:@"" SelectedTitle:@" " titleFont:12 itemtype:Itemtype_left SystemItem:UIBarButtonSystemItemFixedSpace target:self action:@selector(back)];
     [lbtn setTitleColor:HEX_RGB_COLOR(0x969ca1) forState:UIControlStateNormal];
@@ -60,12 +54,16 @@
     self.navigationItem.rightBarButtonItems = @[fixedButton, rightBtn];
     rbtn.tag = 2002;
     
-    [self.navigationController.navigationBar setShadowImage:[UtilsCommon createImageWithColor:HEX_RGB_COLOR(0xE9E9E9)]];
-    self.navigationController.navigationBar.shadowImage = [UtilsCommon createImageWithColor:HEX_RGB_COLOR(0xE9E9E9)];
-    self.navigationController.view.backgroundColor = color;
-    self.view.backgroundColor = color;
+    if (color) {
+        [self.navigationController.navigationBar setShadowImage:[UtilsCommon createImageWithColor:HEX_RGB_COLOR(0xE9E9E9)]];
+        self.navigationController.navigationBar.shadowImage = [UtilsCommon createImageWithColor:HEX_RGB_COLOR(0xE9E9E9)];
+        self.navigationController.view.backgroundColor = color;
+        self.view.backgroundColor = color;
+    }
     
-    rightbtn(rbtn);
+    if (rightbtn) {
+        rightbtn(rbtn);
+    }
 }
 
 - (void)hiddenNav{

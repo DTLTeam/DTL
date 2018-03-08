@@ -57,7 +57,8 @@ typedef void(^ActionBlock)(NSInteger tag);
         bgView.image = [UIImage imageNamed:@"banner背景"];
         [self addSubview:bgView];
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, 44)];
+        CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, statusBarHeight, SCREEN_WIDTH, 44)];
         label.textColor = [UIColor whiteColor];
         label.textAlignment = NSTextAlignmentCenter;
         label.text = @"我的";

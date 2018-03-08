@@ -25,28 +25,43 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-   
-    dataArr = @[@"消息通知",@"给APP评分",@"用户协议",@"联系我们",@"退出当前帐号"];
+    self.title = @"设置";
+    self.view.backgroundColor = MineTopColor;
     
+    [self setUpNavBgColor:nil RightBtn:nil];
     [self setupView];
+    
+    self.edgesForExtendedLayout = UIRectEdgeBottom;
 }
 
 - (void)setupView
 {
-    self.view.backgroundColor = MineTopColor;
+    dataArr = @[@[@"消息通知", @"给APP评分", @"用户协议", @"联系我们"], @[@"退出当前帐号"]];
     
-    CGFloat height = dataArr.count * 50 + 10;
-    if (height + NAVBAR_HEIGHT >= SCREEN_HEIGHT) {
-        height = SCREEN_HEIGHT;
+    _tableView = [[UITableView alloc] init];
+    _tableView.backgroundColor = MineTopColor;
+    if (@available(iOS 11.0, *)) {
+        _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, height) style:UITableViewStylePlain];
+    _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     _tableView.bounces = NO;
     _tableView.delegate = self;
     _tableView.dataSource = self;
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_tableView];
     
-    [_tableView reloadData];
+    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (@available(iOS 11.0, *)) {
+            make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
+            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
+            make.left.equalTo(self.view.mas_safeAreaLayoutGuideLeft);
+            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight);
+        } else {
+            make.top.equalTo(self.view.mas_top);
+            make.bottom.equalTo(self.view.mas_bottom);
+            make.left.equalTo(self.view.mas_left);
+            make.right.equalTo(self.view.mas_right);
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -54,14 +69,12 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
-    self.title = @"设置";
-    [self setUpNavBgColor:MineTopColor RightBtn:^(UIButton *btn) {
-        
-    }];
+    [super viewDidAppear:animated];
     
+    self.navigationController.tabBarController.tabBar.hidden = YES;
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
     if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
         [(BaseNavigationController *)self.navigationController hideSearchNavBar:YES];
     }
@@ -85,6 +98,7 @@
 */
 
 #pragma mark - tableViewDelegate
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return dataArr.count;
@@ -92,7 +106,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return [dataArr[section] count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -102,63 +116,101 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == dataArr.count - 2) {
-        return 10;
-    }
-    return 0.5;
+    return 10;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == dataArr.count - 2) {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10)];
-        view.backgroundColor = MineTopColor;
-        return view;
-    }
-    return [[UIView alloc]init];
+    return [[UIView alloc] init];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
-    static NSString *identifier = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5)];
-        view.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.8];
-        [cell addSubview:view];
-    }
-    
-    if (indexPath.section < dataArr.count - 1) {
-        cell.textLabel.text = dataArr[indexPath.section];
-        if (indexPath.section == 0) {
-            if (!_Switch) {
-                _Switch = [[UISwitch alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 70, 5, 60, 40)];
-                [_Switch addTarget:self action:@selector(changeNotificationOpen:) forControlEvents:UIControlEventTouchUpInside];
+    switch (indexPath.section) {
+        case 0:
+        {
+            static NSString *identifier = @"cell";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+            if (!cell) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
             }
             
-            [cell addSubview:_Switch];
+            switch (indexPath.row) {
+                case 0:
+                {
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                }
+                    break;
+                default:
+                {
+                    cell.selectionStyle = UITableViewCellSelectionStyleGray;
+                }
+                    break;
+            }
             
-            [self refreshSwitch:_Switch Change:NO];
+            if (indexPath.row < [dataArr[indexPath.section] count]) {
+                cell.textLabel.text = dataArr[indexPath.section][indexPath.row];
+                if (indexPath.row == 0) {
+                    if (!_Switch) {
+                        _Switch = [[UISwitch alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 70, 5, 60, 40)];
+                        [_Switch addTarget:self action:@selector(changeNotificationOpen:) forControlEvents:UIControlEventTouchUpInside];
+                    }
+                    
+                    cell.accessoryView = _Switch;
+                    
+                    [self refreshSwitch:_Switch Change:NO];
+                }
+            }
+            
+            return cell;
         }
-    }else{
-        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [btn setTitle:[dataArr lastObject] forState:UIControlStateNormal];
-        [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        btn.frame = CGRectMake(0, 0, SCREEN_WIDTH, 50);
-        [btn addTarget:self action:@selector(loginOut) forControlEvents:UIControlEventTouchUpInside];
-        [cell addSubview:btn];
+            break;
+        case 1:
+        {
+            static NSString *identifier = @"signOutCell";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+            if (!cell) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+                cell.selectionStyle = UITableViewCellSelectionStyleGray;
+                
+                UILabel *textLabel = [[UILabel alloc] init];
+                textLabel.text = dataArr[indexPath.section][indexPath.row];
+                textLabel.textAlignment = NSTextAlignmentCenter;
+                textLabel.backgroundColor = cell.backgroundColor;
+                textLabel.userInteractionEnabled = NO;
+                [cell addSubview:textLabel];
+                
+                [textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerX.equalTo(cell.mas_centerX);
+                    make.centerY.equalTo(cell.mas_centerY);
+                    make.width.offset(200);
+                    make.height.offset(30);
+                }];
+            }
+            
+            return cell;
+        }
+            break;
+        default:
+            break;
     }
- 
-    return cell;
+    
+    return [[UITableViewCell alloc] init];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
   
-    
+    switch (indexPath.section) {
+        case 1:
+        {
+            [self loginOut];
+        }
+            break;
+        default:
+            break;
+    }
 }
 
 - (void)changeNotificationOpen:(UISwitch *)sender{

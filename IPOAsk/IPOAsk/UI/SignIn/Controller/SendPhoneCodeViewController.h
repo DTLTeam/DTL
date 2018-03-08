@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SendPhoneCodeViewController : UIViewController
+@interface SendPhoneCodeViewController : BaseViewController
 
 @end

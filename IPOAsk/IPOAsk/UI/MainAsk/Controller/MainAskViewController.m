@@ -94,10 +94,13 @@
     
     //上拉加载
     MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
+        if (weakSelf.currentPage < 0) {
+            weakSelf.currentPage = 0;
+        }
         weakSelf.currentPage++;
         [weakSelf requestContent:weakSelf.currentPage];
     }];
-    self.contentTableView.mj_footer = footer;
+    _contentTableView.mj_footer = footer;
     
     //下拉刷新
     MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
@@ -105,7 +108,7 @@
         weakSelf.startQuestionID = 0;
         [weakSelf requestContent:weakSelf.currentPage];
     }];
-    self.contentTableView.mj_header = header;
+    _contentTableView.mj_header = header;
     
 }
 

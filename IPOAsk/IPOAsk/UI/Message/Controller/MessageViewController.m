@@ -8,10 +8,15 @@
 
 #import "MessageViewController.h"
 
+//View
 #import "AnswerOrLikeTableViewCell.h" 
 
-@interface MessageViewController ()
+@interface MessageViewController () <UITableViewDelegate, UITableViewDataSource>
 
+@property (weak, nonatomic) IBOutlet UITableView *contentTableView;
+
+@property (strong, nonatomic) NSMutableArray *contentArr;
+@property (assign, nonatomic) NSInteger currentPage;
 @property (assign, nonatomic) NSInteger startQuestionID;
 
 @end
@@ -27,7 +32,7 @@ static NSString * CellIdentifier = @"AOrLikeCell";
     self.title = @"消息";
     
     [self setupNavBar];
-    [self setupViews];
+    [self setupInterface];
     
 }
 
@@ -40,45 +45,52 @@ static NSString * CellIdentifier = @"AOrLikeCell";
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    self.tabBarController.tabBar.hidden = NO;
     if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
         [(BaseNavigationController *)self.navigationController hideSearchNavBar:YES];
     }
     
-    [self.myTableView.mj_header beginRefreshing];
+    [_contentTableView.mj_header beginRefreshing];
 }
 
 #pragma mark - 界面
 
 - (void)setupNavBar {
     
-    UIImage *img = [[UIImage imageNamed:@"消息-pre"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    [self.navigationController.tabBarItem setSelectedImage:img];
-    [self.navigationController.tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:HEX_RGB_COLOR(0x0b98f2),NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
+//    UIImage *img = [[UIImage imageNamed:@"消息-pre"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//    [self.navigationController.tabBarItem setSelectedImage:img];
+//    [self.navigationController.tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:HEX_RGB_COLOR(0x0b98f2),NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
     
 }
 
-- (void)setupViews {
+- (void)setupInterface {
     
-    UIView *line = [[UIView alloc]initWithFrame:CGRectMake(0, 1, SCREEN_WIDTH, 0.5)];
-    line.backgroundColor = [UIColor lightGrayColor];
-    [self.view addSubview:line];
+    _startQuestionID = 0;
+    _currentPage = 0;
+    _contentArr = [NSMutableArray array];
     
-    self.bgImageView.backgroundColor = HEX_RGB_COLOR(0xF2F2F2);
-    
-    self.haveRefresh = YES;
-    
-    self.currentPage = 0;
-    self.startQuestionID = 0;
+    if (@available(iOS 11.0, *)) {
+        _contentTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
+    _contentTableView.backgroundColor = [UIColor whiteColor];
+    _contentTableView.rowHeight = UITableViewAutomaticDimension;
+    _contentTableView.estimatedRowHeight = 9999;
+    _contentTableView.tableHeaderView = [[UIView alloc] init];
+    _contentTableView.tableFooterView = [[UIView alloc] init];
+    _contentTableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 0);
     
     __weak typeof(self) weakSelf = self;
     
     //上拉加载
     MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
+        if (weakSelf.currentPage < 0) {
+            weakSelf.currentPage = 0;
+        }
         weakSelf.currentPage++;
         [weakSelf requestContent:weakSelf.currentPage];
-        
     }];
-    self.myTableView.mj_footer = footer;
+    _contentTableView.mj_footer = footer;
     
     //下拉刷新
     MyRefreshAutoGifHeader *header = [MyRefreshAutoGifHeader headerWithRefreshingBlock:^{
@@ -86,11 +98,9 @@ static NSString * CellIdentifier = @"AOrLikeCell";
         weakSelf.startQuestionID = 0;
         [weakSelf requestContent:weakSelf.currentPage];
     }];
-    self.myTableView.mj_header = header;
+    _contentTableView.mj_header = header;
     
-    self.myTableView.rowHeight = UITableViewAutomaticDimension;
-    self.myTableView.estimatedRowHeight = 9999;
-    [self.myTableView registerNib:[UINib nibWithNibName:@"AnswerOrLikeTableViewCell" bundle:nil] forCellReuseIdentifier:CellIdentifier];
+    [_contentTableView registerNib:[UINib nibWithNibName:@"AnswerOrLikeTableViewCell" bundle:nil] forCellReuseIdentifier:CellIdentifier];
     
 }
 
@@ -119,7 +129,7 @@ static NSString * CellIdentifier = @"AOrLikeCell";
             if (isSuccess) {
                 
                 if (page == 1) {
-                    [weakSelf.sourceData removeAllObjects];
+                    [weakSelf.contentArr removeAllObjects];
                     AnswerOrLikeModel *mod = [[AnswerOrLikeModel alloc] init];
                     [mod refreshModel:[resultDic[@"data"][@"data"] firstObject]];
                     weakSelf.startQuestionID = [mod.messageID integerValue];
@@ -130,11 +140,11 @@ static NSString * CellIdentifier = @"AOrLikeCell";
                     AnswerOrLikeModel *model = [[AnswerOrLikeModel alloc] init];
                     [model refreshModel:tempDic];
                     
-                    [weakSelf.sourceData addObject:model];
+                    [weakSelf.contentArr addObject:model];
                     
                 }
                 
-                [weakSelf.myTableView reloadData];
+                [weakSelf.contentTableView reloadData];
                 
             } else {
                 
@@ -144,13 +154,13 @@ static NSString * CellIdentifier = @"AOrLikeCell";
                 
             }
             
-            if (self.myTableView.mj_header.isRefreshing) {
-                [self.myTableView.mj_header endRefreshing];
+            if (weakSelf.contentTableView.mj_header.isRefreshing) {
+                [weakSelf.contentTableView.mj_header endRefreshing];
             }
             if (response && ([response[@"data"][@"current_page"] integerValue] == [response[@"data"][@"last_page"] integerValue])) {
-                [weakSelf.myTableView.mj_footer endRefreshingWithNoMoreData];
-            } else if (weakSelf.myTableView.mj_footer.isRefreshing) {
-                [weakSelf.myTableView.mj_footer endRefreshing];
+                [weakSelf.contentTableView.mj_footer endRefreshingWithNoMoreData];
+            } else if (weakSelf.contentTableView.mj_footer.isRefreshing) {
+                [weakSelf.contentTableView.mj_footer endRefreshing];
             }
             
         });
@@ -162,11 +172,11 @@ static NSString * CellIdentifier = @"AOrLikeCell";
             
             [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"网络连接错误" viewtag:1 AfterDelay:1.5];
             
-            if (weakSelf.myTableView.mj_header.isRefreshing) {
-                [weakSelf.myTableView.mj_header endRefreshing];
+            if (weakSelf.contentTableView.mj_header.isRefreshing) {
+                [weakSelf.contentTableView.mj_header endRefreshing];
             }
-            if (weakSelf.myTableView.mj_footer.isRefreshing) {
-                [weakSelf.myTableView.mj_footer endRefreshing];
+            if (weakSelf.contentTableView.mj_footer.isRefreshing) {
+                [weakSelf.contentTableView.mj_footer endRefreshing];
             }
         });
         
@@ -178,7 +188,7 @@ static NSString * CellIdentifier = @"AOrLikeCell";
 #pragma mark - UITableViewDelegate & UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.sourceData.count;
+    return _contentArr.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -193,8 +203,8 @@ static NSString * CellIdentifier = @"AOrLikeCell";
     
     AnswerOrLikeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    if (indexPath.row < self.sourceData.count) {
-        AnswerOrLikeModel *model = self.sourceData[indexPath.row];
+    if (indexPath.row < _contentArr.count) {
+        AnswerOrLikeModel *model = _contentArr[indexPath.row];
         if (model) {
             [cell updateWithModel:model];
         }
@@ -206,14 +216,14 @@ static NSString * CellIdentifier = @"AOrLikeCell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     
-    if (indexPath.row < self.sourceData.count) {
-        AnswerOrLikeModel *model = self.sourceData[indexPath.row];
+    if (indexPath.row < _contentArr.count) {
+        AnswerOrLikeModel *model = _contentArr[indexPath.row];
         
         AskDataModel *Askmodel = [[AskDataModel alloc]init];
         Askmodel.askId = model.questionID;
         Askmodel.title = model.questionTitle;
         Askmodel.content = model.questionTitle;
-        Askmodel.addTime = [NSString stringWithFormat:@"%d",model.messageTime];
+        Askmodel.addTime = [NSString stringWithFormat:@"%lu",(long)model.messageTime];
          
         
         //传问题模型

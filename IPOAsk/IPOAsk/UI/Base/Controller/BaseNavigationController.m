@@ -15,7 +15,7 @@
 
 #define AnimatedTime 0.3
 
-@interface BaseNavigationController () <UINavigationControllerDelegate,UITextViewDelegate>
+@interface BaseNavigationController () <UINavigationControllerDelegate, UITextViewDelegate, UIGestureRecognizerDelegate>
 
 //参数
 @property (nonatomic) BOOL isShowSearchBar; //是否显示搜索栏
@@ -37,6 +37,7 @@
     // Do any additional setup after loading the view.
     
     self.navigationBar.translucent = NO;
+    self.interactivePopGestureRecognizer.delegate = self;
     
     [self setupNavBar];
     [self.navigationBar addObserver:self forKeyPath:@"hidden" options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) context:nil];
@@ -476,6 +477,18 @@
     
     return NO;
     
+}
+
+
+
+#pragma mark - UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if (self.childViewControllers.count == 1) {
+        return NO;
+    } else {
+        return YES;
+    }
 }
 
 

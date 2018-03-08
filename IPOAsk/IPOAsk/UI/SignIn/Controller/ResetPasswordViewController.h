@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ResetPasswordViewController : UIViewController
+@interface ResetPasswordViewController : BaseViewController
 
 @property (nonatomic,strong) NSString *phone;
 

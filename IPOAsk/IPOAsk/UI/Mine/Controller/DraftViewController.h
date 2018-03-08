@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DraftViewController : UIViewController
+@interface DraftViewController : BaseViewController
 
 @end

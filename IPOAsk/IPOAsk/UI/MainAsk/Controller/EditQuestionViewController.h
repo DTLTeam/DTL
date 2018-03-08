@@ -12,10 +12,12 @@ typedef enum : NSUInteger {
     AnswerType_AskQuestionEnterprise, //企业提问
 } AnswerType;
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
+
+//Model
 #import "DraftsModel.h"
 
-@interface EditQuestionViewController : UIViewController
+@interface EditQuestionViewController : BaseViewController
 
 @property (strong, nonatomic) NSString *questionID;
 

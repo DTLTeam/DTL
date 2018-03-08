@@ -7,25 +7,28 @@
 //
 
 #import "MineViewController.h"
-#import "DraftsViewController.h"
-#import "SignInViewController.h"
-
-#import "HeadViewTableViewCell.h"
 
 #import "UserDataManager.h"
 
+//View
+#import "HeadViewTableViewCell.h"
 
+//Contoller
+#import "DraftsViewController.h"
+#import "SignInViewController.h"
 
-@interface MineViewController () <UITableViewDelegate,UITableViewDataSource>
-@property (strong, nonatomic) UITableView *tableView;
+@interface MineViewController () <UITableViewDelegate, UITableViewDataSource>
+
+@property (weak, nonatomic) IBOutlet UITableView *contentTableView;
+
+@property (strong, nonatomic) NSArray *dataArr;
+
 @property (nonatomic,strong) UserDataManager *userManager;
 @property (nonatomic,assign) BOOL pushChangeUser;
+
 @end
 
 @implementation MineViewController
-{
-    NSArray *dataArr;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,7 +40,7 @@
     
     
     //self.navigationController.navigationBarHidden = YES;
-    dataArr = @[@"申请成为答主",@"草稿箱",@"帮助中心",@"关于我们",@"设置"];
+    _dataArr = @[@"申请成为答主",@"草稿箱",@"帮助中心",@"关于我们",@"设置"];
     _userManager = [UserDataManager shareInstance];
     
     [self setupView];
@@ -71,55 +74,36 @@
 {
     [super viewDidAppear:animated];
     
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    
     self.tabBarController.tabBar.hidden = NO;
     [self.navigationController setNavigationBarHidden:YES animated:YES];
-    
     if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
         [(BaseNavigationController *)self.navigationController hideSearchNavBar:YES];
     }
     
     if (_pushChangeUser) {
-        [_tableView reloadData];
+        [_contentTableView reloadData];
         _pushChangeUser = NO;
     }
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-}
 
-- (void)loginChange{
+- (void)loginChange {
     
     //个人用户、企业用户切换
     
     if ([UserDataManager shareInstance].userModel.userType == loginType_Enterprise){
-        
-        dataArr = @[@"草稿箱",@"帮助中心",@"关于我们",@"设置"];
-        CGFloat height = 160 + 72 + (dataArr.count - 1) * 50.5 + 10;
-        if (SCREEN_HEIGHT < 667) {
-            height = 140 + 60 + (dataArr.count - 1) * 50.5 + 10;
-        }
-        _tableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, height);
-        
-    }else{
-        dataArr = @[@"申请成为答主",@"草稿箱",@"帮助中心",@"关于我们",@"设置"];
-        CGFloat height = 160 + 72 + (dataArr.count - 1) * 50.5 + 10;
-        if (SCREEN_HEIGHT < 667) {
-            height = 140 + 60 + (dataArr.count - 1) * 50.5 + 10;
-        }
-        _tableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, height);
+        _dataArr = @[@"草稿箱",@"帮助中心",@"关于我们",@"设置"];
+    } else {
+        _dataArr = @[@"申请成为答主",@"草稿箱",@"帮助中心",@"关于我们",@"设置"];
     }
     
-    [_tableView reloadData];
+    [_contentTableView reloadData];
 }
 
 - (void)setupView
 {
+    self.navigationController.navigationBar.hidden = YES;
+    
     if (@available(iOS 11.0, *)) {
     } else {
         self.automaticallyAdjustsScrollViewInsets = NO;
@@ -127,35 +111,33 @@
     
     self.view.backgroundColor = MineTopColor;
     
-    _tableView = [[UITableView alloc] init];
-    _tableView.backgroundColor = self.view.backgroundColor;
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
-    _tableView.bounces = NO;
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _contentTableView.backgroundColor = self.view.backgroundColor;
+    _contentTableView.delegate = self;
+    _contentTableView.dataSource = self;
+    _contentTableView.bounces = NO;
     if (@available(iOS 11.0, *)) {
-        _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        _contentTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
-    [self.view addSubview:_tableView];
     
-    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+    CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    [_contentTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         if (@available(iOS 11.0, *)) {
-            make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
+            make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop).offset(-statusBarHeight);
+            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
             make.left.equalTo(self.view.mas_safeAreaLayoutGuideLeft);
             make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight);
-            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
         } else {
             make.top.equalTo(self.view.mas_top);
+            make.bottom.equalTo(self.view.mas_bottom);
             make.left.equalTo(self.view.mas_left);
             make.right.equalTo(self.view.mas_right);
-            make.bottom.equalTo(self.view.mas_bottom);
         }
     }];
     
 }
 
 
-#pragma mark - UITableViewDelegate & UITableViewDataSource
+#pragma mark - UIcontentTableViewDelegate & UIcontentTableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -172,7 +154,7 @@
             break;
         case 1:
         {
-            return dataArr.count;
+            return _dataArr.count;
         }
             break;
         default:
@@ -188,7 +170,8 @@
     switch (indexPath.section) {
         case 0:
         {
-            return SCREEN_HEIGHT >= 667 ? 160 + 72 : 140 + 60;;
+            CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+            return (SCREEN_HEIGHT >= 667 ? 140 + 72 : 120 + 60) + statusBarHeight;
         }
             break;
         case 1:
@@ -214,9 +197,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 1)];
-    footer.backgroundColor = tableView.backgroundColor;
-    return footer;
+    return [[UIView alloc] init];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -231,9 +212,6 @@
                 if ([UtilsCommon ShowLoginHud:WeakSelf.view Tag:200]) {
                     return ;
                 }
-                
-                self.navigationController.navigationBarHidden = NO;
-                self.navigationController.tabBarController.tabBar.hidden = YES;
                 
                 switch (tag) {
                     case 0:
@@ -295,18 +273,15 @@
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-            if (indexPath.section != 6) {
-                UIView *view = [[UIView alloc] initWithFrame:CGRectMake(50, 50, SCREEN_WIDTH, 0.5)];
-                view.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.8];
-                [cell addSubview:view];
-            }
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.font = [UIFont systemFontOfSize:16];
+            cell.separatorInset = UIEdgeInsetsMake(0, 50, 0, 0);
+            cell.selectionStyle = UITableViewCellSelectionStyleGray;
         }
         
-        cell.textLabel.text = dataArr[indexPath.row];
-        cell.textLabel.font = [UIFont systemFontOfSize:16];
-        cell.imageView.image = [UIImage imageNamed:dataArr[indexPath.row]];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        cell.textLabel.text = _dataArr[indexPath.row];
+        cell.imageView.image = [UIImage imageNamed:_dataArr[indexPath.row]];
         
         return cell;
     }
@@ -342,7 +317,7 @@
             break;
         case 1:
         {
-            NSString *title = dataArr[indexPath.row];
+            NSString *title = _dataArr[indexPath.row];
             
             if ([title isEqualToString:@"申请成为答主"]){
                 if (_userManager.userModel) {
@@ -414,8 +389,5 @@
     }
     
 }
-
-
-
 
 @end

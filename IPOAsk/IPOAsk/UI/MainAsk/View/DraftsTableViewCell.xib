@@ -30,25 +30,15 @@
                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZKS-Vx-auP">
-                        <rect key="frame" x="12" y="74" width="363" height="1"/>
-                        <color key="backgroundColor" red="0.9137254901960784" green="0.9137254901960784" blue="0.9137254901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="1" id="IJQ-d8-r0m"/>
-                        </constraints>
-                    </view>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="ZKS-Vx-auP" secondAttribute="bottom" constant="-0.5" id="40y-nZ-Onb"/>
                     <constraint firstItem="0PE-z0-8bZ" firstAttribute="top" secondItem="BW4-yE-vsX" secondAttribute="bottom" constant="6.5" id="8cA-fq-UtE"/>
                     <constraint firstItem="BW4-yE-vsX" firstAttribute="leading" secondItem="ZiN-ou-8Sp" secondAttribute="leading" constant="12" id="QUx-vR-h2N"/>
                     <constraint firstItem="0PE-z0-8bZ" firstAttribute="leading" secondItem="BW4-yE-vsX" secondAttribute="leading" id="RPm-K7-cyT"/>
                     <constraint firstAttribute="trailing" secondItem="BW4-yE-vsX" secondAttribute="trailing" id="ZLb-4k-Jh6"/>
                     <constraint firstAttribute="bottom" secondItem="0PE-z0-8bZ" secondAttribute="bottom" constant="14.5" id="dhb-jL-A7S"/>
-                    <constraint firstItem="ZKS-Vx-auP" firstAttribute="leading" secondItem="ZiN-ou-8Sp" secondAttribute="leading" constant="12" id="m42-K3-Eir"/>
                     <constraint firstItem="0PE-z0-8bZ" firstAttribute="centerX" secondItem="BW4-yE-vsX" secondAttribute="centerX" id="tTN-Mx-zaq"/>
                     <constraint firstItem="BW4-yE-vsX" firstAttribute="top" secondItem="ZiN-ou-8Sp" secondAttribute="top" constant="17" id="tuo-yd-v67"/>
-                    <constraint firstAttribute="trailing" secondItem="ZKS-Vx-auP" secondAttribute="trailing" id="y8C-gf-yMJ"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

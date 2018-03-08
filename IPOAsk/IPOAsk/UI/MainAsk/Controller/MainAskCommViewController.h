@@ -11,7 +11,7 @@
 //Model
 #import "AnswerModel.h"
 
-@interface MainAskCommViewController : UIViewController
+@interface MainAskCommViewController : BaseViewController
 
 @property (strong, nonatomic) NSString *questionTitle;
 @property (strong, nonatomic) AnswerModel *answerMod;
