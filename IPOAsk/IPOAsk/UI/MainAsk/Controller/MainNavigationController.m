@@ -478,23 +478,6 @@
 
 #pragma mark - UINavigationControllerDelegate
 
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
-    
-    if (_searchTextField.isEditing) {
-        [self.view endEditing:YES];
-    }
-    self.navigationItem.hidesBackButton = YES;
-    self.navigationItem.leftItemsSupplementBackButton = YES;
-    self.navigationItem.backBarButtonItem = nil;
-    
-
-    for (UIView *view in self.navigationBar.subviews) {
-        if ([NSStringFromClass ([view class]) containsString:@"BarBackIndicatorView"] ){
-            view.hidden = YES;
-            NSLog(@"%@---",[view class]);
-        }
-    }
-}
 
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
     
@@ -510,8 +493,7 @@
 #pragma mark - KVO
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    
-    self.navigationItem.leftBarButtonItems = nil;
+     
     if ([keyPath isEqualToString:@"hidden"]) {
         
         if ([change[NSKeyValueChangeNewKey] boolValue]) { //隐藏
