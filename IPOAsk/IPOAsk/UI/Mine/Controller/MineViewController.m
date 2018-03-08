@@ -323,8 +323,6 @@
             return;
         }
     }
-//    self.navigationController.tabBarController.tabBar.hidden = YES;
-//    self.navigationController.navigationBarHidden = NO;
     
     switch (indexPath.section) {
         case 0:

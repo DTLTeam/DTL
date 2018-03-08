@@ -481,6 +481,7 @@
 
 #pragma mark - UINavigationControllerDelegate
 
+
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
     
     if (_searchTextField.isEditing) {
@@ -495,7 +496,7 @@
 #pragma mark - KVO
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    
+     
     if ([keyPath isEqualToString:@"hidden"]) {
         
         if ([change[NSKeyValueChangeNewKey] boolValue]) { //隐藏
