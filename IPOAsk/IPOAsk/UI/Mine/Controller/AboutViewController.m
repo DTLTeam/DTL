@@ -28,21 +28,13 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
+    [super viewWillAppear:animated];
     
-    self.navigationController.tabBarController.tabBar.hidden = YES;
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
-        [(BaseNavigationController *)self.navigationController hideSearchNavBar:YES];
-    }
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    
-    //[self hiddenNav];
+    [self hiddenTabBar];
+    [self showNavBar];
+    [self hiddenSearchNavBar];
 }
 
 /*

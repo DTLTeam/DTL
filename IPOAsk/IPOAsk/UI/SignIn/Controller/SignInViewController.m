@@ -96,7 +96,7 @@
     __weak SignInViewController *WeakSelf = self;
     //登录界面
     _LoginView = [[loginView alloc]initWithAction:^(btnType tag, NSString *userName, NSString *Password) {
-        NSLog(@"%@,%@",userName,Password);
+        
         WeakSelf.editing = YES;
         
         switch (tag) {

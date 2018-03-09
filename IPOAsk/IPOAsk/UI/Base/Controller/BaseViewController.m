@@ -66,12 +66,35 @@
     }
 }
 
-- (void)hiddenNav{
-    
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.tabBarController.tabBar.hidden = NO;
+
+- (void)showNavBar {
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
+
+- (void)hiddenNavBar {
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
+- (void)showSearchNavBar {
+    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
+        [(BaseNavigationController *)self.navigationController showSearchNavBar:YES];
+    }
+}
+
+- (void)hiddenSearchNavBar {
+    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
+        [(BaseNavigationController *)self.navigationController hideSearchNavBar:YES];
+    }
+}
+
+- (void)showTabBar {
+    self.tabBarController.tabBar.hidden = NO;
+}
+
+- (void)hiddenTabBar {
+    self.tabBarController.tabBar.hidden = YES;
+}
+
 
 - (void)back{
     [self.navigationController popViewControllerAnimated:YES];
@@ -124,5 +147,29 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+
+#pragma mark - UIContainerViewControllerCallbacks
+
+- (void)willMoveToParentViewController:(UIViewController *)parent {
+    DLog(@"------- willMove vc class : %@", NSStringFromClass([parent class]));
+    
+    [super willMoveToParentViewController:parent];
+}
+
+- (void)didMoveToParentViewController:(UIViewController *)parent {
+    DLog(@"------- didMove vc class : %@", NSStringFromClass([parent class]));
+    
+    [super didMoveToParentViewController:parent];
+    
+    if (parent && [parent isKindOfClass:[UINavigationController class]]) {
+        
+        UINavigationController *nav = (UINavigationController *)parent;
+        UIViewController *vc = nav.viewControllers.lastObject;
+        [vc viewWillAppear:YES];
+        
+    }
+    
+}
 
 @end

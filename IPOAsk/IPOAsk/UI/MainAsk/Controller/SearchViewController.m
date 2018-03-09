@@ -40,10 +40,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    if (self.tabBarController) {
-        self.tabBarController.tabBar.hidden = YES;
-    }
-    
     [self setupInterface];
 }
 
@@ -64,6 +60,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [self hiddenTabBar];
+    [self showNavBar];
+    [self showSearchNavBar];
     
     _historyItems = [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:@"history_search_items"]];
     [_historyTableView reloadData];

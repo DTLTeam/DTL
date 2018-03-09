@@ -34,6 +34,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.view.backgroundColor = MineTopColor;
+    
     UIImage *img = [[UIImage imageNamed:@"我的-pre"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     [self.navigationController.tabBarItem setSelectedImage:img];
     [self.navigationController.tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:HEX_RGB_COLOR(0x0b98f2),NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
@@ -70,15 +72,19 @@
 }
 
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
+    [super viewWillAppear:animated];
     
     self.tabBarController.tabBar.hidden = NO;
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
         [(BaseNavigationController *)self.navigationController hideSearchNavBar:YES];
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
     if (_pushChangeUser) {
         [_contentTableView reloadData];
@@ -321,7 +327,6 @@
             
             if ([title isEqualToString:@"申请成为答主"]){
                 if (_userManager.userModel) {
-                    self.navigationController.tabBarController.tabBar.hidden = NO;
                     if (_userManager.userModel.isAnswerer == 1) {
                         return;
                     }
@@ -360,7 +365,6 @@
                     }
                 }else
                 {
-                    self.navigationController.tabBarController.tabBar.hidden = NO;
                     
                     //test******************
                     [self performSegueWithIdentifier:@"pushAnswer" sender:nil];

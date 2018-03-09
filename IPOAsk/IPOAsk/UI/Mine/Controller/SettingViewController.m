@@ -26,12 +26,9 @@
     // Do any additional setup after loading the view.
     
     self.title = @"设置";
-    self.view.backgroundColor = MineTopColor;
     
     [self setUpNavBgColor:nil RightBtn:nil];
     [self setupView];
-    
-    self.edgesForExtendedLayout = UIRectEdgeBottom;
 }
 
 - (void)setupView
@@ -69,24 +66,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    self.navigationController.tabBarController.tabBar.hidden = YES;
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
-        [(BaseNavigationController *)self.navigationController hideSearchNavBar:YES];
-    }
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    
-    //[self hiddenNav];
-}
-
-
 /*
 #pragma mark - Navigation
 
@@ -96,6 +75,16 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self hiddenTabBar];
+    [self showNavBar];
+    [self hiddenSearchNavBar];
+}
+
 
 #pragma mark - tableViewDelegate
 

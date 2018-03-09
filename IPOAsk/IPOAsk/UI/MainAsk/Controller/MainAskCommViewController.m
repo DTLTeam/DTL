@@ -42,14 +42,12 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
-    self.tabBarController.tabBar.hidden = YES;
-    self.navigationController.navigationBar.hidden = NO;
-    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) { //隐藏搜索导航栏
-        [(BaseNavigationController *)self.navigationController showSearchNavBar:YES];
-    }
+    [self hiddenTabBar];
+    [self showNavBar];
+    [self showSearchNavBar];
 }
 
 - (void)setAnswerMod:(AnswerModel *)answerMod {

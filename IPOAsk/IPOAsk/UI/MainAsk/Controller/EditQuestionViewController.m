@@ -48,9 +48,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    UIBarButtonItem *btnItem = [[UIBarButtonItem alloc] init];
-    self.navigationItem.leftBarButtonItem = btnItem;
-    
+    [self setUpNav];
     [self setUpGradient];
     
     [NOTIFICATIONCENTER addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
@@ -70,12 +68,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    
-    [self setUpNav];
-    
-}
+
 /*
  #pragma mark - Navigation
  
@@ -84,15 +77,14 @@
  // Get the new view controller using [segue destinationViewController].
  // Pass the selected object to the new view controller.
  }
- */ 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+ */
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
-    self.tabBarController.tabBar.hidden = YES;
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
-        [(BaseNavigationController *)self.navigationController hideSearchNavBar:YES];
-    }
+    [self hiddenTabBar];
+    [self showNavBar];
+    [self hiddenSearchNavBar];
 }
 
 -(void)UserType:(AnswerType)type NavTitle:(NSString *)title{

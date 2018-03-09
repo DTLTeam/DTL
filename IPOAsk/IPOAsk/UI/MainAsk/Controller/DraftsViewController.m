@@ -7,8 +7,11 @@
 //
 
 #import "DraftsViewController.h"
+
+//Controller
 #import "EditQuestionViewController.h"
 
+//View
 #import "DraftsTableViewCell.h"
 
 @interface DraftsViewController ()  <UITableViewDelegate, UITableViewDataSource>
@@ -26,7 +29,7 @@
     // Do any additional setup after loading the view.
     
     self.title = @"草稿箱";
-    
+
     [self setUpNavBgColor:nil RightBtn:nil];
     [self setupInterface];
     [self setupData];
@@ -47,14 +50,12 @@
  }
  */
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
-    self.tabBarController.tabBar.hidden = YES;
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
-        [(BaseNavigationController *)self.navigationController hideSearchNavBar:YES];
-    }
+    [self hiddenTabBar];
+    [self showNavBar];
+    [self hiddenSearchNavBar];
 }
 
 

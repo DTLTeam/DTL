@@ -12,14 +12,19 @@
 
 @property (nonatomic,strong) UIImageView *bgImageView;
 
-- (void)setUpBgViewWithTitle:(NSString *)title Image:(NSString *)Img Action:(SEL)action;
+- (void)back;
 
+- (void)setUpBgViewWithTitle:(NSString *)title Image:(NSString *)Img Action:(SEL)action;
 - (void)setUpNavBgColor:(UIColor *)color RightBtn:(void(^)(UIButton *btn))rightbtn;
 
+- (void)showNavBar;
+- (void)hiddenNavBar;
 
-- (void)hiddenNav;
+- (void)showSearchNavBar;
+- (void)hiddenSearchNavBar;
 
-- (void)back;
+- (void)showTabBar;
+- (void)hiddenTabBar;
 
 - (void)RightClick;
 

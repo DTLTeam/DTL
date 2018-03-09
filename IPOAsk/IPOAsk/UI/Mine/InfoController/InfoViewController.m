@@ -43,7 +43,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    dataArr = @[@[@"头像",@"昵称",@"真实姓名",@"绑定邮箱",@"公司名称",@"简介"],@[@"用户类型",@"是否答主"]];
+    
+    self.title = @"个人资料";
+    
+    [self setUpNavBgColor:nil RightBtn:^(UIButton *btn) {
+        [btn setTitle:@"完成" forState:UIControlStateNormal];
+        btn.titleLabel.font = [UIFont systemFontOfSize:13];
+        [btn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    }];
+    
     [self setupView];
     
     [NOTIFICATIONCENTER addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
@@ -53,6 +61,8 @@
 
 - (void)setupView
 {
+    dataArr = @[@[@"头像",@"昵称",@"真实姓名",@"绑定邮箱",@"公司名称",@"简介"],@[@"用户类型",@"是否答主"]];
+    
     _ChangeUserModel = [[UserDataModel alloc]init];
     UserDataModel *UserModel = [UserDataManager shareInstance].userModel;
     
@@ -94,20 +104,10 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.title = @"个人资料";
     
-    [self setUpNavBgColor:MineTopColor RightBtn:^(UIButton *btn) {
-        [btn setTitle:@"完成" forState:UIControlStateNormal];
-        btn.titleLabel.font = [UIFont systemFontOfSize:13];
-        [btn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    }];
-    
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    
-//    [self hiddenNav];
+    [self hiddenTabBar];
+    [self showNavBar];
+    [self hiddenSearchNavBar];
 }
 
 /*

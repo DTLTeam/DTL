@@ -24,6 +24,7 @@
     // Do any additional setup after loading the view.
     
     self.title = @"我的关注";
+    [self setUpNavBgColor:nil RightBtn:nil];
     
     [self initInterface];
     
@@ -44,24 +45,19 @@
 }
 */
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     
-    [self setUpNavBgColor:MineTopColor RightBtn:^(UIButton *btn) {
-        
-    }];
+    [self hiddenTabBar];
+    [self showNavBar];
+    [self hiddenSearchNavBar];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
-        [(BaseNavigationController *)self.navigationController hideSearchNavBar:YES];
-    }
-    
     [_tableView.mj_header beginRefreshing];
-    
 }
 
 
