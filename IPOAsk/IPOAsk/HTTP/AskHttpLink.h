@@ -24,34 +24,50 @@ typedef NS_ENUM(NSUInteger,NetSessionResponseType){
 
 @interface AskHttpLink : NSObject
 
-//单利
-+ (instancetype) shareInstance; 
+/**
+ 单例
 
-
-/**GET短数据请求
- * urlString          网址
- * param              参数
- * backData           返回的数据是NSDATA还是JSON
- * successBlock       成功数据的block
- * faileBlock         失败的block
- * requestHeadBlock   请求头的数据的block
+ @return 单例对象
  */
-- (void)get:(NSString *)urlString param:(NSDictionary *)param backData:(NetSessionResponseType)backData success:(SuccessBlock)successBlock requestHead:(RequestHeadBlock)requestHeadBlock faile:(FaileBlock)faileBlock;
++ (instancetype) shareInstance;
 
+/**
+ GET短数据请求
 
-/**POST短数据请求
- * urlString           网址
- * param               参数
- * backData            返回的数据是NSDATA还是JSON
- * successBlock        成功数据的block
- * faileBlock          失败的block
- * requestHeadBlock    请求头的数据的block
+ @param urlString           网址
+ @param param               参数
+ @param backData            返回的数据是NSDATA还是JSON
+ @param successBlock        成功数据的block
+ @param requestHeadBlock    请求头的数据的block
+ @param faileBlock          失败的block
+ @return                    请求管理器
  */
+- (NSURLSessionDataTask *)get:(NSString *)urlString
+                        param:(NSDictionary *)param
+                     backData:(NetSessionResponseType)backData
+                      success:(SuccessBlock)successBlock
+                  requestHead:(RequestHeadBlock)requestHeadBlock
+                        faile:(FaileBlock)faileBlock;
 
--(void)post:(NSString *)urlString bodyparam:(NSDictionary *)param backData:(NetSessionResponseType)backData success:(SuccessBlock)successBlock requestHead:(RequestHeadBlock)requestHeadBlock faile:(FaileBlock)faileBlock;
+/**
+ POST短数据请求
+ 
+ @param urlString           网址
+ @param param               参数
+ @param backData            返回的数据是NSDATA还是JSON
+ @param successBlock        成功数据的block
+ @param requestHeadBlock    请求头的数据的block
+ @param faileBlock          失败的block
+ @return                    请求管理器
+ */
+- (NSURLSessionDataTask *)post:(NSString *)urlString
+                     bodyparam:(NSDictionary *)param
+                      backData:(NetSessionResponseType)backData
+                       success:(SuccessBlock)successBlock
+                   requestHead:(RequestHeadBlock)requestHeadBlock
+                         faile:(FaileBlock)faileBlock;
  
 //
-
 - (NSURLRequest *)POSTImage:(NSString *)URLString data:(NSData *)imageData name:(NSString*)name finish:(SuccessBlock)finish;
 
 @end

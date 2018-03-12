@@ -6,11 +6,15 @@
 //  Copyright © 2018年 law. All rights reserved.
 //
 
-#define CONTECTTIME  30  // 联网时间
+#define CONTECTTIME  20  // 联网时间
 #define UploadImageBoundary @"KhTmLbOuNdArY0001"
 
 #import "AskHttpLink.h"
 
+#import "GTMBase64.h"
+#import "NSData+CommonFeatures.h"
+
+static unsigned char kRequestKey[] = {0x31, 0x32, 0x33, 0x26, 0x26, 0x40, 0x23, 0x21, 0x31, 0x32, 0x33, 0x31, 0x32, 0x33, 0x34, 0x30};
 
 @interface AskHttpLink() <NSURLSessionDelegate>
 
@@ -47,89 +51,108 @@ static id _instance;
         
     }
     return self;
-} 
+}
 
-#pragma MARK-- GET
 
-- (void)get:(NSString *)urlString param:(NSDictionary *)param backData:(NetSessionResponseType)backData success:(SuccessBlock)successBlock requestHead:(RequestHeadBlock)requestHeadBlock faile:(FaileBlock)faileBlock{
+#pragma mark - 数据加解密
+
+#pragma mark 加密请求内容
++ (NSData *)requestInfoEncryption:(NSDictionary *)infoDic {
     
-    NSURL *url;
+    NSError *err = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:infoDic options:NSJSONWritingPrettyPrinted error:&err];
     
-    
-    NSString *string = [NSString string];
-    if (param) {//带字典参数
-        string = [self nsdictionaryToNSStting:param];
+    if (err) {
+        return [NSData data];
+    } else {
         
-        //1. GET 请求，直接把请求参数跟在URL的后面以？(问号前是域名与/接口名)隔开，多个参数之间以&符号拼接
-        url = [NSURL URLWithString:[self urlConversionFromOriginalURL:[NSString stringWithFormat:@"%@&%@",urlString,string]]];
-    }else{
-        //1. GET 请求，直接把请求参数跟在URL的后面以？(问号前是域名与/接口名)隔开，多个参数之间以&符号拼接
-        url = [NSURL URLWithString:[self urlConversionFromOriginalURL:urlString]];
+        NSMutableString *jsonString = [NSMutableString stringWithString:[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]];
+        jsonString = [NSMutableString stringWithString:[jsonString stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+        jsonString = [NSMutableString stringWithString:[jsonString stringByReplacingOccurrencesOfString:@" " withString:@""]];
+        jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        
+        //返回加密后的字符串
+        jsonData = [jsonData AES128EncryptWithKey:[NSString stringWithFormat:@"%s", kRequestKey]];
+        jsonData = [GTMBase64 encodeData:jsonData]; //base64加密
+        
+        return jsonData;
+        
     }
     
-    //2. 创建请求对象内部默认了已经包含了请求头和请求方法(GET）的对象
-    NSMutableURLRequest *request =  [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:CONTECTTIME];
+}
+
+#pragma mark 解密请求结果
++ (NSDictionary *)requestInfoDecryption:(NSData *)data {
     
+    NSData *responseData = [GTMBase64 decodeData:data]; //base64解密
+    NSString *jsonString = (NSString *)[responseData AES128DecryptWithKey:[NSString stringWithFormat:@"%s", kRequestKey]];
     
-    /*   设置请求头  */
-    //    [request setValue:@"92b5787ecd17417b718a2aaedc7e6ce8" forHTTPHeaderField:@"apix-key"];
+    if (jsonString == nil) {
+        return nil;
+    }
     
-    //4. 根据会话对象创建一个task任务(发送请求）
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *err = nil;
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                        options:NSJSONReadingMutableContainers
+                                                          error:&err];
     
-    [self startNSURLSessionDataTask:request responType:backData success:successBlock headfiles:requestHeadBlock fail:faileBlock];
+    if(err) {
+        return nil;
+    }
+    
+    return dic;
     
 }
 
 
+#pragma mark - 网络请求
 
+#pragma mark GET请求
+- (NSURLSessionDataTask *)get:(NSString *)urlString
+                        param:(NSDictionary *)param
+                     backData:(NetSessionResponseType)backData
+                      success:(SuccessBlock)successBlock
+                  requestHead:(RequestHeadBlock)requestHeadBlock
+                        faile:(FaileBlock)faileBlock {
+    
+    NSMutableURLRequest *request =  [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:CONTECTTIME];
+    
+    request.HTTPMethod = @"GET";
+    
+    NSData *infoData = [AskHttpLink requestInfoEncryption:param];
+    [request setValue:[NSString stringWithFormat:@"%lu", [infoData length]] forHTTPHeaderField:@"Content-Length"]; //设置数据长度
+    [request setHTTPBody:infoData];
+    
+    //根据会话对象创建一个Task(发送请求）
+    NSURLSessionDataTask *dataTask = [self startNSURLSessionDataTask:request responType:backData success:successBlock headfiles:requestHeadBlock fail:faileBlock];
+    
+    return dataTask;
+    
+}
 
-#pragma MARK-- POST
-
--(void)post:(NSString *)urlString bodyparam:(NSDictionary *)param backData:(NetSessionResponseType)backData success:(SuccessBlock)successBlock requestHead:(RequestHeadBlock)requestHeadBlock faile:(FaileBlock)faileBlock{
+#pragma mark POST请求
+- (NSURLSessionDataTask *)post:(NSString *)urlString bodyparam:(NSDictionary *)param backData:(NetSessionResponseType)backData success:(SuccessBlock)successBlock requestHead:(RequestHeadBlock)requestHeadBlock faile:(FaileBlock)faileBlock{
     
-    //POST请求需要修改请求方法为POST，并把参数转换为二进制数据设置为请求体
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:CONTECTTIME];
     
+    request.HTTPMethod = @"POST";
     
-    
-    //1.url
-    NSURL *url = [NSURL URLWithString:[self urlConversionFromOriginalURL:urlString]];
-    
-    //2.创建可变的请求对象
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:CONTECTTIME];
-    
-    
-    /*   设置请求头  */
-    //    [request setValue:@"92b5787ecd17417b718a2aaedc7e6ce8" forHTTPHeaderField:@"apix-key"];
-    
-    
-    
-    //4.修改请求方法为POST
-    request.HTTPMethod =@"POST";
-    
-    
-    //有参数请求题
-    if (param) {
-        
-        //5.设置请求体
-        NSString *string = [self nsdictionaryToNSStting:param];
-        request.HTTPBody = [string dataUsingEncoding:NSUTF8StringEncoding];
-    }
+    NSData *infoData = [AskHttpLink requestInfoEncryption:param];
+    [request setValue:[NSString stringWithFormat:@"%lu", [infoData length]] forHTTPHeaderField:@"Content-Length"]; //设置数据长度
+    [request setHTTPBody:infoData];
     
     //6.根据会话对象创建一个Task(发送请求）
-    [self startNSURLSessionDataTask:request responType:backData success:successBlock headfiles:requestHeadBlock fail:faileBlock];
+    NSURLSessionDataTask *dataTask = [self startNSURLSessionDataTask:request responType:backData success:successBlock headfiles:requestHeadBlock fail:faileBlock];
     
+    return dataTask;
     
 }
 
-
-
-
-#pragma MARK-- 根据会话对象创建一个Task(发送请求）
-
-- (void)startNSURLSessionDataTask:(NSMutableURLRequest *)request responType:(NetSessionResponseType)responType success:(SuccessBlock)respone headfiles:(RequestHeadBlock)headfiles fail:(FaileBlock)fail{
-     
+#pragma mark 根据会话对象发送请求
+- (NSURLSessionDataTask *)startNSURLSessionDataTask:(NSMutableURLRequest *)request responType:(NetSessionResponseType)responType success:(SuccessBlock)respone headfiles:(RequestHeadBlock)headfiles fail:(FaileBlock)fail{
     
-    //3.创建会话对象
+    //创建会话对象
     NSURLSession *session = [NSURLSession sharedSession];
     
     /*
@@ -141,40 +164,41 @@ static id _instance;
      */
     NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError * _Nullable error) {
         
+        NSDictionary *responseDic = [AskHttpLink requestInfoDecryption:data];
         
-        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        
-        if (result.length == 0) {
+        if (data.length == 0 || !responseDic) {
             if (fail) {
                 fail(error);
             }
-            
-            DLog(@"数据异常");
-            return ;
+            return;
         }
         
-        // 解析服务器返回的数据(返回的数据为JSON格式，因此使用NSJNOSerialization进行反序列化)
-        id dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        
-//        NSLog(@"response%@",response);
-        NSHTTPURLResponse * da =(NSHTTPURLResponse *)response;
+        NSHTTPURLResponse * da = (NSHTTPURLResponse *)response;
         NSDictionary *allheadsFiles = da.allHeaderFields;
-//        NSLog(@"allheadsFiles:%@",allheadsFiles[@"Content-Type"]);
         
-        //8.解析数据
-        if (!error) {
-            if (responType ==NetSessionResponseTypeJSON) {//返回JSON
-                respone(dict);
-            }else{
-                respone(data);//返回二进制
+        //解析数据
+        if (!error) { //请求成功
+            
+            if (responType == NetSessionResponseTypeJSON) { //返回字典
+                
+                if (response) {
+                    respone(responseDic);
+                }
+                
+            } else { //返回二进制
+                
+                if (response) {
+                    respone(data);
+                }
+                
             }
             
+        } else { //请求失败
             
-        } else {
             if (fail) {
                 fail(error);
             }
-            DLog(@"网络请求失败");
+            
         }
         
         if (response && headfiles) {
@@ -185,11 +209,14 @@ static id _instance;
     
     //7.执行任务
     [dataTask resume];
+    
+    return dataTask;
+    
 }
 
 
 
-#pragma MARK -- 把字典拼成字符串
+#pragma mark - 把字典拼成字符串
 
 - (NSString *) nsdictionaryToNSStting:(NSDictionary *)param{
     
@@ -222,30 +249,6 @@ static id _instance;
         return [originalURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];// iOS 9.0以下
     }
     return [originalURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-}
-
-
-
-#pragma mark NSURLSession Delegate
-/* 收到身份验证 ssl */
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition,NSURLCredential * _Nullable))completionHandler {
-    
-   
-    // 1.判断服务器返回的证书类型,是否是服务器信任
-    
-    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
-    
-        /*  NSURLSessionAuthChallengeUseCredential = 0,                    使用证书
-         NSURLSessionAuthChallengePerformDefaultHandling = 1,           忽略证书(默认的处理方式)
-         NSURLSessionAuthChallengeCancelAuthenticationChallenge = 2,     忽略书证,并取消这次请求
-         NSURLSessionAuthChallengeRejectProtectionSpace = 3,           拒绝当前这一次,下一次再询问
-         */
-        
-        NSURLCredential *card = [[NSURLCredential alloc]initWithTrust:challenge.protectionSpace.serverTrust];
-        completionHandler(NSURLSessionAuthChallengeUseCredential , card);
-        
-    }
-    
 }
 
 - (NSURLRequest *)POSTImage:(NSString *)URLString data:(NSData *)imageData name:(NSString*)name finish:(SuccessBlock)finish{
@@ -297,5 +300,27 @@ static id _instance;
     return request;
 }
 
+
+#pragma mark - NSURLSessionDelegate
+
+/* 收到身份验证 ssl */
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition,NSURLCredential * _Nullable))completionHandler {
+    
+    // 1.判断服务器返回的证书类型,是否是服务器信任
+    
+    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+        
+        /*  NSURLSessionAuthChallengeUseCredential = 0,                    使用证书
+         NSURLSessionAuthChallengePerformDefaultHandling = 1,           忽略证书(默认的处理方式)
+         NSURLSessionAuthChallengeCancelAuthenticationChallenge = 2,     忽略书证,并取消这次请求
+         NSURLSessionAuthChallengeRejectProtectionSpace = 3,           拒绝当前这一次,下一次再询问
+         */
+        
+        NSURLCredential *card = [[NSURLCredential alloc]initWithTrust:challenge.protectionSpace.serverTrust];
+        completionHandler(NSURLSessionAuthChallengeUseCredential, card);
+        
+    }
+    
+}
     
 @end
