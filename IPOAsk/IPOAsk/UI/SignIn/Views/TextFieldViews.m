@@ -43,7 +43,7 @@
     
     [_textfield mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH / 2, _Height / 2));
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH *0.8, _Height / 2));
         make.bottom.mas_equalTo(self.mas_bottom); 
     }];
     

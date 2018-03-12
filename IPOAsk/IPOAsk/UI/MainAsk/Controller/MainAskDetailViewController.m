@@ -6,8 +6,6 @@
 //  Copyright © 2018年 law. All rights reserved.
 //
 
-#define haveComm 1  //test****************有无评论
-
 #import "MainAskDetailViewController.h"
 
 #import "UserDataManager.h"
@@ -234,7 +232,7 @@
 #pragma mark - UITableViewDelegate && UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (!haveComm) {
+    if (_CommArr.count == 0) {
         return  1;
     }
     return _CommArr.count + 1;
@@ -245,14 +243,14 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (!haveComm) {//没有评论
+    if (_CommArr.count == 0) {//没有评论
         return 70;
     }
     return 10;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    if (!haveComm) {//没有评论
+    if (_CommArr.count == 0) {//没有评论
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
         label.text = @"还没有人回复这个问题，快去抢答助力小伙伴";
         label.font = [UIFont systemFontOfSize:14];

@@ -414,32 +414,18 @@
 - (BOOL)returnTruePassword:(NSString *)password{
     
     
-    //包含条件
-    NSRegularExpression *number = [[NSRegularExpression alloc]
-                                              initWithPattern:@"[0-9]"
-                                              options:NSRegularExpressionCaseInsensitive
-                                              error:nil];
-    if ( [number numberOfMatchesInString:password
-                                            options:NSMatchingReportProgress
-                                              range:NSMakeRange(0, password.length)] > 0 && password.length >= 8 && password.length <= 20) {
-        
-        //包含字母
-        NSRegularExpression *Expression = [[NSRegularExpression alloc]
-                                                  initWithPattern:@"[A-Za-z]"
-                                                  options:NSRegularExpressionCaseInsensitive
-                                                  error:nil];;
-        
-        if ( [Expression numberOfMatchesInString:password
-                                                options:NSMatchingReportProgress
-                                                  range:NSMakeRange(0, password.length)] > 0) {
-            
-            return YES;
-        }
-        
-        
-        return NO;
-    }return NO;
+    
+    NSString *regex = @"[a-zA-Z_0-9]+";
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    
+    if ([predicate evaluateWithObject:password] == YES && password.length >= 8 && password.length <= 20)
+    {
+        return YES;
+    }
+    return NO;
 }
+
 /*
 #pragma mark - Navigation
 

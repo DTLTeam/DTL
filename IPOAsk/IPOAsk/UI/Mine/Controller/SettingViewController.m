@@ -241,7 +241,7 @@
         [defaults setObject:UserDefaults forKey:@"User_OpenNotification"];
         [defaults synchronize];
         
-        [_tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+        [_tableView reloadData];
     }
 }
 

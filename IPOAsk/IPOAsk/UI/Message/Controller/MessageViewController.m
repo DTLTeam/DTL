@@ -109,6 +109,7 @@ static NSString * CellIdentifier = @"AOrLikeCell";
 
 - (void)requestContent:(NSInteger)page {
     
+    
     __weak typeof(self) weakSelf = self;
     UserDataModel *userMod = [[UserDataManager shareInstance] userModel];
     
@@ -142,6 +143,17 @@ static NSString * CellIdentifier = @"AOrLikeCell";
                     
                     [weakSelf.contentArr addObject:model];
                     
+                    if ([userMod userType] == loginType_NoLogin && weakSelf.contentArr.count == 5) {
+                        [weakSelf.contentTableView reloadData];
+                        
+                        if (weakSelf.contentTableView.mj_header.isRefreshing) {
+                            [weakSelf.contentTableView.mj_header endRefreshing];
+                        }
+                        if (weakSelf.contentTableView.mj_footer.isRefreshing) {
+                            [weakSelf.contentTableView.mj_footer endRefreshing];
+                        }
+                        return ;
+                    }
                 }
                 
                 [weakSelf.contentTableView reloadData];

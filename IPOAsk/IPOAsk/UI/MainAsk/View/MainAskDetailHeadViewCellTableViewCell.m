@@ -130,6 +130,10 @@
         _QuestionLabel.font = [UIFont systemFontOfSize:15];
     }
     
+    if ([UserDataManager shareInstance].userModel.userType == loginType_Enterprise) {
+        //企业用户
+        _AnswerBtn.hidden = YES;
+    }
     
     
 //    CGFloat labelHeight = [_ContentLabel sizeThatFits:CGSizeMake(SCREEN_WIDTH - 12 - 12 , MAXFLOAT)].height;

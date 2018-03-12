@@ -146,6 +146,11 @@
                     VC.phone = self.PhoneView.text;
                     [WeakSelf.navigationController pushViewController:VC animated:YES];
                 });
+            }else{
+                GCD_MAIN(^{
+                    [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
+                    [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:response[@"msg"] viewtag:2 AfterDelay:3];
+                });
             }
         } requestHead:nil faile:^(NSError *error) {
             GCD_MAIN(^{
