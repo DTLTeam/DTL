@@ -80,10 +80,15 @@
     XGPushTokenManager *tokenManager = [XGPushTokenManager defaultTokenManager];
     [tokenManager registerDeviceToken:deviceToken];
     
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:deviceToken forKey:@"device_token"];
+    [userDefaults synchronize];
+    
     //注册成功，可将该token和用户ID一起上传给服务器，让服务器进行指定推送
     UserDataModel *userMod = [[UserDataManager shareInstance] userModel];
     if (userMod) {
-        [[UserDataManager shareInstance] bindPushToken];
+        [[UserDataManager shareInstance] bindPushToken:nil];
     }
     
 }
