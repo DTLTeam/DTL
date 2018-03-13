@@ -99,13 +99,6 @@
                     msg = response[@"msg"];
                     [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
                     [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:msg viewtag:2 AfterDelay:3];
-                    
-                    if ([msg containsString:@"申请中"]) {
-                        [USER_DEFAULT setBool:YES forKey:manager.userModel.userID];
-                        [USER_DEFAULT synchronize];
-                        
-                        [WeakSelf performSelector:@selector(popController) withObject:nil afterDelay:3.0];
-                    }
                 }
                 
             });

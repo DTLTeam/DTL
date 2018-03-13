@@ -330,39 +330,39 @@
                     if (_userManager.userModel.isAnswerer == 1) {
                         return;
                     }
-                    if (_userManager.userModel.forbidden == 1) {
-                        TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:YES];
-                        UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-                        [window addSubview:tips];
-                        
-                        __weak TipsViews *WeakTips = tips;
-                        [tips showWithContent:@"由于您违反了用户管理协议，平台拒绝了您的答主申请" tipsImage:@"申请失败" LeftTitle:@"我知道了" RightTitle:@"联系我们" block:^(UIButton *btn) {
-                            [WeakTips dissmiss];
-                            
-                        } rightblock:^(UIButton *btn) {
-                            
-                            [UtilsCommon CallPhone];
-                        }];
-                        
-                    }else if ([USER_DEFAULT boolForKey:_userManager.userModel.userID]) {
-                        //已经申请过
-                        TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:NO];
-                        UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-                        [window addSubview:tips];
-                        
-                        __weak TipsViews *WeakTips = tips;
-                        
-                        [tips showWithContent:@"您已申请过答主,审核正在进行中,请耐心等待" tipsImage:@"正在审核中" LeftTitle:@"我知道了" RightTitle:nil block:^(UIButton *btn) {
-                            [WeakTips dissmiss];
-                            
-                        } rightblock:^(UIButton *btn) {
-                            
-                        }];
-                        
-                    }else
-                    {
+//                    if (_userManager.userModel.forbidden == 1) {
+//                        TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:YES];
+//                        UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+//                        [window addSubview:tips];
+//
+//                        __weak TipsViews *WeakTips = tips;
+//                        [tips showWithContent:@"由于您违反了用户管理协议，平台拒绝了您的答主申请" tipsImage:@"申请失败" LeftTitle:@"我知道了" RightTitle:@"联系我们" block:^(UIButton *btn) {
+//                            [WeakTips dissmiss];
+//
+//                        } rightblock:^(UIButton *btn) {
+//
+//                            [UtilsCommon CallPhone];
+//                        }];
+//
+//                    }else if ([USER_DEFAULT boolForKey:_userManager.userModel.userID]) {
+//                        //已经申请过
+//                        TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:NO];
+//                        UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+//                        [window addSubview:tips];
+//
+//                        __weak TipsViews *WeakTips = tips;
+//
+//                        [tips showWithContent:@"您已申请过答主,审核正在进行中,请耐心等待" tipsImage:@"正在审核中" LeftTitle:@"我知道了" RightTitle:nil block:^(UIButton *btn) {
+//                            [WeakTips dissmiss];
+//
+//                        } rightblock:^(UIButton *btn) {
+//
+//                        }];
+//
+//                    }else
+//                    {
                         [self performSegueWithIdentifier:@"pushAnswer" sender:nil];
-                    }
+//                    }
                 }else
                 {
                     

@@ -25,6 +25,7 @@
 @property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) NSString *Password;
 @property (nonatomic, assign) int forbidden;
+@property (nonatomic, assign) BOOL isPushMessage;
 
 @end
 
@@ -142,15 +143,23 @@
  */
 - (void)signInWithAccount:(NSString *)account password:(NSString *)password complated:(void (^)(BOOL isSignInSuccess, NSString *message))complatedBlock networkError:(void (^)(NSError *error))networkErrorBlock;
 
-/**
- 绑定用户推送
- */
-- (void)bindPushToken;
+
+typedef void (^BindPushTokenComplatedBlock)(BOOL isSuccess);    //绑定用户推送结果回调
+typedef void (^UnbindPushTokenComplatedBlock)(BOOL isSuccess);  //解除绑定用户推送结果回调
 
 /**
- 退出登录
+ 绑定用户推送
+
+ @param complatedBlock 结果回调
  */
-- (void)signOut;
+- (void)bindPushToken:(BindPushTokenComplatedBlock)complatedBlock;
+
+/**
+ 解除绑定用户推送
+
+ @param complatedBlock 结果回调
+ */
+- (void)unbindPushToken:(UnbindPushTokenComplatedBlock)complatedBlock;
 
 /**
  获取我的提问列表

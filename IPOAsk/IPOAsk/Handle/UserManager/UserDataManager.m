@@ -149,7 +149,6 @@
 @end
 
 
-
 @interface UserDataManager () <XGPushTokenManagerDelegate>
 
 @end
@@ -157,7 +156,6 @@
 @implementation UserDataManager
 
 static UserDataManager *manager; //单例对象
-
 
 - (instancetype)init {
     self = [super init];
@@ -232,6 +230,7 @@ static UserDataManager *manager; //单例对象
                 model.isAnswerer = [dataDic[@"isAnswerer"] intValue];
                 model.userType = [dataDic[@"userType"] intValue];
                 model.Password = tempPassword;
+                model.isPushMessage = [dataDic[@"receiveNotice"] boolValue];
                 [weakSelf loginSetUpModel:model];
                 
                 NSDictionary *userDic = @{@"User":dataDic,
@@ -241,7 +240,9 @@ static UserDataManager *manager; //单例对象
                 [defaults setObject:userDic forKey:@"UserInfo_only"];
                 [defaults synchronize];
                 
-                [weakSelf bindPushToken];
+                if (model.isPushMessage) { //判断是否开启消息推送
+                    [weakSelf bindPushToken:nil];
+                }
                 
                 isSuccess = YES;
                 
@@ -260,7 +261,7 @@ static UserDataManager *manager; //单例对象
             }
             
         }));
-            
+     
     } requestHead:nil faile:^(NSError *error) {
         
         GCD_MAIN(^{
@@ -276,14 +277,17 @@ static UserDataManager *manager; //单例对象
 }
 
 #pragma mark 绑定推送token
-- (void)bindPushToken {
+- (void)bindPushToken:(BindPushTokenComplatedBlock)complatedBlock {
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    __weak NSString *token = [userDefaults objectForKey:@"device_token"];
     
     XGPushTokenManager *tokenManger = [XGPushTokenManager defaultTokenManager];
-    NSString *token = tokenManger.deviceTokenString;
-    
-    __weak typeof(self) weakSelf = self;
+    tokenManger.delegatge = self;
+    [tokenManger bindWithIdentifier:token type:XGPushTokenBindTypeNone];
     
     NSDictionary *infoDic = @{@"cmd":@"setToken",
+                              @"reviceNotice":@(1),
                               @"userID":(_userModel ? _userModel.userID : @""),
                               @"token":(token ? token : @"")
                               };
@@ -297,25 +301,73 @@ static UserDataManager *manager; //单例对象
                 
                 DLog(@"------  绑定信鸽用户指定推送成功  userID : %@ | token : %@", (_userModel ? _userModel.userID : @""), (token ? token : @""));
                 
-                tokenManger.delegatge = weakSelf;
-                [tokenManger bindWithIdentifier:tokenManger.deviceTokenString type:XGPushTokenBindTypeNone];
+                if (complatedBlock) {
+                    complatedBlock(YES);
+                }
+                
+            } else {
+                
+                if (complatedBlock) {
+                    complatedBlock(NO);
+                }
+                
             }
             
         });
         
     } requestHead:nil faile:^(NSError *error) {
         
-//        [weakSelf bindPushToken];
+        GCD_MAIN(^{
+            if (complatedBlock) {
+                complatedBlock(NO);
+            }
+        });
         
     }];
     
 }
 
 #pragma mark 退出登录
-- (void)signOut {
+- (void)unbindPushToken:(UnbindPushTokenComplatedBlock)complatedBlock {
     
-    XGPushTokenManager *tokenManger = [XGPushTokenManager defaultTokenManager];
-    [tokenManger unbindWithIdentifer:tokenManger.deviceTokenString type:XGPushTokenBindTypeNone];
+    NSDictionary *infoDic = @{@"cmd":@"setToken",
+                              @"reviceNotice":@(0),
+                              @"userID":(_userModel ? _userModel.userID : @""),
+                              @"token":@(0)
+                              };
+    [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+        
+        GCD_MAIN(^{
+            
+            NSDictionary *dic = response;
+            
+            if ([dic[@"status"] intValue] == 1) {
+                
+                DLog(@"------  解除绑定信鸽用户指定推送成功  userID : %@", (_userModel ? _userModel.userID : @""));
+                
+                if (complatedBlock) {
+                    complatedBlock(YES);
+                }
+                
+            } else {
+                
+                if (complatedBlock) {
+                    complatedBlock(NO);
+                }
+                
+            }
+            
+        });
+        
+    } requestHead:nil faile:^(NSError *error) {
+        
+        GCD_MAIN(^{
+            if (complatedBlock) {
+                complatedBlock(NO);
+            }
+        });
+        
+    }];
     
 }
 
@@ -664,12 +716,14 @@ static UserDataManager *manager; //单例对象
 }
 
 
+#pragma mark - XGPushTokenManagerDelegate
+
 - (void)xgPushDidUnbindWithIdentifier:(NSString *)identifier type:(XGPushTokenBindType)type error:(NSError *)error {
-    DLog(@"-----  解绑  ID : %@ | error : %@", identifier, error);
+    DLog(@"-----  解绑信鸽推送  ID : %@ | error : %@", identifier, error);
 }
 
 - (void)xgPushDidBindWithIdentifier:(NSString *)identifier type:(XGPushTokenBindType)type error:(NSError *)error {
-    DLog(@"-----  绑定  ID : %@ | error : %@", identifier, error);
+    DLog(@"-----  绑定信鸽推送  ID : %@ | error : %@", identifier, error);
 }
 
 @end

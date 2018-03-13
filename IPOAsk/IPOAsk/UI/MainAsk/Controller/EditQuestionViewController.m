@@ -99,9 +99,16 @@
         _defBottomH = _BottomH.constant;
         
     }else if (_MainAnswerType == AnswerType_AskQuestionPerson){
-        //个人提问
-        _Title1.hidden = NO;
-        _Title2.hidden = NO;
+        
+        if ([UserDataManager shareInstance].userModel.userType == AnswerType_AskQuestionEnterprise) {
+            //企业提问
+            _Title1.hidden = YES;
+            _Title2.hidden = YES;
+        } else {
+            //个人提问
+            _Title1.hidden = NO;
+            _Title2.hidden = NO;
+        }
         
     }else if (_MainAnswerType == AnswerType_Answer){
         //个人回答问题

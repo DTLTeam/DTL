@@ -45,9 +45,9 @@
                         </constraints>
                     </view>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QDY-2G-wrB">
-                        <rect key="frame" x="289" y="635" width="74" height="17"/>
+                        <rect key="frame" x="281" y="635" width="82" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <state key="normal" title="匿名发布" image="未勾选.png">
+                        <state key="normal" title=" 匿名发布" image="未勾选.png">
                             <color key="titleColor" red="0.58823529411764708" green="0.61176470588235299" blue="0.63137254901960782" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </state>
                         <state key="selected" title="匿名发布" image="勾选.png"/>
@@ -111,7 +111,7 @@
                     <constraint firstItem="yqW-JK-4Ge" firstAttribute="width" secondItem="Zxb-Ph-SvV" secondAttribute="width" id="BwA-pV-oFi"/>
                     <constraint firstItem="yqW-JK-4Ge" firstAttribute="leading" secondItem="Zxb-Ph-SvV" secondAttribute="leading" id="CHH-jL-gVY"/>
                     <constraint firstItem="pKF-xV-Dtc" firstAttribute="leading" secondItem="zXc-hp-m6b" secondAttribute="leading" constant="12" id="E5D-AX-wgJ"/>
-                    <constraint firstItem="QDY-2G-wrB" firstAttribute="leading" secondItem="ya8-2j-5JK" secondAttribute="trailing" constant="-74" id="EZN-6x-a10"/>
+                    <constraint firstItem="QDY-2G-wrB" firstAttribute="leading" secondItem="ya8-2j-5JK" secondAttribute="trailing" constant="-82" id="EZN-6x-a10"/>
                     <constraint firstItem="Kkd-LX-4vI" firstAttribute="leading" secondItem="ya8-2j-5JK" secondAttribute="leading" id="HAa-MU-BmW"/>
                     <constraint firstAttribute="trailing" secondItem="QeQ-qS-rSD" secondAttribute="trailing" id="Isw-qn-PTQ"/>
                     <constraint firstItem="8Ky-i5-VCE" firstAttribute="leading" secondItem="zXc-hp-m6b" secondAttribute="leading" constant="10" id="K5g-tL-mt2"/>

@@ -144,10 +144,9 @@
                         _Switch = [[UISwitch alloc] initWithFrame:CGRectMake(SCREEN_WIDTH - 70, 5, 60, 40)];
                         [_Switch addTarget:self action:@selector(changeNotificationOpen:) forControlEvents:UIControlEventTouchUpInside];
                     }
+                    _Switch.on = [UserDataManager shareInstance].userModel.isPushMessage;
                     
                     cell.accessoryView = _Switch;
-                    
-                    [self refreshSwitch:_Switch Change:NO];
                 }
             }
             
@@ -202,63 +201,77 @@
     }
 }
 
-- (void)changeNotificationOpen:(UISwitch *)sender{
+- (void)changeNotificationOpen:(UISwitch *)sender {
     
-    [self refreshSwitch:_Switch Change:YES];
+    [self refreshSwitch:sender Change:sender.on];
+    
 }
 
 #pragma mark - 通知状态刷新
-- (void)refreshSwitch:(UISwitch *)Switch Change:(BOOL)change{
-    NSDictionary *openInfo = [[NSUserDefaults standardUserDefaults]objectForKey:@"User_OpenNotification"];
+- (void)refreshSwitch:(UISwitch *)Switch Change:(BOOL)change {
     
-    static NSString *Open = @"1";
+    if (!change) {
+        
+        //关闭推送消息
+        [[UserDataManager shareInstance] unbindPushToken:^(BOOL isSuccess) {
+            
+            if (isSuccess) { //成功
+                Switch.on = change;
+                [UserDataManager shareInstance].userModel.isPushMessage = NO;
+            } else { //失败
+                Switch.on = [UserDataManager shareInstance].userModel.isPushMessage;
+            }
+            
+        }];
     
-    if (![openInfo valueForKey:@"Open"]) {
-        //默认打开
-        Switch.on = YES;
-    
-    }else{
-        if ([[openInfo valueForKey:@"Open"]isEqualToString:@"1"]) {
-            Switch.on = YES;
-        }else if ([[openInfo valueForKey:@"Open"]isEqualToString:@"0"]){
-            Switch.on = NO;
-        }
+    } else {
+        
+        //开启推送消息
+        [[UserDataManager shareInstance] bindPushToken:^(BOOL isSuccess) {
+            
+            if (isSuccess) { //成功
+                Switch.on = change;
+                [UserDataManager shareInstance].userModel.isPushMessage = YES;
+            } else { //失败
+                Switch.on = [UserDataManager shareInstance].userModel.isPushMessage;
+            }
+            
+        }];
+        
     }
     
-    if (change) {
-        if ([[openInfo valueForKey:@"Open"]isEqualToString:@"1"]) {
-            [[UIApplication sharedApplication] registerForRemoteNotifications];
-            Open = @"0";
-            
-        }else if ([[openInfo valueForKey:@"Open"]isEqualToString:@"0"]){
-            [[UIApplication sharedApplication] unregisterForRemoteNotifications];
-            Open = @"1";
-            
-        }
-        
-        NSDictionary *UserDefaults = @{@"Open":Open};
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:UserDefaults forKey:@"User_OpenNotification"];
-        [defaults synchronize];
-        
-        [_tableView reloadData];
-    }
 }
 
 #pragma mark - 退出登录
-- (void)loginOut{
+- (void)loginOut {
+    
+    [AskProgressHUD AskShowTitleInView:self.view Title:@"正在退出登录..." viewtag:10];
     
     UserDataManager *userManager = [UserDataManager shareInstance];
     [userManager loginSetUpModel:nil];
-    [userManager signOut];
+    [userManager unbindPushToken:^(BOOL isSuccess) {
+        
+        if (isSuccess) {
+            
+            [AskProgressHUD AskHideAnimatedInView:self.view viewtag:10 AfterDelay:0];
+            
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:nil forKey:@"UserInfo_only"];
+            [defaults synchronize];
+            
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"LoginOut" object:nil];
+            
+            [self.navigationController popViewControllerAnimated:YES];
+            
+        } else {
+            
+            [AskProgressHUD AskShowOnlyTitleInView:self.view Title:@"退出失败" viewtag:10 AfterDelay:1.5];
+            
+        }
+        
+    }];
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:nil forKey:@"UserInfo_only"];
-    [defaults synchronize];
     
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"LoginOut" object:nil];
-    
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
