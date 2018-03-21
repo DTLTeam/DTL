@@ -312,6 +312,7 @@
                 [mod changeAttentionStatus:[dic[@"isFollow"] boolValue] count:[dic[@"followCount"] integerValue]];
                 [weakSelf.contentTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]] withRowAnimation:UITableViewRowAnimationNone];
                 
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"refreshData" object:nil];
             }
             
         });
