@@ -48,7 +48,6 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    [self showTabBar];
     [self showNavBar];
     [self showSearchNavBar];
 }
@@ -56,10 +55,12 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    [self showNavBar];
+    [self showSearchNavBar];
+    
     if (_currentPage < 1) { //未刷新过
         [_contentTableView.mj_header beginRefreshing];
     }
-    
 }
 
 
@@ -335,8 +336,7 @@
             
             UserDataModel *userMod = [[UserDataManager shareInstance] userModel];
             if (userMod.isAnswerer == 1) { //只有个人可以回答
-                 
-                WeakSelf.tabBarController.tabBar.hidden = YES;
+                
                 EditQuestionViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:self options:nil][0];
                 VC.questionID = Id;
                 [VC UserType:AnswerType_Answer NavTitle:WeakModel.title];

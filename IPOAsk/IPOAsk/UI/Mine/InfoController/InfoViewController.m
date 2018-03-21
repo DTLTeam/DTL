@@ -105,7 +105,6 @@
 {
     [super viewWillAppear:animated];
     
-    [self hiddenTabBar];
     [self showNavBar];
     [self hiddenSearchNavBar];
 }

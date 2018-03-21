@@ -76,15 +76,15 @@
 {
     [super viewWillAppear:animated];
     
-    self.tabBarController.tabBar.hidden = NO;
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
-        [(BaseNavigationController *)self.navigationController hideSearchNavBar:YES];
-    }
+    [self hiddenNavBar];
+    [self hiddenSearchNavBar];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
+    [self hiddenNavBar];
+    [self hiddenSearchNavBar];
     
     if (_pushChangeUser) {
         [_contentTableView reloadData];

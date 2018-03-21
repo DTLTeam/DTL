@@ -87,15 +87,6 @@
     }
 }
 
-- (void)showTabBar {
-    self.tabBarController.tabBar.hidden = NO;
-}
-
-- (void)hiddenTabBar {
-    self.tabBarController.tabBar.hidden = YES;
-}
-
-
 - (void)back{
     [self.navigationController popViewControllerAnimated:YES];
 }

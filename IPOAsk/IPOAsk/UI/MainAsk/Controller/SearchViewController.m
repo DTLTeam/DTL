@@ -41,6 +41,7 @@
     // Do any additional setup after loading the view.
     
     [self setupInterface];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,7 +62,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self hiddenTabBar];
     [self showNavBar];
     [self showSearchNavBar];
     
@@ -80,6 +80,21 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
+    [self showNavBar];
+    [self showSearchNavBar];
+    [self.view layoutIfNeeded];
+    
+    _historyItems = [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:@"history_search_items"]];
+    [_historyTableView reloadData];
+    [_searchNetworkItems removeAllObjects];
+    [_historyTableView reloadData];
+    [_searchNetworkTableView reloadData];
+    
+    _historyTableView.hidden = NO;
+    _searchNetworkTableView.hidden = YES;
+    _searchFailView.hidden = YES;
+    _networkErrorView.hidden = YES;
     
     //限制同时只存在一个搜索类页面
     NSInteger count = 0;
@@ -100,12 +115,6 @@
             }
         }
         self.navigationController.viewControllers = vcItems;
-    }
-    
-    self.tabBarController.tabBar.hidden = YES;
-    self.navigationController.navigationBar.hidden = NO;
-    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
-        [(BaseNavigationController *)self.navigationController showSearchNavBar:YES];
     }
     
     if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
@@ -206,6 +215,7 @@
     failTextLabel.font = [UIFont systemFontOfSize:13];
     failTextLabel.textColor = HEX_RGBA_COLOR(0x666666, 1);
     failTextLabel.text = @"你要找的问题还没有人提问过，马上去咨询小伙伴";
+    failTextLabel.numberOfLines = 0;
     [_searchFailView addSubview:failTextLabel];
     
     UIButton *putQuestionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -335,7 +345,6 @@
 #pragma mark 发布问题
 - (void)putQuestionAction:(id)sender {
     
-    self.tabBarController.tabBar.hidden = YES;
     EditQuestionViewController *editQuestionVC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:nil options:nil].firstObject;
     [editQuestionVC UserType:AnswerType_AskQuestionPerson NavTitle:@"提问"];
     if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
@@ -694,6 +703,7 @@
         MainAskDetailViewController *mainAskDetailVC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:nil options:nil].firstObject;
         mainAskDetailVC.model = mod;
         mainAskDetailVC.Type = PushType_Main;
+        mainAskDetailVC.hidesBottomBarWhenPushed = NO;
         [self.navigationController pushViewController:mainAskDetailVC animated:YES];
         
     }

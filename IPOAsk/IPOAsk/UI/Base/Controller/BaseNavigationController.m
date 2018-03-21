@@ -12,8 +12,15 @@
 #import "SearchViewController.h"
 #import "EditQuestionViewController.h"
 #import "ApplicationEnterpriseViewController.h"
+#import "MainAskViewController.h"
+#import "EnterpriseViewController.h"
+#import "MessageViewController.h"
+#import "MineViewController.h"
+#import "MainAskDetailViewController.h"
 
 #define AnimatedTime 0.3
+
+static NSArray *showTabBarClassItems;
 
 @interface BaseNavigationController () <UINavigationControllerDelegate, UITextViewDelegate, UIGestureRecognizerDelegate>
 
@@ -35,6 +42,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    showTabBarClassItems = @[[MainAskViewController class],
+                             [EnterpriseViewController class],
+                             [MessageViewController class],
+                             [MineViewController class],
+                             [MainAskDetailViewController class]];
     
     self.navigationBar.translucent = NO;
     self.interactivePopGestureRecognizer.delegate = self;
@@ -172,7 +185,24 @@
             _searchTextField.text = @"";
         }
         
-        [self popViewControllerAnimated:YES];
+        NSInteger count = self.viewControllers.count;
+        UIViewController *lastVC = self.viewControllers[count - 2];
+        
+        BOOL isShow = NO;
+        for (Class tempClass in showTabBarClassItems) {
+            if ([lastVC isKindOfClass:tempClass]) {
+                isShow = YES;
+                break;
+            }
+        }
+        
+        if (isShow) {
+            [self popViewControllerAnimated:YES];
+        } else {
+            lastVC.hidesBottomBarWhenPushed = YES;
+            [self popViewControllerAnimated:YES];
+            lastVC.hidesBottomBarWhenPushed = NO;
+        }
         
     }
     
@@ -202,16 +232,6 @@
     
 }
 
--(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-    // 不让输入表情
-    if ([textField isFirstResponder]) {
-        if ([[[textField textInputMode] primaryLanguage] isEqualToString:@"emoji"] || ![[textField textInputMode] primaryLanguage]) {
-            
-            return NO;
-        }
-    }
-    return YES;
-}
 
 #pragma mark - 功能
 
@@ -435,7 +455,45 @@
 }
 
 
+#pragma mark - 重写父类方法
+
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    
+    if ([self respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.interactivePopGestureRecognizer.enabled = NO;
+    }
+    
+    BOOL isShow = NO;
+    for (Class tempClass in showTabBarClassItems) {
+        if ([viewController isKindOfClass:tempClass]) {
+            isShow = YES;
+            break;
+        }
+    }
+    
+    if (isShow) {
+        [super pushViewController:viewController animated:animated];
+    } else {
+        viewController.hidesBottomBarWhenPushed = YES;
+        [super pushViewController:viewController animated:animated];
+        viewController.hidesBottomBarWhenPushed = NO;
+    }
+    
+}
+
+
 #pragma mark - UITextFieldDelegate
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    // 不让输入表情
+    if ([textField isFirstResponder]) {
+        if ([[[textField textInputMode] primaryLanguage] isEqualToString:@"emoji"] || ![[textField textInputMode] primaryLanguage]) {
+            
+            return NO;
+        }
+    }
+    return YES;
+}
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     
@@ -447,7 +505,9 @@
     if (![vc isKindOfClass:[SearchViewController class]]) {
         
         SearchViewController *searchVC = [[SearchViewController alloc] init];
+        searchVC.hidesBottomBarWhenPushed = YES;
         [self pushViewController:searchVC animated:YES];
+        searchVC.hidesBottomBarWhenPushed = NO;
         
         return NO;
         
@@ -494,8 +554,11 @@
 
 #pragma mark - UINavigationControllerDelegate
 
-
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    
+    if ([navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        navigationController.interactivePopGestureRecognizer.enabled = YES;
+    }
     
     if (_searchTextField.isEditing) {
         [self.view endEditing:YES];

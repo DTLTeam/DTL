@@ -42,17 +42,22 @@ static NSString * CellIdentifier = @"AOrLikeCell";
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self showNavBar];
+    [self hiddenSearchNavBar];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    self.tabBarController.tabBar.hidden = NO;
-    if ([self.navigationController isKindOfClass:[BaseNavigationController class]]) {
-        [(BaseNavigationController *)self.navigationController hideSearchNavBar:YES];
-    }
+    [self showNavBar];
+    [self hiddenSearchNavBar];
     
     [_contentTableView.mj_header beginRefreshing];
 }
+
 
 #pragma mark - 界面
 

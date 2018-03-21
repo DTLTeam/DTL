@@ -23,9 +23,6 @@
 - (void)showSearchNavBar;
 - (void)hiddenSearchNavBar;
 
-- (void)showTabBar;
-- (void)hiddenTabBar;
-
 - (void)RightClick;
 
 @end

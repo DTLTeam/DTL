@@ -279,10 +279,8 @@ static UserDataManager *manager; //单例对象
 #pragma mark 绑定推送token
 - (void)bindPushToken:(BindPushTokenComplatedBlock)complatedBlock {
     
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    __weak NSString *token = [userDefaults objectForKey:@"device_token"];
-    
     XGPushTokenManager *tokenManger = [XGPushTokenManager defaultTokenManager];
+    __weak NSString *token = tokenManger.deviceTokenString;
     tokenManger.delegatge = self;
     [tokenManger bindWithIdentifier:token type:XGPushTokenBindTypeNone];
     

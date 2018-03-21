@@ -60,13 +60,15 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self showTabBar];
     [self showNavBar];
     [self showSearchNavBar];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
+    [self showNavBar];
+    [self showSearchNavBar];
     
     if (_currentPage < 1) { //未刷新过
         [_contentTableView.mj_header beginRefreshing];

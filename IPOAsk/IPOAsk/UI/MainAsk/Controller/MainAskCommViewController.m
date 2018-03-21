@@ -45,7 +45,13 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self hiddenTabBar];
+    [self showNavBar];
+    [self showSearchNavBar];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
     [self showNavBar];
     [self showSearchNavBar];
 }

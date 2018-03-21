@@ -50,15 +50,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    [self hiddenTabBar];
-    [self showNavBar];
-    [self hiddenSearchNavBar];
-}
-
 /*
 #pragma mark - Navigation
 
@@ -68,6 +59,22 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self showNavBar];
+    [self hiddenSearchNavBar];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [self showNavBar];
+    [self hiddenSearchNavBar];
+}
 
 - (void)dealloc {
     [NOTIFICATIONCENTER removeObserver:self];
