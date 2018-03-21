@@ -16,6 +16,7 @@
 //Contoller
 #import "DraftsViewController.h"
 #import "SignInViewController.h"
+#import "MyContentViewController.h"
 
 @interface MineViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -219,33 +220,34 @@
                     return ;
                 }
                 
+                MyContentViewController *myContentVC = [[MyContentViewController alloc] init];
                 switch (tag) {
                     case 0:
                     {
-                        [self performSegueWithIdentifier:@"pushMyAsk" sender:nil];
+                        myContentVC.vcType = kMyContentQuestion;
                     }
                         break;
                     case 1:
                     {
-                        
-                        [self performSegueWithIdentifier:@"pushMyAnswer" sender:nil];
+                        myContentVC.vcType = kMyContentAnswer;
                     }
                         break;
                     case 2:
                     {
-                        [self performSegueWithIdentifier:@"pushMyFollow" sender:nil];
+                        myContentVC.vcType = kMyContentFollow;
                     }
                         break;
                     case 3:
                     {
-                        [self performSegueWithIdentifier:@"pushMyLike" sender:nil];
+                        myContentVC.vcType = kMyContentLike;
                     }
                         break;
                     default:
                         break;
                 }
+                [self.navigationController pushViewController:myContentVC animated:YES];
                 
-                }];
+            }];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         

@@ -95,39 +95,6 @@
     
 }
 
-- (void)setUpBgViewWithTitle:(NSString *)title Image:(NSString *)Img Action:(SEL)action{
-    
-    //无数据背景图
-    _bgImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAVBAR_HEIGHT)];
-    _bgImageView.userInteractionEnabled = YES;
-    _bgImageView.hidden = YES;
-    [self.view addSubview:_bgImageView];
-    
-    UIControl *control = [[UIControl alloc]initWithFrame:_bgImageView.frame];
-    [control addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
-    
-    [_bgImageView addSubview:control];
-    
-    UILabel *label = [[UILabel alloc]init];
-    label.tag = 2000;
-    [self.bgImageView addSubview:label];
-    label.text = title;
-    
-    [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.centerX.mas_equalTo(self.bgImageView.mas_centerX);
-        make.centerY.mas_equalTo(self.bgImageView.mas_centerY).offset(30);
-    }];
-    
-    UIImageView *img = [[UIImageView alloc]initWithImage:[UIImage imageNamed:Img]];
-    [self.bgImageView addSubview:img];
-    
-    [img mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(label.mas_centerX).offset(30);
-        make.bottom.mas_equalTo(label.mas_top).offset(-30);
-    }];
-}
-
 
 /*
 #pragma mark - Navigation

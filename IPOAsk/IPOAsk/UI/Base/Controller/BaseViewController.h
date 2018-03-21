@@ -10,11 +10,8 @@
 
 @interface BaseViewController : UIViewController
 
-@property (nonatomic,strong) UIImageView *bgImageView;
-
 - (void)back;
 
-- (void)setUpBgViewWithTitle:(NSString *)title Image:(NSString *)Img Action:(SEL)action;
 - (void)setUpNavBgColor:(UIColor *)color RightBtn:(void(^)(UIButton *btn))rightbtn;
 
 - (void)showNavBar;

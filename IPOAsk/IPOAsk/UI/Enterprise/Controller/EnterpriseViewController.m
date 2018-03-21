@@ -53,11 +53,18 @@ static NSString * CellIdentifier = @"EnterpriseCell";
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self showNavBar];
+    [self hiddenSearchNavBar];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    self.navigationController.navigationBar.hidden = NO;
-    self.tabBarController.tabBar.hidden = NO;
+    [self showNavBar];
+    [self hiddenSearchNavBar];
     
     UserDataModel *userMod = [[UserDataManager shareInstance] userModel];
     if (userMod && (userMod.userType == loginType_Enterprise)) { //企业用户
@@ -70,6 +77,13 @@ static NSString * CellIdentifier = @"EnterpriseCell";
             _notEnterpriseView.hidden = YES;
             _notQusetionView.hidden = NO;
             _contentTableView.hidden = YES;
+        }
+        
+        if (_currentPage < 1) {
+            _notEnterpriseView.hidden = YES;
+            _notQusetionView.hidden = YES;
+            _contentTableView.hidden = NO;
+            [_contentTableView.mj_header beginRefreshing];
         }
         
     } else { //非企业用户
@@ -89,12 +103,6 @@ static NSString * CellIdentifier = @"EnterpriseCell";
         
     }
     
-    if (_currentPage < 1) {
-        _notEnterpriseView.hidden = YES;
-        _notQusetionView.hidden = YES;
-        _contentTableView.hidden = NO;
-        [_contentTableView.mj_header beginRefreshing];
-    }
 }
 
 
@@ -116,30 +124,24 @@ static NSString * CellIdentifier = @"EnterpriseCell";
     
     __weak typeof(self) weakSelf = self;
     
-    //无数据背景图
-    self.bgImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - NAVBAR_HEIGHT)];
-    self.bgImageView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.bgImageView];
-    
     _notQusetionView  = [[NSBundle mainBundle] loadNibNamed:@"EnterpriseNotQuestionView" owner:self options:nil][0];
     _notQusetionView.addQuestionClickBlock = ^(UIButton *sender) {
         //点击发布问题
         [weakSelf Consultation];
     };
-    [self.bgImageView addSubview:_notQusetionView];
+    [self.view addSubview:_notQusetionView];
     
     [_notQusetionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.and.top.and.right.and.bottom.mas_equalTo(self.bgImageView);
+        make.left.and.top.and.right.and.bottom.mas_equalTo(self.view);
     }];
     
     _notEnterpriseView = [[NSBundle mainBundle] loadNibNamed:@"NotEnterpriseView" owner:self options:nil][0];
-    [self.bgImageView addSubview:_notEnterpriseView];
+    [self.view addSubview:_notEnterpriseView];
     
     [_notEnterpriseView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.and.top.and.right.and.bottom.mas_equalTo(self.bgImageView);
+        make.left.and.top.and.right.and.bottom.mas_equalTo(self.view);
     }];
     
-//    _contentTableView = [[UITableView alloc] init];
     _contentTableView.backgroundColor = HEX_RGBA_COLOR(0xF2F2F2, 1);
     if (@available(iOS 11.0, *)) {
         _contentTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
@@ -148,9 +150,6 @@ static NSString * CellIdentifier = @"EnterpriseCell";
     _contentTableView.separatorStyle = UITableViewCellSelectionStyleNone;
     _contentTableView.rowHeight = UITableViewAutomaticDimension;
     _contentTableView.estimatedRowHeight = 9999;
-//    _contentTableView.delegate = self;
-//    _contentTableView.dataSource = self;
-//    [self.view addSubview:_contentTableView];
     
     //上拉加载
     MyRefreshAutoGifFooter *footer = [MyRefreshAutoGifFooter footerWithRefreshingBlock:^{
@@ -171,20 +170,6 @@ static NSString * CellIdentifier = @"EnterpriseCell";
         [weakSelf requestContent];
     }];
     _contentTableView.mj_header = header;
-    
-//    [_contentTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        if (@available(iOS 11.0, *)) {
-//            make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
-//            make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
-//            make.left.equalTo(self.view.mas_safeAreaLayoutGuideLeft);
-//            make.right.equalTo(self.view.mas_safeAreaLayoutGuideRight);
-//        } else {
-//            make.top.equalTo(self.view.mas_top);
-//            make.bottom.equalTo(self.view.mas_bottom);
-//            make.left.equalTo(self.view.mas_left);
-//            make.right.equalTo(self.view.mas_right);
-//        }
-//    }];
     
 }
 
