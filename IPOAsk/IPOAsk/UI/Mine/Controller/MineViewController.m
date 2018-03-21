@@ -51,6 +51,8 @@
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginChange) name:@"LoginSuccess" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginChange) name:@"LoginOut" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(tableviewReload) name:@"refreshData" object:nil];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -102,6 +104,11 @@
     } else {
         _dataArr = @[@"申请成为答主",@"草稿箱",@"帮助中心",@"关于我们",@"设置"];
     }
+    
+    [self tableviewReload];
+}
+
+- (void)tableviewReload{
     
     [_contentTableView reloadData];
 }

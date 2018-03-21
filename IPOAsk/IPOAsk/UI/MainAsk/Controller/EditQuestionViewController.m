@@ -355,6 +355,8 @@
                 [AskProgressHUD AskShowOnlyTitleInView:self.view.window Title:@"提交成功" viewtag:1 AfterDelay:1.5];
                 [weakSelf.navigationController popViewControllerAnimated:YES];
                 
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"refreshData" object:nil];
+                
             } else {
                 
                 [AskProgressHUD AskShowOnlyTitleInView:self.view.window Title:@"提交失败" viewtag:1 AfterDelay:1.5];
