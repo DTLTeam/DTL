@@ -106,6 +106,12 @@
                     msg = response[@"msg"];
                     [AskProgressHUD AskHideAnimatedInView:WeakSelf.view viewtag:1 AfterDelay:0];
                     [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:msg viewtag:2 AfterDelay:3];
+                    
+                    if ([msg containsString:@"申请中"]) { //申请中 保存本地申请状态
+                        [USER_DEFAULT setBool:YES forKey:manager.userModel.userID];
+                        [USER_DEFAULT synchronize];
+                        [WeakSelf performSelector:@selector(popController) withObject:nil afterDelay:3.0];
+                    }
                 }
                 
             });
@@ -115,6 +121,26 @@
                 [AskProgressHUD AskShowOnlyTitleInView:WeakSelf.view Title:@"申请失败" viewtag:2 AfterDelay:3];
             });
         }];
+        
+    }else{
+        static NSString *content = @"";
+        
+        if (_nameTextField.text.length == 0) {
+            content = @"请填写真实姓名";
+            
+        }else if (_companyTextField.text.length == 0){
+            content = @"请填写公司中名称";
+            
+        }else if (_jobTextField.text.length == 0){
+            content = @"请填写职务名称";
+            
+        }else if (_experienceTextView.text.length == 0){
+            content = @"请填写经历简介";
+            
+        }
+        
+        [AskProgressHUD AskHideAnimatedInView:self.view viewtag:1 AfterDelay:0];
+        [AskProgressHUD AskShowOnlyTitleInView:self.view Title:content viewtag:2 AfterDelay:1.5];
     }
 }
 

@@ -51,6 +51,7 @@
     [self setUpNav];
     [self setUpGradient];
     
+    
     [NOTIFICATIONCENTER addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
     [NOTIFICATIONCENTER addObserver:self selector:@selector(KeyboardDidHideNotification:) name:UIKeyboardWillHideNotification object:nil];
     
@@ -396,8 +397,6 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
-    _question.text =  [_question.text stringByReplacingOccurrencesOfString:@" " withString:@""];
-    
     
     // 不让输入表情
     if ([textField isFirstResponder]) {
@@ -418,20 +417,19 @@
 
 #pragma mark - UITextViewDelegate
 
-- (void)textViewDidChange:(UITextView *)textView {
-    
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.lineSpacing = 10;// 字体的行间距
-    
-    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15],
-                                 NSParagraphStyleAttributeName:paragraphStyle
-                                 };
-    
-    textView.attributedText = [[NSAttributedString alloc] initWithString:textView.text attributes:attributes];
-    
-}
-
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+   
+    if (!(range.length == 1 && text.length == 0 ) && _QuestionContent.text.length == range.location ) {
+        
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineSpacing = 10;// 字体的行间距
+        
+        NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15],
+                                     NSParagraphStyleAttributeName:paragraphStyle
+                                     };
+        
+        textView.attributedText = [[NSAttributedString alloc] initWithString:textView.text attributes:attributes];
+    }
     
     // 不让输入表情
     if ([textView isFirstResponder]) {
@@ -442,6 +440,7 @@
     }
     return YES;
 }
+
 
 
 #pragma mark - 键盘状态改变通知

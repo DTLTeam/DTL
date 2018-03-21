@@ -134,6 +134,8 @@
             default:
                 break;
         }
+        
+        
     }];
     [_MainView addSubview:_LoginView]; 
     

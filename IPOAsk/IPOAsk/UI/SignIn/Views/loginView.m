@@ -168,6 +168,9 @@
         return;
     }
  
+    if ( sender.tag == btnType_pass ) {
+        [NOTIFICATIONCENTER removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
+    }
     _ClickBlock(sender.tag,[_NameView text],[_PasswordView text]);
     
 }
