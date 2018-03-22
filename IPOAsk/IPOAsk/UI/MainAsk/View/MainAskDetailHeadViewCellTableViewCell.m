@@ -8,8 +8,8 @@
 
 #import "MainAskDetailHeadViewCellTableViewCell.h"
 
+@interface MainAskDetailHeadViewCellTableViewCell()
 
-@interface MainAskDetailHeadViewCellTableViewCell() 
 @property (weak, nonatomic) IBOutlet UIImageView *UserImage;
 @property (weak, nonatomic) IBOutlet UILabel *UserName;
 @property (weak, nonatomic) IBOutlet UILabel *QuestionLabel;
@@ -20,8 +20,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *FollowBtn;
 
 @property (weak, nonatomic) IBOutlet UIView *ShowAll;
- 
-
 
 @property (nonatomic,strong)void (^(followClick))(UIButton *btn);
 @property (nonatomic,strong)void (^(answerClick))(UIButton *btn);
@@ -73,49 +71,29 @@
 
 
 #pragma mark - 更新数据
--(void)UpdateContent:(id)model WithFollowClick:(void (^)(UIButton *))FollowClick WithAnswerClick:(void (^)(UIButton *))AnswerClick WithAllClick:(void (^)(BOOL))AllClick{
+-(void)UpdateContent:(AskDataModel *)model WithFollowClick:(void (^)(UIButton *))FollowClick WithAnswerClick:(void (^)(UIButton *))AnswerClick WithAllClick:(void (^)(BOOL))AllClick{
     
     _followClick = FollowClick;
     _answerClick = AnswerClick;
     _allClick = AllClick;
     
+    _QuestionLabel.text = model.questionTitle;
+    _ContentLabel.text = model.questionContent;
     
-    _QuestionLabel.text = [model title];
-    _ContentLabel.text = [model content];
-    
-    if ([model isKindOfClass:[QuestionModel class]]) {
-        _UserName.text = [model userName];
+    if ([model isKindOfClass:[AskDataModel class]]){
         
-        [_SeeNum setTitle:[NSString stringWithFormat:@" %ld",[model lookNum]] forState:UIControlStateNormal];
-        [_CommNum setTitle:[NSString stringWithFormat:@" %ld",[model replyNum]] forState:UIControlStateNormal];
-        [_FollowNum setTitle:[NSString stringWithFormat:@" %ld",[model attentionNum]] forState:UIControlStateNormal];
+        AskDataModel *askMod = (AskDataModel *)model;
         
-        _FollowBtn.selected = [model isAttention];
-        
-        [_UserImage sd_setImageWithURL:[NSURL URLWithString:[model headImgUrlStr]] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
-        
-    }else if ([model isKindOfClass:[AskDataModel class]]){
+        [_UserImage sd_setImageWithURL:[NSURL URLWithString:askMod.headImageUrlStr] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
         _UserName.text = [UserDataManager shareInstance].userModel.nickName;
-        _AnswerBtn.hidden = YES;
         
-        [_SeeNum setTitle:[NSString stringWithFormat:@" %d",[model View]] forState:UIControlStateNormal];
-        [_CommNum setTitle:[NSString stringWithFormat:@" %d",[model Answer]] forState:UIControlStateNormal];
-        [_FollowNum setTitle:[NSString stringWithFormat:@" %d",[model Follow]] forState:UIControlStateNormal];
+        [_SeeNum setTitle:[NSString stringWithFormat:@" %lu", askMod.lookNum] forState:UIControlStateNormal];
+        [_CommNum setTitle:[NSString stringWithFormat:@" %lu", askMod.answerNum] forState:UIControlStateNormal];
+        [_FollowNum setTitle:[NSString stringWithFormat:@" %lu", askMod.followNum] forState:UIControlStateNormal];
         
-        _FollowBtn.selected = [model IsAttention]; //后续需要提问时后台处理自己关注自己问题
-    }else if ([model isKindOfClass:[AnswerDataModel class]]){
+        _FollowBtn.selected = askMod.isAttention; //后续需要提问时后台处理自己关注自己问题
         
-        [_UserImage sd_setImageWithURL:[NSURL URLWithString:[model headIcon]] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
-        
-        _UserName.text = [model nickName];
-        
-        [_SeeNum setTitle:[NSString stringWithFormat:@" %d",[model LookNum]] forState:UIControlStateNormal];
-        [_CommNum setTitle:[NSString stringWithFormat:@" %d",[model Answer]] forState:UIControlStateNormal];
-        [_FollowNum setTitle:[NSString stringWithFormat:@" %d",[model Follow]] forState:UIControlStateNormal];
-        
-        _FollowBtn.selected = [model IsFollow];
     }
-    
     
     if (_ContentLabel.numberOfLines == 0) {
         _ShowAll.hidden = YES;
@@ -130,11 +108,16 @@
         _QuestionLabel.font = [UIFont systemFontOfSize:15];
     }
     
-    if ([UserDataManager shareInstance].userModel.userType == loginType_Enterprise) {
-        //企业用户
-        _AnswerBtn.hidden = YES;
+    if (model.isFromMyself) { //自己的提问
+        _FollowBtn.hidden = YES;
+    } else { //非自己的问题
+        _FollowBtn.hidden = NO;
     }
-    
+    if ([UserDataManager shareInstance].userModel.userType == loginType_Enterprise) { //企业用户
+        _AnswerBtn.hidden = YES;
+    } else { //个人用户
+        _AnswerBtn.hidden = NO;
+    }
     
 //    CGFloat labelHeight = [_ContentLabel sizeThatFits:CGSizeMake(SCREEN_WIDTH - 12 - 12 , MAXFLOAT)].height;
 //    NSNumber *count = @((labelHeight) /_ContentLabel.font.lineHeight);
@@ -143,6 +126,7 @@
         _ShowAll.hidden = YES;
         _BottomH.constant -= 28;
     }
+    
 }
 
 #pragma mark - 关注

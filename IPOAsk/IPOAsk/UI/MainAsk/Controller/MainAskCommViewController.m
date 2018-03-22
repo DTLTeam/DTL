@@ -56,7 +56,7 @@
     [self showSearchNavBar];
 }
 
-- (void)setAnswerMod:(AnswerModel *)answerMod {
+- (void)setAnswerMod:(AnswerDataModel *)answerMod {
     _answerMod = answerMod;
     
     [_contentTableView reloadData];
@@ -87,7 +87,7 @@
     
     NSDictionary *infoDic = @{@"cmd":@"addLike",
                               @"userID":(userMod ? userMod.userID : @""),
-                              @"qID":_answerMod.answerID,
+                              @"aID":_answerMod.answerID,
                               };
     [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
         
@@ -121,10 +121,8 @@
     } requestHead:nil faile:^(NSError *error) {
         
         GCD_MAIN(^{
-            
             [AskProgressHUD AskHideAnimatedInView:weakSelf.view viewtag:1 AfterDelay:0];
             [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:@"网络连接错误" viewtag:1 AfterDelay:1.5];
-            
         });
         
     }];
@@ -139,7 +137,7 @@
 }
 
 #pragma mark 更新数据
-- (void)UpdateContentWithModel:(AnswerModel *)model {
+- (void)UpdateContentWithModel:(AnswerDataModel *)model {
     
     _answerMod = model;
     [_contentTableView reloadData];
@@ -281,8 +279,8 @@
             _UserHeadImageView.image = [UIImage imageNamed:@"默认头像.png"];
             _UserNameLabel.text = @"匿名";
         } else {
-            [_UserHeadImageView sd_setImageWithURL:[NSURL URLWithString:_answerMod.headImgUrlStr] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
-            _UserNameLabel.text = _answerMod.userName;
+            [_UserHeadImageView sd_setImageWithURL:[NSURL URLWithString:_answerMod.headImageUrlStr] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
+            _UserNameLabel.text = _answerMod.nickName;
         }
         
         _CommDate.text = _answerMod.dateStr;
@@ -311,7 +309,7 @@
     
     if (_answerMod) {
         NSMutableString *s = [NSMutableString string]; 
-        [s appendString:_answerMod.content];
+        [s appendString:_answerMod.answerContent];
         
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:s];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];

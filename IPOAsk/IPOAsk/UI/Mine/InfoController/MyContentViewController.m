@@ -367,11 +367,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     switch (_vcType) {
-        case kMyContentAnswer:
-        {
-            return 80;
-        }
-            break;
         case kMyContentFollow:
         {
             return 60;
@@ -444,7 +439,7 @@
         }
         
         if (_contentItems.count > indexPath.section) {
-            [cell updateFollowCell:_contentItems[indexPath.section]];
+            [cell updateAskCell:_contentItems[indexPath.section]];
         }
         
         return cell;
@@ -458,28 +453,13 @@
     
     switch (_vcType) {
         case kMyContentQuestion:
-        {
-            if (indexPath.section < _contentItems.count) { //崩溃
-                AskDataModel *model = _contentItems[indexPath.section];
-                
-                //传问题模型
-                MainAskDetailViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil].firstObject;
-                VC.model = model;
-                VC.Type = PushType_MyAsk;
-                [self.navigationController pushViewController:VC animated:YES];
-                
-                [tableView deselectRowAtIndexPath:indexPath animated:YES];
-            }
-        }
-            break;
         case kMyContentAnswer:
         {
-            AnswerDataModel *model = _contentItems[indexPath.section];
+            AskDataModel *model = _contentItems[indexPath.section];
             
             //传问题模型
             MainAskDetailViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil].firstObject;
             VC.model = model;
-            VC.Type = PushType_MyAnswer;
             [self.navigationController pushViewController:VC animated:YES];
         }
             break;

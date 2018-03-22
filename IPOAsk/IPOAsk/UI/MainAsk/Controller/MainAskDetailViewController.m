@@ -15,9 +15,6 @@
 #import "EditQuestionViewController.h"
 #import "AnswerViewController.h"
 
-//Model
-#import "AnswerModel.h"
-
 //View
 #import "AnswerTableViewCell.h"
 #import "MainAskDetailHeadViewCellTableViewCell.h"
@@ -63,6 +60,18 @@
     }
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    if (_refreshBlock) {
+        _refreshBlock(_model);
+    }
+}
+
+- (void)dealloc {
+    _refreshBlock = nil;
+}
+
 
 #pragma mark - 界面
 
@@ -98,22 +107,13 @@
 
 #pragma mark 请求列表内容
 - (void)requestContent:(NSInteger)page {
-   
-    NSString *Id = @"";
-    if (_Type == PushType_Main) {
-        Id = [_model questionID];
-    }else if (_Type == PushType_MyAsk){
-        Id = [_model askId];
-    }else if (_Type == PushType_MyAnswer){
-        Id = [_model askId];         //问题ID
-    }
     
     __weak typeof(self) weakSelf = self;
     
     UserDataModel *userMod = [UserDataManager shareInstance].userModel;
     NSDictionary *infoDic = @{@"cmd":@"getQuestionByQID",
                               @"userID":(userMod ? userMod.userID : @""),
-                              @"qID":Id,
+                              @"qID":weakSelf.model.askID,
                               @"pageSize":@20,
                               @"page":@(page),
                               @"maxQID":@(_startQuestionID)
@@ -126,9 +126,9 @@
 
                 if (page == 1) {
                     [weakSelf.CommArr removeAllObjects];
-                    QuestionModel *mod = [[QuestionModel alloc] init];
+                    AnswerDataModel *mod = [[AnswerDataModel alloc] init];
                     [mod refreshModel:[[response valueForKey:@"data"] valueForKey:@"question"]];
-                    weakSelf.startQuestionID = [mod.questionID integerValue];
+                    weakSelf.startQuestionID = [mod.answerID integerValue];
                 }
 
                 if ([[response valueForKey:@"data"]valueForKey:@"question"]) {
@@ -138,7 +138,7 @@
                 }
 
                 for (NSDictionary *dic in [[[response valueForKey:@"data"]valueForKey:@"answer"] valueForKey:@"data"]) {
-                    AnswerModel *model = [[AnswerModel alloc] init];
+                    AnswerDataModel *model = [[AnswerDataModel alloc] init];
                     [model refreshModel:dic];
                     [weakSelf.CommArr addObject:model];
                 }
@@ -196,18 +196,20 @@
     if (!indexPath) {
         return;
     }
-    AnswerModel *mod = [_CommArr objectAtIndex:(indexPath.section - 1)];
+    AnswerDataModel *mod = [_CommArr objectAtIndex:(indexPath.section - 1)];
     
     __weak typeof(self) weakSelf = self;
     
     UserDataModel *userMod = [UserDataManager shareInstance].userModel;
     NSDictionary *infoDic = @{@"cmd":@"addLike",
                               @"userID":(userMod ? userMod.userID : @""),
-                              @"qID":mod.answerID,
+                              @"aID":mod.answerID,
                               };
     [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
         
         GCD_MAIN(^{
+            
+            [AskProgressHUD AskHideAnimatedInView:self.view.window viewtag:1 AfterDelay:0];
             
             if (response && ([response[@"status"] intValue] == 1)) {
                 
@@ -217,13 +219,20 @@
                 [mod changeLikeStatus:[dic[@"isLike"] boolValue] count:[dic[@"likeCount"] integerValue]];
                 [weakSelf.contentTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]] withRowAnimation:UITableViewRowAnimationNone];
                 
+            } else {
+                
+                [AskProgressHUD AskShowOnlyTitleInView:self.view.window Title:response[@"msg"] viewtag:1 AfterDelay:1.5];
+                
             }
             
         });
         
-    } requestHead:^(id response) {
+    } requestHead:nil faile:^(NSError *error) {
         
-    } faile:^(NSError *error) {
+        GCD_MAIN(^{
+            [AskProgressHUD AskHideAnimatedInView:self.view.window viewtag:1 AfterDelay:0];
+            [AskProgressHUD AskShowOnlyTitleInView:self.view.window Title:@"网络连接错误" viewtag:1 AfterDelay:1.5];
+        });
         
     }];
     
@@ -270,10 +279,10 @@
     if (indexPath.section > 0) { //评论
         if (indexPath.section - 1 < _CommArr.count) {
             
-            AnswerModel *model = _CommArr[indexPath.section - 1];
+            AnswerDataModel *model = _CommArr[indexPath.section - 1];
             
             MainAskCommViewController *VC = [[[NSBundle mainBundle] loadNibNamed:@"MainAskCommViewController" owner:self options:nil] firstObject];
-            VC.questionTitle = [_model title];
+            VC.questionTitle = _model.questionTitle;
             VC.answerMod = model;
             [self.navigationController pushViewController:VC animated:YES];
             
@@ -289,25 +298,15 @@
         MainAskDetailHeadViewCellTableViewCell *head  = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailHeadViewCellTableViewCell" owner:self options:nil][0];
         head.ContentLabel.numberOfLines = _all ? 0 : 5;
         
-        __weak MainAskDetailViewController *WeakSelf = self;
+        __weak typeof(self) weakSelf = self;
         __weak UITableView *WeakTableView = tableView;
-        __weak QuestionModel *WeakModel = _model;
-        
-        __weak NSString *Id = @"";
-        if (_Type == PushType_Main) {
-            Id = [_model questionID];
-        }else if (_Type == PushType_MyAsk){
-            Id = [_model askId];
-        }else if (_Type == PushType_MyAnswer){
-            Id = [_model askId];         //问题ID
-        }
         
         [head UpdateContent:_model WithFollowClick:^(UIButton *btn) {
             
             UserDataModel *userMod = [UserDataManager shareInstance].userModel;
             NSDictionary *infoDic = @{@"cmd":@"addFollow",
                                       @"userID":(userMod ? userMod.userID : @""),
-                                      @"qID":Id
+                                      @"qID":weakSelf.model.askID
                                       };
             [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
                 
@@ -318,17 +317,26 @@
                         NSDictionary *dic = response[@"data"]; 
                         
                         //点击事件请求成功
-                        [WeakSelf.model changeAttentionStatus:[dic[@"isFollow"] boolValue] count:[dic[@"followCount"] integerValue]];
-                        [WeakSelf.contentTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                        [weakSelf.model changeAttentionStatus:[dic[@"isFollow"] boolValue] count:[dic[@"followCount"] integerValue]];
+                        [weakSelf.contentTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
                         
                         [[NSNotificationCenter defaultCenter]postNotificationName:@"refreshData" object:nil];
+                        
+                    } else {
+                        
+                        [AskProgressHUD AskHideAnimatedInView:self.view.window viewtag:1 AfterDelay:0];
+                        [AskProgressHUD AskShowOnlyTitleInView:self.view.window Title:response[@"msg"] viewtag:1 AfterDelay:1.5];
+                        
                     }
                     
                 });
              
-            } requestHead:^(id response) {
+            } requestHead:nil faile:^(NSError *error) {
                 
-            } faile:^(NSError *error) {
+                GCD_MAIN(^{
+                    [AskProgressHUD AskHideAnimatedInView:self.view.window viewtag:1 AfterDelay:0];
+                    [AskProgressHUD AskShowOnlyTitleInView:self.view.window Title:@"网络连接错误" viewtag:1 AfterDelay:1.5];
+                });
                 
             }];
             
@@ -339,9 +347,9 @@
             if (userMod.isAnswerer == 1) { //只有个人可以回答
                 
                 EditQuestionViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:self options:nil][0];
-                VC.questionID = Id;
-                [VC UserType:AnswerType_Answer NavTitle:WeakModel.title];
-                [WeakSelf.navigationController pushViewController:VC animated:YES];
+                VC.questionID = weakSelf.model.askID;
+                [VC UserType:AnswerType_Answer NavTitle:weakSelf.model.questionTitle];
+                [weakSelf.navigationController pushViewController:VC animated:YES];
             } else {
                 TipsViews *alertView = [[TipsViews alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) HaveCancel:YES];
                 [alertView showWithContent:@"申请成为答主才可以助力回复小伙伴的问题噢!" tipsImage:@"不是企业用户.png" LeftTitle:@"以后再说" RightTitle:@"申请成为答主" block:^(UIButton *btn) {
@@ -355,22 +363,21 @@
                     
                 } rightblock:^(UIButton *btn) {
                     
-                    
                     [UIView animateWithDuration:0.38 delay:0 options:UIViewAnimationOptionTransitionFlipFromRight animations:^{
                         alertView.alpha = 0;
                         [alertView layoutIfNeeded];
                     } completion:^(BOOL finished) {
                         [alertView removeFromSuperview];
                         
-                        [WeakSelf applyAnswerer];
+                        [weakSelf applyAnswerer];
                     }];
                     
                 }];
-                [WeakSelf.view.window addSubview:alertView];
+                [weakSelf.view.window addSubview:alertView];
             }
             
         } WithAllClick:^(BOOL click) {
-            WeakSelf.all = YES;
+            weakSelf.all = YES;
             [WeakTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
         }];
         

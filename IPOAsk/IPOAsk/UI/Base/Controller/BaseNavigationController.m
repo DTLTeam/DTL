@@ -216,8 +216,6 @@ static NSArray *showTabBarClassItems;
     
     EditQuestionViewController *editQuestionVC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:nil options:nil].firstObject;
     [editQuestionVC UserType:AnswerType_AskQuestionPerson NavTitle:@"提问"];
-    editQuestionVC.hidesBottomBarWhenPushed = YES;
-    
     [self pushViewController:editQuestionVC animated:YES];
     
 }
@@ -505,9 +503,7 @@ static NSArray *showTabBarClassItems;
     if (![vc isKindOfClass:[SearchViewController class]]) {
         
         SearchViewController *searchVC = [[SearchViewController alloc] init];
-        searchVC.hidesBottomBarWhenPushed = YES;
         [self pushViewController:searchVC animated:YES];
-        searchVC.hidesBottomBarWhenPushed = NO;
         
         return NO;
         

@@ -212,23 +212,23 @@
 
 #pragma mark - 功能
 
-- (void)refreshWithModel:(AnswerModel *)model {
+- (void)refreshWithModel:(AnswerDataModel *)model {
     
     if (model.isAnonymous) { //匿名
         _headImgView.image = [UIImage imageNamed:@"默认头像.png"];
         _userNameLabel.text = @"匿名";
     } else {
-        [_headImgView sd_setImageWithURL:[NSURL URLWithString:model.headImgUrlStr] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
-        _userNameLabel.text = model.userName;
+        [_headImgView sd_setImageWithURL:[NSURL URLWithString:model.headImageUrlStr] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
+        _userNameLabel.text = model.nickName;
     }
     _dateLabel.text = model.dateStr;
     
-    _contentLabel.text = model.content;
+    _contentLabel.text = model.answerContent;
     
-    NSString *numStr = model.lookNum <= 0 ? @"" : [NSString stringWithFormat:@" %lu", model.lookNum];
+    NSString *numStr = [NSString stringWithFormat:@" %lu", model.lookNum];
     [_lookNumBtn setTitle:numStr forState:UIControlStateNormal];
     
-    numStr = model.likeNum <= 0 ? @"" : [NSString stringWithFormat:@" %lu", model.likeNum];
+    numStr = [NSString stringWithFormat:@" %lu", model.likeNum];
     UIImage *likeImg = model.isLike ? [UIImage imageNamed:@"点赞-回复-按下"] : [UIImage imageNamed:@"点赞-回复"];
     UIColor *likeTextColor = model.isLike ? HEX_RGBA_COLOR(0x0B98F2, 1) : HEX_RGBA_COLOR(0x969CA1, 1);
     [_likeNumBtn setImage:likeImg forState:UIControlStateNormal];

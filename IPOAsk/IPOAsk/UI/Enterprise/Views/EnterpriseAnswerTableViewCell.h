@@ -8,11 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-//Model
-#import "AnswerModel.h"
-
 @interface EnterpriseAnswerTableViewCell : UITableViewCell
 
-- (void)refreshWithModel:(AnswerModel *)mod;
+typedef void (^LikeBlock)(EnterpriseAnswerTableViewCell *cell);
+- (void)refreshWithModel:(AnswerDataModel *)mod like:(LikeBlock)likeBlock;
 
 @end

@@ -172,14 +172,14 @@
 
                 if (page == 1) {
                     [weakSelf.contentArr removeAllObjects];
-                    QuestionModel *mod = [[QuestionModel alloc] init];
+                    AskDataModel *mod = [[AskDataModel alloc] init];
                     [mod refreshModel:[response[@"data"][@"data"] firstObject]];
-                    weakSelf.startQuestionID = [mod.questionID integerValue];
+                    weakSelf.startQuestionID = [mod.askID integerValue];
                 }
                 
                 for (NSDictionary *dic in response[@"data"][@"data"]) {
 
-                    QuestionModel *model = [[QuestionModel alloc] init];
+                    AskDataModel *model = [[AskDataModel alloc] init];
                     [model refreshModel:dic];
                     [weakSelf.contentArr addObject:model];
 
@@ -217,6 +217,10 @@
             if (weakSelf.contentTableView.mj_footer.isRefreshing) {
                 [weakSelf.contentTableView.mj_footer endRefreshing];
             }
+            
+            [AskProgressHUD AskHideAnimatedInView:self.view.window viewtag:1 AfterDelay:0];
+            [AskProgressHUD AskShowOnlyTitleInView:self.view.window Title:@"网络连接错误" viewtag:1 AfterDelay:1.5];
+            
         });
         
     }];
@@ -291,14 +295,14 @@
     }
     
     NSIndexPath *indexPath = [_contentTableView indexPathForCell:cell];
-    QuestionModel *mod = _contentArr[indexPath.section];
+    AskDataModel *mod = _contentArr[indexPath.section];
     
     __weak typeof(self) weakSelf = self;
     
     UserDataModel *userMod = [UserDataManager shareInstance].userModel;
     NSDictionary *infoDic = @{@"cmd":@"addFollow",
                               @"userID":(userMod ? userMod.userID : @""),
-                              @"qID":mod.questionID,
+                              @"qID":mod.askID,
                               };
     [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
         
@@ -346,21 +350,6 @@
     return 1;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ([UtilsCommon ShowLoginHud:self.view Tag:200]) {
-        return;
-    }
-    
-    QuestionModel *model = _contentArr[indexPath.section];
-    
-    //传问题模型
-    MainAskDetailViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil].firstObject;
-    VC.model = model;
-    VC.Type = PushType_Main;
-    [self.navigationController pushViewController:VC animated:YES];
-    
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     static NSString *identifier = @"questionCell";
@@ -373,6 +362,28 @@
     [cell refreshWithModel:_contentArr[indexPath.section]];
     
     return cell;
+    
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ([UtilsCommon ShowLoginHud:self.view Tag:200]) {
+        return;
+    }
+    
+    AskDataModel *model = _contentArr[indexPath.section];
+    
+    __weak typeof(self) weakSelf = self;
+    
+    //传问题模型
+    MainAskDetailViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil].firstObject;
+    VC.model = model;
+    VC.refreshBlock = ^(AskDataModel *model) {
+        
+        weakSelf.contentArr[indexPath.section] = model;
+        [weakSelf.contentTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        
+    };
+    [self.navigationController pushViewController:VC animated:YES];
     
 }
 

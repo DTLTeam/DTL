@@ -15,7 +15,6 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
 - (void)updateAskCell:(AskDataModel *)model;
-- (void)updateAnswerCell:(AnswerDataModel *)model;
 - (void)updateFollowCell:(FollowDataModel *)model;
 
 @end

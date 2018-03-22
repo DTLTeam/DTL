@@ -278,42 +278,42 @@ typedef enum : NSUInteger {
 
 #pragma mark - 功能
 
-- (void)refreshWithModel:(QuestionModel *)model {
+- (void)refreshWithModel:(AskDataModel *)model {
     
     if (model.isAnonymous) { //匿名
         _headImgView.image = [UIImage imageNamed:@"默认头像.png"];
         _userNameLabel.text = @"匿名";
     } else {
-        [_headImgView sd_setImageWithURL:[NSURL URLWithString:model.headImgUrlStr] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
-        _userNameLabel.text = model.userName;
+        [_headImgView sd_setImageWithURL:[NSURL URLWithString:model.headImageUrlStr] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
+        _userNameLabel.text = model.nickName;
     }
     _dateLabel.text = model.dateStr;
     
     if (_searchContent && _searchContent.length > 0) { //搜索结果
         
         //标题
-        NSMutableAttributedString *titleStr = [[NSMutableAttributedString alloc] initWithString:model.title];
-        NSRange nowRange = NSMakeRange(0, model.title.length);
+        NSMutableAttributedString *titleStr = [[NSMutableAttributedString alloc] initWithString:model.questionTitle];
+        NSRange nowRange = NSMakeRange(0, model.questionTitle.length);
         while (true) {
-            NSRange range = [model.title rangeOfString:_searchContent options:NSCaseInsensitiveSearch range:nowRange];
+            NSRange range = [model.questionTitle rangeOfString:_searchContent options:NSCaseInsensitiveSearch range:nowRange];
             if (range.location == NSNotFound) {
                 break;
             } else {
-                nowRange = NSMakeRange(range.location + range.length, model.title.length - range.location - range.length);
+                nowRange = NSMakeRange(range.location + range.length, model.questionTitle.length - range.location - range.length);
                 [titleStr addAttribute:NSForegroundColorAttributeName value:HEX_RGBA_COLOR(0xFF902E, 1) range:range];
             }
         }
         _titleLabel.attributedText = titleStr;
         
         //内容
-        NSMutableAttributedString *contentStr = [[NSMutableAttributedString alloc] initWithString:model.content];
-        nowRange = NSMakeRange(0, model.content.length);
+        NSMutableAttributedString *contentStr = [[NSMutableAttributedString alloc] initWithString:model.questionContent];
+        nowRange = NSMakeRange(0, model.questionContent.length);
         while (true) {
-            NSRange range = [model.content rangeOfString:_searchContent options:NSCaseInsensitiveSearch range:nowRange];
+            NSRange range = [model.questionContent rangeOfString:_searchContent options:NSCaseInsensitiveSearch range:nowRange];
             if (range.location == NSNotFound) {
                 break;
             } else {
-                nowRange = NSMakeRange(range.location + range.length, model.content.length - range.location - range.length);
+                nowRange = NSMakeRange(range.location + range.length, model.questionContent.length - range.location - range.length);
                 [contentStr addAttribute:NSForegroundColorAttributeName value:HEX_RGBA_COLOR(0xFF902E, 1) range:range];
             }
         }
@@ -321,16 +321,16 @@ typedef enum : NSUInteger {
         
     } else { //普通展示
         
-        _titleLabel.text = model.title;
-        _contentLabel.text = model.content;
+        _titleLabel.text = model.questionTitle;
+        _contentLabel.text = model.questionContent;
         
     }
     
     NSString *numStr = model.lookNum <= 0 ? @"" : [NSString stringWithFormat:@" %lu", model.lookNum];
     [_lookNumBtn setTitle:numStr forState:UIControlStateNormal];
-    numStr = model.replyNum <= 0 ? @"" : [NSString stringWithFormat:@" %lu", model.replyNum];
+    numStr = [NSString stringWithFormat:@" %lu", model.answerNum];
     [_replyNumBtn setTitle:numStr forState:UIControlStateNormal];
-    numStr = model.attentionNum <= 0 ? @"" : [NSString stringWithFormat:@" %lu", model.attentionNum];
+    numStr = [NSString stringWithFormat:@" %lu", model.followNum];
     [_attentionNumBtn setTitle:numStr forState:UIControlStateNormal];
     
     if (model.isAttention) {

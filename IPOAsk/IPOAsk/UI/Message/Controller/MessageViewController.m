@@ -114,7 +114,6 @@ static NSString * CellIdentifier = @"AOrLikeCell";
 
 - (void)requestContent:(NSInteger)page {
     
-    
     __weak typeof(self) weakSelf = self;
     UserDataModel *userMod = [[UserDataManager shareInstance] userModel];
     
@@ -230,45 +229,23 @@ static NSString * CellIdentifier = @"AOrLikeCell";
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.row < _contentArr.count) {
         AnswerOrLikeModel *model = _contentArr[indexPath.row];
         
         AskDataModel *Askmodel = [[AskDataModel alloc]init];
-        Askmodel.askId = model.questionID;
-        Askmodel.title = model.questionTitle;
-        Askmodel.content = model.questionTitle;
-        Askmodel.addTime = [NSString stringWithFormat:@"%lu",(long)model.messageTime];
-         
+        Askmodel.askID = model.questionID;
+        Askmodel.questionTitle = model.questionTitle;
+        Askmodel.dateTime = model.messageTime;
         
         //传问题模型
         MainAskDetailViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil].firstObject;
         VC.model = Askmodel;
-        VC.Type = PushType_MyAsk;
         [self.navigationController pushViewController:VC animated:YES];
-        
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
         
     }
 }
 
-
-
-/*
- 
- @property (strong, nonatomic) NSString *askId;
- @property (nonatomic, strong) NSString *title;
- @property (strong, nonatomic) NSString *content;
- @property (strong, nonatomic) NSString *addTime;
- @property (assign, nonatomic) int View;
- @property (assign, nonatomic) int createUID;
- @property (assign, nonatomic) int Answer;
- @property (assign, nonatomic) int isAnonymous;
- @property (assign, nonatomic) int IsAttention;
- @property (assign, nonatomic) int isCompany;
- @property (assign, nonatomic) int Follow;
- 
- */
 @end

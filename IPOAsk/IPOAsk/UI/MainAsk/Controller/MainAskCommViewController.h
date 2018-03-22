@@ -8,15 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-//Model
-#import "AnswerModel.h"
-
 @interface MainAskCommViewController : BaseViewController
 
 @property (strong, nonatomic) NSString *questionTitle;
-@property (strong, nonatomic) AnswerModel *answerMod;
+@property (strong, nonatomic) AnswerDataModel *answerMod;
 
 #pragma mark - 更新数据
--(void)UpdateContentWithModel:(AnswerModel *)model;
+-(void)UpdateContentWithModel:(AnswerDataModel *)model;
 
 @end

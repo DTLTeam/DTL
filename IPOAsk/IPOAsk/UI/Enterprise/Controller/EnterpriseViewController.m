@@ -212,20 +212,32 @@ static NSString * CellIdentifier = @"EnterpriseCell";
                 
                 if (weakSelf.currentPage == 1) {
                     [weakSelf.contentArr removeAllObjects];
-                    EnterpriseModel *mod = [[EnterpriseModel alloc] init];
+                    AskDataModel *mod = [[AskDataModel alloc] init];
                     [mod refreshModel:[response[@"data"][@"data"] firstObject]];
-                    weakSelf.startQuestionID = [mod.questionMod.questionID integerValue];
+                    
+                    weakSelf.startQuestionID = [mod.askID integerValue];
                 }
                 
                 for (NSDictionary *dic in response[@"data"][@"data"]) {
                     
-                    EnterpriseModel *model = [[EnterpriseModel alloc] init];
+                    AskDataModel *model = [[AskDataModel alloc] init];
                     [model refreshModel:dic];
+                    [model refreshAnswerItmes:dic[@"answer"]];
                     [weakSelf.contentArr addObject:model];
                     
                 }
                 
                 [weakSelf.contentTableView reloadData];
+                
+                if (weakSelf.contentArr.count == 0) {
+                    _notEnterpriseView.hidden = YES;
+                    _notQusetionView.hidden = NO;
+                    _contentTableView.hidden = YES;
+                } else {
+                    _notEnterpriseView.hidden = YES;
+                    _notQusetionView.hidden = YES;
+                    _contentTableView.hidden = NO;
+                }
                 
             } else {
                 
@@ -292,34 +304,47 @@ static NSString * CellIdentifier = @"EnterpriseCell";
     
     if (indexPath.row < _contentArr.count) {
         
-        __weak EnterpriseTableViewCell *weakCell = cell;
-        EnterpriseModel *model = _contentArr[indexPath.row];
         
-        [cell updateWithModel:model likeClick:^(BOOL like, NSInteger index) {
+        AskDataModel *model = _contentArr[indexPath.row];
+        
+        __weak typeof(self) weakSelf = self;
+        [cell updateWithModel:model likeClick:^(NSInteger index) {
+            
+            AnswerDataModel *mod = model.answerItems[index];
             
             UserDataModel *userMod = [UserDataManager shareInstance].userModel;
             NSDictionary *infoDic = @{@"cmd":@"addLike",
                                       @"userID":(userMod ? userMod.userID : @""),
-                                      @"aID":@""
+                                      @"aID":mod.answerID,
                                       };
             [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
                 
                 GCD_MAIN(^{
                     
+                    [AskProgressHUD AskHideAnimatedInView:self.view.window viewtag:1 AfterDelay:0];
+                    
                     if (response && ([response[@"status"] intValue] == 1)) {
                         
-//                        NSDictionary *dic = response[@"data"];
-//
-//                        if (dic[@""]) {
-//                            model.Exper_haveLike = !model.Exper_haveLike;
-//                            [weakCell likeClickSuccess];
-//                        }
+                        NSDictionary *dic = response[@"data"];
+                        
+                        //点击事件请求成功
+                        [mod changeLikeStatus:[dic[@"isLike"] boolValue] count:[dic[@"likeCount"] integerValue]];
+                        [weakSelf.contentTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]] withRowAnimation:UITableViewRowAnimationNone];
+                        
+                    } else {
+                        
+                        [AskProgressHUD AskShowOnlyTitleInView:self.view.window Title:response[@"msg"] viewtag:1 AfterDelay:1.5];
                         
                     }
                     
                 });
                 
             } requestHead:nil faile:^(NSError *error) {
+                
+                GCD_MAIN(^{
+                    [AskProgressHUD AskHideAnimatedInView:self.view.window viewtag:1 AfterDelay:0];
+                    [AskProgressHUD AskShowOnlyTitleInView:self.view.window Title:@"网络连接错误" viewtag:1 AfterDelay:1.5];
+                });
                 
             }];
             

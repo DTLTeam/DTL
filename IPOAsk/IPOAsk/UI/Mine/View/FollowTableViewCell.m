@@ -140,20 +140,11 @@
 
 - (void)updateAskCell:(AskDataModel *)model
 {
-    _txtLabel.text = model.title;
-    [_lookNumBtn setTitle:[NSString stringWithFormat:@" %d",model.View] forState:UIControlStateNormal];
-    [_answerNumBtn setTitle:[NSString stringWithFormat:@" %d",model.Answer] forState:UIControlStateNormal];
-    [_followNumBtn setTitle:[NSString stringWithFormat:@" %d",model.Follow] forState:UIControlStateNormal];
-    _dateLabel.text = model.addTime;
-}
-
-- (void)updateAnswerCell:(AnswerDataModel *)model
-{
-    _txtLabel.text = model.title;
-    [_lookNumBtn setTitle:[NSString stringWithFormat:@" %d",model.LookNum] forState:UIControlStateNormal];
-    [_answerNumBtn setTitle:[NSString stringWithFormat:@" %d",model.Answer] forState:UIControlStateNormal];
-    [_followNumBtn setTitle:[NSString stringWithFormat:@" %d",model.Follow] forState:UIControlStateNormal];
-    _dateLabel.text = model.addTime;
+    _txtLabel.text = model.questionTitle;
+    [_lookNumBtn setTitle:[NSString stringWithFormat:@" %lu", model.lookNum] forState:UIControlStateNormal];
+    [_answerNumBtn setTitle:[NSString stringWithFormat:@" %lu", model.answerNum] forState:UIControlStateNormal];
+    [_followNumBtn setTitle:[NSString stringWithFormat:@" %lu", model.followNum] forState:UIControlStateNormal];
+    _dateLabel.text = model.dateStr;
 }
 
 - (void)updateFollowCell:(FollowDataModel *)model

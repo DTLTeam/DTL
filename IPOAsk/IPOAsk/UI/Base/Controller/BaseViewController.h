@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "UserDataManager.h"
+
 @interface BaseViewController : UIViewController
 
 - (void)back;

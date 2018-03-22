@@ -13,13 +13,12 @@ typedef enum : NSUInteger {
 } PushType;
 
 #import "BaseViewController.h"
-#import "QuestionModel.h"
 
 @interface MainAskDetailViewController : BaseViewController
 
+@property (nonatomic, strong) AskDataModel *model;
 
-@property (nonatomic, strong) id model;
-
-@property (nonatomic,assign)  PushType Type;
+typedef void(^RefreshQuestionInfoBlock)(AskDataModel *model);
+@property (copy, nonatomic) RefreshQuestionInfoBlock refreshBlock;
 
 @end

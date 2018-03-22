@@ -8,14 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-//Model
-#import "EnterpriseModel.h"
-
 @interface EnterpriseTableViewCell : UITableViewCell
 
-typedef void (^likeClick)(BOOL like, NSInteger index);
-- (void)updateWithModel:(EnterpriseModel *)model likeClick:(likeClick)likeClickBlock;
-
-- (void)likeClickSuccess;
+typedef void (^likeClick)(NSInteger index);
+- (void)updateWithModel:(AskDataModel *)model likeClick:(likeClick)likeClickBlock;
 
 @end

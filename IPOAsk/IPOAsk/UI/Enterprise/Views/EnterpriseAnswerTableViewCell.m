@@ -16,6 +16,8 @@
 @property (strong, nonatomic) UIButton      *likeBtn;
 @property (strong, nonatomic) UILabel       *answerCotentLabel;
 
+@property (copy, nonatomic) LikeBlock likeBlock;
+
 @end
 
 @implementation EnterpriseAnswerTableViewCell
@@ -45,6 +47,10 @@
         [self setupInterface];
     }
     return self;
+}
+
+- (void)dealloc {
+    _likeBlock = nil;
 }
 
 
@@ -176,24 +182,28 @@
 
 - (void)likeAction:(id)sender {
     
-    
+    if (_likeBlock) {
+        _likeBlock(self);
+    }
     
 }
 
 
 #pragma mark - 功能
 
-- (void)refreshWithModel:(AnswerModel *)mod {
+- (void)refreshWithModel:(AnswerDataModel *)mod like:(LikeBlock)likeBlock {
     
-    [_headImgView sd_setImageWithURL:[NSURL URLWithString:mod.headImgUrlStr] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
-    _nickLabel.text = mod.userName;
+    _likeBlock = likeBlock;
+    
+    [_headImgView sd_setImageWithURL:[NSURL URLWithString:mod.headImageUrlStr] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
+    _nickLabel.text = mod.nickName;
     _dateLabel.text = [NSString stringWithFormat:@"回复时间:  %@", mod.dateStr];
     
     UIImage *likeImg = mod.isLike ? [UIImage imageNamed:@"点赞-回复-按下"] : [UIImage imageNamed:@"点赞-回复"];
     [_likeBtn setImage:likeImg forState:UIControlStateNormal];
     [_likeBtn setImage:likeImg forState:UIControlStateHighlighted];
     
-    NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"专家答案:  %@", mod.content]];
+    NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"专家答案:  %@", mod.answerContent]];
     NSRange range = NSMakeRange(0, [content.string length]);
     [content addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:range];
     [content addAttribute:NSForegroundColorAttributeName value:HEX_RGBA_COLOR(0x484848, 1) range:range];

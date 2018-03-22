@@ -16,7 +16,9 @@
 @property (strong, nonatomic) UILabel       *questionTitleLabel;
 @property (strong, nonatomic) UITableView   *answerTableView;
 
-@property (strong, nonatomic) NSArray<AnswerModel *> *answerItems;
+@property (strong, nonatomic) AskDataModel *askMod;
+
+@property (copy, nonatomic) likeClick likeBlock;
 
 @end
 
@@ -104,9 +106,12 @@
 
 #pragma mark - 功能
 
-- (void)updateWithModel:(EnterpriseModel *)model likeClick:(likeClick)likeClickBlock {
+- (void)updateWithModel:(AskDataModel *)model likeClick:(likeClick)likeClickBlock {
     
-    NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"我的问题:  %@", model.questionMod.title]];
+    _askMod = model;
+    _likeBlock = likeClickBlock;
+    
+    NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"我的问题:  %@", model.questionTitle]];
     NSRange range = NSMakeRange(0, [content.string length]);
     [content addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:range];
     [content addAttribute:NSForegroundColorAttributeName value:HEX_RGBA_COLOR(0x666666, 1) range:range];
@@ -115,14 +120,13 @@
     [content addAttribute:NSForegroundColorAttributeName value:HEX_RGBA_COLOR(0x333333, 1) range:range];
     _questionTitleLabel.attributedText = content;
     
-    _answerItems = model.answerItems;
     [_answerTableView reloadData];
     [_answerTableView mas_remakeConstraints:^(MASConstraintMaker *make) {
         if (@available(iOS 11.0, *)) {
             make.top.equalTo(_questionTitleLabel.mas_safeAreaLayoutGuideBottom).offset(15);
             make.left.equalTo(self.mas_safeAreaLayoutGuideLeft).offset(10);
             make.right.equalTo(self.mas_safeAreaLayoutGuideRight).offset(-10);
-            if (_answerItems.count == 0) {
+            if (_askMod.answerItems.count == 0) {
                 make.bottom.equalTo(self.mas_safeAreaLayoutGuideBottom);
             } else {
                 make.bottom.equalTo(self.mas_safeAreaLayoutGuideBottom).offset(-10);
@@ -131,20 +135,13 @@
             make.top.equalTo(_questionTitleLabel.mas_bottom).offset(15);
             make.left.equalTo(self.mas_left).offset(10);
             make.right.equalTo(self.mas_right).offset(-10);
-            if (_answerItems.count == 0) {
+            if (_askMod.answerItems.count == 0) {
                 make.bottom.equalTo(self.mas_bottom);
             } else {
                 make.bottom.equalTo(self.mas_bottom).offset(-10);
             }
         }
-//        make.height.offset(_answerTableView.contentSize.height);
     }];
-    
-}
-
-- (void)Like {
-   
-    
     
 }
 
@@ -152,7 +149,7 @@
 #pragma mark - UITableViewDelegate & UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return _answerItems.count;
+    return _askMod.answerItems.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -177,7 +174,14 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-    [cell refreshWithModel:_answerItems[indexPath.section]];
+    __weak typeof(self) weakSelf = self;
+    [cell refreshWithModel:_askMod.answerItems[indexPath.section] like:^(EnterpriseAnswerTableViewCell *cell) {
+        
+        if (weakSelf.likeBlock) {
+            weakSelf.likeBlock(indexPath.section);
+        }
+        
+    }];
     
     return cell;
     

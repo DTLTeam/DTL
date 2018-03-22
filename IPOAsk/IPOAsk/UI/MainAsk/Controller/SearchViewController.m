@@ -422,13 +422,13 @@
                 
                 if (page == 1) {
                     [weakSelf.searchNetworkItems removeAllObjects];
-                    QuestionModel *mod = [[QuestionModel alloc] init];
+                    AskDataModel *mod = [[AskDataModel alloc] init];
                     [mod refreshModel:[response[@"data"][@"data"] firstObject]];
-                    weakSelf.startQuestionID = [mod.questionID integerValue];
+                    weakSelf.startQuestionID = [mod.askID integerValue];
                 }
                 
                 for (NSDictionary *dic in response[@"data"][@"data"]) {
-                    QuestionModel *mod = [[QuestionModel alloc] init];
+                    AskDataModel *mod = [[AskDataModel alloc] init];
                     [mod refreshModel:dic];
                     [weakSelf.searchNetworkItems addObject:mod];
                 }
@@ -543,14 +543,14 @@
 - (void)attentionWithCell:(QuestionTableViewCell *)cell {
     
     NSIndexPath *indexPath = [_searchNetworkTableView indexPathForCell:cell];
-    QuestionModel *mod = _searchNetworkItems[indexPath.section];
+    AskDataModel *mod = _searchNetworkItems[indexPath.section];
     
     __weak typeof(self) weakSelf = self;
     
     UserDataModel *userMod = [UserDataManager shareInstance].userModel;
     NSDictionary *infoDic = @{@"cmd":@"addFollow",
                               @"userID":(userMod ? userMod.userID : @""),
-                              @"qID":mod.questionID,
+                              @"qID":mod.askID,
                               };
     [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
         
@@ -657,7 +657,7 @@
             cell.delegate = self;
         }
         
-        QuestionModel *mod = _searchNetworkItems[indexPath.section];
+        AskDataModel *mod = _searchNetworkItems[indexPath.section];
         cell.searchContent = _searchContent;
         [cell refreshWithModel:mod];
         
@@ -699,16 +699,13 @@
         
     } else { //网络搜索
         
-        QuestionModel *mod = _searchNetworkItems[indexPath.section];
+        AskDataModel *mod = _searchNetworkItems[indexPath.section];
         
         MainAskDetailViewController *mainAskDetailVC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:nil options:nil].firstObject;
         mainAskDetailVC.model = mod;
-        mainAskDetailVC.Type = PushType_Main;
-        mainAskDetailVC.hidesBottomBarWhenPushed = NO;
         [self.navigationController pushViewController:mainAskDetailVC animated:YES];
         
     }
-    
     
 }
 

@@ -10,7 +10,6 @@
 
 @interface EnterpriseNotQuestionView : UIView
 
-
 @property (nonatomic,strong)void (^addQuestionClickBlock)(UIButton *sender);
 
 @end
