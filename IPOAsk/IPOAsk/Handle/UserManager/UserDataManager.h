@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+@class AskDataModel;
+@class AnswerDataModel;
+@class FollowDataModel;
+@class LikeDataModel;
+
 /**
  用户数据模型
  */
@@ -26,6 +31,66 @@
 @property (strong, nonatomic) NSString *Password;
 @property (nonatomic, assign) int forbidden;
 @property (nonatomic, assign) BOOL isPushMessage;
+
+@end
+
+/**
+ 问题数据模型
+ */
+@interface AskDataModel : NSObject
+
+@property (assign, nonatomic) BOOL isFromMyself;            //是否自己的问题
+@property (assign, nonatomic) BOOL isAnonymous;             //是否匿名
+@property (assign, nonatomic) NSInteger createUID;          //提问者ID
+@property (strong, nonatomic) NSString *headImageUrlStr;    //提问者头像下载路径
+@property (strong, nonatomic) NSString *nickName;           //提问者昵称
+
+@property (assign, nonatomic) BOOL isCompany;               //是否企业提问
+@property (strong, nonatomic) NSString *askID;              //问题ID
+@property (strong, nonatomic) NSString *questionTitle;      //问题标题
+@property (strong, nonatomic) NSString *questionContent;    //问题内容
+@property (assign, nonatomic) NSInteger dateTime;           //提问日期时间戳
+@property (strong, nonatomic) NSString *dateStr;            //提问日期字符串
+
+@property (strong, nonatomic) NSArray<AnswerDataModel *> *answerItems; //回答内容数组
+
+@property (assign, nonatomic) NSInteger lookNum;    //查看数量
+@property (assign, nonatomic) NSInteger answerNum;  //回复数量
+@property (assign, nonatomic) NSInteger followNum;  //关注数量
+
+@property (assign, nonatomic) BOOL isAttention; //是否关注
+
+- (void)refreshModel:(NSDictionary *)infoDic;
+- (void)refreshAnswerItmes:(NSArray *)infoItems;
+- (void)changeAttentionStatus:(BOOL)status count:(NSInteger)count;
+
+@end
+
+/**
+ 回答数据模型
+ */
+@interface AnswerDataModel : NSObject
+
+@property (assign, nonatomic) BOOL isFromMyself;            //是否自己的回答
+@property (assign, nonatomic) BOOL isAnonymous;             //是否匿名
+@property (assign, nonatomic) NSInteger createUID;          //回答者ID
+@property (strong, nonatomic) NSString *headImageUrlStr;    //回答者头像下载路径
+@property (strong, nonatomic) NSString *nickName;           //回答者昵称
+
+@property (strong, nonatomic) NSString *answerID;       //回答ID
+@property (strong, nonatomic) NSString *answerTitle;    //回答标题
+@property (strong, nonatomic) NSString *answerContent;  //回答内容
+@property (assign, nonatomic) NSInteger dateTime;       //回答日期时间戳
+@property (strong, nonatomic) NSString *dateStr;        //回答日期字符串
+
+@property (assign, nonatomic) NSInteger lookNum;    //查看数量
+@property (assign, nonatomic) NSInteger answerNum;  //回复数量
+@property (assign, nonatomic) NSInteger likeNum;    //点赞数量
+
+@property (assign, nonatomic) BOOL isLike;  //是否点赞
+
+- (void)refreshModel:(NSDictionary *)infoDic;
+- (void)changeLikeStatus:(BOOL)status count:(NSInteger)count;
 
 @end
 
@@ -50,34 +115,7 @@
 @end
 
 /**
- 回答数据模型
- */
-@interface AnswerDataModel : NSObject
-
-@property (strong, nonatomic) NSString *askId;
-@property (nonatomic, strong) NSString *nickName;
-@property (strong, nonatomic) NSString *headIcon;
-@property (strong, nonatomic) NSString *content;
-@property (strong, nonatomic) NSString *addTime;
-@property (strong, nonatomic) NSString *title;
-@property (assign, nonatomic) int LookNum;
-@property (assign, nonatomic) int Answer;
-@property (assign, nonatomic) int IsAnonymous;
-@property (assign, nonatomic) int IsCompany;
-@property (assign, nonatomic) int IsFollow;
-@property (nonatomic, assign) int Follow;
- 
-
-#pragma mark - 功能
-- (void)refreshModel:(NSDictionary *)infoDic;
-
-
-- (void)changeAttentionStatus:(BOOL)status count:(NSInteger)count;
-
-@end
-
-/**
- 回答数据模型
+ 点赞数据模型
  */
 @interface LikeDataModel : NSObject
 
@@ -87,34 +125,13 @@
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *addTime;
 @property (strong, nonatomic) NSString *likeTime;
+
 @end
+
 
 /**
- 问题数据模型
+ 用户信息管理器
  */
-@interface AskDataModel : NSObject
-
-@property (strong, nonatomic) NSString *askId;
-@property (nonatomic, strong) NSString *title;
-@property (strong, nonatomic) NSString *content;
-@property (strong, nonatomic) NSString *addTime;
-@property (assign, nonatomic) int View;
-@property (assign, nonatomic) int createUID;
-@property (assign, nonatomic) int Answer;
-@property (assign, nonatomic) int isAnonymous;
-@property (assign, nonatomic) int IsAttention;
-@property (assign, nonatomic) int isCompany;
-@property (assign, nonatomic) int Follow;
-
-
-#pragma mark - 功能
-
-- (void)refreshModel:(NSDictionary *)infoDic;
-
-- (void)changeAttentionStatus:(BOOL)status count:(NSInteger)count;
-
-@end
-
 @interface UserDataManager : NSObject
 
 @property (nonatomic,strong, readonly) UserDataModel *userModel;

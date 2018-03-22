@@ -17,12 +17,39 @@
 
 @end
 
-/**
- 问题数据类型
- */
+
+#pragma mark - 问题数据模型
+
 @implementation AskDataModel
 
-#pragma mark - 功能
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        
+        _isFromMyself = NO;
+        _isAnonymous = NO;
+        _createUID = 0;
+        _headImageUrlStr = @"";
+        _nickName = @"";
+        
+        _isCompany = NO;
+        _askID = 0;
+        _questionTitle = @"";
+        _questionContent = @"";
+        _dateTime = 0;
+        _dateStr = @"";
+        
+        _answerItems = [NSArray array];
+        
+        _lookNum = 0;
+        _answerNum = 0;
+        _followNum = 0;
+        
+        _isAttention = NO;
+        
+    }
+    return self;
+}
 
 - (void)refreshModel:(NSDictionary *)infoDic {
     
@@ -32,122 +59,253 @@
     
     id content;
     
+    //提问者信息
+    
+    content = infoDic[@"isFromMySelf"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _isFromMyself = [content boolValue];
+    }
     content = infoDic[@"isAnonymous"];
     if (content && ![content isKindOfClass:[NSNull class]]) {
         _isAnonymous = [content boolValue];
     }
-    content = infoDic[@"isFollow"];
+    content = infoDic[@"createUID"];
+    if (content && [content isKindOfClass:[NSNull class]]) {
+        _createUID = content;
+    }
+    content = infoDic[@"headIcon"];
     if (content && ![content isKindOfClass:[NSNull class]]) {
-        _IsAttention = [content boolValue];
+        _headImageUrlStr = content;
+    }
+    content = infoDic[@"nickName"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _nickName = content;
     }
     
-    content = infoDic[@"id"];
+    //问题信息
+    
+    content = infoDic[@"qid"];
     if (content && ![content isKindOfClass:[NSNull class]]) {
         if ([content isKindOfClass:[NSNumber class]]) {
             content = [content stringValue];
         }
-        _askId = content;
+        _askID = content;
+    } else {
+        content = infoDic[@"id"];
+        if (content && ![content isKindOfClass:[NSNull class]]) {
+            if ([content isKindOfClass:[NSNumber class]]) {
+                content = [content stringValue];
+            }
+            _askID = content;
+        }
     }
-    
-//    content = infoDic[@"headIcon"];
-//    if (content && ![content isKindOfClass:[NSNull class]]) {
-//        _headImgUrlStr = [content];
-//    }
-//    content = infoDic[@"nickName"];
-//    if (content && ![content isKindOfClass:[NSNull class]]) {
-//        _userName = content;
-//    }
-    
-    content = infoDic[@"addTime"];
-    if (content && [content isKindOfClass:[NSNull class]]) {
-        NSDate *date = [NSDate dateWithTimeIntervalSince1970:[content integerValue]];
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy-MM-dd"];
-        _addTime = [formatter stringFromDate:date];
-    }
-    
     content = infoDic[@"title"];
     if (content && ![content isKindOfClass:[NSNull class]]) {
-        _title = content;
+        _questionTitle = content;
     }
     content = infoDic[@"content"];
     if (content && ![content isKindOfClass:[NSNull class]]) {
-        _content = content;
+        _questionContent = content;
     }
+    content = infoDic[@"addTime"];
+    if (content && [content isKindOfClass:[NSNull class]]) {
+        
+        _dateTime = [content integerValue];
+        
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:_dateTime];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        _dateStr = [formatter stringFromDate:date];
+        
+    }
+    
+    //数量信息
     
     content = infoDic[@"view"];
     if (content && ![content isKindOfClass:[NSNull class]]) {
-        _View = [content intValue];
+        _lookNum = [content integerValue];
     }
     content = infoDic[@"answer"];
-    if (content && ![content isKindOfClass:[NSNull class]]) {
-        _Answer = [content intValue];
+    if (content && ![content isKindOfClass:[NSNull class]] && [content isKindOfClass:[NSNumber class]]) {
+        _answerNum = [content integerValue];
     }
     content = infoDic[@"follow"];
     if (content && ![content isKindOfClass:[NSNull class]]) {
-        _Follow = [content intValue];
+        _followNum = [content integerValue];
     }
+    
+    //是否关注
+    
+    content = infoDic[@"isFollow"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _isAttention = [content boolValue];
+    }
+    
+}
+
+- (void)refreshAnswerItmes:(NSArray *)infoItems {
+    
+    NSMutableArray *answerItems = [NSMutableArray array];
+    
+    for (NSDictionary *dic in infoItems) {
+        AnswerDataModel *mod = [[AnswerDataModel alloc] init];
+        [mod refreshModel:dic];
+        [answerItems addObject:mod];
+    }
+    
+    _answerItems = answerItems;
     
 }
 
 - (void)changeAttentionStatus:(BOOL)status count:(NSInteger)count {
     
-    _IsAttention = status;
-    _Follow = count;
+    _isAttention = status;
+    _followNum = count;
     
 }
 
 @end
 
-/**
- 关注数据类型
- */
-@implementation FollowDataModel
 
-@end
+#pragma mark - 回答数据模型
 
-/**
- 点赞数据类型
- */
-@implementation LikeDataModel
-
-@end
-
-/**
- 回答数据类型
- */
 @implementation AnswerDataModel
 
-#pragma mark - 功能
-- (void)refreshModel:(NSDictionary *)infoDic{
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        
+        _isFromMyself = NO;
+        _isAnonymous = NO;
+        _createUID = 0;
+        _headImageUrlStr = @"";
+        _nickName = @"";
+        
+        _answerID = 0;
+        _answerTitle = @"";
+        _answerContent = @"";
+        _dateTime = 0;
+        _dateStr = @"";
+        
+        _lookNum = 0;
+        _answerNum = 0;
+        _likeNum = 0;
+        
+        _isLike = NO;
+        
+    }
+    return self;
+}
+
+- (void)refreshModel:(NSDictionary *)infoDic {
     
     if (!infoDic) {
         return;
     }
     
-    
     id content;
+    
+    //回答者信息
     
     content = infoDic[@"isAnonymous"];
     if (content && ![content isKindOfClass:[NSNull class]]) {
-        _IsAnonymous = [content boolValue];
+        _isAnonymous = [content boolValue];
     }
-    content = infoDic[@"isFollow"];
+    content = infoDic[@"isFromMySelf"];
     if (content && ![content isKindOfClass:[NSNull class]]) {
-        _IsFollow = [content boolValue];
+        _isFromMyself = [content boolValue];
+    }
+    content = infoDic[@"createUID"];
+    if (content && [content isKindOfClass:[NSNull class]]) {
+        _createUID = content;
+    }
+    content = infoDic[@"headIcon"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _headImageUrlStr = content;
+    }
+    content = infoDic[@"nickName"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _nickName = content;
+    }
+    
+    //答案信息
+    
+    content = infoDic[@"aid"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        if ([content isKindOfClass:[NSNumber class]]) {
+            content = [content stringValue];
+        }
+        _answerID = content;
+    } else {
+        content = infoDic[@"id"];
+        if (content && ![content isKindOfClass:[NSNull class]]) {
+            if ([content isKindOfClass:[NSNumber class]]) {
+                content = [content stringValue];
+            }
+            _answerID = content;
+        }
+    }
+    content = infoDic[@"answer"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _answerContent = content;
+    }
+    content = infoDic[@"addTime"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        
+        _dateTime = [content integerValue];
+        
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:_dateTime];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        _dateStr = [formatter stringFromDate:date];
+        
+    }
+    
+    //数量信息
+    
+    content = infoDic[@"view"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _lookNum = [content integerValue];
+    }
+    content = infoDic[@"like"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _likeNum = [content integerValue];
+    }
+    
+    //是否点赞
+    
+    content = infoDic[@"isLike"];
+    if (content && ![content isKindOfClass:[NSNull class]]) {
+        _isLike = [content boolValue];
     }
     
 }
 
-- (void)changeAttentionStatus:(BOOL)status count:(NSInteger)count {
+- (void)changeLikeStatus:(BOOL)status count:(NSInteger)count {
     
-    _IsFollow = status;
-    _Follow = count;
+    _isLike = status;
+    _likeNum = count;
     
 }
 
 @end
 
+
+#pragma mark - 关注数据模型
+
+@implementation FollowDataModel
+
+@end
+
+
+#pragma mark - 点赞数据模型
+
+@implementation LikeDataModel
+
+@end
+
+
+#pragma mark - 用户信息管理器
 
 @interface UserDataManager () <XGPushTokenManagerDelegate>
 
@@ -406,20 +564,7 @@ static UserDataManager *manager; //单例对象
             NSArray *jsonArr = [[response valueForKey:@"data"] valueForKey:@"data"];
             for (NSDictionary *dic in jsonArr) {
                 AskDataModel *model = [[AskDataModel alloc] init];
-                model.askId = [NSString stringWithFormat:@"%@",dic[@"id"]]; 
-                model.title = dic[@"title"];
-                model.content = dic[@"content"];
-                model.View = [dic[@"view"] intValue];
-                model.createUID = [dic[@"createUID"] intValue];
-                model.isAnonymous = [dic[@"isAnonymous"] intValue];
-                model.isCompany = [dic[@"isCompany"] intValue];
-                model.Follow = [dic[@"follow"] intValue];
-                model.Answer = [dic[@"answer"] intValue];
-                
-                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                [formatter setDateFormat:@"yyyy-MM-dd"];
-                model.addTime = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:[dic[@"addTime"] intValue]]];
-                
+                [model refreshModel:dic];
                 [dataArr addObject:model];
             }
             
@@ -491,23 +636,8 @@ static UserDataManager *manager; //单例对象
             NSMutableArray *dataArr = [NSMutableArray array];
             NSArray *jsonArr = [[response valueForKey:@"data"] valueForKey:@"data"];
             for (NSDictionary *dic in jsonArr) {
-                AnswerDataModel *model = [[AnswerDataModel alloc] init];
-                model.askId = dic[@"id"];
-                model.nickName = dic[@"nickName"];
-                model.content = dic[@"content"];
-                model.headIcon = [NSString stringWithFormat:@"%@",[dic valueForKey:@"headIcon"]];
-                model.LookNum = [dic[@"view"] intValue];
-                model.title = dic[@"title"];
-                model.IsAnonymous = [dic[@"isAnonymous"] intValue];
-                model.IsCompany = [dic[@"isCompany"] intValue];
-                model.IsFollow = [dic[@"isFollow"] intValue];
-                model.Follow = [dic[@"follow"] intValue];
-                model.Answer = [dic[@"answer"] intValue];
-                
-                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                [formatter setDateFormat:@"yyyy-MM-dd"];
-                model.addTime = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:[dic[@"addTime"] intValue]]];
-                
+                AskDataModel *model = [[AskDataModel alloc] init];
+                [model refreshModel:dic];
                 [dataArr addObject:model];
             }
             
