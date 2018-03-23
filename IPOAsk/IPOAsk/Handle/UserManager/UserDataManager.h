@@ -25,11 +25,11 @@
 @property (strong, nonatomic) NSString *realName;
 @property (assign, nonatomic) int userType;
 @property (strong, nonatomic) NSString *company;
-@property (assign, nonatomic) int isAnswerer;
 @property (strong, nonatomic) NSString *details;
 @property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) NSString *Password;
-@property (nonatomic, assign) int forbidden;
+@property (assign, nonatomic) int answererType;
+@property (nonatomic, assign) BOOL forbidden;
 @property (nonatomic, assign) BOOL isPushMessage;
 
 @end
@@ -52,7 +52,7 @@
 @property (assign, nonatomic) NSInteger dateTime;           //提问日期时间戳
 @property (strong, nonatomic) NSString *dateStr;            //提问日期字符串
 
-@property (strong, nonatomic) NSArray<AnswerDataModel *> *answerItems; //回答内容数组
+@property (strong, nonatomic) NSMutableArray<AnswerDataModel *> *answerItems; //回答内容数组
 
 @property (assign, nonatomic) NSInteger lookNum;    //查看数量
 @property (assign, nonatomic) NSInteger answerNum;  //回复数量

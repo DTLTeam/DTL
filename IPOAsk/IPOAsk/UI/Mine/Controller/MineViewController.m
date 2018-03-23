@@ -336,48 +336,105 @@
             
             if ([title isEqualToString:@"申请成为答主"]){
                 if (_userManager.userModel) {
-                    if (_userManager.userModel.isAnswerer == 1) {
-                        return;
-                    }
-                    if (_userManager.userModel.forbidden == 1) {
-                        TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:YES];
-                        UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-                        [window addSubview:tips];
-
-                        __weak TipsViews *WeakTips = tips;
-                        [tips showWithContent:@"由于您违反了用户管理协议，平台拒绝了您的答主申请" tipsImage:@"申请失败" LeftTitle:@"我知道了" RightTitle:@"联系我们" block:^(UIButton *btn) {
-                            [WeakTips dissmiss];
-
-                        } rightblock:^(UIButton *btn) {
-
-                            [UtilsCommon CallPhone];
-                        }];
-
-                    }else if ([USER_DEFAULT boolForKey:_userManager.userModel.userID]) {
-                        //已经申请过
-                        TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:NO];
-                        UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-                        [window addSubview:tips];
-
-                        __weak TipsViews *WeakTips = tips;
-
-                        [tips showWithContent:@"您已申请过答主,审核正在进行中,请耐心等待" tipsImage:@"正在审核中" LeftTitle:@"我知道了" RightTitle:nil block:^(UIButton *btn) {
-                            [WeakTips dissmiss];
-
-                        } rightblock:^(UIButton *btn) {
-
-                        }];
-
-                    }else
-                    {
-                        [self performSegueWithIdentifier:@"pushAnswer" sender:nil];
-                    }
-                }else
-                {
                     
-                    //test******************
-                    [self performSegueWithIdentifier:@"pushAnswer" sender:nil];
-                    //test******************
+                    [AskProgressHUD AskHideAnimatedInView:self.view.window viewtag:1 AfterDelay:0];
+                    [AskProgressHUD AskShowInView:self.view.window viewtag:1];
+                    
+                    NSDictionary *infoDic = @{@"cmd":@"checkIsAnswerer",
+                                              @"userID":(_userManager.userModel.userID ? _userManager.userModel.userID : @"")
+                                              };
+                    
+                    [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+                        
+                        GCD_MAIN(^{
+                            
+                            [AskProgressHUD AskHideAnimatedInView:self.view.window viewtag:1 AfterDelay:0];
+                            
+                            if ([response[@"status"] intValue] == 1) {
+                                
+                                switch ([response[@"data"][@"isAnswerer"] intValue]) {
+                                    case 0: //可以申请答主
+                                    {
+                                        [self performSegueWithIdentifier:@"pushAnswer" sender:nil];
+                                    }
+                                        break;
+                                    case 1: //已经是答主
+                                    {
+                                        TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:NO];
+                                        UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+                                        [window addSubview:tips];
+                                        
+                                        __weak TipsViews *WeakTips = tips;
+                                        [tips showWithContent:@"您已经是答主" tipsImage:@"正在审核中" LeftTitle:@"我知道了" RightTitle:nil block:^(UIButton *btn) {
+                                            
+                                            [WeakTips dissmiss];
+                                            
+                                        } rightblock:^(UIButton *btn) {
+                                            
+                                        }];
+                                    }
+                                        break;
+                                    case 2: //正在审核中
+                                    {
+                                        TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:NO];
+                                        UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+                                        [window addSubview:tips];
+                                        
+                                        __weak TipsViews *WeakTips = tips;
+                                        [tips showWithContent:@"您已申请过答主,审核正在进行中,请耐心等待" tipsImage:@"正在审核中" LeftTitle:@"我知道了" RightTitle:nil block:^(UIButton *btn) {
+                                            [WeakTips dissmiss];
+                                            
+                                        } rightblock:^(UIButton *btn) {
+                                            
+                                        }];
+                                    }
+                                        break;
+                                    case 3: //申请答主被拒
+                                    {
+                                        TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:YES];
+                                        UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+                                        [window addSubview:tips];
+                                        
+                                        __weak TipsViews *WeakTips = tips;
+                                        [tips showWithContent:@"由于您违反了用户管理协议，平台拒绝了您的答主申请" tipsImage:@"申请失败" LeftTitle:@"我知道了" RightTitle:@"联系我们" block:^(UIButton *btn) {
+                                            [WeakTips dissmiss];
+                                            
+                                        } rightblock:^(UIButton *btn) {
+                                            
+                                            [UtilsCommon CallPhone];
+                                        }];
+                                    }
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                
+                            } else {
+                                
+                                [AskProgressHUD AskShowOnlyTitleInView:self.view.window Title:response[@"msg"] viewtag:1 AfterDelay:1.5];
+                                
+                            }
+                            
+                        });
+                        
+                    } requestHead:nil faile:^(NSError *error) {
+                        
+                        GCD_MAIN(^{
+                            [AskProgressHUD AskHideAnimatedInView:self.view.window viewtag:1 AfterDelay:0];
+                            [AskProgressHUD AskShowOnlyTitleInView:self.view.window Title:@"网络连接错误" viewtag:1 AfterDelay:1.5];
+                        });
+                        
+                    }];
+                    
+                    
+                } else {
+                    
+                    UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                    
+                    SignInViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"SignInView"];
+                    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:VC];
+                    [self.navigationController presentViewController:nav animated:YES completion:nil];
+                    
                 }
                 
             }else if ([title isEqualToString:@"草稿箱"]){

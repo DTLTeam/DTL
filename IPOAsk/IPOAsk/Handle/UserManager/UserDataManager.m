@@ -39,7 +39,7 @@
         _dateTime = 0;
         _dateStr = @"";
         
-        _answerItems = [NSArray array];
+        _answerItems = [NSMutableArray array];
         
         _lookNum = 0;
         _answerNum = 0;
@@ -384,8 +384,8 @@ static UserDataManager *manager; //单例对象
                 model.company = dataDic[@"company"];
                 model.details = dataDic[@"details"];
                 model.email = dataDic[@"email"];
-                model.forbidden = [dataDic[@"forbidden"] intValue];
-                model.isAnswerer = [dataDic[@"isAnswerer"] intValue];
+                model.forbidden = [dataDic[@"forbidden"] boolValue];
+                model.answererType = [dataDic[@"isAnswerer"] intValue];
                 model.userType = [dataDic[@"userType"] intValue];
                 model.Password = tempPassword;
                 model.isPushMessage = [dataDic[@"receiveNotice"] boolValue];

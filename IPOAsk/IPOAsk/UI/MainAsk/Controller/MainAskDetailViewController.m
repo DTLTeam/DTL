@@ -11,6 +11,7 @@
 #import "UserDataManager.h"
 
 //Controller
+#import "SignInViewController.h"
 #import "MainAskCommViewController.h"
 #import "EditQuestionViewController.h"
 #import "AnswerViewController.h"
@@ -23,7 +24,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *contentTableView;
 
-@property (strong, nonatomic) NSMutableArray *CommArr;
+@property (nonatomic, strong) AskDataModel *model;
 @property (assign, nonatomic) NSInteger currentPage;
 @property (assign, nonatomic) NSInteger startQuestionID;
 @property (assign, nonatomic) BOOL all;
@@ -38,9 +39,24 @@
     
     [self setupInterface];
     
-    
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginOut) name:@"LoginOut" object:nil];
+    
 }
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -55,7 +71,7 @@
     [self showNavBar];
     [self showSearchNavBar];
     
-    if (_currentPage < 1) { //未刷新过
+    if (!_model) { //未加载过数据
         [_contentTableView.mj_header beginRefreshing];
     }
 }
@@ -63,7 +79,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    if (_refreshBlock) {
+    if (_refreshBlock && _model) {
         _refreshBlock(_model);
     }
 }
@@ -77,9 +93,9 @@
 
 - (void)setupInterface {
     
+    _questionID = @"";
     _currentPage = 0;
     _startQuestionID = 0;
-    _CommArr = [NSMutableArray array];
     
     _contentTableView.rowHeight = UITableViewAutomaticDimension;
     _contentTableView.estimatedRowHeight = 9999;
@@ -105,6 +121,14 @@
 
 #pragma mark - 功能
 
+- (void)back{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)loginOut{
+    [self back];
+}
+
 #pragma mark 请求列表内容
 - (void)requestContent:(NSInteger)page {
     
@@ -113,10 +137,11 @@
     UserDataModel *userMod = [UserDataManager shareInstance].userModel;
     NSDictionary *infoDic = @{@"cmd":@"getQuestionByQID",
                               @"userID":(userMod ? userMod.userID : @""),
-                              @"qID":weakSelf.model.askID,
+                              @"qID":(_questionID ? _questionID : @""),
                               @"pageSize":@20,
                               @"page":@(page),
-                              @"maxQID":@(_startQuestionID)
+                              @"maxAID":@(_startQuestionID),
+                              @"aID":@0
                               };
     [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
         
@@ -125,22 +150,27 @@
             if (response && ([response[@"status"] intValue] == 1)) {
 
                 if (page == 1) {
-                    [weakSelf.CommArr removeAllObjects];
+                    [weakSelf.model.answerItems removeAllObjects];
                     AnswerDataModel *mod = [[AnswerDataModel alloc] init];
-                    [mod refreshModel:[[response valueForKey:@"data"] valueForKey:@"question"]];
+                    [mod refreshModel:[response[@"data"][@"answer"][@"data"] firstObject]];
                     weakSelf.startQuestionID = [mod.answerID integerValue];
                 }
 
-                if ([[response valueForKey:@"data"]valueForKey:@"question"]) {
+                if (response[@"data"][@"question"] && ![response[@"data"][@"question"] isKindOfClass:[NSNull class]]) {
                     
-                    [weakSelf.model refreshModel:[[response valueForKey:@"data"]valueForKey:@"question"]];
+                    AskDataModel *askMod = [[AskDataModel alloc] init];
+                    [askMod refreshModel:response[@"data"][@"question"]];
+                    weakSelf.model = askMod;
                     
                 }
-
-                for (NSDictionary *dic in [[[response valueForKey:@"data"]valueForKey:@"answer"] valueForKey:@"data"]) {
+                
+                for (NSDictionary *dic in response[@"data"][@"answer"][@"data"]) {
+                    
                     AnswerDataModel *model = [[AnswerDataModel alloc] init];
                     [model refreshModel:dic];
-                    [weakSelf.CommArr addObject:model];
+                    
+                    [weakSelf.model.answerItems addObject:model];
+                    
                 }
                 
                 [weakSelf.contentTableView reloadData];
@@ -184,6 +214,115 @@
         
     }];
     
+}
+
+- (void)applyAnswerer{
+    
+    UserDataModel *userMod = [UserDataManager shareInstance].userModel;
+    
+    if (userMod) {
+        
+        [AskProgressHUD AskHideAnimatedInView:self.view.window viewtag:1 AfterDelay:0];
+        [AskProgressHUD AskShowInView:self.view.window viewtag:1];
+        
+        NSDictionary *infoDic = @{@"cmd":@"checkIsAnswerer",
+                                  @"userID":(userMod.userID ? userMod.userID : @"")
+                                  };
+        
+        [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+            
+            GCD_MAIN(^{
+                
+                [AskProgressHUD AskHideAnimatedInView:self.view.window viewtag:1 AfterDelay:0];
+                
+                if ([response[@"status"] intValue] == 1) {
+                    
+                    switch ([response[@"data"][@"isAnswerer"] intValue]) {
+                        case 0: //可以申请答主
+                        {
+                            UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                            AnswerViewController *answerVC = [sb instantiateViewControllerWithIdentifier:@"AnswerView"];
+                            [self.navigationController pushViewController:answerVC animated:YES];
+                        }
+                            break;
+                        case 1: //已经是答主
+                        {
+                            TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:NO];
+                            UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+                            [window addSubview:tips];
+                            
+                            __weak TipsViews *WeakTips = tips;
+                            [tips showWithContent:@"您已经是答主" tipsImage:@"正在审核中" LeftTitle:@"我知道了" RightTitle:nil block:^(UIButton *btn) {
+                                
+                                [WeakTips dissmiss];
+                                
+                            } rightblock:^(UIButton *btn) {
+                                
+                            }];
+                        }
+                            break;
+                        case 2: //正在审核中
+                        {
+                            TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:NO];
+                            UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+                            [window addSubview:tips];
+                            
+                            __weak TipsViews *WeakTips = tips;
+                            [tips showWithContent:@"您已申请过答主,审核正在进行中,请耐心等待" tipsImage:@"正在审核中" LeftTitle:@"我知道了" RightTitle:nil block:^(UIButton *btn) {
+                                [WeakTips dissmiss];
+                                
+                            } rightblock:^(UIButton *btn) {
+                                
+                            }];
+                        }
+                            break;
+                        case 3: //申请答主被拒
+                        {
+                            TipsViews *tips = [[TipsViews alloc]initWithFrame:self.view.bounds HaveCancel:YES];
+                            UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+                            [window addSubview:tips];
+                            
+                            __weak TipsViews *WeakTips = tips;
+                            [tips showWithContent:@"由于您违反了用户管理协议，平台拒绝了您的答主申请" tipsImage:@"申请失败" LeftTitle:@"我知道了" RightTitle:@"联系我们" block:^(UIButton *btn) {
+                                [WeakTips dissmiss];
+                                
+                            } rightblock:^(UIButton *btn) {
+                                
+                                [UtilsCommon CallPhone];
+                            }];
+                        }
+                            break;
+                        default:
+                            break;
+                    }
+                    
+                } else {
+                    
+                    [AskProgressHUD AskShowOnlyTitleInView:self.view.window Title:response[@"msg"] viewtag:1 AfterDelay:1.5];
+                    
+                }
+                
+            });
+            
+        } requestHead:nil faile:^(NSError *error) {
+            
+            GCD_MAIN(^{
+                [AskProgressHUD AskHideAnimatedInView:self.view.window viewtag:1 AfterDelay:0];
+                [AskProgressHUD AskShowOnlyTitleInView:self.view.window Title:@"网络连接错误" viewtag:1 AfterDelay:1.5];
+            });
+            
+        }];
+        
+        
+    } else {
+        
+        UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        SignInViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"SignInView"];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:VC];
+        [self.navigationController presentViewController:nav animated:YES completion:nil];
+        
+    }
     
 }
 
@@ -196,10 +335,10 @@
     if (!indexPath) {
         return;
     }
-    AnswerDataModel *mod = [_CommArr objectAtIndex:(indexPath.section - 1)];
+    
+    AnswerDataModel *mod = _model.answerItems[indexPath.section - 1];
     
     __weak typeof(self) weakSelf = self;
-    
     UserDataModel *userMod = [UserDataManager shareInstance].userModel;
     NSDictionary *infoDic = @{@"cmd":@"addLike",
                               @"userID":(userMod ? userMod.userID : @""),
@@ -242,10 +381,15 @@
 #pragma mark - UITableViewDelegate && UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (_CommArr.count == 0) {
+    
+    if (!_model) {
+        return 0;
+    }
+    if (_model.answerItems.count == 0) {
         return  1;
     }
-    return _CommArr.count + 1;
+    return _model.answerItems.count + 1;
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -253,14 +397,14 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (_CommArr.count == 0) {//没有评论
+    if (_model.answerItems.count == 0) { //没有评论
         return 70;
     }
     return 10;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    if (_CommArr.count == 0) {//没有评论
+    if (_model.answerItems.count == 0) { //没有评论
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
         label.text = @"还没有人回复这个问题，快去抢答助力小伙伴";
         label.font = [UIFont systemFontOfSize:14];
@@ -275,23 +419,7 @@
     return 1;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section > 0) { //评论
-        if (indexPath.section - 1 < _CommArr.count) {
-            
-            AnswerDataModel *model = _CommArr[indexPath.section - 1];
-            
-            MainAskCommViewController *VC = [[[NSBundle mainBundle] loadNibNamed:@"MainAskCommViewController" owner:self options:nil] firstObject];
-            VC.questionTitle = _model.questionTitle;
-            VC.answerMod = model;
-            [self.navigationController pushViewController:VC animated:YES];
-            
-        }
-    }
-    
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.section == 0) { //问题内容
         
@@ -344,7 +472,7 @@
         } WithAnswerClick:^(UIButton *btn) {
             
             UserDataModel *userMod = [[UserDataManager shareInstance] userModel];
-            if (userMod.isAnswerer == 1) { //只有个人可以回答
+            if (userMod.answererType == 1) { //只有个人可以回答
                 
                 EditQuestionViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"EditQuestionViewController" owner:self options:nil][0];
                 VC.questionID = weakSelf.model.askID;
@@ -393,8 +521,8 @@
             cell.delegate = self;
         }
         
-        if (indexPath.section - 1 < _CommArr.count) {
-            [cell refreshWithModel:_CommArr[indexPath.section - 1]];
+        if (indexPath.section - 1 < _model.answerItems.count) {
+            [cell refreshWithModel:_model.answerItems[indexPath.section - 1]];
         }
 
         return cell;
@@ -403,71 +531,29 @@
     
 }
 
-
-- (void)applyAnswerer{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if ( [UserDataManager shareInstance].userModel.forbidden == 1) {
-        TipsViews *tips = [[TipsViews alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) HaveCancel:YES];
-        [self.view.window addSubview:tips];
-        
-        __weak TipsViews *WeakTips = tips;
-        [tips showWithContent:@"由于您违反了用户管理协议，平台拒绝了您的答主申请" tipsImage:@"申请失败" LeftTitle:@"我知道了" RightTitle:@"联系我们" block:^(UIButton *btn) {
-            [WeakTips dissmiss];
+    if (indexPath.section > 0) { //评论
+        if (indexPath.section - 1 < _model.answerItems.count) {
             
-        } rightblock:^(UIButton *btn) {
+            AnswerDataModel *model = _model.answerItems[indexPath.section - 1];
             
-            [UtilsCommon CallPhone];
-        }];
-        
-        return;
-        
-    }else if ([USER_DEFAULT boolForKey: [UserDataManager shareInstance].userModel.userID]) {
-        //已经申请过
-        TipsViews *tips = [[TipsViews alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) HaveCancel:NO];
-        
-        [self.view.window addSubview:tips];
-    
-        __weak TipsViews *WeakTips = tips;
-        
-        [tips showWithContent:@"您已申请过答主,审核正在进行中,请耐心等待" tipsImage:@"正在审核中" LeftTitle:@"我知道了" RightTitle:nil block:^(UIButton *btn) {
-            [WeakTips dissmiss];
+            __weak typeof(self) weakSelf = self;
             
-        } rightblock:^(UIButton *btn) {
+            MainAskCommViewController *vc = [[[NSBundle mainBundle] loadNibNamed:@"MainAskCommViewController" owner:self options:nil] firstObject];
+            vc.questionID = _model.askID;
+            vc.answerID = model.answerID;
+            vc.refreshBlock = ^(AnswerDataModel *model) {
+                
+                weakSelf.model.answerItems[indexPath.section - 1] = model;
+                [weakSelf.contentTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                
+            };
+            [self.navigationController pushViewController:vc animated:YES];
             
-        }];
-        
-        return;
+        }
     }
     
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-    AnswerViewController *answerVC = [sb instantiateViewControllerWithIdentifier:@"AnswerView"];
-    [self.navigationController pushViewController:answerVC animated:YES];
-    
-    
 }
-- (void)back{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)loginOut{
-    [self back];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

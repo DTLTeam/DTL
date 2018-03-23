@@ -17,13 +17,16 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *contentTableView;
 
-@property (strong, nonatomic) UILabel *TitleLabel;
+@property (strong, nonatomic) UILabel *titleLabel;
 
 @property (strong, nonatomic) UIImageView   *UserHeadImageView;
 @property (strong, nonatomic) UILabel       *UserNameLabel;
 @property (strong, nonatomic) UILabel       *CommDate;
 @property (strong, nonatomic) UIButton      *SeeBtn;
 @property (strong, nonatomic) UIButton      *LikeBtn;
+
+@property (strong, nonatomic) NSString *questionTitle;
+@property (strong, nonatomic) AnswerDataModel *model;
 
 @end
 
@@ -54,18 +57,25 @@
     
     [self showNavBar];
     [self showSearchNavBar];
+    
+    [self requestInfo];
 }
 
-- (void)setAnswerMod:(AnswerDataModel *)answerMod {
-    _answerMod = answerMod;
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     
-    [_contentTableView reloadData];
+    if (_refreshBlock && _model) {
+        _refreshBlock(_model);
+    }
 }
 
 
 #pragma mark - 界面
 
 - (void)setupInterface {
+    
+    _questionID = @"";
+    _answerID = @"";
     
     if (@available(iOS 11.0, *)) {
         _contentTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
@@ -87,7 +97,7 @@
     
     NSDictionary *infoDic = @{@"cmd":@"addLike",
                               @"userID":(userMod ? userMod.userID : @""),
-                              @"aID":_answerMod.answerID,
+                              @"aID":(_answerID ? _answerID : @""),
                               };
     [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
         
@@ -100,11 +110,11 @@
                 NSDictionary *dic = response[@"data"];
                 
                 //点击事件请求成功
-                [weakSelf.answerMod changeLikeStatus:[dic[@"isLike"] boolValue] count:[dic[@"likeCount"] integerValue]];
+                [weakSelf.model changeLikeStatus:[dic[@"isLike"] boolValue] count:[dic[@"likeCount"] integerValue]];
                 
-                NSString *numStr = weakSelf.answerMod.likeNum <= 0 ? @"" : [NSString stringWithFormat:@"%lu", weakSelf.answerMod.likeNum];
-                UIImage *likeImg = weakSelf.answerMod.isLike ? [UIImage imageNamed:@"点赞-回复-按下"] : [UIImage imageNamed:@"点赞-回复"];
-                UIColor *likeTextColor = weakSelf.answerMod.isLike ? HEX_RGBA_COLOR(0x0B98F2, 1) : HEX_RGBA_COLOR(0x969CA1, 1);
+                NSString *numStr = weakSelf.model.likeNum <= 0 ? @"" : [NSString stringWithFormat:@"%lu", weakSelf.model.likeNum];
+                UIImage *likeImg = weakSelf.model.isLike ? [UIImage imageNamed:@"点赞-回复-按下"] : [UIImage imageNamed:@"点赞-回复"];
+                UIColor *likeTextColor = weakSelf.model.isLike ? HEX_RGBA_COLOR(0x0B98F2, 1) : HEX_RGBA_COLOR(0x969CA1, 1);
                 [weakSelf.LikeBtn setTitleColor:likeTextColor forState:UIControlStateNormal];
                 [weakSelf.LikeBtn setTitle:numStr forState:UIControlStateNormal];
                 [weakSelf.LikeBtn setImage:likeImg forState:UIControlStateNormal];
@@ -136,26 +146,79 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark 更新数据
-- (void)UpdateContentWithModel:(AnswerDataModel *)model {
+- (void)requestInfo {
     
-    _answerMod = model;
-    [_contentTableView reloadData];
+    __weak typeof(self) weakSelf = self;
+    
+    [AskProgressHUD AskShowTitleInView:self.view Title:@"加载中..." viewtag:1];
+    
+    UserDataModel *userMod = [UserDataManager shareInstance].userModel;
+    NSDictionary *infoDic = @{@"cmd":@"getQuestionByQID",
+                              @"userID":(userMod ? userMod.userID : @""),
+                              @"qID":(_questionID ? _questionID : @""),
+                              @"pageSize":@20,
+                              @"page":@(0),
+                              @"maxAID":@(0),
+                              @"aID":(_answerID ? _answerID : @"")
+                              };
+    [[AskHttpLink shareInstance] post:SERVER_URL bodyparam:infoDic backData:NetSessionResponseTypeJSON success:^(id response) {
+        
+        GCD_MAIN((^{
+            
+            [AskProgressHUD AskHideAnimatedInView:weakSelf.view viewtag:1 AfterDelay:0];
+            
+            if (response && ([response[@"status"] intValue] == 1)) {
+                
+                if (response[@"data"][@"question"] && ![response[@"data"][@"question"] isKindOfClass:[NSNull class]]) {
+                    
+                    AskDataModel *mod = [[AskDataModel alloc] init];
+                    [mod refreshModel:response[@"data"][@"question"]];
+                    weakSelf.questionTitle = mod.questionTitle;
+                    weakSelf.titleLabel.text = mod.questionTitle;
+                    
+                }
+                
+                NSDictionary *dic = [response[@"data"][@"answer"][@"data"] lastObject];
+                if (dic) {
+                    AnswerDataModel *answerMod = [[AnswerDataModel alloc] init];
+                    [answerMod refreshModel:dic];
+                    weakSelf.model = answerMod;
+                }
+                
+                [weakSelf.contentTableView reloadData];
+                
+            } else {
+                
+                [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:response[@"msg"] viewtag:1 AfterDelay:1.5];
+                
+            }
+            
+        }));
+        
+    } requestHead:nil faile:^(NSError *error) {
+        
+        GCD_MAIN(^{
+            
+            [AskProgressHUD AskHideAnimatedInView:weakSelf.view viewtag:1 AfterDelay:0];
+            [AskProgressHUD AskShowOnlyTitleInView:weakSelf.view Title:@"网络连接错误" viewtag:1 AfterDelay:1.5];
+            
+        });
+        
+    }];
     
 }
-
 
 #pragma mark - UITableViewDelegate & UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (_answerMod) {
+    if (_model) {
         return 1;
     }
     return 0;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -171,11 +234,11 @@
     titleBGView.backgroundColor = [UIColor whiteColor];
     [headerView addSubview:titleBGView];
     
-    _TitleLabel = [[UILabel alloc] init];
-    _TitleLabel.font = [UIFont boldSystemFontOfSize:17];
-    _TitleLabel.textColor = HEX_RGBA_COLOR(0x333333, 1);
-    _TitleLabel.textAlignment = NSTextAlignmentCenter;
-    [titleBGView addSubview:_TitleLabel];
+    _titleLabel = [[UILabel alloc] init];
+    _titleLabel.font = [UIFont boldSystemFontOfSize:17];
+    _titleLabel.textColor = HEX_RGBA_COLOR(0x333333, 1);
+    _titleLabel.textAlignment = NSTextAlignmentCenter;
+    [titleBGView addSubview:_titleLabel];
     
     
     UIView *bgView = [[UIView alloc] init];
@@ -226,7 +289,7 @@
         make.height.offset(50);
     }];
     
-    [_TitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(titleBGView.mas_top).offset(5);
         make.bottom.equalTo(titleBGView.mas_bottom).offset(-5);
         make.left.equalTo(titleBGView.mas_left).offset(10);
@@ -272,25 +335,26 @@
     }];
     
     
-    if (_answerMod) {
-        _TitleLabel.text = _questionTitle;
+    if (_model) {
         
-        if (_answerMod.isAnonymous) { //匿名
+        _titleLabel.text = _questionTitle;
+        
+        if (_model.isAnonymous) { //匿名
             _UserHeadImageView.image = [UIImage imageNamed:@"默认头像.png"];
             _UserNameLabel.text = @"匿名";
         } else {
-            [_UserHeadImageView sd_setImageWithURL:[NSURL URLWithString:_answerMod.headImageUrlStr] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
-            _UserNameLabel.text = _answerMod.nickName;
+            [_UserHeadImageView sd_setImageWithURL:[NSURL URLWithString:_model.headImageUrlStr] placeholderImage:[UIImage imageNamed:@"默认头像.png"]];
+            _UserNameLabel.text = _model.nickName;
         }
         
-        _CommDate.text = _answerMod.dateStr;
+        _CommDate.text = _model.dateStr;
         
-        NSString *numStr = _answerMod.lookNum <= 0 ? @"" : [NSString stringWithFormat:@" %lu", _answerMod.lookNum];
+        NSString *numStr = _model.lookNum <= 0 ? @"" : [NSString stringWithFormat:@" %lu", _model.lookNum];
         [_SeeBtn setTitle:numStr forState:UIControlStateNormal];
         
-        numStr = _answerMod.likeNum <= 0 ? @"" : [NSString stringWithFormat:@" %lu", _answerMod.likeNum];
-        UIImage *likeImg = _answerMod.isLike ? [UIImage imageNamed:@"点赞-回复-按下"] : [UIImage imageNamed:@"点赞-回复"];
-        UIColor *likeTextColor = _answerMod.isLike ? HEX_RGBA_COLOR(0x0B98F2, 1) : HEX_RGBA_COLOR(0x969CA1, 1);
+        numStr = _model.likeNum <= 0 ? @"" : [NSString stringWithFormat:@" %lu", _model.likeNum];
+        UIImage *likeImg = _model.isLike ? [UIImage imageNamed:@"点赞-回复-按下"] : [UIImage imageNamed:@"点赞-回复"];
+        UIColor *likeTextColor = _model.isLike ? HEX_RGBA_COLOR(0x0B98F2, 1) : HEX_RGBA_COLOR(0x969CA1, 1);
         [_LikeBtn setTitleColor:likeTextColor forState:UIControlStateNormal];
         [_LikeBtn setTitle:numStr forState:UIControlStateNormal];
         [_LikeBtn setImage:likeImg forState:UIControlStateNormal];
@@ -307,9 +371,9 @@
     cell.textLabel.textColor = HEX_RGBA_COLOR(0x333333, 1);
     cell.textLabel.numberOfLines = 0;
     
-    if (_answerMod) {
+    if (_model) {
         NSMutableString *s = [NSMutableString string]; 
-        [s appendString:_answerMod.answerContent];
+        [s appendString:_model.answerContent];
         
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:s];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];

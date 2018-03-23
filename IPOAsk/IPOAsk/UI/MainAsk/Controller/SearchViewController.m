@@ -702,7 +702,7 @@
         AskDataModel *mod = _searchNetworkItems[indexPath.section];
         
         MainAskDetailViewController *mainAskDetailVC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:nil options:nil].firstObject;
-        mainAskDetailVC.model = mod;
+        mainAskDetailVC.questionID = mod.askID;
         [self.navigationController pushViewController:mainAskDetailVC animated:YES];
         
     }

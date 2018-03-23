@@ -8,6 +8,10 @@
 
 #import "MessageViewController.h"
 
+//Controller
+#import "MainAskDetailViewController.h"
+#import "MainAskCommViewController.h"
+
 //View
 #import "AnswerOrLikeTableViewCell.h" 
 
@@ -233,17 +237,28 @@ static NSString * CellIdentifier = @"AOrLikeCell";
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.row < _contentArr.count) {
+        
         AnswerOrLikeModel *model = _contentArr[indexPath.row];
         
-        AskDataModel *Askmodel = [[AskDataModel alloc]init];
-        Askmodel.askID = model.questionID;
-        Askmodel.questionTitle = model.questionTitle;
-        Askmodel.dateTime = model.messageTime;
-        
-        //传问题模型
-        MainAskDetailViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil].firstObject;
-        VC.model = Askmodel;
-        [self.navigationController pushViewController:VC animated:YES];
+        switch (model.infoType) {
+            case ContentType_Follow:
+            {
+                //传问题模型
+                MainAskDetailViewController *askDetailVC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil].firstObject;
+                askDetailVC.questionID = model.questionID;
+                [self.navigationController pushViewController:askDetailVC animated:YES];
+            }
+                break;
+            default:
+            {
+                //传问题模型
+                MainAskCommViewController *askCommVC = [[NSBundle mainBundle] loadNibNamed:@"MainAskCommViewController" owner:self options:nil].firstObject;
+                askCommVC.questionID = model.questionID;
+                askCommVC.answerID = model.answerID;
+                [self.navigationController pushViewController:askCommVC animated:YES];
+            }
+                break;
+        }
         
     }
 }

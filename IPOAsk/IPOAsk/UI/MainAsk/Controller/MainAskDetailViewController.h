@@ -16,7 +16,7 @@ typedef enum : NSUInteger {
 
 @interface MainAskDetailViewController : BaseViewController
 
-@property (nonatomic, strong) AskDataModel *model;
+@property (strong, nonatomic) NSString *questionID;
 
 typedef void(^RefreshQuestionInfoBlock)(AskDataModel *model);
 @property (copy, nonatomic) RefreshQuestionInfoBlock refreshBlock;

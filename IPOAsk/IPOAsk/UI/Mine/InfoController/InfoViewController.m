@@ -76,7 +76,7 @@
     _ChangeUserModel.headIcon = UserModel.headIcon;
     _ChangeUserModel.userType = UserModel.userType;
     _ChangeUserModel.forbidden = UserModel.forbidden;
-    _ChangeUserModel.isAnswerer = UserModel.isAnswerer;
+    _ChangeUserModel.answererType = UserModel.answererType;
     
     _UserInfoArr = @[_ChangeUserModel.headIcon,_ChangeUserModel.nickName,_ChangeUserModel.realName,_ChangeUserModel.email,_ChangeUserModel.company,_ChangeUserModel.details];
     self.view.backgroundColor = MineTopColor;
@@ -328,7 +328,7 @@
                     break;
                 case 1:
                 {
-                    cell.detailTextLabel.text = userMod.isAnswerer == 1 ? @"是" : @"否";
+                    cell.detailTextLabel.text = userMod.answererType == 1 ? @"是" : @"否";
                 }
                     break;
                 default:

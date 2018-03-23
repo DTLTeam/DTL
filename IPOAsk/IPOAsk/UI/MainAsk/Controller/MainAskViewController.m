@@ -254,7 +254,7 @@
                 UIStoryboard *storyboayd = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                 
                 SignInViewController *VC = [storyboayd instantiateViewControllerWithIdentifier:@"SignInView"];
-                UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:VC];
+                UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:VC];
                 [weakSelf.navigationController presentViewController:nav animated:YES completion:nil];
                 
             }
@@ -375,15 +375,15 @@
     __weak typeof(self) weakSelf = self;
     
     //传问题模型
-    MainAskDetailViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil].firstObject;
-    VC.model = model;
-    VC.refreshBlock = ^(AskDataModel *model) {
+    MainAskDetailViewController *vc = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil].firstObject;
+    vc.questionID = model.askID;
+    vc.refreshBlock = ^(AskDataModel *model) {
         
         weakSelf.contentArr[indexPath.section] = model;
         [weakSelf.contentTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         
     };
-    [self.navigationController pushViewController:VC animated:YES];
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 

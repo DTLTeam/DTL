@@ -459,7 +459,7 @@
             
             //传问题模型
             MainAskDetailViewController *VC = [[NSBundle mainBundle] loadNibNamed:@"MainAskDetailViewController" owner:self options:nil].firstObject;
-            VC.model = model;
+            VC.questionID = model.askID;
             [self.navigationController pushViewController:VC animated:YES];
         }
             break;

@@ -10,10 +10,10 @@
 
 @interface MainAskCommViewController : BaseViewController
 
-@property (strong, nonatomic) NSString *questionTitle;
-@property (strong, nonatomic) AnswerDataModel *answerMod;
+@property (strong, nonatomic) NSString *questionID;
+@property (strong, nonatomic) NSString *answerID;
 
-#pragma mark - 更新数据
--(void)UpdateContentWithModel:(AnswerDataModel *)model;
+typedef void(^RefreshAnswerInfoBlock)(AnswerDataModel *model);
+@property (copy, nonatomic) RefreshAnswerInfoBlock refreshBlock;
 
 @end
